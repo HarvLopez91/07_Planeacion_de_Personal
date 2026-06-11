@@ -1,0 +1,286 @@
+relationship 5c9e2883-3f22-43bb-b15d-6fba4ec176c5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'PLANTA DE PERSONAL'.F_CENCIM
+	toColumn: LocalDateTable_5705d477-cdc8-4387-8f36-573ee525d8fa.Date
+
+relationship 1f58a5b3-12ac-4780-8788-8fd99e5ef78d
+	fromColumn: 'Planta Ppto'.Mes
+	toColumn: Mes.Meses
+
+relationship 7bdba3bb-55c7-4955-a3fa-19d872748e39
+	fromColumn: 'Ppto Retiros'.Mes
+	toColumn: Mes.Meses
+
+relationship d16d4b39-1e78-4087-8291-48e2bfaeca44
+	fromColumn: 'Planta Ppto'.Empresa
+	toColumn: Empresas.Empresas
+
+relationship 072585ba-7b66-4ae5-b45e-7a9c4e5276c0
+	fromColumn: 'Ppto Retiros'.Empresa
+	toColumn: Empresas.Empresas
+
+relationship 06f58ae6-c2fb-4771-a966-89d107a78b89
+	fromColumn: 'Planta Ppto'.Año
+	toColumn: Años.Año
+
+relationship 118ffd25-ce34-49a8-87a1-313ee4545b74
+	fromColumn: 'Ppto Retiros'.Año
+	toColumn: Años.Año
+
+relationship c40faf4c-7a11-48a5-a166-3c62caaf9c6d
+	fromColumn: AUSENTISMOS.AÑO
+	toColumn: Años.Año
+
+relationship 06ed0ec2-f5c7-4fcb-8e53-f83f5370a7c6
+	fromColumn: AUSENTISMOS.Mes
+	toColumn: Mes.Meses
+
+relationship 7502284c-2bef-4e52-a9a2-29795b9fb5d4
+	fromColumn: AUSENTISMOS.Empresa
+	toColumn: Empresas.Empresas
+
+relationship 5fe8a975-370b-47a4-b861-a34e7a331d1c
+	fromColumn: ACCIDENTALIDAD.AÑO
+	toColumn: Años.Año
+
+relationship 2c7ac20c-0614-4ae5-9e36-d01074485d7f
+	fromColumn: ACCIDENTALIDAD.MES
+	toColumn: Mes.Meses
+
+relationship 3a65ffab-c7f6-4ae8-b094-88b6dd96ff03
+	fromColumn: ACCIDENTALIDAD.Empresa
+	toColumn: Empresas.Empresas
+
+relationship 3f74a439-d117-44d7-815b-9d151dd58221
+	fromColumn: 'SST GENERAL'.Año
+	toColumn: Años.Año
+
+relationship d94a8271-50ff-454a-a69f-c599fe78b009
+	fromColumn: 'SST GENERAL'.Mes
+	toColumn: Mes.Meses
+
+relationship c5bc82cb-e5c7-4604-8e07-ccc48fb76e02
+	fromColumn: 'SST GENERAL'.Empresa
+	toColumn: Empresas.Empresas
+
+relationship 62eb39c4-2354-4338-a005-53e18e15b057
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Challenger'.'FECHA RQ SELECCIÓN'
+	toColumn: LocalDateTable_f39ba1a3-1ec2-426a-b95d-89c66fa5359f.Date
+
+relationship 614cf83e-873d-4195-961b-c5d08d25b004
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Challenger'.'FECHA META CIERRE'
+	toColumn: LocalDateTable_dd4ae560-ab9a-4753-8297-821ac6548136.Date
+
+relationship de0f0a75-d4ee-41d4-b258-354c817478e2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Challenger'.'FECHA TERMIN PROCESO'
+	toColumn: LocalDateTable_f772bf5c-728d-49b9-9396-1a7d17477d2f.Date
+
+relationship f2884e89-a472-4b59-bf75-a7e8fae2357f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Habitel Hotels'.'FECHA RQ SELECCIÓN'
+	toColumn: LocalDateTable_27fcc222-dd1d-400b-98f6-f7b121db30dd.Date
+
+relationship 4d078f57-9574-404d-be5e-9d6ccb02a6a5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Habitel Hotels'.'FECHA META CIERRE'
+	toColumn: LocalDateTable_825d4e25-4723-40d2-978b-fea936f357bf.Date
+
+relationship 8eb30c5f-0f4e-4a9d-ac8c-14bb827ead02
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Habitel Hotels'.'FECHA TERMIN PROCESO'
+	toColumn: LocalDateTable_697b438a-92b3-4c9b-9dfd-b4b61f0ae241.Date
+
+relationship 74be2271-e1c2-49a2-ab45-c7c70fa51139
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Sky'.'FECHA RQ SELECCIÓN'
+	toColumn: LocalDateTable_454a279d-152c-4ae5-85a3-9496cfbe6bee.Date
+
+relationship e3a76d13-2b32-4170-bbdf-e6e9f6a0f896
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Sky'.'FECHA META CIERRE'
+	toColumn: LocalDateTable_1f9d9c62-7d17-48f2-a2d8-15153f3f0ba7.Date
+
+relationship d41813ac-5f67-4947-a856-7fce78f7cc89
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Sky'.'FECHA TERMIN PROCESO'
+	toColumn: LocalDateTable_2583b581-9d0c-49c4-8b80-08f45946b50c.Date
+
+relationship 1792e33f-4aa0-4f6f-9f95-cd50195104f1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Lemco'.'FECHA RQ SELECCIÓN'
+	toColumn: LocalDateTable_d97c6b2f-9698-4c87-a783-d7a9f0d56d4f.Date
+
+relationship aa3d1e73-10d4-4620-9995-cf5032ed2647
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Lemco'.'FECHA META CIERRE'
+	toColumn: LocalDateTable_f93eb329-6838-4cc1-b953-2c19d64767dc.Date
+
+relationship 2ccbcdc5-9063-4305-a643-83b97c483b09
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Lemco'.'FECHA TERMIN PROCESO'
+	toColumn: LocalDateTable_c540bb50-6aac-4181-b034-b8d31b828ab3.Date
+
+relationship 62a9fe0d-09ff-428e-a781-9f549a2ef2cd
+	fromColumn: 'Selección Grupo Lemco'.Empresa
+	toColumn: Empresas.Empresas
+
+relationship aaa90fc8-e118-4425-8c04-80a41109f0ea
+	fromColumn: 'Selección Grupo Lemco'.Año_Met
+	toColumn: Años.Año
+
+relationship 6600b05d-61f2-43e2-87c6-623a62d980fb
+	fromColumn: 'Selección Grupo Lemco'.Mes_Objetivo
+	toColumn: Mes.Meses
+
+relationship ab2c4e7e-cc36-41f2-935b-2e9c6cf68f08
+	fromColumn: Empresas.'Grupo Empresa'
+	toColumn: 'Grupo Empresarial'.'Grupo Empresarial'
+
+relationship f2baa5f9-c4d1-484a-922a-735e19072f23
+	fromColumn: 'Ppto Ingresos'.Empresa
+	toColumn: Empresas.Empresas
+
+relationship 74fdf56a-7d70-4f14-8633-e822982e9cbb
+	fromColumn: 'Ppto Ingresos'.Año
+	toColumn: Años.Año
+
+relationship 45148c9b-da38-45d9-bb48-35a2ab7c667f
+	fromColumn: 'Ppto Ingresos'.Mes
+	toColumn: Mes.Meses
+
+relationship 3f3bbc4f-9172-4d26-98d9-f5462f51f64c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Trimestres.Meses
+	toColumn: Mes.Meses
+
+relationship f58c971e-7bad-483d-bf69-1147a2cd1f8e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Incapacidades.'Fecha Desde'
+	toColumn: LocalDateTable_9c79b8dd-6f9a-47ec-86a5-f51043c76447.Date
+
+relationship a7fcc313-ed2f-4ad1-a5b2-37afd86705bc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Incapacidades.'Fecha Hasta'
+	toColumn: LocalDateTable_ae54bd05-3ac9-480e-b2b5-b4c665b7337d.Date
+
+relationship 01455a2a-80e7-44be-a32f-c09bbbdc18e5
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: AUSENTISMOS.codigo1
+	toColumn: Incapacidades.Codigo-1
+
+relationship 39cf573a-0ee8-478a-9967-1301efa1c0d4
+	fromColumn: Incapacidades.CIE10
+	toColumn: CIE-10.cie-10
+
+relationship 8f2e7870-d7d2-4fbe-914b-1d0f0c58352e
+	fromColumn: 'PLANTA DE PERSONAL'.AÑO
+	toColumn: Años.Año
+
+relationship f1820fe7-3aa7-418a-97b0-4ffa04c38df6
+	fromColumn: 'PLANTA DE PERSONAL'.MES
+	toColumn: Mes.Meses
+
+relationship ba9480a6-ec60-4197-bab4-35cf1fbc5738
+	fromColumn: 'PLANTA DE PERSONAL'.'Nombre Empresa'
+	toColumn: Empresas.Empresas
+
+relationship ccc2551f-37b1-4c1d-98ae-4ee2db47a4d5
+	fromColumn: AUSENTISMOS.'Nombre Concepto'
+	toColumn: General_Ausentismos.Concepto_Ausentismo
+
+relationship 4508a53f-a2a8-4817-8576-a639f1306cd7
+	fromColumn: 'PLANTA DE PERSONAL'.GENERACI&#211;N
+	toColumn: Generaciones.Generación
+
+relationship 1974f52a-80fc-4773-b945-4fc3744e2b69
+	fromColumn: 'PLANTA DE PERSONAL'.AREA
+	toColumn: AREAS.AREA
+
+relationship 5f57efe6-8e8a-4738-90f0-f71340a7bfab
+	fromColumn: 'PLANTA DE PERSONAL'.DEPENDENCIA
+	toColumn: Estructura.DEPENDENCIA
+
+relationship cbeb91a2-76ff-45d7-8e8b-7d9519feb4d9
+	fromColumn: AUSENTISMOS.DEPENDENCIA
+	toColumn: Estructura.DEPENDENCIA
+
+relationship beaf9174-222b-4317-a2e3-facda31c44ba
+	fromColumn: 'Selección Challenger'.DEPENDENCIA
+	toColumn: Estructura.DEPENDENCIA
+
+relationship 08c1b6b6-5c3a-479e-b89b-8d1cb11fcc3a
+	fromColumn: 'Ppto Ingresos'.Dependencia
+	toColumn: Estructura.DEPENDENCIA
+
+relationship 954e1b34-cb03-4a8d-9e28-4a536988cb08
+	fromColumn: 'Ppto Retiros'.Dependencia
+	toColumn: Estructura.DEPENDENCIA
+
+relationship efc36ea7-c56b-4eb3-ade1-417e4bf4f053
+	fromColumn: 'Ppto Ingresos'.Área
+	toColumn: AREAS.AREA
+
+relationship 5d815878-8dfa-4b20-92de-b890a1badd62
+	fromColumn: 'Ppto Retiros'.Área
+	toColumn: AREAS.AREA
+
+relationship 48013eb3-ea78-4ebf-a628-051e6132139a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Maestro.'Fecha Nacimiento'
+	toColumn: LocalDateTable_4845cb4c-cb51-4122-807b-3737c85f1b0b.Date
+
+relationship 9fce5b47-47c3-471f-8e35-4ffb6331af9c
+	fromColumn: 'Ppto Retiros'.Identificación
+	toColumn: Maestro.Identificación
+
+relationship 59f5c1d1-4b5a-4298-9fe5-3fae49abe1eb
+	fromColumn: 'Ppto Ingresos'.Identificación
+	toColumn: Maestro.Identificación
+
+relationship cd0f43a3-8d28-44cc-b25e-1d740d509206
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Selección Grupo Lemco'.'FECHA RQ SELECCIÓN (INICIAL)'
+	toColumn: LocalDateTable_24b75b36-85c0-4316-91a9-9a1b021cd0d4.Date
+
+relationship e89d67bf-a35a-44a0-bfdd-2fc4bb790855
+	fromColumn: Consolidado2025.DEPENDENCIA
+	toColumn: Estructura.DEPENDENCIA
+
+relationship AutoDetected_50bd54b8-0230-471c-b522-9223ba5c7bcf
+	fromColumn: 'Días Laborales'.Año
+	toColumn: Años.Año
+
+relationship 585a2648-db8f-a04e-ba95-82d3616d10a0
+	fromColumn: 'Días Laborales'.Mes
+	toColumn: Mes.Numero
+
+relationship e8adc207-9894-c8a0-ee07-95e0fe672aba
+	fromColumn: 'SENA UNIDADES'.Año
+	toColumn: Años.Año
+
+relationship 7a413b68-59b0-d8c0-ab8f-48a216760005
+	fromColumn: 'SENA UNIDADES'.Mes
+	toColumn: Mes.Meses
+
+relationship 1d95d61a-2fbe-791b-a8bc-24a505874f7c
+	fromColumn: 'SENA UNIDADES'.EMPRESA
+	toColumn: Empresas.Empresas
+
+relationship 9e41f7ef-f2dd-438d-a14c-c8650b6ba822
+	joinOnDateBehavior: datePartOnly
+	fromColumn: tbl_Refresh.FechaActualizacion
+	toColumn: LocalDateTable_3858921f-461c-46df-9a03-b7f45c5848b7.Date
+
+relationship 9d8b8ebf-a75e-6507-af54-9ffd17349856
+	fromColumn: 'Ppto Retiros'.IndexAnioMes
+	toColumn: DimPeriodoYM.IndexAnioMes
+
+relationship c2b7d343-cae7-356d-fdde-483914d0dd0e
+	fromColumn: 'Planta Ppto'.IndexAnioMes
+	toColumn: DimPeriodoYM.IndexAnioMes
+

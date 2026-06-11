@@ -1,0 +1,49 @@
+table Tbl_Medidas
+	lineageTag: bf0f5853-c510-4e8d-8ba2-4352941e31be
+
+	measure 'Filtro Trimestre Slicer' =
+			
+			VAR PeriodoSel =
+			    SELECTEDVALUE ( DimPeriodoYM[Trimestre anterior])
+			VAR FlagActual =
+			    MAX ( DimPeriodoYM[EsTrimActual] )      -- 0 ó 1
+			VAR FlagAnterior =
+			    MAX ( DimPeriodoYM[EsTrimAnterior] )    -- 0 ó 1
+			RETURN
+			SWITCH (
+			    TRUE (),
+			    PeriodoSel = "Trimestre actual",   FlagActual,
+			    PeriodoSel = "Trimestre anterior", FlagAnterior,
+			    1   -- si no hay nada seleccionado, no filtra
+			)
+		formatString: 0
+		lineageTag: dc1af8d7-cda5-4ba6-a898-40ded687c8a6
+
+	measure Cantidad_Retiros = SUM('Planta Ppto'[Retiros])
+		formatString: 0
+		displayFolder: Planta Ppto
+		lineageTag: bb62b9dd-c0c5-4a90-8442-4cd341dc6035
+
+	measure Rotacion_Anual_Acumulada =
+			
+			DIVIDE (
+			    [Cantidad_Retiros],
+			    [PromediodeTotal-Sena],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Planta Ppto
+		lineageTag: 8d79992a-eb85-4e9f-a0e6-dfd3d639cd62
+
+	partition Tbl_Medidas = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Columna1 = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Columna1", type text}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"Columna1"})
+				in
+				    #"Columnas quitadas"
+
+	annotation PBI_ResultType = Table
+

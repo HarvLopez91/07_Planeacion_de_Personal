@@ -1,0 +1,32 @@
+table General_Ausentismos
+	lineageTag: adce4b39-cbe3-43a0-8259-41d39609c6e3
+
+	column Concepto_Ausentismo
+		dataType: string
+		lineageTag: 04335543-f62d-4665-bd98-e8bc170803b0
+		summarizeBy: none
+		sourceColumn: Concepto_Ausentismo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo_Ausentismos
+		dataType: string
+		lineageTag: f1f52695-0940-46a8-acab-2278da7eb8b3
+		summarizeBy: none
+		sourceColumn: Tipo_Ausentismos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition General_Ausentismos = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("jZAxDsIwDEWvYmXuJdzURUGJE7npVHUChg5QiZRDcQ4uRiOhAoIKJnt4T9/+Xaes0cTaILAHIdcyCVaoCuWn85gAL+lwmoZ0HJPqi04FEmeaF9RD8AIaLTpTYbUqGtYYUGcGNpRVC+jK1mL0YnLg0wB3u+6H3fghop4ncSSoCKJgiVv/n0lcz5dTXoP4mhrjGe26u9QyBzmMJPz47hcfFvi9zm9efwc=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Concepto_Ausentismo = _t, Tipo_Ausentismos = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Concepto_Ausentismo", type text}, {"Tipo_Ausentismos", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

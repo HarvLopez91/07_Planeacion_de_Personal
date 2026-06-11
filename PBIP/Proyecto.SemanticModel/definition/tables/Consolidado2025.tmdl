@@ -1,0 +1,510 @@
+table Consolidado2025
+	isHidden
+	lineageTag: f061363b-3602-4fbf-8af5-4210afb8cad1
+
+	column 'GRUPO EMPRESA'
+		dataType: string
+		isHidden
+		lineageTag: 3db7e80c-7753-400a-a60f-bffd3e481b05
+		summarizeBy: none
+		sourceColumn: GRUPO EMPRESA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre Empresa'
+		dataType: string
+		isHidden
+		lineageTag: 6d520105-2824-441c-b774-ab5f470d66b2
+		summarizeBy: none
+		sourceColumn: Nombre Empresa
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		isHidden
+		lineageTag: dfdd266b-906e-41a4-9b6b-ffe5b923d4a2
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		isHidden
+		lineageTag: d5784fc7-1da8-48eb-94f6-e8abab03cd6a
+		summarizeBy: none
+		sourceColumn: AREA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID
+		dataType: string
+		isHidden
+		lineageTag: 192788a5-dd24-4bc3-aa54-bae8ab555de6
+		summarizeBy: none
+		sourceColumn: ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column N_Contrato
+		dataType: string
+		isHidden
+		lineageTag: f064be92-da54-4884-854c-f6cc87317fc2
+		summarizeBy: none
+		sourceColumn: N_Contrato
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NOMBRE EMPLEADO'
+		dataType: string
+		isHidden
+		lineageTag: 279ad010-9d28-413a-8653-83febe461ebe
+		summarizeBy: none
+		sourceColumn: NOMBRE EMPLEADO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO
+		dataType: string
+		isHidden
+		lineageTag: efb0bf4a-0302-40e1-901b-acb38e86c6f2
+		summarizeBy: none
+		sourceColumn: CARGO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CCO
+		dataType: string
+		isHidden
+		lineageTag: 0e8f7812-d836-4c1d-9b41-405113688cd7
+		summarizeBy: none
+		sourceColumn: CCO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPO_CONTR
+		dataType: string
+		isHidden
+		lineageTag: cbd05bd9-f5ab-45b5-9d6f-66400a7c5bd3
+		summarizeBy: none
+		sourceColumn: TIPO_CONTR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRESUPUESTO
+		dataType: string
+		isHidden
+		lineageTag: f8636702-4985-4709-8f8f-cc80c822822a
+		summarizeBy: none
+		sourceColumn: PRESUPUESTO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MOTIVO DE INGRESO'
+		dataType: string
+		isHidden
+		lineageTag: b650ae59-02db-4350-94e8-19d5b8080e27
+		summarizeBy: none
+		sourceColumn: MOTIVO DE INGRESO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBSERVACIÓN
+		dataType: string
+		isHidden
+		lineageTag: c51b18d6-6a88-433d-9b74-7ed86132e4b8
+		summarizeBy: none
+		sourceColumn: OBSERVACIÓN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column F_INICIO
+		dataType: string
+		isHidden
+		lineageTag: e1eee599-6d2b-4f86-9ea0-b370b9a8e8f1
+		summarizeBy: none
+		sourceColumn: F_INICIO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column F_VENCIM
+		dataType: string
+		isHidden
+		lineageTag: 4efe42cd-e79d-43c5-a7a1-866e81135527
+		summarizeBy: none
+		sourceColumn: F_VENCIM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEXO
+		dataType: string
+		isHidden
+		lineageTag: 3c9fe3e6-77cc-465c-b31b-31298229ac52
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA NACIMIENTO'
+		dataType: string
+		isHidden
+		lineageTag: fb69655a-12d8-4b34-81c0-7b9d8620f09f
+		summarizeBy: none
+		sourceColumn: FECHA NACIMIENTO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDAD
+		dataType: string
+		isHidden
+		lineageTag: c373a6be-a32c-4cf3-b172-63cd38a3846e
+		summarizeBy: none
+		sourceColumn: EDAD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column GENERACIÓN
+		dataType: string
+		isHidden
+		lineageTag: 06d043d6-c2b4-4d50-8575-4802299650fa
+		summarizeBy: none
+		sourceColumn: GENERACIÓN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AFC
+		dataType: string
+		isHidden
+		lineageTag: 0b79db20-4d8a-4c77-869a-eeae98d7f0cd
+		summarizeBy: none
+		sourceColumn: AFC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AFP
+		dataType: string
+		isHidden
+		lineageTag: 298e740a-1b94-4bad-ade4-b4a658121806
+		summarizeBy: none
+		sourceColumn: AFP
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CCF
+		dataType: string
+		isHidden
+		lineageTag: d806f40a-6246-4cd0-b64e-e00945f607cb
+		summarizeBy: none
+		sourceColumn: CCF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EPS
+		dataType: string
+		isHidden
+		lineageTag: 4e234451-1175-4bb9-a408-18e93502bc53
+		summarizeBy: none
+		sourceColumn: EPS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CIUDAD DE RESIDENCIA'
+		dataType: string
+		isHidden
+		lineageTag: 0424dc77-1ead-4259-b4d2-d59cbe7fbcd2
+		summarizeBy: none
+		sourceColumn: CIUDAD DE RESIDENCIA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIRECCIÓN RESIDENCIA'
+		dataType: string
+		isHidden
+		lineageTag: 774cb39e-b88e-4581-b6aa-2aaf4f2590a3
+		summarizeBy: none
+		sourceColumn: DIRECCIÓN RESIDENCIA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EST_CIVIL
+		dataType: string
+		isHidden
+		lineageTag: 98f01bb1-a16a-46bd-a691-cf8cd6fc2849
+		summarizeBy: none
+		sourceColumn: EST_CIVIL
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NIVEL EDUCATIVO'
+		dataType: string
+		isHidden
+		lineageTag: 81c64d28-8909-43b2-ad5b-8d264ba0feab
+		summarizeBy: none
+		sourceColumn: NIVEL EDUCATIVO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TELEFONO
+		dataType: string
+		isHidden
+		lineageTag: 72a34959-b765-4b01-a279-9b4e8c53a8f1
+		summarizeBy: none
+		sourceColumn: TELEFONO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMAIL
+		dataType: string
+		isHidden
+		lineageTag: b8eb9bd2-46a3-4c47-854e-cf5653d94b80
+		summarizeBy: none
+		sourceColumn: EMAIL
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUELDO_B
+		dataType: string
+		isHidden
+		lineageTag: ccc340d6-34c5-44fd-af3d-022fb134864f
+		summarizeBy: none
+		sourceColumn: SUELDO_B
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBSERVACION
+		dataType: string
+		isHidden
+		lineageTag: 68f815bb-4e46-42e0-9964-11f5a396101c
+		summarizeBy: none
+		sourceColumn: OBSERVACION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MES
+		dataType: string
+		isHidden
+		lineageTag: bf055e42-23be-4471-a0df-73a2bbde08ec
+		summarizeBy: none
+		sourceColumn: MES
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AÑO
+		dataType: string
+		isHidden
+		lineageTag: b0d4cec5-9845-4622-86da-e636875617d9
+		summarizeBy: none
+		sourceColumn: AÑO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CM
+		dataType: string
+		isHidden
+		lineageTag: 8354a451-b4fc-4afb-89b2-18f757eb5c78
+		summarizeBy: none
+		sourceColumn: CM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HIJOS
+		dataType: string
+		isHidden
+		lineageTag: 59921de6-15d0-4504-94d7-ad042391a163
+		summarizeBy: none
+		sourceColumn: HIJOS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Antigüedad
+		dataType: string
+		isHidden
+		lineageTag: 77cd84c3-f13e-4515-99b0-11b1404b2ac2
+		summarizeBy: none
+		sourceColumn: Antigüedad
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rango Antigüedad'
+		dataType: string
+		isHidden
+		lineageTag: 70d3af30-bc08-4bac-8f14-30c947e6580e
+		summarizeBy: none
+		sourceColumn: Rango Antigüedad
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AGRUPADOR
+		dataType: string
+		lineageTag: 09b0ccf8-5e8a-4c04-aa69-43471872ffba
+		summarizeBy: none
+		sourceColumn: AGRUPADOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEGMENTO
+		dataType: string
+		lineageTag: 9ba421ae-f940-4b78-ad5f-f3b645538941
+		summarizeBy: none
+		sourceColumn: SEGMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column COD
+		dataType: string
+		lineageTag: 06259e0c-a3dd-4900-a2f8-216893ec23bb
+		summarizeBy: none
+		sourceColumn: COD
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTAMENTO
+		dataType: string
+		lineageTag: 0073ba5b-74ce-4f0b-a7f0-ee8ba3d5346e
+		summarizeBy: none
+		sourceColumn: DEPARTAMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA_PATRON
+		dataType: string
+		lineageTag: ecafe675-a265-454b-b239-a0e236e64600
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA_PATRON
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA_PATRON
+		dataType: string
+		lineageTag: 490cbc0f-b4fc-46f3-8123-caba6f834d3f
+		summarizeBy: none
+		sourceColumn: AREA_PATRON
+
+		annotation SummarizationSetBy = Automatic
+
+	column %
+		dataType: string
+		lineageTag: ab8c8263-8582-4cd2-8621-021869afc476
+		summarizeBy: none
+		sourceColumn: %
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOVEDAD
+		dataType: string
+		lineageTag: 57bda151-7ad6-4722-b179-cb783ba025b5
+		summarizeBy: none
+		sourceColumn: NOVEDAD
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID_F_INICIO
+		dataType: string
+		lineageTag: e1c0d2d9-59df-4e2c-a271-853a94278468
+		summarizeBy: none
+		sourceColumn: ID_F_INICIO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO_CCO
+		dataType: string
+		lineageTag: a96b86d1-54c1-4d1c-ad15-838fdcad8ea7
+		summarizeBy: none
+		sourceColumn: CARGO_CCO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Consolidado2025 = m
+		mode: import
+		queryGroup: HeadCount
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/2025/Consolidado%202025.xlsx"), null, true),
+				    Consolidado2025_Sheet = Origen{[Item="Consolidado2025",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Consolidado2025_Sheet, [PromoteAllScalars=true]),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"RANGO DE EDAD", "GENERACIÓN"}}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"MES", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

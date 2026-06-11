@@ -1,0 +1,72 @@
+table Generaciones
+	lineageTag: 4bc18e77-1459-411a-b783-fa39a56a9db1
+
+	column Generación
+		dataType: string
+		lineageTag: 1730f0b2-6f78-407c-af60-3c8ac5fc5044
+		summarizeBy: none
+		sourceColumn: Generación
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rango Años de Nacimiento'
+		dataType: string
+		lineageTag: 894a0e14-040c-41d6-a2f3-916fd7495cb5
+		summarizeBy: none
+		sourceColumn: Rango Años de Nacimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Edades
+		dataType: string
+		lineageTag: a9b1c2ca-48d4-487b-a792-257708ad5b68
+		summarizeBy: none
+		sourceColumn: Edades
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Generaciones = m
+		mode: import
+		source =
+				let
+				    Origen =
+				        Table.FromRows(
+				            Json.Document(
+				                Binary.Decompress(
+				                    Binary.FromText(
+				                        "i45WckpMqlRwys/PTS0qVtJRMrQ0MdM1tDQzAbLNDHXNLRUcD2/ML1aK1YlWck/NSy1KTM48vDlPIQKs1swUqNbCAMg2MdU1M0BS65uZk5Oal5mYAzHUwhCo0NIMyDay1DUxQVLonJpXkpqHUGlprmtkYAgy0tBU18gCpjIWAA==",
+				                        BinaryEncoding.Base64
+				                    ),
+				                    Compression.Deflate
+				                )
+				            ),
+				            let _t = ((type nullable text) meta [Serialized.Text = true])
+				            in type table [Generación = _t, #"Rango Años de Nacimiento" = _t, Edades = _t]
+				        ),
+				
+				    #"Tipo cambiado" =
+				        Table.TransformColumnTypes(
+				            Origen,
+				            {
+				                {"Generación", type text},
+				                {"Rango Años de Nacimiento", type text},
+				                {"Edades", type text}
+				            }
+				        ),
+				
+				    // 🔁 Corregir Millenials → Millennials en la columna Generación
+				    #"Millennials corregido" =
+				        Table.ReplaceValue(
+				            #"Tipo cambiado",
+				            "Millenials",
+				            "Millennials",
+				            Replacer.ReplaceText,
+				            {"Generación"}
+				        )
+				in
+				    #"Millennials corregido"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

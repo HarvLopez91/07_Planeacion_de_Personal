@@ -1,0 +1,36 @@
+table Empresas
+	lineageTag: d21fd3e8-b0c5-44be-b5c1-df70444f4182
+
+	column Empresas
+		dataType: string
+		lineageTag: d1758fc5-aa3a-4879-8a42-596f6772a0fd
+		summarizeBy: none
+		sourceColumn: Empresas
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Grupo Empresa'
+		dataType: string
+		lineageTag: 66f17a90-c20f-474a-8cc4-10e7ffa700db
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Empresas = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Xc5LCoNADIDhqwyz7i0EqSBtwaW4iDPBhmYyEseWHqorj+DF+pK2dhe+P5DUtc2OwIzSodpmU9t8FA+O5knMXykxuPidTAV8pjdsoaWEbHbzFEjAZDH0oIk8rPJBKeBKKmR06UXV6WryqBdQvxx8Shm7+TYkcmAKSdgp8KcV4schKS2071HBR4WfHwsJsSUmeGzZprkD", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Empresas = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Empresas", type text}}),
+				    #"Columna condicional agregada" = Table.AddColumn(#"Tipo cambiado", "Grupo Empresa", each if [Empresas] = "Challenger" then "Challenger" else if [Empresas] = "Fundación Challenger" then "Fundación Challenger" else if [Empresas] = "Lemco" then "Lemco" else if [Empresas] = "Operadora" then "Habitel Hotels" else if [Empresas] = "Lemco Salvio" then "Habitel Hotels" else if [Empresas] = "Habitel Prime" then "Habitel Hotels" else if [Empresas] = "Habitel Select" then "Habitel Hotels" else if [Empresas] = "Habitel Nómina Compartida" then "Habitel Hotels" else if [Empresas] = "Sky Forwarder" then "Grupo Sky" else if [Empresas] = "Sky Industrial" then "Grupo Sky" else if [Empresas] = "Sky Logística Integral" then "Grupo Sky" else if [Empresas] = "Lemco Inmobiliaria" then "Lemco" else null),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Columna condicional agregada",{"Grupo Empresa"}),
+				    #"Columna condicional agregada1" = Table.AddColumn(#"Columnas quitadas", "Personalizado", each if [Empresas] = "Challenger" then "Challenger" else if [Empresas] = "Fundación Challenger" then "Fundación Challenger" else if [Empresas] = "Lemco" then "Lemco" else if [Empresas] = "Lemco Salvio" then "Habitel Hotels" else if [Empresas] = "Operadora" then "Habitel Hotels" else if [Empresas] = "Habitel Prime" then "Habitel Hotels" else if [Empresas] = "Habitel Select" then "Habitel Hotels" else if [Empresas] = "Habitel Nómina Compartida" then "Habitel Hotels" else if [Empresas] = "Sky Forwarder" then "Grupo Sky" else if [Empresas] = "Sky Industrial" then "Grupo Sky" else if [Empresas] = "Sky Logística Integral" then "Grupo Sky" else if [Empresas] = "Lemco Inmobiliaria" then "Lemco" else "Validar"),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna condicional agregada1",{{"Personalizado", "Grupo Empresa"}})
+				in
+				    #"Columnas con nombre cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

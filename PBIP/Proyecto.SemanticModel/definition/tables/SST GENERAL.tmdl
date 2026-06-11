@@ -1,0 +1,137 @@
+table 'SST GENERAL'
+	lineageTag: 2991f944-7f16-47ec-bfa6-04264549742e
+
+	measure M_Frecuencia = (SUM('SST GENERAL'[#Accidentes])/SUM('SST GENERAL'[Empleados]))*100
+		formatString: 0.00
+		lineageTag: cc62cece-8ca0-4518-9aa3-336c5934655f
+
+	measure M_Severidad = ((SUM('SST GENERAL'[Dias de Ausentismo])+SUM('SST GENERAL'[Días Cargados]))/SUM('SST GENERAL'[Empleados]))*100
+		formatString: 0.00
+		lineageTag: f33a3b4a-dead-4583-9c62-07edc69141a6
+
+	measure MSector = AVERAGE('SST GENERAL'[Indice Accidentalidad del Sector])
+		formatString: 0.00
+		lineageTag: 9b7e9e03-2a2c-4d83-8ca4-87d324a0125d
+
+	measure Tasa_Acc = (SUM('SST GENERAL'[#Accidentes])/CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real"))*100
+		formatString: 0.00
+		lineageTag: f7c3f9b9-b65f-4f2c-a484-5746fa241616
+
+	measure 'Dias Ausentismo Acc.Lab' = SUM('SST GENERAL'[Dias de Ausentismo])+SUM('SST GENERAL'[Días Cargados])
+		formatString: 0
+		lineageTag: 279e8b21-15e4-486e-99ab-21631b93c2f1
+
+	column Año
+		dataType: string
+		lineageTag: 48cd498a-01c0-41af-89db-da284e8eec28
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: 24aa53cc-c4a8-4c91-bc7f-3ef99589ed6a
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Grupo Empresa'
+		dataType: string
+		lineageTag: 66951a15-508c-457a-8e7e-c608c4938f50
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: 70ff7d1c-7ba3-49fa-9864-74899eff226d
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empleados
+		dataType: int64
+		formatString: 0
+		lineageTag: 69954477-ad09-4fc2-8435-1e3bc046db76
+		summarizeBy: sum
+		sourceColumn: Empleados
+
+		annotation SummarizationSetBy = Automatic
+
+	column #Accidentes
+		dataType: int64
+		formatString: 0
+		lineageTag: efa32643-9391-4b22-92a2-81da63b62ffb
+		summarizeBy: sum
+		sourceColumn: #Accidentes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dias de Ausentismo'
+		dataType: int64
+		formatString: 0
+		lineageTag: 79253367-17e2-4ce7-b894-f50da8e21741
+		summarizeBy: sum
+		sourceColumn: Dias de Ausentismo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Frecuencia
+		dataType: double
+		formatString: 0.00
+		lineageTag: 5ba5444e-39f8-43f9-b25f-c0c614b27791
+		summarizeBy: sum
+		sourceColumn: Frecuencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Severidad
+		dataType: double
+		formatString: 0.00
+		lineageTag: 5d62200a-15e6-4aa4-b5f0-dbbed07c0320
+		summarizeBy: sum
+		sourceColumn: Severidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Indice Accidentalidad del Sector'
+		dataType: double
+		lineageTag: 7ff2738d-8870-4e87-831e-410f106d40f9
+		summarizeBy: none
+		sourceColumn: Indice Accidentalidad del Sector
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Días Cargados'
+		dataType: int64
+		formatString: 0
+		lineageTag: 95d790be-163e-4e5f-ba84-f934594f0473
+		summarizeBy: sum
+		sourceColumn: Días Cargados
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'SST GENERAL' = m
+		mode: import
+		queryGroup: SST
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/SST/Accidentalidad.xlsx"), null, true),
+				    #"SST GENERAL_Sheet" = Origen{[Item="SST GENERAL",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"SST GENERAL_Sheet", [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Año", Int64.Type}, {"Mes", type text}, {"Grupo Empresa", type text}, {"Empresa", type text}, {"Empleados", Int64.Type}, {"#Accidentes", Int64.Type}, {"Dias de Ausentismo", Int64.Type}, {"Frecuencia", type number}, {"Severidad", type number}, {"Indice Accidentalidad del Sector", type number}}),
+				    #"Filas filtradas" = Table.SelectRows(#"Tipo cambiado", each ([Año] <> null)),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Filas filtradas",{{"Indice Accidentalidad del Sector", type number}, {"Año", type text}, {"Días Cargados", Int64.Type}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

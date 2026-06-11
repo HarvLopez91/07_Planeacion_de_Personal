@@ -1,0 +1,33 @@
+table Trimestres
+	lineageTag: e397f05c-43e5-4459-bbe2-c8fa43565d35
+
+	column Trimestres
+		dataType: string
+		lineageTag: 4ee4fb15-fddb-433b-9c67-6cbbeec364f7
+		summarizeBy: none
+		sourceColumn: Trimestres
+
+		annotation SummarizationSetBy = Automatic
+
+	column Meses
+		dataType: string
+		lineageTag: 935367f7-36dc-46aa-bc50-2e7fc059c421
+		summarizeBy: none
+		sourceColumn: Meses
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Trimestres = m
+		mode: import
+		queryGroup: Dim_Calendario
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8lQIKcrMTS0uKUpV0lEyMNRzzUstyleK1cGQMtJLS00qwiFprOebWFQFlUKTM9FzTCrKzMEqZwrUV4ldm5meV2leJkwOTdIcKJmDS9JCzzE9v7gEh6ylXnBqQUlmai7QMxAVYSgKDA30/JNLSnHJGur55Zfh0W2k55KZDJOPBQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Trimestres = _t, Meses = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Trimestres", type text}, {"Meses", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

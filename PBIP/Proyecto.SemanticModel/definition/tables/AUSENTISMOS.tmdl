@@ -1,0 +1,221 @@
+table AUSENTISMOS
+	lineageTag: c4f4960c-93fc-46c8-9dca-beedef9ab395
+
+	measure ConteoP = DISTINCTCOUNT(AUSENTISMOS[Identificación])
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: eab70eb0-5fb4-4436-ab11-545488f74f52
+
+	measure CMujeres = CALCULATE([ConteoP],AUSENTISMOS[Genero]="Femenino") /[ConteoP]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Medidas
+		lineageTag: 37ce37c7-5e29-4609-a2ba-cc8b3d3b490f
+
+	measure CHombres = CALCULATE([ConteoP],AUSENTISMOS[Genero]="Masculino") /[ConteoP]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Medidas
+		lineageTag: da41866a-0da4-4db0-8402-705d2cd6f7bc
+
+	measure %AusM = ```
+			[ConteoP]/[Prom_Colaboradores] 
+			```
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Medidas
+		lineageTag: 87599fdb-0d20-4473-b1d7-ae6fe6eb0098
+
+	measure DIAS_AUSENTISMO = SUM(AUSENTISMOS[Cantidad Real])
+		formatString: 0
+		displayFolder: Medidas
+		lineageTag: ae071dfa-605b-4963-aad7-920dc941cb75
+
+	measure 'Tasa Ausentismo' = AUSENTISMOS[Ausentismo]/('PLANTA DE PERSONAL'[Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Medidas
+		lineageTag: 4183ab2e-709b-4ffa-b4bb-fe03c15169da
+
+	measure Ausentismo = IF(ISBLANK(SUM(AUSENTISMOS[Cantidad Real])),0,(SUM(AUSENTISMOS[Cantidad Real])))
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: aebad52b-682c-4f73-b745-28c2518a9e07
+
+	measure 'Tasa Ausentismo_EL' = AUSENTISMOS[Ausentismo]/([Tot_Colab-Directos]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Medidas
+		lineageTag: 06678ef6-6f2e-43c1-b0e6-ff44ac28669b
+
+	measure Tasa_Ausent_Anual = AUSENTISMOS[Ausentismo]/(([Prom_Colab])*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Medidas
+		lineageTag: f4a052c4-b861-4e0e-9c9e-a8a7e2340bb3
+
+	column Identificación
+		dataType: string
+		lineageTag: 5b1d5323-42e0-4326-bcb6-6ae0c7837fe9
+		summarizeBy: none
+		sourceColumn: Identificación
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: 6050b7e1-ae5b-45da-baa7-6bae0697037d
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		lineageTag: b52da395-4087-467c-b894-894699bc8c92
+		summarizeBy: none
+		sourceColumn: AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cargo
+		dataType: string
+		lineageTag: cabd1ac7-e71e-4453-b8ee-0ce66551761e
+		summarizeBy: none
+		sourceColumn: Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Genero
+		dataType: string
+		lineageTag: 73d3e07e-498c-47e6-8666-b01673e5101a
+		summarizeBy: none
+		sourceColumn: Genero
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha de nacimiento'
+		dataType: string
+		lineageTag: 15b49bcc-de5c-4eac-ac05-f0a3407ce08e
+		summarizeBy: none
+		sourceColumn: Fecha de nacimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rango de Edad'
+		dataType: string
+		lineageTag: 85d2cf0f-9a9f-4232-b781-ed5e8ea6ce24
+		summarizeBy: none
+		sourceColumn: Rango de Edad
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Inicio'
+		dataType: string
+		lineageTag: 1a038b0d-e898-4f89-b33b-2f5c59365f12
+		summarizeBy: none
+		sourceColumn: Fecha Inicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Final'
+		dataType: string
+		lineageTag: df421daa-73cc-419d-ab61-5f18e0ccefc4
+		summarizeBy: none
+		sourceColumn: Fecha Final
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cantidad Real'
+		dataType: int64
+		formatString: #,0
+		lineageTag: c68aa25c-a273-4bca-b27e-c7a9012b2c8f
+		summarizeBy: sum
+		sourceColumn: Cantidad Real
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre Concepto'
+		dataType: string
+		lineageTag: 9646b04b-a518-4fec-926c-f2457ec00a7d
+		summarizeBy: none
+		sourceColumn: Nombre Concepto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Centro de Costos'
+		dataType: string
+		lineageTag: b4aa54d7-c1bf-4377-aae9-e4f8b6f82c0f
+		summarizeBy: none
+		sourceColumn: Centro de Costos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: cdff92f6-f6b1-47df-95c4-0f4798a1b61e
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column AÑO
+		dataType: string
+		lineageTag: ba9f6a71-ef8a-46a0-be16-5bfbd35bb5a4
+		summarizeBy: none
+		sourceColumn: AÑO
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: 829dca49-96a1-4fe6-9c0f-0f302a81d321
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Grupo Empresa'
+		dataType: string
+		lineageTag: 481f13b8-4292-4494-a7ff-b17b71763f2c
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre
+		dataType: string
+		lineageTag: 76a1326c-5d8d-4b3a-ba45-d54dd2618864
+		summarizeBy: none
+		sourceColumn: Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo1
+		dataType: string
+		lineageTag: cfbd283f-a119-4a56-8e9d-424566ee01a5
+		summarizeBy: none
+		sourceColumn: codigo1
+
+		annotation SummarizationSetBy = Automatic
+
+	column N_Contrato
+		dataType: string
+		lineageTag: 03990493-d157-48b4-a4d9-83e2033dda2f
+		summarizeBy: none
+		sourceColumn: N_Contrato
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AUSENTISMOS = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Admon.P/Ausentismos%20Power%20BI.xlsx"), null, true),
+				    AUSENTISMOS_Sheet = Origen{[Item="AUSENTISMOS",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(AUSENTISMOS_Sheet, [PromoteAllScalars=true]),
+				    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([Identificación] <> null)),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"Cantidad Real", Int64.Type}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"Generación", "Rango de Edad"}}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"AÑO", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

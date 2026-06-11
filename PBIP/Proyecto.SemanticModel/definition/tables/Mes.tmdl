@@ -1,0 +1,66 @@
+table Mes
+	lineageTag: 1dcbaf8d-5b57-41a3-b2f7-abb7cca7a28c
+
+	column Meses
+		dataType: string
+		lineageTag: 33720707-7c6e-4530-a5a1-9e858c368ed5
+		summarizeBy: none
+		sourceColumn: Meses
+		sortByColumn: Numero
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Numero
+		dataType: int64
+		formatString: 0
+		lineageTag: ae5bc04a-5796-44d1-b96c-4423a96c859e
+		summarizeBy: none
+		sourceColumn: Numero
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Abrev' =
+			
+			SWITCH (
+			    VALUE(Mes[Numero]),
+			    1, "Ene",
+			    2, "Feb",
+			    3, "Mar",
+			    4, "Abr",
+			    5, "May",
+			    6, "Jun",
+			    7, "Jul",
+			    8, "Ago",
+			    9, "Sep",
+			    10, "Oct",
+			    11, "Nov",
+			    12, "Dic"
+			)
+		lineageTag: 7697a2ca-ef85-4a38-ab65-11b988802daf
+		summarizeBy: none
+		sortByColumn: Numero
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Mes = m
+		mode: import
+		queryGroup: Dim_Calendario
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjDUc81LLcpXitUBcoz03FKTiuBcYz3fxKIqKMdEzzGpKDMHwjEFylRCJcz0vErzMqEccyAnB8ax0HNMzy8ugfIs9YJTC0oyU3OBNoBFDA30/JNLSuFcQz2//DJkeSM9l8xkmEAsAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Meses = _t]),
+				    #"Columna condicional agregada1" = Table.AddColumn(Origen, "Numero", each if [Meses] = "01.Enero" then 1 else if [Meses] = "02.Febrero" then 2 else if [Meses] = "03.Marzo" then 3 else if [Meses] = "04.Abril" then 4 else if [Meses] = "05.Mayo" then 5 else if [Meses] = "06.Junio" then 6 else if [Meses] = "07.Julio" then 7 else if [Meses] = "08.Agosto" then 8 else if [Meses] = "09.Septiembre" then 9 else if [Meses] = "10.Octubre" then 10 else if [Meses] = "11.Noviembre" then 11 else if [Meses] = "12.Diciembre" then 12 else "Pendiente"),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columna condicional agregada1",{{"Meses", type text}}),
+				    #"Columna condicional agregada" = Table.AddColumn(#"Tipo cambiado", "Personalizado", each if [Meses] = "01.Enero" then "Enero" else if [Meses] = "02.Febrero" then "Febrero" else if [Meses] = "03.Marzo" then "Marzo" else if [Meses] = "04.Abril" then "Abril" else if [Meses] = "05.Mayo" then "Mayo" else if [Meses] = "06.Junio" then "Junio" else if [Meses] = "07.Julio" then "Julio" else if [Meses] = "08.Agosto" then "Agosto" else if [Meses] = "09.Septiembre" then "Septiembre" else if [Meses] = "10.Octubre" then "Octubre" else if [Meses] = "11.Noviembre" then "Noviembre" else if [Meses] = "12.Diciembre" then "Diciembre" else null),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna condicional agregada",{{"Personalizado", "Mes_text"}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"Mes_text"})
+				in
+				    #"Columnas quitadas"
+
+	annotation PBI_ResultType = Table
+

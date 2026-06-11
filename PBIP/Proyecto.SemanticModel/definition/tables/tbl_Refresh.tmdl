@@ -1,0 +1,43 @@
+table tbl_Refresh
+	lineageTag: 6cb825e2-f6c0-477d-8d6d-f23b62050cca
+
+	column FechaActualizacion
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b08a22ed-9941-4ede-a311-9b31521c65d4
+		summarizeBy: none
+		sourceColumn: FechaActualizacion
+
+		variation Variación
+			isDefault
+			relationship: 9e41f7ef-f2dd-438d-a14c-c8650b6ba822
+			defaultHierarchy: LocalDateTable_3858921f-461c-46df-9a03-b7f45c5848b7.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tbl_Refresh = m
+		mode: import
+		source =
+				let
+				    // Fecha/hora actual en UTC (cuando se actualiza el modelo)
+				    UtcNow = DateTimeZone.UtcNow(),
+				
+				    // Convertir a zona horaria Bogotá / Lima (UTC-5)
+				    BogotaNow = DateTimeZone.SwitchZone(UtcNow, -5),
+				
+				    // Quitar la zona para dejar solo datetime
+				    BogotaDateTime = DateTimeZone.RemoveZone(BogotaNow),
+				
+				    // Tabla con un solo registro
+				    Tabla =
+				        #table(
+				            type table [FechaActualizacion = datetime],
+				            { { BogotaDateTime } }
+				        )
+				in
+				    Tabla
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

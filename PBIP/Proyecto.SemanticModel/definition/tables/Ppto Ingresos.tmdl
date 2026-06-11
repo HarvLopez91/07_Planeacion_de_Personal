@@ -1,0 +1,287 @@
+table 'Ppto Ingresos'
+	lineageTag: 9cf8b3c4-4266-46c3-b5ad-bd3b6da63555
+
+	measure Ingresos_Calidad = ```
+			
+			CALCULATE(
+			    COUNT('Ppto Ingresos'[Empresa]),
+			    'Ppto Ingresos'[Descripción Estado Cargo] IN {"Contrato Fijo", "Contrato Indefinido", "INDEFINIDO EN PROPIEDAD", "INDEFINIDO", "FIJO"}	
+			)
+			```
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 78006e0f-3147-4412-83d9-d197fcc57a81
+
+	measure Ret_Calidad = CALCULATE(COUNT('Ppto Ingresos'[Empresa]), 'Ppto Ingresos'[Retiros_Calidad]=1,'Ppto Ingresos'[Descripción Estado Cargo]<>"TEMPORAL")
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 770cba31-3345-471c-9f04-b0fa5eb8783d
+
+	measure Ind_Calidad = ('Ppto Ingresos'[Ingresos_Calidad]-'Ppto Ingresos'[Ret_Calidad])/'Ppto Ingresos'[Ingresos_Calidad]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Medidas
+		lineageTag: 941fe65b-f763-4977-88c4-cdcbca701908
+
+	measure Tot_ingresos = COUNTA('Ppto Ingresos'[Grupo Empresarial])
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: c9f1fd59-233c-4060-8b80-94c88588022b
+
+	measure Ing_Calidad_2025 = (CALCULATE('Ppto Ingresos'[Ingresos_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="09.Septiembre",Mes[Meses]="10.Octubre"))+CALCULATE('Ppto Ingresos'[Ingresos_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="11.Noviembre",Mes[Meses]="12.Diciembre"))+CALCULATE('Ppto Ingresos'[Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="01.Enero",Mes[Meses]="02.Febrero"))+CALCULATE('Ppto Ingresos'[Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="03.Marzo",Mes[Meses]="04.Abril"))+CALCULATE('Ppto Ingresos'[Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="05.Mayo",Mes[Meses]="06.Junio"))+CALCULATE('Ppto Ingresos'[Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="07.Julio",Mes[Meses]="08.Agosto")))
+		formatString: 0
+		displayFolder: Medidas
+		lineageTag: 3d8a8c28-8040-4a50-a142-cc2e794204c8
+
+	measure ret_Calidad_2025 = (CALCULATE('Ppto Ingresos'[Ret_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="09.Septiembre",Mes[Meses]="10.Octubre"))+CALCULATE('Ppto Ingresos'[Ret_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="11.Noviembre",Mes[Meses]="12.Diciembre"))+CALCULATE('Ppto Ingresos'[Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="01.Enero",Mes[Meses]="02.Febrero"))+CALCULATE('Ppto Ingresos'[Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="03.Marzo",Mes[Meses]="04.Abril"))+CALCULATE('Ppto Ingresos'[Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="05.Mayo",Mes[Meses]="06.Junio"))+CALCULATE('Ppto Ingresos'[Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="07.Julio",Mes[Meses]="08.Agosto")))
+		formatString: 0
+		displayFolder: Medidas
+		lineageTag: 845040ac-39d0-4fd4-b9cc-cd798bc32e86
+
+	measure Ind_Calidad_2025 = ([Ing_Calidad_2025]-[ret_Calidad_2025])/'Ppto Ingresos'[Ing_Calidad_2025]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Medidas
+		lineageTag: bf26566b-bf15-4526-8e88-01323d1d1102
+
+	column 'Grupo Empresarial'
+		dataType: string
+		lineageTag: 75e85f2b-76ae-4c71-b4e5-eaabd62570d9
+		summarizeBy: none
+		sourceColumn: Grupo Empresarial
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: f3da00d6-fe95-4229-bbf5-a013b50fa748
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identificación
+		dataType: string
+		lineageTag: 9d56953f-1b83-46af-a5ed-854c3029fdcc
+		summarizeBy: none
+		sourceColumn: Identificación
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Contrato'
+		dataType: string
+		lineageTag: c2481c89-f70b-46fb-ae72-c3086404c76a
+		summarizeBy: none
+		sourceColumn: Fecha Contrato
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Inicio'
+		dataType: string
+		lineageTag: 9e47beed-9d28-4ba5-9987-0056cf6a8248
+		summarizeBy: none
+		sourceColumn: Fecha Inicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Año
+		dataType: string
+		lineageTag: afb3d295-3781-4aca-8050-f0ce67efe4b6
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'No Mes'
+		dataType: string
+		lineageTag: d5a99219-35ea-4ac4-8994-3ba219d7b01d
+		summarizeBy: none
+		sourceColumn: No Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: 22eb0edb-6987-4fba-b208-bf15a2127be8
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombres
+		dataType: string
+		lineageTag: fe00e824-73b2-45e9-8012-b573b6fd7068
+		summarizeBy: none
+		sourceColumn: Nombres
+
+		annotation SummarizationSetBy = Automatic
+
+	column Apellidos
+		dataType: string
+		lineageTag: d94f01c8-7148-420f-a6fc-c670e3ae4982
+		summarizeBy: none
+		sourceColumn: Apellidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descripción Estado Cargo'
+		dataType: string
+		lineageTag: 106bf396-266f-4f2e-9421-13be873a298e
+		summarizeBy: none
+		sourceColumn: Descripción Estado Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descripción Cargo'
+		dataType: string
+		lineageTag: 50d3007d-a296-421f-9560-11b110b6b5a1
+		summarizeBy: none
+		sourceColumn: Descripción Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dependencia
+		dataType: string
+		lineageTag: a9c18615-a2f7-4353-a5c0-5b05fe13c050
+		summarizeBy: none
+		sourceColumn: Dependencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Área
+		dataType: string
+		lineageTag: 88ae6ddf-db31-4854-8d50-bf393ae1b1e3
+		summarizeBy: none
+		sourceColumn: Área
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre Centro Costo'
+		dataType: string
+		lineageTag: 68a566f0-859d-4313-a22c-398a45470d22
+		summarizeBy: none
+		sourceColumn: Nombre Centro Costo
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod
+		dataType: string
+		lineageTag: df61bed0-1d20-4038-abb8-8eab6008680b
+		summarizeBy: none
+		sourceColumn: cod
+
+		annotation SummarizationSetBy = Automatic
+
+	column Retiros_Calidad
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ed2e7b5-4ddc-49a8-a146-9cae8f5bdee6
+		summarizeBy: none
+		sourceColumn: Retiros_Calidad
+
+		annotation SummarizationSetBy = User
+
+	column Ingreso_2025
+		dataType: string
+		lineageTag: 1cd176cc-4ecd-439d-b4d5-d7dd10938c36
+		summarizeBy: none
+		sourceColumn: Ingreso_2025
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'última fecha de vencimiento_Indicador'
+		dataType: string
+		lineageTag: 7bc82cfa-535b-4062-bff1-bbe9be3ac67d
+		summarizeBy: none
+		sourceColumn: última fecha de vencimiento_Indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'última fecha de vencimiento'
+		dataType: string
+		lineageTag: 970d39e5-b1d2-4b49-af6c-460e1aa40c35
+		summarizeBy: none
+		sourceColumn: última fecha de vencimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ultimo Detalle'
+		dataType: string
+		lineageTag: 190279b3-71d0-4aaf-bbf5-f715bcc650c4
+		summarizeBy: none
+		sourceColumn: Ultimo Detalle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Validación
+		dataType: string
+		lineageTag: d3dcd648-74e7-4bd6-8e0e-d0463aa2b3d9
+		summarizeBy: none
+		sourceColumn: Validación
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meses reales de permanencia'
+		dataType: string
+		lineageTag: 2e035fd4-95f0-4169-8ccc-740c7552c1b3
+		summarizeBy: none
+		sourceColumn: Meses reales de permanencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Afecta calidad'
+		dataType: string
+		lineageTag: 615e3dbd-cbf2-4498-bf14-4b1e2a39ee13
+		summarizeBy: none
+		sourceColumn: Afecta calidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Motivo Movimiento'
+		dataType: string
+		lineageTag: 3eda0dea-a837-4eac-818f-a6fed057085d
+		summarizeBy: none
+		sourceColumn: Motivo Movimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO_CCO
+		dataType: string
+		lineageTag: d1a819c2-c8ba-47cd-b82f-a8894c56140f
+		summarizeBy: none
+		sourceColumn: CARGO_CCO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Identificación_Fecha Inicio'
+		dataType: string
+		lineageTag: a1e208f3-e186-4315-8a22-ac6b606f1042
+		summarizeBy: none
+		sourceColumn: Identificación_Fecha Inicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column %
+		dataType: string
+		lineageTag: a00b0ce3-1c99-4eb8-a7dc-804013584ea9
+		summarizeBy: none
+		sourceColumn: %
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ppto Ingresos' = m
+		mode: import
+		queryGroup: PptovsReal
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/PptovsReal.xlsx"), null, true),
+				    INGRESOS_Sheet = Origen{[Item="INGRESOS",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(INGRESOS_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Mes", type text}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"Ind_Calidad", "Retiros_Calidad"}}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"Retiros_Calidad", Int64.Type}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

@@ -1,0 +1,324 @@
+table SST_CHA
+	isHidden
+	lineageTag: f57dd02e-9fd1-49a3-b924-be0d07697b3c
+
+	column 'Grupo Empresa'
+		dataType: string
+		isHidden
+		lineageTag: 53688594-041b-4e04-bc8b-189a669648bf
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		isHidden
+		lineageTag: 70712be4-fe47-46d9-9d15-17f688e3495b
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column #
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2d5e2603-7444-4cd9-82ae-1668df005b83
+		summarizeBy: sum
+		sourceColumn: #
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AÑO
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f426cab2-c70b-4302-af06-f74cb3400260
+		summarizeBy: sum
+		sourceColumn: AÑO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MES
+		dataType: string
+		isHidden
+		lineageTag: c2a440b5-8a73-45d8-b155-65d8b75e94a6
+		summarizeBy: none
+		sourceColumn: MES
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDENTIFICACIÓN
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2d297d7e-c3f2-4f5b-8532-e393bb17c291
+		summarizeBy: sum
+		sourceColumn: IDENTIFICACIÓN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Apellidos y Nombre'
+		dataType: string
+		isHidden
+		lineageTag: dec8e849-a022-4ab6-af7c-69d9e94ea81b
+		summarizeBy: none
+		sourceColumn: Apellidos y Nombre
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Edad
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ef3681ed-91fa-4900-91a7-c423f3df1c5b
+		summarizeBy: sum
+		sourceColumn: Edad
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rango de Edad'
+		dataType: string
+		isHidden
+		lineageTag: 6b89c5de-f5c8-4031-9e04-708ea0daaf13
+		summarizeBy: none
+		sourceColumn: Rango de Edad
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Genero
+		dataType: string
+		isHidden
+		lineageTag: 63780c73-5173-49fd-9a50-77dd62ef6e6c
+		summarizeBy: none
+		sourceColumn: Genero
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIPO DE CONTRATO'
+		dataType: string
+		isHidden
+		lineageTag: 027f10e8-f31c-4450-9314-4490a94513cd
+		summarizeBy: none
+		sourceColumn: TIPO DE CONTRATO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gerencia/Dirección
+		dataType: string
+		isHidden
+		lineageTag: 701fa29d-59c2-4d7b-9cd4-1598f99588ba
+		summarizeBy: none
+		sourceColumn: Gerencia/Dirección
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		isHidden
+		lineageTag: 1404acae-d72b-484d-83b1-9dd7d12ff104
+		summarizeBy: none
+		sourceColumn: AREA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C. Costo'
+		dataType: string
+		isHidden
+		lineageTag: 0093eba3-b0ca-44df-a85e-354de78d4cbd
+		summarizeBy: none
+		sourceColumn: C. Costo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIUDAD
+		dataType: string
+		isHidden
+		lineageTag: 12dcf1a1-e3eb-4c57-a39c-b001c056a570
+		summarizeBy: none
+		sourceColumn: CIUDAD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días perdidos'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5c184ced-4075-4f05-94cf-c9c789f83127
+		summarizeBy: sum
+		sourceColumn: Días perdidos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prorroga
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3cf274ca-bf0d-4402-91d5-a01f50e5c31d
+		summarizeBy: sum
+		sourceColumn: Prorroga
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total días perdidos'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 89039d12-b7d1-4d61-873f-7b62584dbcc8
+		summarizeBy: sum
+		sourceColumn: Total días perdidos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cargo
+		dataType: string
+		isHidden
+		lineageTag: f2296a40-e89d-47e0-ab6c-c02d6e78a069
+		summarizeBy: none
+		sourceColumn: Cargo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parte Afectada'
+		dataType: string
+		isHidden
+		lineageTag: 5a201a54-610f-4745-bb5b-f75cbd26a06c
+		summarizeBy: none
+		sourceColumn: Parte Afectada
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mecanismo
+		dataType: string
+		isHidden
+		lineageTag: 5ad1623e-0391-4e2f-9ba6-790797d2e869
+		summarizeBy: none
+		sourceColumn: Mecanismo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lugar
+		dataType: string
+		isHidden
+		lineageTag: ac3e92f2-0392-4924-bad1-b33099782738
+		summarizeBy: none
+		sourceColumn: Lugar
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Agente
+		dataType: string
+		isHidden
+		lineageTag: b0d51042-cd57-4481-8b1e-3d9f86a11ace
+		summarizeBy: none
+		sourceColumn: Agente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Lesión'
+		dataType: string
+		isHidden
+		lineageTag: c8336704-883b-4e12-8348-d5a3ca9aedd4
+		summarizeBy: none
+		sourceColumn: Tipo Lesión
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Peligro
+		dataType: string
+		isHidden
+		lineageTag: a5520e4d-4bc6-4e50-b94f-160145c397b5
+		summarizeBy: none
+		sourceColumn: Peligro
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ACTO Y/O CONDICION'
+		dataType: string
+		isHidden
+		lineageTag: bd340871-dbc1-426e-9bc8-744e5d1d273b
+		summarizeBy: none
+		sourceColumn: ACTO Y/O CONDICION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salario
+		dataType: string
+		lineageTag: a2581a04-b582-4314-9e2b-5206e86cb818
+		summarizeBy: none
+		sourceColumn: Salario
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SST_CHA = m
+		mode: import
+		queryGroup: SST
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/SST/Accidentalidad.xlsx"), null, true),
+				    SST_CH_Sheet = Origen{[Item="SST_CH",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(SST_CH_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Grupo Empresa", type text}, {"Empresa", type text}, {"#", Int64.Type}, {"AÑO", Int64.Type}, {"MES", type text}, {"IDENTIFICACIÓN", Int64.Type}, {"Apellidos y Nombre", type text}, {"Edad", Int64.Type}, {"Rango de Edad", type text}, {"Genero", type text}, {"TIPO DE CONTRATO", type text}, {"Gerencia/Dirección", type text}, {"AREA", type text}, {"C. Costo", type text}, {"CIUDAD", type text}, {"Días perdidos", Int64.Type}, {"Prorroga", Int64.Type}, {"Total días perdidos", Int64.Type}, {"Cargo", type text}, {"Parte Afectada", type text}, {"Mecanismo", type text}, {"Lugar", type text}, {"Agente", type text}, {"Tipo Lesión", type text}, {"Peligro", type text}, {"ACTO Y/O CONDICION", type text}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"IDENTIFICACIÓN_MES"})
+				in
+				    #"Columnas quitadas"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

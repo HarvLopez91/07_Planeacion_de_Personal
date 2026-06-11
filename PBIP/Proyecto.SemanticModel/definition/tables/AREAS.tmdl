@@ -1,0 +1,28 @@
+table AREAS
+	lineageTag: 4e535391-0a35-436b-95ac-eb98e99e6fd7
+
+	column AREA
+		dataType: string
+		lineageTag: 96bbf249-9a92-494b-9c9a-1195b9163202
+		summarizeBy: none
+		sourceColumn: AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AREAS = m
+		mode: import
+		queryGroup: HeadCount
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/2024/Consolidado%202024.xlsx"), null, true),
+				    AREAS_Sheet = Origen{[Item="AREAS",Kind="Sheet"]}[Data],
+				    #"Tipo cambiado" = Table.TransformColumnTypes(AREAS_Sheet,{{"Column1", type text}}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Tipo cambiado", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"AREA", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegación
+

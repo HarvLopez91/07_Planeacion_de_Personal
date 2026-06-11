@@ -1,0 +1,244 @@
+table ACCIDENTALIDAD
+	lineageTag: f00f2834-7779-44e7-8f7c-9650ffc193b1
+
+	measure Tot_Accidentes = COUNT(ACCIDENTALIDAD[Empresa])
+		formatString: 0
+		displayFolder: Medidas
+		lineageTag: 98a962f4-1ba9-41b5-9182-ed15b18cc43f
+
+	column 'Grupo Empresa'
+		dataType: string
+		lineageTag: 1a03231c-0a3f-45ba-a5b1-ce8030da7b6f
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: 62eb9169-8118-49a8-a609-96d14a3c47cd
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column #
+		dataType: int64
+		formatString: 0
+		lineageTag: c0663f45-4acf-4e38-91c3-3e274822c5bf
+		summarizeBy: none
+		sourceColumn: #
+
+		annotation SummarizationSetBy = User
+
+	column AÑO
+		dataType: string
+		lineageTag: fc285892-0895-4725-9fa2-15f96b68db7b
+		summarizeBy: none
+		sourceColumn: AÑO
+
+		annotation SummarizationSetBy = Automatic
+
+	column MES
+		dataType: string
+		lineageTag: 3ec6e812-89c6-454a-b4fe-fc474baf33e4
+		summarizeBy: none
+		sourceColumn: MES
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDENTIFICACIÓN
+		dataType: int64
+		formatString: 0
+		lineageTag: ee6a4804-949c-47a0-a1c6-4d42a29c5af5
+		summarizeBy: none
+		sourceColumn: IDENTIFICACIÓN
+
+		annotation SummarizationSetBy = User
+
+	column 'Apellidos y Nombre'
+		dataType: string
+		lineageTag: 9f30c517-bc59-4cc1-b742-d8d0936f46b0
+		summarizeBy: none
+		sourceColumn: Apellidos y Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Edad
+		dataType: int64
+		formatString: 0
+		lineageTag: f318c7ff-771b-4db3-8729-0beefcefa9ca
+		summarizeBy: none
+		sourceColumn: Edad
+
+		annotation SummarizationSetBy = User
+
+	column 'Rango de Edad'
+		dataType: string
+		lineageTag: 99ecc092-3ede-4497-bb77-2994c16145b1
+		summarizeBy: none
+		sourceColumn: Rango de Edad
+
+		annotation SummarizationSetBy = Automatic
+
+	column Genero
+		dataType: string
+		lineageTag: f0333cbc-8170-445a-9712-fe0602fc5605
+		summarizeBy: none
+		sourceColumn: Genero
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIPO DE CONTRATO'
+		dataType: string
+		lineageTag: 725dcad2-d727-4aa3-aa3f-1d9145ae868b
+		summarizeBy: none
+		sourceColumn: TIPO DE CONTRATO
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gerencia/Dirección
+		dataType: string
+		lineageTag: e69a8eaa-c17c-4f32-b62e-9cedf00815d3
+		summarizeBy: none
+		sourceColumn: Gerencia/Dirección
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		lineageTag: 672ae356-7654-4413-a69b-a565f53f78be
+		summarizeBy: none
+		sourceColumn: AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'C. Costo'
+		dataType: string
+		lineageTag: f317431d-1d43-44ca-9a7b-ebe8f47a62ca
+		summarizeBy: none
+		sourceColumn: C. Costo
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIUDAD
+		dataType: string
+		lineageTag: 8d35ed31-23e3-465e-9287-8190e60d8d8d
+		summarizeBy: none
+		sourceColumn: CIUDAD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días perdidos'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4379f9f3-111e-4dc7-8b18-3a1938e4ef3b
+		summarizeBy: sum
+		sourceColumn: Días perdidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prorroga
+		dataType: string
+		lineageTag: 14854fe0-1621-44f0-a5bf-836f560c6002
+		summarizeBy: none
+		sourceColumn: Prorroga
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total días perdidos'
+		dataType: int64
+		formatString: 0
+		lineageTag: cdfc319c-1dd9-40be-bf6a-f0124018a3b9
+		summarizeBy: sum
+		sourceColumn: Total días perdidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cargo
+		dataType: string
+		lineageTag: 4bf7b145-39b4-4ffd-9ee9-e967e424ad28
+		summarizeBy: none
+		sourceColumn: Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parte Afectada'
+		dataType: string
+		lineageTag: 284ecbf5-aa03-40ae-af07-b6176120ad38
+		summarizeBy: none
+		sourceColumn: Parte Afectada
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mecanismo
+		dataType: string
+		lineageTag: 5850b633-87e8-4958-9bbb-4f723300ce38
+		summarizeBy: none
+		sourceColumn: Mecanismo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lugar
+		dataType: string
+		lineageTag: 2e48fe2c-cf11-4d02-8498-ebcb88b49d85
+		summarizeBy: none
+		sourceColumn: Lugar
+
+		annotation SummarizationSetBy = Automatic
+
+	column Agente
+		dataType: string
+		lineageTag: 279858d6-4dbe-4cc8-a2ea-0470f6142de1
+		summarizeBy: none
+		sourceColumn: Agente
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Lesión'
+		dataType: string
+		lineageTag: 471f6965-96db-4932-99e4-42e1ace6f9a2
+		summarizeBy: none
+		sourceColumn: Tipo Lesión
+
+		annotation SummarizationSetBy = Automatic
+
+	column Peligro
+		dataType: string
+		lineageTag: a5f3932f-8d7a-406c-b75a-7861c4bd7540
+		summarizeBy: none
+		sourceColumn: Peligro
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ACTO Y/O CONDICION'
+		dataType: string
+		lineageTag: 25c192da-32a8-4b3b-b70d-6fad576e1a4d
+		summarizeBy: none
+		sourceColumn: ACTO Y/O CONDICION
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salario
+		dataType: string
+		lineageTag: b799cfaa-9b01-4446-872a-ffb7c18ca399
+		summarizeBy: none
+		sourceColumn: Salario
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ACCIDENTALIDAD = m
+		mode: import
+		queryGroup: SST
+		source =
+				let
+				    Origen = Table.Combine({SST_CHA, #"SST-HABITELH", #"SST-GSKY"}),
+				    #"Filas filtradas" = Table.SelectRows(Origen, each ([Grupo Empresa] <> null)),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"AÑO", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

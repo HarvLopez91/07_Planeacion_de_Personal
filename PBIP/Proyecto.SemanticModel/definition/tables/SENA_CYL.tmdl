@@ -1,0 +1,80 @@
+table SENA_CYL
+	isHidden
+	lineageTag: e684d984-bcf1-4738-b351-edf7a99c98c8
+
+	column Año
+		dataType: string
+		isHidden
+		lineageTag: acc44bb4-78b8-4784-bed5-7b4665873d11
+		summarizeBy: none
+		sourceColumn: Año
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMPRESA
+		dataType: string
+		isHidden
+		lineageTag: 7d16b922-13be-49fc-b5c8-7cc619f3ec10
+		summarizeBy: none
+		sourceColumn: EMPRESA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		isHidden
+		lineageTag: baf43975-c8ee-4ca1-b637-385e55c67887
+		summarizeBy: none
+		sourceColumn: Mes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días Cotizados'
+		dataType: string
+		isHidden
+		lineageTag: f1591e57-9bce-4389-ac0c-bf772cdc56c5
+		summarizeBy: none
+		sourceColumn: Días Cotizados
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días Meta'
+		dataType: string
+		isHidden
+		lineageTag: a58cea4b-8d73-4ee4-96da-bc8ea19a9561
+		summarizeBy: none
+		sourceColumn: Días Meta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SENA_CYL = m
+		mode: import
+		queryGroup: Selección
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Selecci%C3%B3n/3.%20Selecci%C3%B3n/Seleccion/REQUISICIONES_CYL.xlsx"), null, true),
+				    #"Indicador SENA_Sheet" = Origen{[Item="Indicador SENA",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Indicador SENA_Sheet", [PromoteAllScalars=true]),
+				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Encabezados promovidos", [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Mes", type text}}),
+				    #"Filas filtradas" = Table.SelectRows(#"Tipo cambiado", each ([Año] <> null)),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Filas filtradas",{"%Cumplimiento", "%Meta", "%Cumplimiento Anual"})
+				in
+				    #"Columnas quitadas"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

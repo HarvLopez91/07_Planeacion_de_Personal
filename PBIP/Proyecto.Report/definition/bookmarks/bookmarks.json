@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json",
+  "items": [
+    {
+      "name": "f3767c3ab9372ab36d49",
+      "displayName": "Análisis AT",
+      "children": [
+        "3a145ba1dcdab4178b7b",
+        "e8f634a7531bfb4bcebf",
+        "95f8708147ec09f3bd89"
+      ]
+    },
+    {
+      "name": "ab189ef284fe549bef33",
+      "displayName": "AT_Comp",
+      "children": [
+        "25aef4e64760cf5ac834",
+        "7318f801b436e0fdb0da",
+        "5c16df0555ba62748cf7"
+      ]
+    },
+    {
+      "name": "88ac2f912ad465c3accd",
+      "displayName": "AT_Demo",
+      "children": [
+        "62ee93111dd625adfd19",
+        "6c4c457ce1de307ef3a5",
+        "1a4df3c15b512427102d"
+      ]
+    },
+    {
+      "name": "c5ec4e2934c8e1936ac0",
+      "displayName": "Demo",
+      "children": [
+        "3936d2a6dca06263092d",
+        "7ffa89580a479e40b0ad",
+        "2f248557b607ccc82959"
+      ]
+    },
+    {
+      "name": "7eb37946800d59fec5e8",
+      "displayName": "Retiros",
+      "children": [
+        "8de456dcf36bd2ae1f2a",
+        "1cc1f0829d849c47a6e8",
+        "1470a84b0dbff32f11c9",
+        "173ee601b10926d5ea06"
+      ]
+    },
+    {
+      "name": "c5dd471749b83d4390d2",
+      "displayName": "Demo_Prom",
+      "children": [
+        "9470280b116096d60ab0",
+        "092fbe75ecb89d30748c",
+        "98c9f8d36c940a908787"
+      ]
+    }
+  ]
+}

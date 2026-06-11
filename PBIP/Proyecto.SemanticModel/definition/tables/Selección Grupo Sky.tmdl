@@ -1,0 +1,363 @@
+table 'Selección Grupo Sky'
+	isHidden
+	lineageTag: 7c479449-2853-4364-a142-60bec1308ebd
+
+	column 'Grupo Empresa'
+		dataType: string
+		isHidden
+		lineageTag: 6bcc3874-77e9-4732-8db5-305c055d9f82
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		isHidden
+		lineageTag: 8138aa8c-4577-40c1-8f20-ab18d8a70d07
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		isHidden
+		lineageTag: 791891b8-da74-4d97-acfc-010ba5eb87d5
+		summarizeBy: none
+		sourceColumn: AREA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIUDAD
+		dataType: string
+		isHidden
+		lineageTag: 0a226fd3-e4d7-4315-a2ce-8936d78d080e
+		summarizeBy: none
+		sourceColumn: CIUDAD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO
+		dataType: string
+		isHidden
+		lineageTag: cd080260-7993-4317-b729-59b99bd0f6c4
+		summarizeBy: none
+		sourceColumn: CARGO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column JEFE
+		dataType: string
+		isHidden
+		lineageTag: 270c1595-1ca0-49dc-a84e-bf5ed202c460
+		summarizeBy: none
+		sourceColumn: JEFE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ESTADO
+		dataType: string
+		isHidden
+		lineageTag: 90df7c34-f553-4b02-9ac5-555f9a883ea6
+		summarizeBy: none
+		sourceColumn: ESTADO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA RQ SELECCIÓN'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 285860fc-9596-430e-b1e4-03f646a4a2b1
+		summarizeBy: none
+		sourceColumn: FECHA RQ SELECCIÓN
+
+		variation Variación
+			isDefault
+			relationship: 74be2271-e1c2-49a2-ab45-c7c70fa51139
+			defaultHierarchy: LocalDateTable_454a279d-152c-4ae5-85a3-9496cfbe6bee.'Jerarquía de fechas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Mes_Req
+		dataType: string
+		isHidden
+		lineageTag: 33208c6e-f6f7-49ef-bac1-10df04d9796c
+		summarizeBy: none
+		sourceColumn: Mes_Req
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Año_Req
+		dataType: string
+		isHidden
+		lineageTag: 23357251-453e-4d5a-9c5b-607e955a477c
+		summarizeBy: none
+		sourceColumn: Año_Req
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIAS A USAR'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 600b7ab1-cdca-486f-9a3a-329e85f34ffa
+		summarizeBy: sum
+		sourceColumn: DIAS A USAR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA META CIERRE'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 3767a5c3-fa46-4934-8c48-ab7ec1d2a577
+		summarizeBy: none
+		sourceColumn: FECHA META CIERRE
+
+		variation Variación
+			isDefault
+			relationship: e3a76d13-2b32-4170-bbdf-e6e9f6a0f896
+			defaultHierarchy: LocalDateTable_1f9d9c62-7d17-48f2-a2d8-15153f3f0ba7.'Jerarquía de fechas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Año_Met
+		dataType: string
+		isHidden
+		lineageTag: e0c19410-0392-4c26-961a-2f28b3abcf0f
+		summarizeBy: none
+		sourceColumn: Año_Met
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes_Meta
+		dataType: string
+		isHidden
+		lineageTag: 1055a10f-bec2-42fa-bd80-d1afe95fc2ec
+		summarizeBy: none
+		sourceColumn: Mes_Meta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA TERMIN PROCESO'
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 11b727fa-80cc-4b57-ba1b-f6b1c9489bba
+		summarizeBy: none
+		sourceColumn: FECHA TERMIN PROCESO
+
+		variation Variación
+			isDefault
+			relationship: d41813ac-5f67-4947-a856-7fce78f7cc89
+			defaultHierarchy: LocalDateTable_2583b581-9d0c-49c4-8b80-08f45946b50c.'Jerarquía de fechas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column '¿Se cierra sobre los tiempos?'
+		dataType: string
+		isHidden
+		lineageTag: 0608418b-03b6-4410-9c30-9e7158faebdb
+		summarizeBy: none
+		sourceColumn: ¿Se cierra sobre los tiempos?
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIAS LAB UTILIZADOS'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 287a1ed0-5c87-47bb-aa87-9695c181d43c
+		summarizeBy: sum
+		sourceColumn: DIAS LAB UTILIZADOS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIEMPOS MUERTOS'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6d8c6a82-5f3b-4ed9-a84a-b5fd7ef94cd9
+		summarizeBy: sum
+		sourceColumn: TIEMPOS MUERTOS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIAS LABORALES DE SELECC-TIEMPOS MUERTOS'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5e1cd0d9-7800-4fc0-88cc-5910ece8d6ba
+		summarizeBy: sum
+		sourceColumn: DIAS LABORALES DE SELECC-TIEMPOS MUERTOS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ORIGEN DE LA VACANTE'
+		dataType: string
+		isHidden
+		lineageTag: f04a6130-883f-4215-bad8-4e76fef300ac
+		summarizeBy: none
+		sourceColumn: ORIGEN DE LA VACANTE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MOTIVO DEL REEMPLAZO'
+		dataType: string
+		isHidden
+		lineageTag: f4c0110d-478a-4124-895f-beb762c8556c
+		summarizeBy: none
+		sourceColumn: MOTIVO DEL REEMPLAZO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIPO CONTRATO'
+		dataType: string
+		isHidden
+		lineageTag: 243518c1-27cc-4e48-b86f-1df7509e4afa
+		summarizeBy: none
+		sourceColumn: TIPO CONTRATO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		isHidden
+		lineageTag: dd901637-dbc0-487d-bcc9-0b3056e8a09c
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA RQ SELECCIÓN (INICIAL)'
+		dataType: string
+		lineageTag: 053d8bc9-b3d9-4685-8c28-3ffd8bdb6d65
+		summarizeBy: none
+		sourceColumn: FECHA RQ SELECCIÓN (INICIAL)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Retroalimentación '
+		dataType: string
+		lineageTag: 9c29960d-8bf5-4e1f-9643-7c1c1b1f7db7
+		summarizeBy: none
+		sourceColumn: "Retroalimentación "
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Agenda Entrevista'
+		dataType: string
+		lineageTag: 63b71959-2629-4383-a8c4-8d64f2cd1156
+		summarizeBy: none
+		sourceColumn: Agenda Entrevista
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Factores Extrernos'
+		dataType: string
+		lineageTag: e85296ac-e53d-4edd-a566-85c79ef14740
+		summarizeBy: none
+		sourceColumn: Factores Extrernos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Selección Grupo Sky' = m
+		mode: import
+		queryGroup: Selección
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Selecci%C3%B3n/3.%20Selecci%C3%B3n/Seleccion/REQUISICIONES%20SKY.xlsx"), null, true),
+				    BASE_Sheet = Origen{[Item="BASE",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(BASE_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"UNIDAD DE NEGOCIO", type text}, {"CENTRO DE COSTO", type text}, {"GERENCIA#(lf)DIRECCIÓN", type text}, {"ÁREA", type text}, {"CIUDAD", type any}, {"N", Int64.Type}, {"CARGO", type text}, {"JEFE", type text}, {"ESTADO", type text}, {"FECHA RQ ADMINISTRA", type date}, {"FECHA RQ SELECCIÓN", type date}, {"DIAS A USAR", Int64.Type}, {"FECHA META CIERRE", type date}, {"FECHA TERMIN PROCESO", type date}, {"¿Se cierra sobre los tiempos?", type text}, {"DIAS LAB UTILIZADOS", Int64.Type}, {"TIEMPOS MUERTOS", Int64.Type}, {"DIAS LABORALES DE SELECC-TIEMPOS MUERTOS", Int64.Type}, {"EFECTIVIDAD", Int64.Type}, {"ORIGEN DE LA VACANTE", type text}, {"MOTIVO DEL REEMPLAZO", type text}, {"PERSONA A REEMPLAZAR", type text}, {"ENCARGADO ", type text}, {"NOMBRES#(lf)seleccionado", type text}, {"APELLIDOS#(lf)seleccionado", type text}, {"IDENTIFICACIÓN", Int64.Type}, {"TIPO CONTRATO", type text}, {"FECHA CONTRATACIÓN", type date}, {"FECHA RETIRO", type date}, {"MOTIVO RETIRO", type text}, {"CALIDAD", Int64.Type}, {"INDUCCIÓN", type text}, {"OBSERVACIONES", type text}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"CENTRO DE COSTO", "N", "FECHA RQ ADMINISTRA", "EFECTIVIDAD", "PERSONA A REEMPLAZAR", "ENCARGADO ", "NOMBRES#(lf)seleccionado", "APELLIDOS#(lf)seleccionado", "IDENTIFICACIÓN", "FECHA CONTRATACIÓN", "FECHA RETIRO", "MOTIVO RETIRO", "CALIDAD", "INDUCCIÓN", "OBSERVACIONES"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas","SKY FORWARDER S.A.S.","Sky Forwarder",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","SKY INDUSTRIAL S.A.S","Sky Industrial",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1","Sky Industrial.","Sky Industrial",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Valor reemplazado3" = Table.ReplaceValue(#"Valor reemplazado2","SKY LOGISITICA INTEGRAL S.A.S.","Sky Logística Integral",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Valor reemplazado4" = Table.ReplaceValue(#"Valor reemplazado3","SKY LOGISTICA INTEGRAL S.A.S","Sky Logística Integral",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Valor reemplazado5" = Table.ReplaceValue(#"Valor reemplazado4","SKY LOGISTICA  INTEGRAL S.A.S","Sky Logística Integral",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Valor reemplazado6" = Table.ReplaceValue(#"Valor reemplazado5","Sky Logística Integral.","Sky Logística Integral",Replacer.ReplaceText,{"UNIDAD DE NEGOCIO"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Valor reemplazado6",{{"UNIDAD DE NEGOCIO", "Empresa"}}),
+				    #"Columna condicional agregada" = Table.AddColumn(#"Columnas con nombre cambiado", "Personalizado", each if [Empresa] = "Sky Industrial" then "Grupo Sky" else if [Empresa] = "Sky Logística Integral" then "Grupo Sky" else if [Empresa] = "Sky Forwarder" then "Grupo Sky" else "Validar"),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columna condicional agregada",{{"Personalizado", "Grupo Empresa"}}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas con nombre cambiado1",{"Grupo Empresa", "Empresa", "GERENCIA#(lf)DIRECCIÓN", "ÁREA", "CIUDAD", "CARGO", "JEFE", "ESTADO", "FECHA RQ SELECCIÓN", "DIAS A USAR", "FECHA META CIERRE", "FECHA TERMIN PROCESO", "¿Se cierra sobre los tiempos?", "DIAS LAB UTILIZADOS", "TIEMPOS MUERTOS", "DIAS LABORALES DE SELECC-TIEMPOS MUERTOS", "ORIGEN DE LA VACANTE", "MOTIVO DEL REEMPLAZO", "TIPO CONTRATO"}),
+				    #"Personalizada agregada" = Table.AddColumn(#"Columnas reordenadas", "Año_Req", each Date.Year([FECHA RQ SELECCIÓN])),
+				    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "Mes_Req", each Text.Proper(Date.MonthName([FECHA RQ SELECCIÓN]))),
+				    #"Columnas reordenadas1" = Table.ReorderColumns(#"Personalizada agregada1",{"Grupo Empresa", "Empresa", "GERENCIA#(lf)DIRECCIÓN", "ÁREA", "CIUDAD", "CARGO", "JEFE", "ESTADO", "FECHA RQ SELECCIÓN", "Mes_Req", "Año_Req", "DIAS A USAR", "FECHA META CIERRE", "FECHA TERMIN PROCESO", "¿Se cierra sobre los tiempos?", "DIAS LAB UTILIZADOS", "TIEMPOS MUERTOS", "DIAS LABORALES DE SELECC-TIEMPOS MUERTOS", "ORIGEN DE LA VACANTE", "MOTIVO DEL REEMPLAZO", "TIPO CONTRATO"}),
+				    #"Personalizada agregada2" = Table.AddColumn(#"Columnas reordenadas1", "Año_Met", each Date.Year([FECHA META CIERRE])),
+				    #"Personalizada agregada3" = Table.AddColumn(#"Personalizada agregada2", "Mes_Meta", each Text.Proper(Date.MonthName([FECHA META CIERRE]))),
+				    #"Columnas reordenadas2" = Table.ReorderColumns(#"Personalizada agregada3",{"Grupo Empresa", "Empresa", "GERENCIA#(lf)DIRECCIÓN", "ÁREA", "CIUDAD", "CARGO", "JEFE", "ESTADO", "FECHA RQ SELECCIÓN", "Mes_Req", "Año_Req", "DIAS A USAR", "FECHA META CIERRE", "Año_Met", "Mes_Meta", "FECHA TERMIN PROCESO", "¿Se cierra sobre los tiempos?", "DIAS LAB UTILIZADOS", "TIEMPOS MUERTOS", "DIAS LABORALES DE SELECC-TIEMPOS MUERTOS", "ORIGEN DE LA VACANTE", "MOTIVO DEL REEMPLAZO", "TIPO CONTRATO"}),
+				    #"Valor reemplazado7" = Table.ReplaceValue(#"Columnas reordenadas2","POSICION NUEVA","CARGO NUEVO",Replacer.ReplaceText,{"ORIGEN DE LA VACANTE"}),
+				    #"Valor reemplazado8" = Table.ReplaceValue(#"Valor reemplazado7","REMPLAZO","REEMPLAZO",Replacer.ReplaceText,{"ORIGEN DE LA VACANTE"}),
+				    #"Valor reemplazado9" = Table.ReplaceValue(#"Valor reemplazado8","REEMPLAZO ","REEMPLAZO",Replacer.ReplaceText,{"ORIGEN DE LA VACANTE"}),
+				    #"Valor reemplazado10" = Table.ReplaceValue(#"Valor reemplazado9","TEMPORAL ","TEMPORAL",Replacer.ReplaceText,{"TIPO CONTRATO"}),
+				    #"Valor reemplazado11" = Table.ReplaceValue(#"Valor reemplazado10","FIJO ","FIJO",Replacer.ReplaceText,{"TIPO CONTRATO"}),
+				    #"Valor reemplazado12" = Table.ReplaceValue(#"Valor reemplazado11","INDEFINIDO ","INDEFINIDO",Replacer.ReplaceText,{"TIPO CONTRATO"}),
+				    #"Valor reemplazado13" = Table.ReplaceValue(#"Valor reemplazado12","TEMPORAL ","TEMPORAL",Replacer.ReplaceText,{"TIPO CONTRATO"}),
+				    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado13", each true),
+				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Filas filtradas1",{{"GERENCIA#(lf)DIRECCIÓN", "DEPENDENCIA"}, {"ÁREA", "AREA"}}),
+				    #"Filas filtradas2" = Table.SelectRows(#"Columnas con nombre cambiado2", each ([TIPO CONTRATO] <> "APRENDIZ SENA" and [TIPO CONTRATO] <> "PRACTICA"))
+				in
+				    #"Filas filtradas2"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

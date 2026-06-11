@@ -1,0 +1,71 @@
+table Maestro
+	lineageTag: d4e6211f-fef6-458f-8ae0-056fc1b026f9
+
+	column Identificación
+		dataType: string
+		lineageTag: c44f3af4-03ca-4422-b6cd-c8fd04e0eef3
+		summarizeBy: none
+		sourceColumn: Identificación
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Nacimiento'
+		dataType: dateTime
+		formatString: d/mm/yy
+		lineageTag: e1a516f8-18bc-4f73-96ce-a1c19c9ea5bc
+		summarizeBy: none
+		sourceColumn: Fecha Nacimiento
+
+		variation Variación
+			isDefault
+			relationship: 48013eb3-ea78-4ebf-a628-051e6132139a
+			defaultHierarchy: LocalDateTable_4845cb4c-cb51-4122-807b-3737c85f1b0b.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Sexo
+		dataType: string
+		lineageTag: 10efd3ad-72cb-4bb1-aae1-8dbed32f2564
+		summarizeBy: none
+		sourceColumn: Sexo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Año
+		dataType: int64
+		formatString: 0
+		lineageTag: c22f30ff-f542-4898-a69a-12bc44a3a3ab
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = User
+
+	column r_a_nacimiento = IF(AND(Maestro[Año]>=1946,Maestro[Año]<=1964),"Baby Boomers",IF(AND(Maestro[Año]>=1964,Maestro[Año]<=1980),"Generación X",IF(AND(Maestro[Año]>=1981,Maestro[Año]<=1996),"Millenials",IF(AND(Maestro[Año]>=1997,Maestro[Año]<=2010),"Centennials","N/R"))))
+		lineageTag: 29152218-bc37-4d7f-b61a-276e386f99ba
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Maestro = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Admon.P/Maestro.xlsx"), null, true),
+				    Maestro_Sheet = Origen{[Item="Maestro",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Maestro_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Identificación", type text}, {"Fecha Nacimiento", type date}, {"Sexo", type text}}),
+				    #"Personalizada agregada" = Table.AddColumn(#"Tipo cambiado", "Año", each Date.Year([Fecha Nacimiento])),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Personalizada agregada",{{"Año", Int64.Type}}),
+				    #"Duplicados quitados" = Table.Distinct(#"Tipo cambiado1", {"Identificación"}),
+				    #"Filas filtradas" = Table.SelectRows(#"Duplicados quitados", each [Identificación] <> null and [Identificación] <> "")
+				in
+				    #"Filas filtradas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

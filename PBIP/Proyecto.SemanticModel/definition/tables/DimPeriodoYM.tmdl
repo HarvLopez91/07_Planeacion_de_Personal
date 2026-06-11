@@ -1,0 +1,125 @@
+table DimPeriodoYM
+	lineageTag: ce6817b3-1dc9-4935-b327-c6e553895435
+
+	column Año
+		lineageTag: 2a1616df-72b8-457e-adf8-195208e166b5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Años[Año]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Meses
+		lineageTag: 2ebe7881-dd9e-4485-bf68-74020c4fc70d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Mes[Meses]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Numero
+		formatString: 0
+		lineageTag: 42439cc6-2139-46ff-85c1-10b6c845f789
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Mes[Numero]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Abrev'
+		lineageTag: 94544385-d4f1-4185-b56c-4e2aac55ec92
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Mes[Mes Abrev]
+		sortByColumn: Numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column IndexAnioMes =
+			
+			DimPeriodoYM[Año] * 12 + DimPeriodoYM[Numero]
+		lineageTag: 8b42283e-01e8-43d8-8055-22d635f77496
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Trimestre anterior' =
+			
+			VAR Index = DimPeriodoYM[IndexAnioMes]
+			VAR IndexActual =
+			    YEAR ( TODAY() ) * 12
+			    + MONTH ( TODAY() )          -- N = mes actual del sistema
+			RETURN
+			SWITCH (
+			    TRUE (),
+			    Index >= IndexActual - 3
+			        && Index <= IndexActual - 1,    -- N-3, N-2, N-1
+			        "Trimestre anterior",
+			    "Otro"
+			)
+		lineageTag: 841f8e59-16eb-4aa5-ba4b-a9d419407f2a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column EsTrimActual =
+			
+			VAR Index = DimPeriodoYM[IndexAnioMes]
+			VAR IndexActual = YEAR ( TODAY() ) * 12 + MONTH ( TODAY() )
+			RETURN IF ( Index >= IndexActual - 2 && Index <= IndexActual, 1, 0 )
+		formatString: 0
+		lineageTag: d119e2e0-f117-4cab-a4b0-177a10bf523d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column EsTrimAnterior =
+			
+			VAR Index = DimPeriodoYM[IndexAnioMes]
+			VAR IndexActual = YEAR ( TODAY() ) * 12 + MONTH ( TODAY() )
+			RETURN IF ( Index >= IndexActual - 3 && Index <= IndexActual - 1, 1, 0 )
+		formatString: 0
+		lineageTag: 50621ac4-ba01-4496-9f50-5484b9b18ea4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trimestre actual' =
+			
+			VAR Index =
+			    DimPeriodoYM[IndexAnioMes]
+			VAR IndexActual =
+			    YEAR ( TODAY() ) * 12
+			        + MONTH ( TODAY() )      -- N = mes actual
+			RETURN
+			IF (
+			    Index >= IndexActual - 2     -- N-2, N-1
+			        && Index <= IndexActual, -- N
+			    "Trimestre actual",
+			    "Otro"
+			)
+		lineageTag: e54839f8-d6ef-4903-8a0f-8d98e3c71d9f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesAnio =
+			
+			DimPeriodoYM[Meses] & " " & DimPeriodoYM[Año]
+			-- Ej: "11.Noviembre 2025"
+		lineageTag: e87470e8-00da-41e9-bfa1-8929ca226711
+		summarizeBy: none
+		sortByColumn: IndexAnioMes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPeriodoYM = calculated
+		mode: import
+		source =
+				
+				CROSSJOIN ( 'Años', 'Mes' )
+
+	annotation PBI_Id = cb5a43a507744af78be398337a51845e
+

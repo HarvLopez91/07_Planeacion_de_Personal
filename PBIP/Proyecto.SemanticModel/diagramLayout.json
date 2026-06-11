@@ -1,0 +1,448 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 3058.8889567057295,
+        "y": 172.22222646077475
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 22,
+            "y": 374.28571428571422
+          },
+          "nodeIndex": "PLANTA DE PERSONAL",
+          "nodeLineageTag": "94e6a784-2a65-40b7-9821-0590a4c7873c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 96.000000000000256,
+            "y": 3.2142857142857189
+          },
+          "nodeIndex": "Planta Ppto",
+          "nodeLineageTag": "6dd4c21c-3b50-42b3-9017-e7b44bde6e90",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 931.166666666667,
+            "y": 0
+          },
+          "nodeIndex": "Ppto Retiros",
+          "nodeLineageTag": "4cb79c02-0467-4208-aa1b-12dc1c4379ad",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 362.571428571429,
+            "y": 374.64285714285705
+          },
+          "nodeIndex": "AUSENTISMOS",
+          "nodeLineageTag": "c4f4960c-93fc-46c8-9dca-beedef9ab395",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 2567.2142857142862,
+            "y": 248.66071428571422
+          },
+          "nodeIndex": "SST_CHA",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 3135.2142857142862,
+            "y": 248.66071428571422
+          },
+          "nodeIndex": "SST-GSKY",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 2851.2142857142862,
+            "y": 248.66071428571422
+          },
+          "nodeIndex": "SST-HABITELH",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 510.10714285714351,
+            "y": 970.44642857142856
+          },
+          "nodeIndex": "ACCIDENTALIDAD",
+          "nodeLineageTag": "f00f2834-7779-44e7-8f7c-9650ffc193b1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 1124.4523809523812,
+            "y": 1303.8541666666667
+          },
+          "nodeIndex": "SST GENERAL",
+          "nodeLineageTag": "2991f944-7f16-47ec-bfa6-04264549742e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1244.9285714285713,
+            "y": 371.14285714285722
+          },
+          "nodeIndex": "Grupo Empresarial",
+          "nodeLineageTag": "d8be85e6-46d1-4908-b54c-3928fe57a97f",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 1594.6428571428571,
+            "y": 509.47321428571433
+          },
+          "nodeIndex": "Empresas",
+          "nodeLineageTag": "d21fd3e8-b0c5-44be-b5c1-df70444f4182",
+          "size": {
+            "height": 248.28571428571422,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 1158.0952380952388,
+            "y": 762.012905302502
+          },
+          "nodeIndex": "Años",
+          "nodeLineageTag": "c145b9e5-e100-4966-90d7-766e85a76359",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 32
+        },
+        {
+          "location": {
+            "x": 937.50000000000023,
+            "y": 479.52380952380958
+          },
+          "nodeIndex": "Mes",
+          "nodeLineageTag": "1dcbaf8d-5b57-41a3-b2f7-abb7cca7a28c",
+          "size": {
+            "height": 124,
+            "width": 234
+          },
+          "zIndex": 31
+        },
+        {
+          "location": {
+            "x": 2167.2258687258695,
+            "y": 957.08474099099112
+          },
+          "nodeIndex": "Selección Challenger",
+          "nodeLineageTag": "38c74782-b158-497d-a4ba-f37e121ce54f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 3419.2142857142862,
+            "y": 491.09375
+          },
+          "nodeIndex": "Selección Habitel Hotels",
+          "nodeLineageTag": "09c517a7-0c36-4ba8-9edc-48cf326b2aa1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 3703.2142857142862,
+            "y": 491.09375
+          },
+          "nodeIndex": "Selección Grupo Sky",
+          "nodeLineageTag": "7c479449-2853-4364-a142-60bec1308ebd",
+          "size": {
+            "height": 370,
+            "width": 239.71428571428578
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 1890.5476190476195,
+            "y": 878.47470238095252
+          },
+          "nodeIndex": "Selección Grupo Lemco",
+          "nodeLineageTag": "5e8b6e4b-7596-4958-a2e2-7a30c086078d",
+          "size": {
+            "height": 300,
+            "width": 235.4285714285711
+          },
+          "zIndex": 29
+        },
+        {
+          "location": {
+            "x": 540.30952380952408,
+            "y": 0
+          },
+          "nodeIndex": "Ppto Ingresos",
+          "nodeLineageTag": "9cf8b3c4-4266-46c3-b5ad-bd3b6da63555",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 758.64292980375774,
+            "y": 876.97470238095241
+          },
+          "nodeIndex": "Trimestres",
+          "nodeLineageTag": "e397f05c-43e5-4459-bbe2-c8fa43565d35",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 30
+        },
+        {
+          "location": {
+            "x": 736.96428571428567,
+            "y": 1366.1651785714284
+          },
+          "nodeIndex": "Incapacidades",
+          "nodeLineageTag": "75f9f34d-44e4-497b-863b-e465cce72edf",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 230,
+            "y": 1307.8080357142858
+          },
+          "nodeIndex": "CIE-10",
+          "nodeLineageTag": "acd2c0c2-a98f-4c76-937b-d1a9b0ba8aed",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 353.08744690910339,
+            "y": 771.12227182539664
+          },
+          "nodeIndex": "Estructura",
+          "nodeLineageTag": "8db8780d-6d33-441e-b27b-881ddf9738b6",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 1990.428571428572,
+            "y": 702.296875
+          },
+          "nodeIndex": "General_Ausentismos",
+          "nodeLineageTag": "adce4b39-cbe3-43a0-8259-41d39609c6e3",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 878.61830357142856
+          },
+          "nodeIndex": "Generaciones",
+          "nodeLineageTag": "4bc18e77-1459-411a-b783-fa39a56a9db1",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 27
+        },
+        {
+          "location": {
+            "x": 208.57142857142873,
+            "y": 1181.4159226190477
+          },
+          "nodeIndex": "AREAS",
+          "nodeLineageTag": "4e535391-0a35-436b-95ac-eb98e99e6fd7",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1231.2619047619055,
+            "y": 0
+          },
+          "nodeIndex": "Maestro",
+          "nodeLineageTag": "d4e6211f-fef6-458f-8ae0-056fc1b026f9",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 28
+        },
+        {
+          "location": {
+            "x": 3992.928571428572,
+            "y": 0
+          },
+          "nodeIndex": "Consolidado2025",
+          "nodeLineageTag": "f061363b-3602-4fbf-8af5-4210afb8cad1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 2551.2141694568454,
+            "y": 823.22544642857144
+          },
+          "nodeIndex": "Días Laborales",
+          "nodeLineageTag": "651487d9-0f0e-4fe3-bc4b-6c18f5fcacb3",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 4276.9285714285725,
+            "y": 669.08258928571422
+          },
+          "nodeIndex": "SENA_CYL",
+          "nodeLineageTag": "e684d984-bcf1-4738-b351-edf7a99c98c8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 4521.3333333333339,
+            "y": 950
+          },
+          "nodeIndex": "SENA UNIDADES",
+          "nodeLineageTag": "8d5b3f28-a5a2-4b65-a37c-c1f9a95404e4",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 4560.9285714285725,
+            "y": 811.70796130952374
+          },
+          "nodeIndex": "tbl_Refresh",
+          "nodeLineageTag": "6cb825e2-f6c0-477d-8d6d-f23b62050cca",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 4844.9285714285725,
+            "y": 811.70796130952374
+          },
+          "nodeIndex": "Tbl_Medidas",
+          "nodeLineageTag": "bf0f5853-c510-4e8d-8ba2-4352941e31be",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 3462.2619047619055,
+            "y": 59.082589285714221
+          },
+          "nodeIndex": "DimPeriodoYM",
+          "nodeLineageTag": "ce6817b3-1dc9-4935-b327-c6e553895435",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 34
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 60,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

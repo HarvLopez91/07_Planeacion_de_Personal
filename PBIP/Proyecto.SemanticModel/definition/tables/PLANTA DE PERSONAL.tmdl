@@ -1,0 +1,578 @@
+table 'PLANTA DE PERSONAL'
+	lineageTag: 94e6a784-2a65-40b7-9821-0590a4c7873c
+
+	measure Tot_empleados = COUNT('PLANTA DE PERSONAL'[ID])
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 05f1012d-4a54-4484-b749-cd4547868ad5
+
+	measure Tot_Fem = CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[SEXO]="FEMENINO")
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 8bf4cf9f-57e6-4174-b7b6-28a44e5a4946
+
+	measure Tot_Mas = CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[SEXO]="MASCULINO")
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: e6f59180-5de8-41c4-af58-9dff5efd321f
+
+	measure %FEM = [Tot_Fem]/[Tot_empleados]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Medidas
+		lineageTag: f2c0e2fa-4f4d-478e-85ea-40036892cc9f
+
+	measure %MASC = [Tot_Mas]/[Tot_empleados]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Medidas
+		lineageTag: 8c75d7cc-e951-4d43-8208-df49037ba3ea
+
+	measure Prom_Colaboradores = (CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="01.Enero")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="02.Febrero")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="03.Marzo")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="04.Abril")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="05.Mayo")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="06.Junio")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="07.Julio"))/7
+		formatString: 0
+		displayFolder: Medidas
+		lineageTag: eb863c24-1dd7-4be6-8d59-c383be197778
+
+	measure Tot_Colab-Sena = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]<>"CONTRATO APRENDIZAJE")
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 2ae49392-771e-430f-b059-cbecdf65b571
+
+	measure orden
+		lineageTag: c642fb03-a4c6-430e-b946-4ab950a1d9c4
+
+	measure Tot_Colab-Directos = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO FIJO")+CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO INDEFINIDO")
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 834eafb9-1b26-421d-90ac-707ccff9a8d4
+
+	measure Tot_empleados_Promedio =
+			
+			AVERAGEX(
+			    VALUES('PLANTA DE PERSONAL'[Mes]),
+			    CALCULATE( COUNT('PLANTA DE PERSONAL'[ID]) )
+			)
+		displayFolder: Medidas
+		lineageTag: 21a53e63-c392-4f68-aeff-f3eb941e720c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'GRUPO EMPRESA'
+		dataType: string
+		lineageTag: 4537a882-4bf9-4981-8ac1-8145b8f9e157
+		summarizeBy: none
+		sourceColumn: GRUPO EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre Empresa'
+		dataType: string
+		lineageTag: 1f44c086-a135-4804-947a-772d4f457da9
+		summarizeBy: none
+		sourceColumn: Nombre Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: 95ce271c-a3e6-4eaf-a3fd-13869e4c1cde
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		lineageTag: 5a964d80-6e2c-4207-a52f-af76ed113780
+		summarizeBy: none
+		sourceColumn: AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID
+		dataType: string
+		lineageTag: 2b2237bf-e719-4db5-b583-2783160e9dfd
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NOMBRE EMPLEADO'
+		dataType: string
+		lineageTag: a0732d22-394d-4871-916b-792cdaf7c005
+		summarizeBy: none
+		sourceColumn: NOMBRE EMPLEADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO
+		dataType: string
+		lineageTag: 42ecaf20-9fd0-422d-8bcb-2861f72c2cf2
+		summarizeBy: none
+		sourceColumn: CARGO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CCO
+		dataType: string
+		lineageTag: b4181836-d7f3-4396-bd5d-b71c3212d533
+		summarizeBy: none
+		sourceColumn: CCO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPO_CONTR
+		dataType: string
+		lineageTag: 106c121c-9fb2-46e1-aed8-a45b4b510080
+		summarizeBy: none
+		sourceColumn: TIPO_CONTR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"PLANTA DE PERSONAL","TableItemName":"TIPO_CONTR (grupos)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column F_INICIO
+		dataType: string
+		lineageTag: 63b1f0ac-84e0-4619-9000-e865865ebf77
+		summarizeBy: none
+		sourceColumn: F_INICIO
+
+		annotation SummarizationSetBy = Automatic
+
+	column F_CENCIM
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3a9c8cd0-2981-4cb6-87c5-883e5673e37b
+		summarizeBy: none
+		sourceColumn: F_CENCIM
+
+		variation Variación
+			isDefault
+			relationship: 5c9e2883-3f22-43bb-b15d-6fba4ec176c5
+			defaultHierarchy: LocalDateTable_5705d477-cdc8-4387-8f36-573ee525d8fa.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SEXO
+		dataType: string
+		lineageTag: 0c5fa14b-bf33-4f64-bf4a-b776f88df839
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA NACIMIENTO'
+		dataType: string
+		lineageTag: 707271f0-5e37-41e2-9989-f112f9c40c7b
+		summarizeBy: none
+		sourceColumn: FECHA NACIMIENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDAD
+		dataType: string
+		lineageTag: 8b529a2b-a203-4bab-ba28-a1fa183836b6
+		summarizeBy: none
+		sourceColumn: EDAD
+
+		annotation SummarizationSetBy = Automatic
+
+	column GENERACI&#211;N
+		dataType: string
+		lineageTag: 01cc54fd-bc1b-441d-8c2b-75142a180df5
+		summarizeBy: none
+		sourceColumn: GENERACI&#211;N
+
+		annotation SummarizationSetBy = Automatic
+
+	column AFC
+		dataType: string
+		lineageTag: 492afc5c-c9de-40c4-b339-3334317dc1ea
+		summarizeBy: none
+		sourceColumn: AFC
+
+		annotation SummarizationSetBy = Automatic
+
+	column AFP
+		dataType: string
+		lineageTag: b2bfa26b-8ab0-4842-8f48-01ed804817b7
+		summarizeBy: none
+		sourceColumn: AFP
+
+		annotation SummarizationSetBy = Automatic
+
+	column CAJA_COMO
+		dataType: string
+		lineageTag: 4d7c0bff-9fc5-4b3b-a7ec-164bc1805ad1
+		summarizeBy: none
+		sourceColumn: CAJA_COMO
+
+		annotation SummarizationSetBy = Automatic
+
+	column EPS
+		dataType: string
+		lineageTag: 6f8dbda7-fb9e-4f50-ba71-8bf942bd95c0
+		summarizeBy: none
+		sourceColumn: EPS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CIUDAD DE RESIDENCIA'
+		dataType: string
+		lineageTag: 6d0cb009-d565-43ac-97ec-3a03893bc182
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: CIUDAD DE RESIDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIRECCIÓN RESIDENCIA'
+		dataType: string
+		lineageTag: 805c239b-cc98-486c-953f-c137b30a4418
+		dataCategory: Address
+		summarizeBy: none
+		sourceColumn: DIRECCIÓN RESIDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column EST_CIVIL
+		dataType: string
+		lineageTag: e52ba91e-3dbc-4848-8b35-a5af9fb8fb6b
+		summarizeBy: none
+		sourceColumn: EST_CIVIL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"PLANTA DE PERSONAL","TableItemName":"EST_CIVIL (grupos)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'NIVEL EDUCATIVO'
+		dataType: string
+		lineageTag: 1b834eb2-9263-4ea7-b12a-be9bf6f2550f
+		summarizeBy: none
+		sourceColumn: NIVEL EDUCATIVO
+
+		annotation SummarizationSetBy = Automatic
+
+	column TELEFONO
+		dataType: string
+		lineageTag: b6699e79-ab79-482a-930b-2a953a3748b7
+		summarizeBy: none
+		sourceColumn: TELEFONO
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMAIL
+		dataType: string
+		lineageTag: 093b4863-2a1d-4170-893e-88f64c356b7b
+		summarizeBy: none
+		sourceColumn: EMAIL
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUELDO_B
+		dataType: string
+		lineageTag: 1693dfc7-56a3-4a00-9565-d8bf6a601791
+		summarizeBy: none
+		sourceColumn: SUELDO_B
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBSERVACION
+		dataType: string
+		lineageTag: c129c157-2f6e-4ac3-a252-090354813e3f
+		summarizeBy: none
+		sourceColumn: OBSERVACION
+
+		annotation SummarizationSetBy = Automatic
+
+	column MES
+		dataType: string
+		lineageTag: f560274c-3eba-48c3-a2aa-a53d73ef0b72
+		summarizeBy: none
+		sourceColumn: MES
+
+		annotation SummarizationSetBy = Automatic
+
+	column AÑO
+		dataType: string
+		lineageTag: ff798d27-e5bc-4833-b297-80de4f5317d1
+		summarizeBy: none
+		sourceColumn: AÑO
+
+		annotation SummarizationSetBy = Automatic
+
+	column HIJOS
+		dataType: string
+		lineageTag: 8696ed0e-8163-4722-9aa2-d0f47bb3188a
+		summarizeBy: none
+		sourceColumn: HIJOS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Antigüedad
+		dataType: string
+		lineageTag: 29a1a6f1-2870-439b-bfb2-691e570b3cf9
+		summarizeBy: none
+		sourceColumn: Antigüedad
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rango Antigüedad'
+		dataType: string
+		lineageTag: d5863335-19f9-4382-ae60-464ab5d4dce5
+		summarizeBy: none
+		sourceColumn: Rango Antigüedad
+
+		annotation SummarizationSetBy = Automatic
+
+	column CM
+		dataType: string
+		lineageTag: 0707d973-42ea-46b6-920e-3424c9a7765a
+		summarizeBy: none
+		sourceColumn: CM
+
+		annotation SummarizationSetBy = Automatic
+
+	column N_Contrato
+		dataType: string
+		lineageTag: f7e421ee-77f3-4def-b22a-fb3713c356d7
+		summarizeBy: none
+		sourceColumn: N_Contrato
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRESUPUESTO
+		dataType: string
+		lineageTag: 3bb0866e-a65d-4319-863b-5ec873ca873f
+		summarizeBy: none
+		sourceColumn: PRESUPUESTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MOTIVO DE INGRESO'
+		dataType: string
+		lineageTag: 0667dee6-5d85-4702-a2ec-ce1bd588a3ac
+		summarizeBy: none
+		sourceColumn: MOTIVO DE INGRESO
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBSERVACIÓN
+		dataType: string
+		lineageTag: 555fce7b-537e-406b-838b-6759f511fe75
+		summarizeBy: none
+		sourceColumn: OBSERVACIÓN
+
+		annotation SummarizationSetBy = Automatic
+
+	column F_VENCIM
+		dataType: string
+		lineageTag: 851e3f44-1d09-4f2f-b07f-7abb337d4f91
+		summarizeBy: none
+		sourceColumn: F_VENCIM
+
+		annotation SummarizationSetBy = Automatic
+
+	column CCF
+		dataType: string
+		lineageTag: 51b3de18-a14f-4362-ae9f-3d8d2b0a72b4
+		summarizeBy: none
+		sourceColumn: CCF
+
+		annotation SummarizationSetBy = Automatic
+
+	column AGRUPADOR
+		dataType: string
+		lineageTag: 571018cc-c72b-469a-b726-747936cb6544
+		summarizeBy: none
+		sourceColumn: AGRUPADOR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEGMENTO
+		dataType: string
+		lineageTag: ce29be58-78ce-48f4-8f85-53319dff9010
+		summarizeBy: none
+		sourceColumn: SEGMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column COD
+		dataType: string
+		lineageTag: b786bec5-f7ff-4a33-9917-c307ec363b4a
+		summarizeBy: none
+		sourceColumn: COD
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPARTAMENTO
+		dataType: string
+		lineageTag: f31b2022-2fa6-4cbf-8280-35d552fec8a0
+		summarizeBy: none
+		sourceColumn: DEPARTAMENTO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIPO_CONTR (grupos)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('PLANTA DE PERSONAL'[TIPO_CONTR]),
+				"(En blanco)",
+				'PLANTA DE PERSONAL'[TIPO_CONTR] IN {"Contrato Aprendizaje",
+					"Contrato De Aprendizaje",
+					"Sena"},
+				"Contrato De Aprendizaje",
+				'PLANTA DE PERSONAL'[TIPO_CONTR] IN {"Contrato Fijo",
+					"Fijo"},
+				"Contrato Fijo",
+				'PLANTA DE PERSONAL'[TIPO_CONTR] IN {"Contrato Indefinido",
+					"Indefinido"},
+				"Contrato Indefinido",
+				'PLANTA DE PERSONAL'[TIPO_CONTR]
+			)
+		lineageTag: a3c08878-5b75-4131-8ed6-0049c2d57717
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "PLANTA DE PERSONAL"
+				          }
+				        },
+				        "Property": "TIPO_CONTR"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"PLANTA DE PERSONAL"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"TIPO_CONTR"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Contrato De Aprendizaje","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"TIPO_CONTR"}}],"Values":[[{"Literal":{"Value":"'Contrato Aprendizaje'"}}],[{"Literal":{"Value":"'Contrato De Aprendizaje'"}}],[{"Literal":{"Value":"'Sena'"}}]]}}},{"DisplayName":"Contrato Fijo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"TIPO_CONTR"}}],"Values":[[{"Literal":{"Value":"'Contrato Fijo'"}}],[{"Literal":{"Value":"'Fijo'"}}]]}}},{"DisplayName":"Contrato Indefinido","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"TIPO_CONTR"}}],"Values":[[{"Literal":{"Value":"'Contrato Indefinido'"}}],[{"Literal":{"Value":"'Indefinido'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'EST_CIVIL (grupos)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('PLANTA DE PERSONAL'[EST_CIVIL]),
+				"(En blanco)",
+				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"C",
+					"Casado"},
+				"Casado",
+				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"D",
+					"Divorciado"},
+				"Divorciado",
+				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"N/R",
+					"O",
+					"Otro"},
+				"Otro",
+				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"S",
+					"Soltero"},
+				"Soltero",
+				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"U",
+					"Unión Libre"},
+				"Unión Libre",
+				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"V",
+					"Viudo"},
+				"Viudo",
+				'PLANTA DE PERSONAL'[EST_CIVIL]
+			)
+		lineageTag: b7226dd5-5031-4aa4-a301-ef77c36bc9f1
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "PLANTA DE PERSONAL"
+				          }
+				        },
+				        "Property": "EST_CIVIL"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"PLANTA DE PERSONAL"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Casado","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'C'"}}],[{"Literal":{"Value":"'Casado'"}}]]}}},{"DisplayName":"Divorciado","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'D'"}}],[{"Literal":{"Value":"'Divorciado'"}}]]}}},{"DisplayName":"Otro","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'N/R'"}}],[{"Literal":{"Value":"'O'"}}],[{"Literal":{"Value":"'Otro'"}}]]}}},{"DisplayName":"Soltero","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'S'"}}],[{"Literal":{"Value":"'Soltero'"}}]]}}},{"DisplayName":"Unión Libre","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'U'"}}],[{"Literal":{"Value":"'Unión Libre'"}}]]}}},{"DisplayName":"Viudo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'V'"}}],[{"Literal":{"Value":"'Viudo'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA_PATRON
+		dataType: string
+		lineageTag: e642bb3c-373a-49d0-bcbf-32d7f22f1638
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA_PATRON
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA_PATRON
+		dataType: string
+		lineageTag: 18ecb7e8-660b-45af-b87a-3812c5e76a06
+		summarizeBy: none
+		sourceColumn: AREA_PATRON
+
+		annotation SummarizationSetBy = Automatic
+
+	column %
+		dataType: string
+		lineageTag: 9ae46c91-c2da-46fd-a21b-90f0c21e2959
+		summarizeBy: none
+		sourceColumn: %
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOVEDAD
+		dataType: string
+		lineageTag: b11e8bde-1770-458b-b22e-baab00cace25
+		summarizeBy: none
+		sourceColumn: NOVEDAD
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID_F_INICIO
+		dataType: string
+		lineageTag: 66098efa-3ea2-4ba6-86db-62fbdd56f6dd
+		summarizeBy: none
+		sourceColumn: ID_F_INICIO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO_CCO
+		dataType: string
+		lineageTag: 80ae1429-e451-4f85-8101-f31b8a1c2a4e
+		summarizeBy: none
+		sourceColumn: CARGO_CCO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'PLANTA DE PERSONAL' = m
+		mode: import
+		queryGroup: HeadCount
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/2024/Consolidado%202024.xlsx"), null, true),
+				    #"PLANTA DE PERSONAL_Sheet" = Origen{[Item="PLANTA DE PERSONAL",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"PLANTA DE PERSONAL_Sheet", [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"MES", type text}, {"AÑO", type text}, {"Rango Antigüedad", type text}, {"Antigüedad", type text}, {"SUELDO_B", Currency.Type}, {"F_INICIO", type date}, {"F_CENCIM", type date}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"RANGO DE EDAD", "GENERACIÓN"}}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"GRUPO EMPRESA", type text}, {"Nombre Empresa", type text}, {"DEPENDENCIA", type text}, {"AREA", type text}, {"DEPARTAMENTO", type text}, {"N_Contrato", type text}}),
+				    #"Consulta anexada" = Table.Combine({#"Tipo cambiado1", Consolidado2025}),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Consulta anexada",{{"GENERACIÓN", "GENERACI&#211;N"}}),
+				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"MES", type text}}),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Tipo cambiado2",{{"OBSERVACION", Text.Proper, type text}, {"EST_CIVIL", Text.Proper, type text}, {"TIPO_CONTR", Text.Proper, type text}})
+				in
+				    #"Poner En Mayúsculas Cada Palabra"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegación
+

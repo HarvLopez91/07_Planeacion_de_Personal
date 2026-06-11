@@ -1,0 +1,1669 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "displayName": "Generación",
+  "name": "2f248557b607ccc82959",
+  "options": {
+    "targetVisualNames": [
+      "29bcfefe0a6e8e43e36a"
+    ],
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "f0fd1eb45022c4c0718e",
+    "sections": {
+      "f0fd1eb45022c4c0718e": {
+        "visualContainers": {
+          "7d11a1cb0500bac6375a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "4c5b213030827ee7da08",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "AÑO"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "p",
+                                "Entity": "PLANTA DE PERSONAL",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "p"
+                                            }
+                                          },
+                                          "Property": "AÑO"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'2026'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "AÑO"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "64fffb7db619d070a6c8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "2356b71caa220857670e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "MES"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "MES"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "455ea62e6874a5a91180": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "82953120025c03d43cd5",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "TIPO_CONTR"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "TIPO_CONTR"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "dc48d663679184dc633d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "636ba10149a9803b9853",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "GRUPO EMPRESA"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Basic'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "GRUPO EMPRESA"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "622761d23a5984beee90": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "bc83b58edc6562447aee",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Nombre Empresa"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Basic'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Nombre Empresa"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "bafc48f40be0dadbd0d2": {
+            "singleVisual": {
+              "visualType": "pageNavigator",
+              "objects": {}
+            }
+          },
+          "2af4601716e05d419443": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e1cba38eb27e3861819b": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "11268a208d61d005db40": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b6fa98f305913005de4b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "8af7f1ce0670744ca470": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "239fe772eb05b4138708": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e8ade07b00bc57295864": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "61a2ac661b1ebe0c7109": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "2b8ff66b61b9b9e07e42": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a329da549afc85ab6df8",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "PLANTA DE PERSONAL",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "p"
+                                    }
+                                  },
+                                  "Property": "SEXO"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'FEMENINO'"
+                                  }
+                                }
+                              ],
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'MASCULINO'"
+                                  }
+                                }
+                              ],
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'NO BINARIO'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "SEXO"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "062fd7730b86e08d107e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "hundredPercentStackedBarChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "29bcfefe0a6e8e43e36a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6bc1a153fedbf162d099",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "PLANTA DE PERSONAL",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "p"
+                                        }
+                                      },
+                                      "Property": "GENERACI&#211;N"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "GENERACI&#211;N"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "24471703258b954c3203",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "funnel",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "GENERACI&#211;N"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "a5254d1f40018d1e9d88": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "76a5352cc7ade2fce4bc",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "PLANTA DE PERSONAL",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "p"
+                                        }
+                                      },
+                                      "Property": "EST_CIVIL (grupos)"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "'Sin Información En Kactus'"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "GroupRef": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "EST_CIVIL (grupos)",
+                      "GroupedColumns": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "PLANTA DE PERSONAL"
+                              }
+                            },
+                            "Property": "EST_CIVIL"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b593de1c5a7e87a56908",
+                  "type": "Advanced",
+                  "expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": []
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "funnel",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": []
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "GroupRef": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "EST_CIVIL (grupos)",
+                      "GroupedColumns": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "PLANTA DE PERSONAL"
+                              }
+                            },
+                            "Property": "EST_CIVIL"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "2801eb990b3e50083747": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "03923fcace05717546eb",
+                  "type": "Advanced",
+                  "expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": []
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f5969118bdc11a890da1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "HIJOS"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "funnel",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": []
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "HIJOS"
+                    }
+                  }
+                ]
+              },
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "7c3c014b52d159e3018d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "017ef66230950796bc40",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Generaciones"
+                        }
+                      },
+                      "Property": "Generación"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2160e7ff20dcaac806bb",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Generaciones"
+                        }
+                      },
+                      "Property": "Rango Años de Nacimiento"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "094b190a9e00e1a04d0d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Generaciones"
+                        }
+                      },
+                      "Property": "Edades"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ad0679c6d24639cc9c19",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fbf7cedb5eb4eb09b065",
+                  "type": "Advanced",
+                  "expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": []
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Generaciones"
+                        }
+                      },
+                      "Property": "Generación"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "6e948c2c91c0049bd2c3": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c5c305909b4b4ab2406a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b5aee5b8eb1b003aedc5",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "OBSERVACION"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "OBSERVACION"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "7fd150df6e2cb4ba6d08": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f9265a71eecc43d0023c",
+                  "type": "Categorical",
+                  "expression": {
+                    "GroupRef": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "TIPO_CONTR (grupos)",
+                      "GroupedColumns": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "PLANTA DE PERSONAL"
+                              }
+                            },
+                            "Property": "TIPO_CONTR"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "56567d5dd81ec1b947ac",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "GroupRef": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "TIPO_CONTR (grupos)",
+                      "GroupedColumns": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "PLANTA DE PERSONAL"
+                              }
+                            },
+                            "Property": "TIPO_CONTR"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "551328d04e89a339b976": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3168c9e742d547757acd",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Rango Antigüedad"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f02ebf5a4293195aa5de",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Rango Antigüedad"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Rango Antigüedad"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "6784fca1005d3b57e353": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "611e892a2221a0a17b08",
+                  "type": "Advanced",
+                  "expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": [
+                            {
+                              "RoleRef": {
+                                "Role": "Rows"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e4f6735ae777c564d04c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Generaciones"
+                        }
+                      },
+                      "Property": "Generación"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "08329e829c323c30074d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "76abe90e739d7960536c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "DEPENDENCIA"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2fa274a2cecb008290e1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "CARGO"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Generaciones"
+                        }
+                      },
+                      "Property": "Generación"
+                    }
+                  }
+                ],
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "DEPENDENCIA"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "44ed21a675ea3134a00a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c840ad5e7e43cc0bcbe1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Rango Antigüedad"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1364225b2d6067d1dea8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "87d98e0146a5b111ec70",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "GENERACI&#211;N"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Rango Antigüedad"
+                    }
+                  }
+                },
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "GENERACI&#211;N"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Rango Antigüedad"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e7defbf152d180d180ec": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "948e2e420e35ae480788",
+                  "type": "Advanced",
+                  "expression": {
+                    "Arithmetic": {
+                      "Left": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "PLANTA DE PERSONAL"
+                            }
+                          },
+                          "Property": "Tot_empleados"
+                        }
+                      },
+                      "Right": {
+                        "ScopedEval": {
+                          "Expression": {
+                            "Measure": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "PLANTA DE PERSONAL"
+                                }
+                              },
+                              "Property": "Tot_empleados"
+                            }
+                          },
+                          "Scope": [
+                            {
+                              "RoleRef": {
+                                "Role": "Rows"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "Operator": 3
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a00ac684a62b02140cd4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c8d1ff4c739b60d000e3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "CARGO"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "Tot_empleados"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PLANTA DE PERSONAL"
+                        }
+                      },
+                      "Property": "CARGO"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "1712c8568dc226812910": {
+            "singleVisual": {
+              "visualType": "bookmarkNavigator",
+              "objects": {}
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

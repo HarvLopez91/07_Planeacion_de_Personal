@@ -1,0 +1,20 @@
+# Datos fuente — no versionar (archivos Excel con datos personales)
+Data/
+
+# Salidas de IA y artefactos temporales — versionar solo con autorización explícita
+Outputs/
+
+# Caché binario de Power BI (ya cubierto por PBIP/.gitignore)
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Temporales
+*.tmp
+*.bak
+~$*.xlsx
+~$*.docx

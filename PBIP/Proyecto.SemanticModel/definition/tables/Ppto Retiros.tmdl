@@ -1,0 +1,461 @@
+table 'Ppto Retiros'
+	lineageTag: 4cb79c02-0467-4208-aa1b-12dc1c4379ad
+
+	measure Tot_Retiros = COUNT('Ppto Retiros'[Mes])
+		formatString: #,0
+		displayFolder: Medidas
+		lineageTag: 6983b8e0-3730-40c6-a912-c88fa8d5318b
+
+	measure Índice_Rotación = ([Tot_ingresos]-[Tot_Retiros])/[Tot_Colab-Sena]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Medidas
+		lineageTag: d45d3c6e-7317-4600-83e1-3d93ad982865
+
+	measure Índice_Retiros = [Tot_Retiros]/[Tot_Colab-Sena]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Medidas
+		lineageTag: d7064b38-6c9b-46f9-b269-4757284bd27f
+
+	column 'Grupo empresarial'
+		dataType: string
+		lineageTag: 85cbccb3-4c03-49ef-bb87-cfabe2f3f181
+		summarizeBy: none
+		sourceColumn: Grupo empresarial
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: 511e88ba-2be1-4d33-b778-ef63338c194c
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Identificación
+		dataType: string
+		lineageTag: 22edab1d-babd-41b6-973f-ac6a82bd3c14
+		summarizeBy: none
+		sourceColumn: Identificación
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombres
+		dataType: string
+		lineageTag: 071a86af-8811-4405-a070-b9386ada4f62
+		summarizeBy: none
+		sourceColumn: Nombres
+
+		annotation SummarizationSetBy = Automatic
+
+	column Apellidos
+		dataType: string
+		lineageTag: 12769733-a203-47f9-9dbb-a5bf682c86e0
+		summarizeBy: none
+		sourceColumn: Apellidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column TC
+		dataType: string
+		lineageTag: 97ab05d6-d430-44eb-954d-25c62ff39fa9
+		summarizeBy: none
+		sourceColumn: TC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cargo
+		dataType: string
+		lineageTag: e4315f38-9085-4e56-92d3-cb3171a5796c
+		summarizeBy: none
+		sourceColumn: Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre Centro Costo'
+		dataType: string
+		lineageTag: b2abaee7-a468-42c7-b546-904c4fb5550f
+		summarizeBy: none
+		sourceColumn: Nombre Centro Costo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Inicio'
+		dataType: string
+		lineageTag: 051fb2f6-3dfb-4036-b64e-edb1a4bbe661
+		summarizeBy: none
+		sourceColumn: Fecha Inicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Vencimiento'
+		dataType: string
+		lineageTag: 87313365-348b-4da8-8b5d-dd7e9d0adeb0
+		summarizeBy: none
+		sourceColumn: Fecha Vencimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Año
+		dataType: string
+		lineageTag: 5c8cb49a-4511-44f1-81cf-bc2ed7f15696
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mes Num'
+		dataType: string
+		lineageTag: e90bca05-77b2-40dc-859e-21d25e9a93ba
+		summarizeBy: none
+		sourceColumn: Mes Num
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: 04c9ecc4-c28f-4bd9-a41a-7afaf6455636
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Detalle
+		dataType: string
+		lineageTag: 6af33918-ce2b-4e2c-9388-cb722f725c4a
+		summarizeBy: none
+		sourceColumn: Detalle
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Ppto Retiros","TableItemName":"Detalle (grupos)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Clase de nómina'
+		dataType: string
+		lineageTag: be28d9b7-07b7-4f26-9a80-c7cf1d74d626
+		summarizeBy: none
+		sourceColumn: Clase de nómina
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"Ppto Retiros","TableItemName":"Clase de nómina (grupos)","ObjectType":4},"LinkType":"UsedInGroup"},{"LinkTarget":{"TableName":"Ppto Retiros","TableItemName":"Clase de nómina (grupos) 2","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column Dependencia
+		dataType: string
+		lineageTag: 09e76dcd-824c-4e17-a2a6-3634b2e8c4f8
+		summarizeBy: none
+		sourceColumn: Dependencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Área
+		dataType: string
+		lineageTag: f144126a-4a8e-4bb4-8051-c57d375d57c6
+		summarizeBy: none
+		sourceColumn: Área
+
+		annotation SummarizationSetBy = Automatic
+
+	column OBSERVACION
+		dataType: string
+		lineageTag: 19e57330-6c79-4a9b-bff4-f40bb189faf1
+		summarizeBy: none
+		sourceColumn: OBSERVACION
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meses de permanencia'
+		dataType: string
+		lineageTag: 8efd58db-5be1-4855-9843-11303622439b
+		summarizeBy: none
+		sourceColumn: Meses de permanencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Jefe Inmediato'
+		dataType: string
+		lineageTag: 620c034f-e305-4011-8b65-a48bf6ae7424
+		summarizeBy: none
+		sourceColumn: Jefe Inmediato
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Centro de Trabajo'
+		dataType: string
+		lineageTag: 252c543a-3674-4b31-81d1-5354b3aafb61
+		summarizeBy: none
+		sourceColumn: Centro de Trabajo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'No. Contrato'
+		dataType: string
+		lineageTag: c6f792f2-0d2e-47ba-a7ba-c698230a9bfb
+		summarizeBy: none
+		sourceColumn: No. Contrato
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salario
+		dataType: string
+		lineageTag: bfaab274-5faa-4a1b-97b0-972e4662b58d
+		summarizeBy: none
+		sourceColumn: Salario
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Detalle (grupos)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('Ppto Retiros'[Detalle]),
+				"(En blanco)",
+				'Ppto Retiros'[Detalle] IN {"Abandono Puesto de Trabajo",
+					"RENUNCIA TACITA"},
+				"Abandono Puesto de Trabajo",
+				'Ppto Retiros'[Detalle] IN {"CESION CONTRATO",
+					"CESION DE CONTRATO"},
+				"Cesión de Contrato",
+				'Ppto Retiros'[Detalle] IN {"FALLECIMIENTO"},
+				"Fallecimiento",
+				'Ppto Retiros'[Detalle] IN {"FIN DE OBRA O LABOR/DEFINITIVO",
+					"FIN DE OBRA O LABOR/DEFITIVO",
+					"FIN DE OBRA/DEFINITIVO",
+					"Fin Obra o Labor Definitivo",
+					"FINDE OBRA O LABOR/DEFITIVO",
+					"VENCIMIENTO  DE CONTRATO/DEFINITIVO",
+					"VENCIMIENTO CONTRATO / DEFINITIVO",
+					"VENCIMIENTO CONTRATO/DEFINITIVO",
+					"VENCIMIENTO DE CONTRATO/DEFINITIVO"},
+				"Fin Obra o Labor Definitivo",
+				'Ppto Retiros'[Detalle] IN {"PERIODO DE PRUEBA"},
+				"Periodo de Prueba",
+				'Ppto Retiros'[Detalle] IN {"Terminación con Justa Causa",
+					"TERMINACION CONTRATO CON JUSTA CAUSA",
+					"TERMINACION DE CONTRATO CON JUSTA CAUSA"},
+				"Terminación con Justa Causa",
+				'Ppto Retiros'[Detalle] IN {"TERMINACION CONTRATO / DEFINITIVO",
+					"Terminación Contrato Definitivo"},
+				"Terminación Contrato Definitivo",
+				'Ppto Retiros'[Detalle] IN {"MUTUO ACUERDO",
+					"MUTUO ACUERDO DEFINITIVO",
+					"Terminación de Contrato por Mutuo Acuerdo"},
+				"Terminación de Contrato por Mutuo Acuerdo",
+				'Ppto Retiros'[Detalle] IN {"TERMINACION CONTRATO SIN JUSTA CAUSA",
+					"TERMINACION DE CONTRATO SIN JUSTA CAUSA",
+					"Terminación sin Justa Causa",
+					"TERMINACION UNILATERAL SIN JUSTA CAUSA"},
+				"Terminación sin Justa Causa",
+				'Ppto Retiros'[Detalle]
+			)
+		lineageTag: 0ca82e43-e8e4-44d9-8f08-30e13a002825
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Ppto Retiros"
+				          }
+				        },
+				        "Property": "Detalle"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Abandono Puesto de Trabajo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'Abandono Puesto de Trabajo'"}}],[{"Literal":{"Value":"'RENUNCIA TACITA'"}}]]}}},{"DisplayName":"Cesión de Contrato","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'CESION CONTRATO'"}}],[{"Literal":{"Value":"'CESION DE CONTRATO'"}}]]}}},{"DisplayName":"Fallecimiento","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'FALLECIMIENTO'"}}]]}}},{"DisplayName":"Fin Obra o Labor Definitivo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'FIN DE OBRA O LABOR/DEFINITIVO'"}}],[{"Literal":{"Value":"'FIN DE OBRA O LABOR/DEFITIVO'"}}],[{"Literal":{"Value":"'FIN DE OBRA/DEFINITIVO'"}}],[{"Literal":{"Value":"'Fin Obra o Labor Definitivo'"}}],[{"Literal":{"Value":"'FINDE OBRA O LABOR/DEFITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO  DE CONTRATO/DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO CONTRATO / DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO CONTRATO/DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO DE CONTRATO/DEFINITIVO'"}}]]}}},{"DisplayName":"Periodo de Prueba","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'PERIODO DE PRUEBA'"}}]]}}},{"DisplayName":"Terminación con Justa Causa","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'Terminación con Justa Causa'"}}],[{"Literal":{"Value":"'TERMINACION CONTRATO CON JUSTA CAUSA'"}}],[{"Literal":{"Value":"'TERMINACION DE CONTRATO CON JUSTA CAUSA'"}}]]}}},{"DisplayName":"Terminación Contrato Definitivo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'TERMINACION CONTRATO / DEFINITIVO'"}}],[{"Literal":{"Value":"'Terminación Contrato Definitivo'"}}]]}}},{"DisplayName":"Terminación de Contrato por Mutuo Acuerdo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'MUTUO ACUERDO'"}}],[{"Literal":{"Value":"'MUTUO ACUERDO DEFINITIVO'"}}],[{"Literal":{"Value":"'Terminación de Contrato por Mutuo Acuerdo'"}}]]}}},{"DisplayName":"Terminación sin Justa Causa","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'TERMINACION CONTRATO SIN JUSTA CAUSA'"}}],[{"Literal":{"Value":"'TERMINACION DE CONTRATO SIN JUSTA CAUSA'"}}],[{"Literal":{"Value":"'Terminación sin Justa Causa'"}}],[{"Literal":{"Value":"'TERMINACION UNILATERAL SIN JUSTA CAUSA'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA_CONSOLIDADO
+		dataType: string
+		lineageTag: cc8105d6-2c0a-4cfb-80c4-4c664cd147c8
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA_CONSOLIDADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA_CONSOLIDADO
+		dataType: string
+		lineageTag: 8c52a6b9-b4b5-4d63-bdcc-872a4752d6c2
+		summarizeBy: none
+		sourceColumn: AREA_CONSOLIDADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column %
+		dataType: string
+		lineageTag: 7b33c040-5f2b-4c76-b8a4-832ab6c91077
+		summarizeBy: none
+		sourceColumn: %
+
+		annotation SummarizationSetBy = Automatic
+
+	column V_DEPENDENCIA
+		dataType: string
+		lineageTag: 4c8a8b59-fc9e-4eb8-8598-4835381358f0
+		summarizeBy: none
+		sourceColumn: V_DEPENDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column V_AREA
+		dataType: string
+		lineageTag: 07ad8cfa-3ec4-45cd-9ba0-599c3e870b12
+		summarizeBy: none
+		sourceColumn: V_AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	column '[Nombre Nivel 2]'
+		dataType: string
+		lineageTag: 0c39ca73-55c7-4807-94bf-3ef2feefbff7
+		summarizeBy: none
+		sourceColumn: [Nombre Nivel 2]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '[Nombre Nivel 3]'
+		dataType: string
+		lineageTag: 7a029a20-1d70-42b1-ab61-68f03073f3d5
+		summarizeBy: none
+		sourceColumn: [Nombre Nivel 3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clase de nómina (grupos)' =
+			SWITCH(
+				TRUE,
+				ISBLANK('Ppto Retiros'[Clase de nómina]),
+				"(En blanco)",
+				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO FIJO",
+					"Fijo"},
+				"Fijo",
+				'Ppto Retiros'[Clase de nómina] IN {"Indefinido",
+					"INDEFINIDO EN PROPIEDAD"},
+				"Indefinido",
+				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO APRENDIZAJE",
+					"PRACTICANTES UNIVERSITARIOS",
+					"Temporal",
+					"TEMPORAL EN PROPIEDAD"},
+				"Temporal",
+				'Ppto Retiros'[Clase de nómina]
+			)
+		lineageTag: 2e4a9e2d-01a2-4d63-b5b2-41c61366da6f
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Ppto Retiros"
+				          }
+				        },
+				        "Property": "Clase de nómina"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Fijo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO FIJO'"}}],[{"Literal":{"Value":"'Fijo'"}}]]}}},{"DisplayName":"Indefinido","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'Indefinido'"}}],[{"Literal":{"Value":"'INDEFINIDO EN PROPIEDAD'"}}]]}}},{"DisplayName":"Temporal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO APRENDIZAJE'"}}],[{"Literal":{"Value":"'PRACTICANTES UNIVERSITARIOS'"}}],[{"Literal":{"Value":"'Temporal'"}}],[{"Literal":{"Value":"'TEMPORAL EN PROPIEDAD'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO_CCO
+		dataType: string
+		lineageTag: 20c3b7db-83f7-450b-b3cc-99a65c3f0da2
+		summarizeBy: none
+		sourceColumn: CARGO_CCO
+
+		annotation SummarizationSetBy = Automatic
+
+	column IndexAnioMes =
+			
+			'Ppto Retiros'[Año] * 12 + 'Ppto Retiros'[Mes Num]
+		lineageTag: 9dcff18d-a169-4cf4-9f3d-9cff2eb8b9e0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Nivel
+		dataType: string
+		lineageTag: b381f91d-1372-4293-b8f8-711d42789024
+		summarizeBy: none
+		sourceColumn: Nivel
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clase de nómina (grupos) 2' =
+			SWITCH(
+				TRUE,
+				ISBLANK('Ppto Retiros'[Clase de nómina]),
+				"(En blanco)",
+				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO FIJO",
+					"Fijo",
+					"Indefinido",
+					"INDEFINIDO EN PROPIEDAD"},
+				"Directos",
+				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO APRENDIZAJE",
+					"PRACTICANTES UNIVERSITARIOS",
+					"Temporal",
+					"TEMPORAL EN PROPIEDAD"},
+				"Temporal",
+				'Ppto Retiros'[Clase de nómina]
+			)
+		lineageTag: 477a75b6-5f65-4405-a39f-66829430522c
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "Ppto Retiros"
+				          }
+				        },
+				        "Property": "Clase de nómina"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Directos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO FIJO'"}}],[{"Literal":{"Value":"'Fijo'"}}],[{"Literal":{"Value":"'Indefinido'"}}],[{"Literal":{"Value":"'INDEFINIDO EN PROPIEDAD'"}}]]}}},{"DisplayName":"Temporal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO APRENDIZAJE'"}}],[{"Literal":{"Value":"'PRACTICANTES UNIVERSITARIOS'"}}],[{"Literal":{"Value":"'Temporal'"}}],[{"Literal":{"Value":"'TEMPORAL EN PROPIEDAD'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Periodo
+		dataType: string
+		lineageTag: ca43da69-852b-4810-bfa9-585c1e35ab2c
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ppto Retiros' = m
+		mode: import
+		queryGroup: PptovsReal
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/PptovsReal.xlsx"), null, true),
+				    RETIROS_Sheet = Origen{[Item="RETIROS",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(RETIROS_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Encabezados promovidos"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

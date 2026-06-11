@@ -1,0 +1,93 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CO
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup HeadCount
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup PptovsReal
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup Selección
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Dim_Calendario
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup SST
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup Incapacidades
+
+	annotation PBI_QueryGroupOrder = 5
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["PLANTA DE PERSONAL","Consolidado2025","Planta Ppto","Ppto Retiros","AUSENTISMOS","SST_CHA","SST-HABITELH","SST-GSKY","ACCIDENTALIDAD","SST GENERAL","Mes","Grupo Empresarial","Empresas","Años","Selección Challenger","Selección Habitel Hotels","Selección Grupo Sky","Selección Grupo Lemco","Ppto Ingresos","Trimestres","Incapacidades","CIE-10","Estructura","General_Ausentismos","Generaciones","AREAS","Maestro","Días Laborales","SENA_CYL","SENA UNIDADES","tbl_Refresh","Tbl_Medidas"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_d3e11962-53a7-46e1-b41d-2ea22b1edd6d
+ref table 'PLANTA DE PERSONAL'
+ref table LocalDateTable_5705d477-cdc8-4387-8f36-573ee525d8fa
+ref table 'Planta Ppto'
+ref table 'Ppto Retiros'
+ref table AUSENTISMOS
+ref table SST_CHA
+ref table SST-HABITELH
+ref table SST-GSKY
+ref table ACCIDENTALIDAD
+ref table 'SST GENERAL'
+ref table Mes
+ref table 'Grupo Empresarial'
+ref table Empresas
+ref table Años
+ref table 'Selección Challenger'
+ref table LocalDateTable_f39ba1a3-1ec2-426a-b95d-89c66fa5359f
+ref table LocalDateTable_dd4ae560-ab9a-4753-8297-821ac6548136
+ref table LocalDateTable_f772bf5c-728d-49b9-9396-1a7d17477d2f
+ref table 'Selección Habitel Hotels'
+ref table LocalDateTable_27fcc222-dd1d-400b-98f6-f7b121db30dd
+ref table LocalDateTable_825d4e25-4723-40d2-978b-fea936f357bf
+ref table LocalDateTable_697b438a-92b3-4c9b-9dfd-b4b61f0ae241
+ref table 'Selección Grupo Sky'
+ref table LocalDateTable_454a279d-152c-4ae5-85a3-9496cfbe6bee
+ref table LocalDateTable_1f9d9c62-7d17-48f2-a2d8-15153f3f0ba7
+ref table LocalDateTable_2583b581-9d0c-49c4-8b80-08f45946b50c
+ref table 'Selección Grupo Lemco'
+ref table LocalDateTable_d97c6b2f-9698-4c87-a783-d7a9f0d56d4f
+ref table LocalDateTable_f93eb329-6838-4cc1-b953-2c19d64767dc
+ref table LocalDateTable_c540bb50-6aac-4181-b034-b8d31b828ab3
+ref table 'Ppto Ingresos'
+ref table Trimestres
+ref table Incapacidades
+ref table LocalDateTable_9c79b8dd-6f9a-47ec-86a5-f51043c76447
+ref table LocalDateTable_ae54bd05-3ac9-480e-b2b5-b4c665b7337d
+ref table CIE-10
+ref table Estructura
+ref table General_Ausentismos
+ref table Generaciones
+ref table AREAS
+ref table Maestro
+ref table LocalDateTable_4845cb4c-cb51-4122-807b-3737c85f1b0b
+ref table LocalDateTable_24b75b36-85c0-4316-91a9-9a1b021cd0d4
+ref table Consolidado2025
+ref table 'Días Laborales'
+ref table SENA_CYL
+ref table 'SENA UNIDADES'
+ref table tbl_Refresh
+ref table LocalDateTable_3858921f-461c-46df-9a03-b7f45c5848b7
+ref table Tbl_Medidas
+ref table DimPeriodoYM
+
+ref cultureInfo es-ES
+

@@ -1,0 +1,69 @@
+table 'SENA UNIDADES'
+	lineageTag: 8d5b3f28-a5a2-4b65-a37c-c1f9a95404e4
+
+	measure %Cumplimiento = IF(SUM('SENA UNIDADES'[Días Cotizados])/SUM('SENA UNIDADES'[Días Meta])>=1,1,0)
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: 69b56781-a804-4487-9127-b5bda0c02882
+
+	column Año
+		dataType: string
+		lineageTag: 90cda355-88b6-4a89-8866-8a9d1b835e7a
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMPRESA
+		dataType: string
+		lineageTag: e609ebf2-a86a-4535-9be6-d81fd61fc8ed
+		summarizeBy: none
+		sourceColumn: EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: 8a566aa2-f133-4b4d-84e9-4623eb7ea368
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días Cotizados'
+		dataType: int64
+		formatString: #,0
+		lineageTag: 07622198-dbcd-4fa1-9ec9-8e5b235cf1b6
+		summarizeBy: sum
+		sourceColumn: Días Cotizados
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días Meta'
+		dataType: int64
+		formatString: #,0
+		lineageTag: d1a2f512-09c7-43a2-9627-0f635c8d6ce2
+		summarizeBy: sum
+		sourceColumn: Días Meta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'SENA UNIDADES' = m
+		mode: import
+		queryGroup: Selección
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Selecci%C3%B3n/3.%20Selecci%C3%B3n/Seleccion/SENA.xlsx"), null, true),
+				    #"SENA 2025_Sheet" = Origen{[Item="SENA 2025",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"SENA 2025_Sheet", [PromoteAllScalars=true]),
+				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Encabezados promovidos", [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Año", Int64.Type}, {"EMPRESA", type text}, {"Mes", type text}, {"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}, {"%Cumplimiento", Int64.Type}, {"%Meta", Int64.Type}, {"%Cumplimiento Anual", type number}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"%Cumplimiento", "%Meta", "%Cumplimiento Anual"}),
+				    #"Consulta anexada" = Table.Combine({#"Columnas quitadas", SENA_CYL}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Consulta anexada",{{"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,324 @@
+table 'Selección Grupo Lemco'
+	lineageTag: 5e8b6e4b-7596-4958-a2e2-7a30c086078d
+
+	measure Solicitud = COUNT('Selección Grupo Lemco'[Empresa])
+		formatString: #,0
+		lineageTag: 48d57ea4-82b4-41b7-a873-e50bc46b1219
+
+	measure Ind_opor = IF([Solicitud]=0,"N/A",IF((CALCULATE([Solicitud],'Selección Grupo Lemco'[¿Se cierra sobre los tiempos?]="SI")/[Solicitud])=0,0,CALCULATE([Solicitud],'Selección Grupo Lemco'[¿Se cierra sobre los tiempos?]="SI")/[Solicitud]))
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: d523d3f8-4d18-4087-9819-1705ac00d439
+
+	column 'Grupo Empresa'
+		dataType: string
+		lineageTag: 74380da5-b05e-4fac-876e-fc43fde832e0
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: 748ade74-31ea-43b1-80f5-786a04753b8d
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: d33d4917-f823-47d2-a90f-916cd2adc89a
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		lineageTag: cd4fccd8-9d81-4f0a-845c-23a70a773a50
+		summarizeBy: none
+		sourceColumn: AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIUDAD
+		dataType: string
+		lineageTag: d035213e-2bde-4a4f-a31e-fe6e4fa7859d
+		summarizeBy: none
+		sourceColumn: CIUDAD
+
+		annotation SummarizationSetBy = Automatic
+
+	column CARGO
+		dataType: string
+		lineageTag: 3471e7ec-d215-44fe-b612-4b0290f7f3b8
+		summarizeBy: none
+		sourceColumn: CARGO
+
+		annotation SummarizationSetBy = Automatic
+
+	column JEFE
+		dataType: string
+		lineageTag: 0b5be1bf-fb73-4498-9dfd-9d47f00685d5
+		summarizeBy: none
+		sourceColumn: JEFE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ESTADO
+		dataType: string
+		lineageTag: e58459ee-22bb-4ece-a095-536d1bf530e0
+		summarizeBy: none
+		sourceColumn: ESTADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA RQ SELECCIÓN'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 042b6107-6daf-4ebc-9c81-bd592014fef1
+		summarizeBy: none
+		sourceColumn: FECHA RQ SELECCIÓN
+
+		variation Variación
+			isDefault
+			relationship: 1792e33f-4aa0-4f6f-9f95-cd50195104f1
+			defaultHierarchy: LocalDateTable_d97c6b2f-9698-4c87-a783-d7a9f0d56d4f.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Año_Req
+		dataType: string
+		lineageTag: 6b95b702-3c96-4985-a8a5-9a84f8d93480
+		summarizeBy: none
+		sourceColumn: Año_Req
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes_Req
+		dataType: string
+		lineageTag: 3f01ba65-8961-4c6d-a2fe-781829b80828
+		summarizeBy: none
+		sourceColumn: Mes_Req
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIAS A USAR'
+		dataType: int64
+		formatString: 0
+		lineageTag: 275de308-3f06-4d80-b5b5-eca5eb7f5848
+		summarizeBy: sum
+		sourceColumn: DIAS A USAR
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA META CIERRE'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a9ad4342-e864-481b-9b9c-b2d4e71682e5
+		summarizeBy: none
+		sourceColumn: FECHA META CIERRE
+
+		variation Variación
+			isDefault
+			relationship: aa3d1e73-10d4-4620-9995-cf5032ed2647
+			defaultHierarchy: LocalDateTable_f93eb329-6838-4cc1-b953-2c19d64767dc.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Año_Met
+		dataType: string
+		lineageTag: 3d533094-8583-4b7b-807e-13ab3cee512a
+		summarizeBy: none
+		sourceColumn: Año_Met
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes_Meta
+		dataType: string
+		lineageTag: 3dc5cb5a-f5ad-4e4f-aea5-9943c5696c10
+		summarizeBy: none
+		sourceColumn: Mes_Meta
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA TERMIN PROCESO'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: e3e16db1-640d-49be-ab0b-b7db8c1f012e
+		summarizeBy: none
+		sourceColumn: FECHA TERMIN PROCESO
+
+		variation Variación
+			isDefault
+			relationship: 2ccbcdc5-9063-4305-a643-83b97c483b09
+			defaultHierarchy: LocalDateTable_c540bb50-6aac-4181-b034-b8d31b828ab3.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column '¿Se cierra sobre los tiempos?'
+		dataType: string
+		lineageTag: b3b89e9c-72f8-4fa8-9f1d-99a33ba6e92b
+		summarizeBy: none
+		sourceColumn: ¿Se cierra sobre los tiempos?
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIAS LAB UTILIZADOS'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2bcfc364-c07f-4a7a-8412-0859cae3b7a0
+		summarizeBy: sum
+		sourceColumn: DIAS LAB UTILIZADOS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIEMPOS MUERTOS'
+		dataType: int64
+		formatString: 0
+		lineageTag: fdc8e723-fd2c-4862-b650-69deba6d0ac4
+		summarizeBy: sum
+		sourceColumn: TIEMPOS MUERTOS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'DIAS LABORALES DE SELECC-TIEMPOS MUERTOS'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1def43f2-bd88-442f-91b9-f1c6b204a893
+		summarizeBy: sum
+		sourceColumn: DIAS LABORALES DE SELECC-TIEMPOS MUERTOS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ORIGEN DE LA VACANTE'
+		dataType: string
+		lineageTag: c18059d9-0b88-468f-8792-7a53e7583e44
+		summarizeBy: none
+		sourceColumn: ORIGEN DE LA VACANTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MOTIVO DEL REEMPLAZO'
+		dataType: string
+		lineageTag: 757e1425-56bc-4a16-82cf-828d7a70b449
+		summarizeBy: none
+		sourceColumn: MOTIVO DEL REEMPLAZO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TIPO CONTRATO'
+		dataType: string
+		lineageTag: 11566621-ccab-4937-9c37-064f00c3ad7a
+		summarizeBy: none
+		sourceColumn: TIPO CONTRATO
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes_Objetivo = IF('Selección Grupo Lemco'[Mes_Meta]="Enero","01.Enero",IF('Selección Grupo Lemco'[Mes_Meta]="Febrero","02.Febrero",IF('Selección Grupo Lemco'[Mes_Meta]="Marzo","03.Marzo",IF('Selección Grupo Lemco'[Mes_Meta]="Abril","04.Abril",IF('Selección Grupo Lemco'[Mes_Meta]="Mayo","05.Mayo",IF('Selección Grupo Lemco'[Mes_Meta]="Junio","06.Junio",IF('Selección Grupo Lemco'[Mes_Meta]="Julio","07.Julio",IF('Selección Grupo Lemco'[Mes_Meta]="Agosto","08.Agosto",IF('Selección Grupo Lemco'[Mes_Meta]="Septiembre","09.Septiembre",IF('Selección Grupo Lemco'[Mes_Meta]="Octubre","10.Octubre",IF('Selección Grupo Lemco'[Mes_Meta]="Noviembre","11.Noviembre",IF('Selección Grupo Lemco'[Mes_Meta]="Diciembre","12.Diciembre","Validar"))))))))))))
+		lineageTag: 9763f9b7-70f3-460d-9254-837f3222af83
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FECHA RQ SELECCIÓN (INICIAL)'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 218fc981-1d1a-46b8-9faf-08a55fa04cbf
+		summarizeBy: none
+		sourceColumn: FECHA RQ SELECCIÓN (INICIAL)
+
+		variation Variación
+			isDefault
+			relationship: cd0f43a3-8d28-44cc-b25e-1d740d509206
+			defaultHierarchy: LocalDateTable_24b75b36-85c0-4316-91a9-9a1b021cd0d4.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Retroalimentación '
+		dataType: int64
+		formatString: 0
+		lineageTag: a727d8d3-0114-4310-9100-fbe22d7f25ab
+		summarizeBy: average
+		sourceColumn: "Retroalimentación "
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column 'Agenda Entrevista'
+		dataType: int64
+		formatString: 0
+		lineageTag: 68ea9458-9ca9-4dcd-86f8-6dcba65d60c0
+		summarizeBy: average
+		sourceColumn: Agenda Entrevista
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column 'Factores Extrernos'
+		dataType: int64
+		formatString: 0
+		lineageTag: 89c3c325-1d46-4e60-9a4b-3ec292be9cf0
+		summarizeBy: average
+		sourceColumn: Factores Extrernos
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column $
+		dataType: string
+		lineageTag: 3d7736ff-a150-4fcc-bb44-3f4cb0830b77
+		summarizeBy: none
+		sourceColumn: $
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column39
+		dataType: string
+		lineageTag: cd9341e9-602c-4790-8542-6418ae3075cb
+		summarizeBy: none
+		sourceColumn: Column39
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column40
+		dataType: string
+		lineageTag: 8cabc497-0ec7-4f63-bd96-02a2e2a6567e
+		summarizeBy: none
+		sourceColumn: Column40
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Selección Grupo Lemco' = m
+		mode: import
+		queryGroup: Selección
+		source =
+				let
+				    Origen = Table.Combine({#"Selección Challenger", #"Selección Habitel Hotels", #"Selección Grupo Sky"}),
+				    #"Personalizada agregada" = Table.AddColumn(Origen, "Mes_Num_Meta", each Date.Month([FECHA META CIERRE])),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Personalizada agregada",{"Mes_Num_Meta"}),
+				    #"Columna duplicada" = Table.DuplicateColumn(#"Columnas quitadas", "FECHA META CIERRE", "FECHA META CIERRE - Copia"),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna duplicada",{{"FECHA META CIERRE - Copia", "Mes_Meta_Num"}}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"Mes_Meta_Num"}),
+				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas1", each true),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"FECHA RQ SELECCIÓN (INICIAL)", type date}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo cambiado","EN CONTRATACION","EN CONTRATACIÓN",Replacer.ReplaceText,{"ESTADO"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","POSICION","POSICIÓN",Replacer.ReplaceText,{"ORIGEN DE LA VACANTE"})
+				in
+				    #"Valor reemplazado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

@@ -1,0 +1,28 @@
+table Estructura
+	lineageTag: 8db8780d-6d33-441e-b27b-881ddf9738b6
+
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: fe116feb-d448-4084-af9f-76384c3edddb
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Estructura = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Admon.P/Estructura.xlsx"), null, true),
+				    Estructura_Sheet = Origen{[Item="Estructura",Kind="Sheet"]}[Data],
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Estructura_Sheet,{{"Column1", type text}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"Column1", "Dependencia"}}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas con nombre cambiado", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"DEPENDENCIA", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

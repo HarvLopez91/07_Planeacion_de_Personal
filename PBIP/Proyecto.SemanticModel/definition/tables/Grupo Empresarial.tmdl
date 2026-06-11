@@ -1,0 +1,28 @@
+table 'Grupo Empresarial'
+	lineageTag: d8be85e6-46d1-4908-b54c-3928fe57a97f
+
+	column 'Grupo Empresarial'
+		dataType: string
+		lineageTag: 4548998b-6bb8-4cc3-beb3-bd94dd837f8c
+		summarizeBy: none
+		sourceColumn: Grupo Empresarial
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Grupo Empresarial' = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcs5IzMlJzUtPLVKK1YlWcivNS0lMzjy8OU8BTcYnNTc5H8zySEzKLEnNUfDIB5LFYCH3otKCfIXg7Eql2FgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Grupo Empresarial" = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Grupo Empresarial", type text}})
+				in
+				    #"Tipo cambiado"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

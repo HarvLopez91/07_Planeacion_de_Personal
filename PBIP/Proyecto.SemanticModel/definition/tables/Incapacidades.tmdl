@@ -1,0 +1,138 @@
+table Incapacidades
+	lineageTag: 75f9f34d-44e4-497b-863b-e465cce72edf
+
+	column Identificación
+		dataType: int64
+		formatString: 0
+		lineageTag: f40b0566-15ed-40a8-95cf-a71c3c73103b
+		summarizeBy: sum
+		sourceColumn: Identificación
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fecha Desde'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5420a771-e9b7-41aa-a708-b6e7aa64f669
+		summarizeBy: none
+		sourceColumn: Fecha Desde
+
+		variation Variación
+			isDefault
+			relationship: f58c971e-7bad-483d-bf69-1147a2cd1f8e
+			defaultHierarchy: LocalDateTable_9c79b8dd-6f9a-47ec-86a5-f51043c76447.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Fecha Hasta'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2e096eba-9819-4355-b8c3-e1ec59ab26d3
+		summarizeBy: none
+		sourceColumn: Fecha Hasta
+
+		variation Variación
+			isDefault
+			relationship: a7fcc313-ed2f-4ad1-a5b2-37afd86705bc
+			defaultHierarchy: LocalDateTable_ae54bd05-3ac9-480e-b2b5-b4c665b7337d.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Diagnóstico
+		dataType: string
+		lineageTag: 6aef2540-ab62-4d9c-8ae3-d97ee202c897
+		summarizeBy: none
+		sourceColumn: Diagnóstico
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descripción Diagnóstico'
+		dataType: string
+		lineageTag: f2a34479-2876-472c-bb33-c2ac73d926ca
+		summarizeBy: none
+		sourceColumn: Descripción Diagnóstico
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre Concepto'
+		dataType: string
+		lineageTag: 98a5aae2-a6f4-4503-a00f-2cab94a2b97e
+		summarizeBy: none
+		sourceColumn: Nombre Concepto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Empresa
+		dataType: string
+		lineageTag: 2356d8bd-1b99-49e9-9935-b4ab6f4cde9a
+		summarizeBy: none
+		sourceColumn: Empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Codigo-1
+		dataType: string
+		lineageTag: f1d79497-4b18-4123-87aa-5aea53ecbc60
+		summarizeBy: none
+		sourceColumn: Codigo-1
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIE10 = LEFT(Incapacidades[Diagnóstico],3)
+		lineageTag: 71e10fbe-79e6-4541-b86f-9778d0426510
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column N_Contrato
+		dataType: string
+		lineageTag: 771ddb03-744e-48d2-a5a5-718735a1735b
+		summarizeBy: none
+		sourceColumn: N_Contrato
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prorroga
+		dataType: string
+		lineageTag: 68d432f8-b17b-49c7-891e-3269dfc9be30
+		summarizeBy: none
+		sourceColumn: Prorroga
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column11
+		dataType: string
+		lineageTag: a7a7dfa4-0e86-447b-8cdb-2dabd67da35a
+		summarizeBy: none
+		sourceColumn: Column11
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column12
+		dataType: string
+		lineageTag: 6e82f012-5f4e-4033-9c63-faf27b910818
+		summarizeBy: none
+		sourceColumn: Column12
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Incapacidades = m
+		mode: import
+		queryGroup: Incapacidades
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Medicina/Incapacidades_GL.xlsx"), null, true),
+				    Incapacidades_Sheet = Origen{[Item="Incapacidades",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Incapacidades_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Identificación", Int64.Type}, {"Fecha Desde", type date}, {"Fecha Hasta", type date}, {"Diagnóstico", type text}, {"Descripción Diagnóstico", type text}, {"Nombre Concepto", type text}, {"Empresa", type text}, {"Codigo-1", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

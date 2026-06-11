@@ -1,0 +1,55 @@
+table 'Días Laborales'
+	lineageTag: 651487d9-0f0e-4fe3-bc4b-6c18f5fcacb3
+
+	column Año
+		dataType: string
+		lineageTag: 3ed7dadf-3de3-434b-910b-b672db251e89
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: fe255250-87f8-47b2-ae7f-625ccbe33810
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Días Laborales (Lun-Viernes)'
+		dataType: int64
+		formatString: 0
+		lineageTag: ade6eb3a-d633-4db7-878c-b20a4c52033b
+		summarizeBy: sum
+		sourceColumn: Días Laborales (Lun-Viernes)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dias Lab solo fds Domingos'
+		dataType: int64
+		formatString: 0
+		lineageTag: 18452c94-280c-43da-9a4e-9bf11d769f84
+		summarizeBy: sum
+		sourceColumn: Dias Lab solo fds Domingos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Días Laborales' = m
+		mode: import
+		queryGroup: Dim_Calendario
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Admon.P/Feriados.xlsx"), null, true),
+				    #"Días Laborales_Sheet" = Origen{[Item="Días Laborales",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Días Laborales_Sheet", [PromoteAllScalars=true]),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Fcha inicio", "Fecha fin", "Dias mes"}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"Dias Lab solo fds Domingos", Int64.Type}, {"Días Laborales (Lun-Viernes)", Int64.Type}, {"Mes", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

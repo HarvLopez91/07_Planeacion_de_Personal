@@ -1,0 +1,41 @@
+table CIE-10
+	lineageTag: acd2c0c2-a98f-4c76-937b-d1a9b0ba8aed
+
+	column cie-10
+		dataType: string
+		lineageTag: ef9a7677-e57c-4104-b4a5-2ffdf6a8e95b
+		summarizeBy: none
+		sourceColumn: cie-10
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Concepto
+		dataType: string
+		lineageTag: 283cc8d3-df12-41fc-8657-d5ee29a67992
+		summarizeBy: none
+		sourceColumn: Concepto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CIE-10 = m
+		mode: import
+		queryGroup: Incapacidades
+		source =
+				let
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Medicina/Incapacidades_GL.xlsx"), null, true),
+				    #"CIE-10_Sheet" = Origen{[Item="CIE-10",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"CIE-10_Sheet", [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"cie-10", type text}, {"Concepto", type text}})
+				in
+				    #"Tipo cambiado"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

@@ -1,0 +1,25 @@
+table Años
+	lineageTag: c145b9e5-e100-4966-90d7-766e85a76359
+
+	column Año
+		dataType: string
+		lineageTag: 43ab8682-dcb2-4f6e-965a-9dea14904725
+		summarizeBy: none
+		sourceColumn: Año
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Años = m
+		mode: import
+		queryGroup: Dim_Calendario
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjIwMlaK1QEzTGAMUxjDDMYwhzEsYAxLKMPYQCk2FgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Año = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Año", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+
