@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados_Promedio"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados_Promedio",
+              "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "Tot_empleados_Promedio"
             }
           ]
@@ -272,7 +272,48 @@
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'b. Entre 1 y 5 Años'"
+                        "Value": "'b. Entre 1 y 2 Años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#884EA0'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'c. Entre 3 y 5 Años'"
                       }
                     }
                   }
@@ -313,7 +354,7 @@
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'d. Entre 10 y 19 Años'"
+                        "Value": "'e. Entre 10 y 19 Años'"
                       }
                     }
                   }
@@ -354,7 +395,7 @@
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'e. Entre 20 y 29 Años'"
+                        "Value": "'f. Entre 20 y 29 Años'"
                       }
                     }
                   }
@@ -395,7 +436,7 @@
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'c. Entre 6 y 9 Años'"
+                        "Value": "'d. Entre 6 y 9 Años'"
                       }
                     }
                   }
@@ -437,7 +478,7 @@
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'f. 30 o más años'"
+                        "Value": "'g. 30 o más años'"
                       }
                     }
                   }

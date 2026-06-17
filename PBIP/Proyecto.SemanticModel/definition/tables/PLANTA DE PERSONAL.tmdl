@@ -1,60 +1,6 @@
 table 'PLANTA DE PERSONAL'
 	lineageTag: 94e6a784-2a65-40b7-9821-0590a4c7873c
 
-	measure Tot_empleados = COUNT('PLANTA DE PERSONAL'[ID])
-		formatString: #,0
-		displayFolder: Medidas
-		lineageTag: 05f1012d-4a54-4484-b749-cd4547868ad5
-
-	measure Tot_Fem = CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[SEXO]="FEMENINO")
-		formatString: #,0
-		displayFolder: Medidas
-		lineageTag: 8bf4cf9f-57e6-4174-b7b6-28a44e5a4946
-
-	measure Tot_Mas = CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[SEXO]="MASCULINO")
-		formatString: #,0
-		displayFolder: Medidas
-		lineageTag: e6f59180-5de8-41c4-af58-9dff5efd321f
-
-	measure %FEM = [Tot_Fem]/[Tot_empleados]
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: Medidas
-		lineageTag: f2c0e2fa-4f4d-478e-85ea-40036892cc9f
-
-	measure %MASC = [Tot_Mas]/[Tot_empleados]
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: Medidas
-		lineageTag: 8c75d7cc-e951-4d43-8208-df49037ba3ea
-
-	measure Prom_Colaboradores = (CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="01.Enero")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="02.Febrero")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="03.Marzo")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="04.Abril")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="05.Mayo")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="06.Junio")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="07.Julio"))/7
-		formatString: 0
-		displayFolder: Medidas
-		lineageTag: eb863c24-1dd7-4be6-8d59-c383be197778
-
-	measure Tot_Colab-Sena = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]<>"CONTRATO APRENDIZAJE")
-		formatString: #,0
-		displayFolder: Medidas
-		lineageTag: 2ae49392-771e-430f-b059-cbecdf65b571
-
-	measure orden
-		lineageTag: c642fb03-a4c6-430e-b946-4ab950a1d9c4
-
-	measure Tot_Colab-Directos = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO FIJO")+CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO INDEFINIDO")
-		formatString: #,0
-		displayFolder: Medidas
-		lineageTag: 834eafb9-1b26-421d-90ac-707ccff9a8d4
-
-	measure Tot_empleados_Promedio =
-			
-			AVERAGEX(
-			    VALUES('PLANTA DE PERSONAL'[Mes]),
-			    CALCULATE( COUNT('PLANTA DE PERSONAL'[ID]) )
-			)
-		displayFolder: Medidas
-		lineageTag: 21a53e63-c392-4f68-aeff-f3eb941e720c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column 'GRUPO EMPRESA'
 		dataType: string
 		lineageTag: 4537a882-4bf9-4981-8ac1-8145b8f9e157
@@ -567,10 +513,28 @@ table 'PLANTA DE PERSONAL'
 				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"GRUPO EMPRESA", type text}, {"Nombre Empresa", type text}, {"DEPENDENCIA", type text}, {"AREA", type text}, {"DEPARTAMENTO", type text}, {"N_Contrato", type text}}),
 				    #"Consulta anexada" = Table.Combine({#"Tipo cambiado1", Consolidado2025}),
 				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Consulta anexada",{{"GENERACIÓN", "GENERACI&#211;N"}}),
-				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"MES", type text}}),
-				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Tipo cambiado2",{{"OBSERVACION", Text.Proper, type text}, {"EST_CIVIL", Text.Proper, type text}, {"TIPO_CONTR", Text.Proper, type text}})
+				    #"Generacion homologada" = Table.ReplaceValue(#"Columnas con nombre cambiado1","Millenials","Millennials",Replacer.ReplaceText,{"GENERACI&#211;N"}),
+				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Generacion homologada",{{"MES", type text}}),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Tipo cambiado2",{{"OBSERVACION", Text.Proper, type text}, {"EST_CIVIL", Text.Proper, type text}, {"TIPO_CONTR", Text.Proper, type text}}),
+				    #"Rango Antigüedad Recalculado" = Table.AddColumn(
+				        #"Poner En Mayúsculas Cada Palabra",
+				        "Rango Antigüedad Nuevo",
+				        each
+				            if [Rango Antigüedad] = "b. Entre 1 y 5 Años" then
+				                if try Number.From([Antigüedad]) >= 3 otherwise false
+				                then "c. Entre 3 y 5 Años"
+				                else "b. Entre 1 y 2 Años"
+				            else if [Rango Antigüedad] = "c. Entre 6 y 9 Años" then "d. Entre 6 y 9 Años"
+				            else if [Rango Antigüedad] = "d. Entre 10 y 19 Años" then "e. Entre 10 y 19 Años"
+				            else if [Rango Antigüedad] = "e. Entre 20 y 29 Años" then "f. Entre 20 y 29 Años"
+				            else if [Rango Antigüedad] = "f. 30 o más años" then "g. 30 o más años"
+				            else [Rango Antigüedad],
+				        type text
+				    ),
+				    #"Quitar Rango Original" = Table.RemoveColumns(#"Rango Antigüedad Recalculado", {"Rango Antigüedad"}),
+				    #"Renombrar Rango Antigüedad" = Table.RenameColumns(#"Quitar Rango Original", {{"Rango Antigüedad Nuevo", "Rango Antigüedad"}})
 				in
-				    #"Poner En Mayúsculas Cada Palabra"
+				    #"Renombrar Rango Antigüedad"
 
 	annotation PBI_ResultType = Exception
 
