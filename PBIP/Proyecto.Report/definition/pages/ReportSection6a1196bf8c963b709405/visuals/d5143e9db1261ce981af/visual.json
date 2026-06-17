@@ -3,7 +3,7 @@
   "name": "d5143e9db1261ce981af",
   "position": {
     "x": 527.14285714285722,
-    "y": 115.71428571428572,
+    "y": 168,
     "z": 7000,
     "height": 147.14285714285714,
     "width": 300,
@@ -72,7 +72,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -84,7 +84,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "Ppto Retiros"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_Retiros"
@@ -96,7 +96,7 @@
                   "Operator": 3
                 }
               },
-              "queryRef": "Divide(Ppto Retiros.Tot_Retiros, ScopedEval(Ppto Retiros.Tot_Retiros, []))",
+              "queryRef": "Divide(Tbl_Medidas.Tot_Retiros, ScopedEval(Tbl_Medidas.Tot_Retiros, []))",
               "nativeQueryRef": "%TG Tot_Retiros"
             }
           ]
@@ -111,7 +111,7 @@
                   "Measure": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "Ppto Retiros"
+                        "Entity": "Tbl_Medidas"
                       }
                     },
                     "Property": "Tot_Retiros"
@@ -123,7 +123,7 @@
                       "Measure": {
                         "Expression": {
                           "SourceRef": {
-                            "Entity": "Ppto Retiros"
+                            "Entity": "Tbl_Medidas"
                           }
                         },
                         "Property": "Tot_Retiros"
@@ -621,5 +621,83 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6d4c7afe67c0a0b9abd5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b700d3b832c975b00480",
+        "field": {
+          "GroupRef": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Clase de nómina (grupos) 2",
+            "GroupedColumns": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ppto Retiros"
+                    }
+                  },
+                  "Property": "Clase de nómina"
+                }
+              }
+            ]
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d0608b7801ae70e11013",
+        "field": {
+          "Arithmetic": {
+            "Left": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Tbl_Medidas"
+                  }
+                },
+                "Property": "Tot_Retiros"
+              }
+            },
+            "Right": {
+              "ScopedEval": {
+                "Expression": {
+                  "Measure": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Tbl_Medidas"
+                      }
+                    },
+                    "Property": "Tot_Retiros"
+                  }
+                },
+                "Scope": []
+              }
+            },
+            "Operator": 3
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

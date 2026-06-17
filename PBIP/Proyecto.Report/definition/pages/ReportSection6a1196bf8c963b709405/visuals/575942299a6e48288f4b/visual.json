@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "575942299a6e48288f4b",
+  "position": {
+    "x": 604,
+    "y": 84,
+    "z": 28000,
+    "height": 80,
+    "width": 224,
+    "tabOrder": 33000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Participacion_Retiros_Voluntarios"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Participacion_Retiros_Voluntarios",
+              "nativeQueryRef": "Participacion_Retiros_Voluntarios",
+              "displayName": "% Voluntarios"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

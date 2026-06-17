@@ -98,13 +98,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Ind_Retiros"
                 }
               },
-              "queryRef": "Planta Ppto.Ind_Retiros",
+              "queryRef": "Tbl_Medidas.Ind_Retiros",
               "nativeQueryRef": "Índice de Retiros",
               "displayName": "Índice de Retiros"
             }
@@ -408,7 +408,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Ind_Retiros"
           }
         }
       ],
@@ -613,7 +613,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Ind_Retiros"
           }
         }
       ],
@@ -727,7 +727,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Planta Ppto"
+                "Entity": "Tbl_Medidas"
               }
             },
             "Property": "Ind_Retiros"

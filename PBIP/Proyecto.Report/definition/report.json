@@ -39,6 +39,11 @@
       }
     ]
   },
+  "publicCustomVisuals": [
+    "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "htmlViewerD577C9FF21FB4883A1CE1335C340B541",
+    "textStylerD577C9FF21FB4883A1CE1335C340B54F"
+  ],
   "resourcePackages": [
     {
       "name": "SharedResources",

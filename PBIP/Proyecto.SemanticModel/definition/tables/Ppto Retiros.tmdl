@@ -1,21 +1,6 @@
 table 'Ppto Retiros'
 	lineageTag: 4cb79c02-0467-4208-aa1b-12dc1c4379ad
 
-	measure Tot_Retiros = COUNT('Ppto Retiros'[Mes])
-		formatString: #,0
-		displayFolder: Medidas
-		lineageTag: 6983b8e0-3730-40c6-a912-c88fa8d5318b
-
-	measure Índice_Rotación = ([Tot_ingresos]-[Tot_Retiros])/[Tot_Colab-Sena]
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: Medidas
-		lineageTag: d45d3c6e-7317-4600-83e1-3d93ad982865
-
-	measure Índice_Retiros = [Tot_Retiros]/[Tot_Colab-Sena]
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: Medidas
-		lineageTag: d7064b38-6c9b-46f9-b269-4757284bd27f
-
 	column 'Grupo empresarial'
 		dataType: string
 		lineageTag: 85cbccb3-4c03-49ef-bb87-cfabe2f3f181
@@ -227,6 +212,9 @@ table 'Ppto Retiros'
 					"VENCIMIENTO CONTRATO/DEFINITIVO",
 					"VENCIMIENTO DE CONTRATO/DEFINITIVO"},
 				"Fin Obra o Labor Definitivo",
+				'Ppto Retiros'[Detalle] IN {"PENSION POR INVALIDEZ",
+					"Pensión por Invalidez"},
+				"Pensión por Invalidez",
 				'Ppto Retiros'[Detalle] IN {"PERIODO DE PRUEBA"},
 				"Periodo de Prueba",
 				'Ppto Retiros'[Detalle] IN {"Terminación con Justa Causa",
@@ -267,7 +255,7 @@ table 'Ppto Retiros'
 				  ]
 				}
 
-		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Abandono Puesto de Trabajo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'Abandono Puesto de Trabajo'"}}],[{"Literal":{"Value":"'RENUNCIA TACITA'"}}]]}}},{"DisplayName":"Cesión de Contrato","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'CESION CONTRATO'"}}],[{"Literal":{"Value":"'CESION DE CONTRATO'"}}]]}}},{"DisplayName":"Fallecimiento","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'FALLECIMIENTO'"}}]]}}},{"DisplayName":"Fin Obra o Labor Definitivo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'FIN DE OBRA O LABOR/DEFINITIVO'"}}],[{"Literal":{"Value":"'FIN DE OBRA O LABOR/DEFITIVO'"}}],[{"Literal":{"Value":"'FIN DE OBRA/DEFINITIVO'"}}],[{"Literal":{"Value":"'Fin Obra o Labor Definitivo'"}}],[{"Literal":{"Value":"'FINDE OBRA O LABOR/DEFITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO  DE CONTRATO/DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO CONTRATO / DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO CONTRATO/DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO DE CONTRATO/DEFINITIVO'"}}]]}}},{"DisplayName":"Periodo de Prueba","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'PERIODO DE PRUEBA'"}}]]}}},{"DisplayName":"Terminación con Justa Causa","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'Terminación con Justa Causa'"}}],[{"Literal":{"Value":"'TERMINACION CONTRATO CON JUSTA CAUSA'"}}],[{"Literal":{"Value":"'TERMINACION DE CONTRATO CON JUSTA CAUSA'"}}]]}}},{"DisplayName":"Terminación Contrato Definitivo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'TERMINACION CONTRATO / DEFINITIVO'"}}],[{"Literal":{"Value":"'Terminación Contrato Definitivo'"}}]]}}},{"DisplayName":"Terminación de Contrato por Mutuo Acuerdo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'MUTUO ACUERDO'"}}],[{"Literal":{"Value":"'MUTUO ACUERDO DEFINITIVO'"}}],[{"Literal":{"Value":"'Terminación de Contrato por Mutuo Acuerdo'"}}]]}}},{"DisplayName":"Terminación sin Justa Causa","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'TERMINACION CONTRATO SIN JUSTA CAUSA'"}}],[{"Literal":{"Value":"'TERMINACION DE CONTRATO SIN JUSTA CAUSA'"}}],[{"Literal":{"Value":"'Terminación sin Justa Causa'"}}],[{"Literal":{"Value":"'TERMINACION UNILATERAL SIN JUSTA CAUSA'"}}]]}}}]}
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Abandono Puesto de Trabajo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'Abandono Puesto de Trabajo'"}}],[{"Literal":{"Value":"'RENUNCIA TACITA'"}}]]}}},{"DisplayName":"Cesión de Contrato","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'CESION CONTRATO'"}}],[{"Literal":{"Value":"'CESION DE CONTRATO'"}}]]}}},{"DisplayName":"Fallecimiento","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'FALLECIMIENTO'"}}]]}}},{"DisplayName":"Fin Obra o Labor Definitivo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'FIN DE OBRA O LABOR/DEFINITIVO'"}}],[{"Literal":{"Value":"'FIN DE OBRA O LABOR/DEFITIVO'"}}],[{"Literal":{"Value":"'FIN DE OBRA/DEFINITIVO'"}}],[{"Literal":{"Value":"'Fin Obra o Labor Definitivo'"}}],[{"Literal":{"Value":"'FINDE OBRA O LABOR/DEFITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO  DE CONTRATO/DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO CONTRATO / DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO CONTRATO/DEFINITIVO'"}}],[{"Literal":{"Value":"'VENCIMIENTO DE CONTRATO/DEFINITIVO'"}}]]}}},{"DisplayName":"Pensión por Invalidez","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'PENSION POR INVALIDEZ'"}}],[{"Literal":{"Value":"'Pensión por Invalidez'"}}]]}}},{"DisplayName":"Periodo de Prueba","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'PERIODO DE PRUEBA'"}}]]}}},{"DisplayName":"Terminación con Justa Causa","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'Terminación con Justa Causa'"}}],[{"Literal":{"Value":"'TERMINACION CONTRATO CON JUSTA CAUSA'"}}],[{"Literal":{"Value":"'TERMINACION DE CONTRATO CON JUSTA CAUSA'"}}]]}}},{"DisplayName":"Terminación Contrato Definitivo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'TERMINACION CONTRATO / DEFINITIVO'"}}],[{"Literal":{"Value":"'Terminación Contrato Definitivo'"}}]]}}},{"DisplayName":"Terminación de Contrato por Mutuo Acuerdo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'MUTUO ACUERDO'"}}],[{"Literal":{"Value":"'MUTUO ACUERDO DEFINITIVO'"}}],[{"Literal":{"Value":"'Terminación de Contrato por Mutuo Acuerdo'"}}]]}}},{"DisplayName":"Terminación sin Justa Causa","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Detalle"}}],"Values":[[{"Literal":{"Value":"'TERMINACION CONTRATO SIN JUSTA CAUSA'"}}],[{"Literal":{"Value":"'TERMINACION DE CONTRATO SIN JUSTA CAUSA'"}}],[{"Literal":{"Value":"'Terminación sin Justa Causa'"}}],[{"Literal":{"Value":"'TERMINACION UNILATERAL SIN JUSTA CAUSA'"}}]]}}}]}
 
 		annotation SummarizationSetBy = Automatic
 
@@ -335,7 +323,8 @@ table 'Ppto Retiros'
 				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO FIJO",
 					"Fijo"},
 				"Fijo",
-				'Ppto Retiros'[Clase de nómina] IN {"Indefinido",
+				'Ppto Retiros'[Clase de nómina] IN {"EN PROPIEDAD",
+					"Indefinido",
 					"INDEFINIDO EN PROPIEDAD"},
 				"Indefinido",
 				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO APRENDIZAJE",
@@ -365,7 +354,7 @@ table 'Ppto Retiros'
 				  ]
 				}
 
-		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Fijo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO FIJO'"}}],[{"Literal":{"Value":"'Fijo'"}}]]}}},{"DisplayName":"Indefinido","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'Indefinido'"}}],[{"Literal":{"Value":"'INDEFINIDO EN PROPIEDAD'"}}]]}}},{"DisplayName":"Temporal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO APRENDIZAJE'"}}],[{"Literal":{"Value":"'PRACTICANTES UNIVERSITARIOS'"}}],[{"Literal":{"Value":"'Temporal'"}}],[{"Literal":{"Value":"'TEMPORAL EN PROPIEDAD'"}}]]}}}]}
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Fijo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO FIJO'"}}],[{"Literal":{"Value":"'Fijo'"}}]]}}},{"DisplayName":"Indefinido","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'EN PROPIEDAD'"}}],[{"Literal":{"Value":"'Indefinido'"}}],[{"Literal":{"Value":"'INDEFINIDO EN PROPIEDAD'"}}]]}}},{"DisplayName":"Temporal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO APRENDIZAJE'"}}],[{"Literal":{"Value":"'PRACTICANTES UNIVERSITARIOS'"}}],[{"Literal":{"Value":"'Temporal'"}}],[{"Literal":{"Value":"'TEMPORAL EN PROPIEDAD'"}}]]}}}]}
 
 		annotation SummarizationSetBy = Automatic
 
@@ -401,6 +390,7 @@ table 'Ppto Retiros'
 				ISBLANK('Ppto Retiros'[Clase de nómina]),
 				"(En blanco)",
 				'Ppto Retiros'[Clase de nómina] IN {"CONTRATO FIJO",
+					"EN PROPIEDAD",
 					"Fijo",
 					"Indefinido",
 					"INDEFINIDO EN PROPIEDAD"},
@@ -432,7 +422,7 @@ table 'Ppto Retiros'
 				  ]
 				}
 
-		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Directos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO FIJO'"}}],[{"Literal":{"Value":"'Fijo'"}}],[{"Literal":{"Value":"'Indefinido'"}}],[{"Literal":{"Value":"'INDEFINIDO EN PROPIEDAD'"}}]]}}},{"DisplayName":"Temporal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO APRENDIZAJE'"}}],[{"Literal":{"Value":"'PRACTICANTES UNIVERSITARIOS'"}}],[{"Literal":{"Value":"'Temporal'"}}],[{"Literal":{"Value":"'TEMPORAL EN PROPIEDAD'"}}]]}}}]}
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"Ppto Retiros"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Directos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO FIJO'"}}],[{"Literal":{"Value":"'EN PROPIEDAD'"}}],[{"Literal":{"Value":"'Fijo'"}}],[{"Literal":{"Value":"'Indefinido'"}}],[{"Literal":{"Value":"'INDEFINIDO EN PROPIEDAD'"}}]]}}},{"DisplayName":"Temporal","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"Clase de nómina"}}],"Values":[[{"Literal":{"Value":"'CONTRATO APRENDIZAJE'"}}],[{"Literal":{"Value":"'PRACTICANTES UNIVERSITARIOS'"}}],[{"Literal":{"Value":"'Temporal'"}}],[{"Literal":{"Value":"'TEMPORAL EN PROPIEDAD'"}}]]}}}]}
 
 		annotation SummarizationSetBy = Automatic
 
@@ -441,6 +431,24 @@ table 'Ppto Retiros'
 		lineageTag: ca43da69-852b-4810-bfa9-585c1e35ab2c
 		summarizeBy: none
 		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de retiro' =
+			VAR _m = UPPER ( TRIM ( 'Ppto Retiros'[Detalle] ) )
+			RETURN
+			IF (
+			    _m IN {
+			        "ABANDONO PUESTO DE TRABAJO",
+			        "RENUNCIA TACITA",
+			        "RENUNCIA VOLUNTARIA"
+			    },
+			    "Voluntario",
+			    IF ( _m = "", "Sin clasificar", "Involuntario" )
+			)
+		dataType: string
+		lineageTag: d64ab5ff-5a59-4b44-8971-ebd0af2cce8e
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 

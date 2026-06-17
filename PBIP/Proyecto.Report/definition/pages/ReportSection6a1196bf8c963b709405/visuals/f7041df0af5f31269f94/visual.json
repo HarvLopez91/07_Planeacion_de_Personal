@@ -117,13 +117,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Retiros"
                 }
               },
-              "queryRef": "RETIROS.Tot_Retiros",
+              "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Retiros",
               "displayName": "Retiros"
             }
@@ -137,7 +137,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Ppto Retiros"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_Retiros"

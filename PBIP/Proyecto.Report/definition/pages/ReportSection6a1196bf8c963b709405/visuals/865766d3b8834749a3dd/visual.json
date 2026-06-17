@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "1d50da9c0ced06c58d37",
+  "name": "865766d3b8834749a3dd",
   "position": {
     "x": 6.0975609756097562,
-    "y": 612.19512195121945,
-    "z": 11000,
-    "height": 282,
+    "y": 897,
+    "z": 11500,
+    "height": 97,
     "width": 258.53658536585368,
-    "tabOrder": 8000
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,16 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Empresas"
+                      "Entity": "Ppto Retiros"
                     }
                   },
-                  "Property": "Empresas"
+                  "Property": "Tipo de retiro"
                 }
               },
-              "queryRef": "Empresas.Empresas",
-              "nativeQueryRef": "Empresas",
+              "queryRef": "Ppto Retiros.Tipo de retiro",
+              "nativeQueryRef": "Tipo de retiro",
               "active": true,
-              "displayName": "Empresa"
+              "displayName": "Tipo de retiro"
             }
           ]
         }
@@ -144,87 +144,6 @@
         }
       ]
     },
-    "syncGroup": {
-      "groupName": "Empresa",
-      "fieldChanges": true,
-      "filterChanges": true
-    },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "Filterbd2eb816e4cb0f5652a6",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Empresas"
-              }
-            },
-            "Property": "Empresas"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "e",
-              "Entity": "Empresas",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "e"
-                              }
-                            },
-                            "Property": "Empresas"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      }
-    ]
   }
 }

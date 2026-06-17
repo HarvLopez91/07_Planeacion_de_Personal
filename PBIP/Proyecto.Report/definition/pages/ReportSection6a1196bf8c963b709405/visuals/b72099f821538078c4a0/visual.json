@@ -54,33 +54,28 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "PromediodeTotal-Sena"
                 }
               },
-              "queryRef": "Planta Ppto.PromediodeTotal-Sena",
+              "queryRef": "Tbl_Medidas.PromediodeTotal-Sena",
               "nativeQueryRef": "Colaboradores*",
               "displayName": "Colaboradores*"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Planta Ppto"
-                        }
-                      },
-                      "Property": "Retiros"
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Function": 0
+                  "Property": "Retiros_Segun_Tipo"
                 }
               },
-              "queryRef": "Sum(Planta Ppto.Retiros)",
+              "queryRef": "Tbl_Medidas.Retiros_Segun_Tipo",
               "nativeQueryRef": "Retiros*",
               "displayName": "Retiros*"
             },
@@ -89,13 +84,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Ind_Retiros"
                 }
               },
-              "queryRef": "Planta Ppto.Ind_Retiros",
+              "queryRef": "Tbl_Medidas.Ind_Retiros",
               "nativeQueryRef": "Ind_Retiros"
             },
             {
@@ -106,10 +101,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Rotacion_Anual_Acumulada"
+                  "Property": "Rotacion_Segun_Tipo"
                 }
               },
-              "queryRef": "Tbl_Medidas.Rotacion_Anual_Acumulada",
+              "queryRef": "Tbl_Medidas.Rotacion_Segun_Tipo",
               "nativeQueryRef": "Rotacion_Anual_Acumulada"
             }
           ]
@@ -455,7 +450,7 @@
             }
           },
           "selector": {
-            "metadata": "Sum(Planta Ppto.Retiros)"
+            "metadata": "Tbl_Medidas.Retiros_Segun_Tipo"
           }
         },
         {
@@ -476,7 +471,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Ind_Retiros"
           }
         },
         {
@@ -504,7 +499,7 @@
             }
           },
           "selector": {
-            "metadata": "Ppto Retiros.Tot_Retiros"
+            "metadata": "Tbl_Medidas.Tot_Retiros"
           }
         },
         {
@@ -539,7 +534,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.PromediodeTotal-Sena"
+            "metadata": "Tbl_Medidas.PromediodeTotal-Sena"
           }
         },
         {
@@ -567,7 +562,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Rotacion_Anual_Acumulada"
+            "metadata": "Tbl_Medidas.Rotacion_Segun_Tipo"
           }
         }
       ],

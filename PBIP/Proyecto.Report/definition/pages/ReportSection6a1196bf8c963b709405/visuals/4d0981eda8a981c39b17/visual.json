@@ -63,7 +63,7 @@
               },
               "queryRef": "Ppto Retiros.Dependencia",
               "nativeQueryRef": "Dependencia",
-              "active": true
+              "active": false
             }
           ]
         },
@@ -74,13 +74,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Retiros"
                 }
               },
-              "queryRef": "RETIROS.Tot_Retiros",
+              "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Retiros",
               "displayName": "Retiros"
             }
@@ -138,20 +138,7 @@
             "isPinned": true
           }
         ],
-        "root": {
-          "children": [
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "'Challenger'"
-                  }
-                }
-              ],
-              "isToggled": true
-            }
-          ]
-        }
+        "root": {}
       }
     ],
     "objects": {

@@ -17,11 +17,12 @@ table Tbl_Medidas
 			    1   -- si no hay nada seleccionado, no filtra
 			)
 		formatString: 0
+		displayFolder: 00 Utilidades
 		lineageTag: dc1af8d7-cda5-4ba6-a898-40ded687c8a6
 
 	measure Cantidad_Retiros = SUM('Planta Ppto'[Retiros])
 		formatString: 0
-		displayFolder: Planta Ppto
+		displayFolder: 03 Ingresos y Retiros
 		lineageTag: bb62b9dd-c0c5-4a90-8442-4cd341dc6035
 
 	measure Rotacion_Anual_Acumulada =
@@ -32,8 +33,1015 @@ table Tbl_Medidas
 			    0
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: Planta Ppto
+		displayFolder: 03 Ingresos y Retiros
 		lineageTag: 8d79992a-eb85-4e9f-a0e6-dfd3d639cd62
+
+	measure Tot_empleados = COUNT('PLANTA DE PERSONAL'[ID])
+		formatString: #,0
+		displayFolder: 01 HeadCount HC
+		lineageTag: 05f1012d-4a54-4484-b749-cd4547868ad5
+
+	measure Tot_Fem = CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[SEXO]="FEMENINO")
+		formatString: #,0
+		displayFolder: 01 HeadCount HC
+		lineageTag: 8bf4cf9f-57e6-4174-b7b6-28a44e5a4946
+
+	measure Tot_Mas = CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[SEXO]="MASCULINO")
+		formatString: #,0
+		displayFolder: 01 HeadCount HC
+		lineageTag: e6f59180-5de8-41c4-af58-9dff5efd321f
+
+	measure %FEM = [Tot_Fem]/[Tot_empleados]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 01 HeadCount HC
+		lineageTag: f2c0e2fa-4f4d-478e-85ea-40036892cc9f
+
+	measure %MASC = [Tot_Mas]/[Tot_empleados]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 01 HeadCount HC
+		lineageTag: 8c75d7cc-e951-4d43-8208-df49037ba3ea
+
+	measure Prom_Colaboradores = (CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="01.Enero")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="02.Febrero")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="03.Marzo")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="04.Abril")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="05.Mayo")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="06.Junio")+CALCULATE([Tot_empleados],'PLANTA DE PERSONAL'[MES]="07.Julio"))/7
+		formatString: 0
+		displayFolder: 01 HeadCount HC
+		lineageTag: eb863c24-1dd7-4be6-8d59-c383be197778
+
+	measure Tot_Colab-Sena = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]<>"CONTRATO APRENDIZAJE")
+		formatString: #,0
+		displayFolder: 01 HeadCount HC
+		lineageTag: 2ae49392-771e-430f-b059-cbecdf65b571
+
+	measure orden
+		displayFolder: 01 HeadCount HC
+		lineageTag: c642fb03-a4c6-430e-b946-4ab950a1d9c4
+
+	measure Tot_Colab-Directos = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO FIJO")+CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO INDEFINIDO")
+		formatString: #,0
+		displayFolder: 01 HeadCount HC
+		lineageTag: 834eafb9-1b26-421d-90ac-707ccff9a8d4
+
+	measure Tot_empleados_Promedio =
+			
+			AVERAGEX(
+			    VALUES('PLANTA DE PERSONAL'[Mes]),
+			    CALCULATE( COUNT('PLANTA DE PERSONAL'[ID]) )
+			)
+		formatString: 0.00
+		displayFolder: 01 HeadCount HC
+		lineageTag: 21a53e63-c392-4f68-aeff-f3eb941e720c
+
+	measure Generacion_Top =
+			CALCULATE(
+			    FIRSTNONBLANK('PLANTA DE PERSONAL'[GENERACIÓN], 1),
+			    TOPN(1, VALUES('PLANTA DE PERSONAL'[GENERACIÓN]), [Tot_empleados_Promedio], DESC)
+			)
+		displayFolder: 01 HeadCount HC - Demografico
+		lineageTag: a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890
+
+	measure Prom_Edad =
+			IFERROR(
+			    AVERAGEX('PLANTA DE PERSONAL', VALUE('PLANTA DE PERSONAL'[EDAD])),
+			    BLANK()
+			)
+		displayFolder: 01 HeadCount HC - Demografico
+		lineageTag: b2c3d4e5-f6a7-8901-b2c3-d4e5f6a78901
+
+	measure Rango_Antiguedad_Moda =
+			CALCULATE(
+			    FIRSTNONBLANK('PLANTA DE PERSONAL'[Rango Antigüedad], 1),
+			    TOPN(1, VALUES('PLANTA DE PERSONAL'[Rango Antigüedad]), [Tot_empleados_Promedio], DESC)
+			)
+		displayFolder: 01 HeadCount HC - Demografico
+		lineageTag: c3d4e5f6-a7b8-9012-c3d4-e5f6a7b89012
+
+	measure HTML_P1_Header =
+			"<div style='width:2100px;height:134px;position:relative;background:#F7F9FC;font-family:Outfit,Poppins,Segoe UI,Arial,sans-serif;color:#0B1C35;overflow:hidden;'>" &
+			"<div style='position:absolute;left:0;top:0;width:2100px;height:76px;background:#0B1C35;color:#fff;padding:17px 40px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;'>" &
+			"<div><div style='font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:#F7931E;font-weight:800;'>Dashboard Corporativo - Grupo LEMCO</div><div style='font-size:25px;line-height:29px;font-weight:850;margin-top:4px;'>Demogr" & UNICHAR(225) & "fico (Promedio)</div></div>" &
+			"<div style='font-size:10px;color:#D8E4F2;text-transform:uppercase;letter-spacing:1.4px;'>Planeaci" & UNICHAR(243) & "n de Personal | People Analytics</div></div>" &
+			"<div style='position:absolute;left:40px;top:84px;width:2020px;height:42px;background:#FFFFFF;border:1px solid #DCE5F2;border-radius:14px;box-sizing:border-box;box-shadow:0 10px 28px rgba(11,28,53,.07);overflow:hidden;'>" &
+			"<div style='position:absolute;left:0;top:0;width:7px;height:42px;background:#F7931E;'></div>" &
+			"<div style='position:absolute;left:22px;top:9px;width:210px;'><div style='font-size:10px;font-weight:900;color:#0B1C35;text-transform:uppercase;letter-spacing:1px;'>Contexto de an" & UNICHAR(225) & "lisis</div><div style='font-size:8.5px;color:#6B7D93;margin-top:3px;'>Filtros activos para lectura demogr" & UNICHAR(225) & "fica.</div></div>" &
+			"<div style='position:absolute;left:260px;top:6px;width:210px;height:30px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;box-sizing:border-box;padding:5px 9px;'><div style='font-size:8px;color:#1A3059;font-weight:800;'>A" & UNICHAR(241) & "o</div></div>" &
+			"<div style='position:absolute;left:472px;top:6px;width:470px;height:30px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;box-sizing:border-box;padding:5px 9px;'><div style='font-size:8px;color:#1A3059;font-weight:800;'>Empresa</div></div>" &
+			"<div style='position:absolute;left:944px;top:6px;width:354px;height:30px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;box-sizing:border-box;padding:5px 9px;'><div style='font-size:8px;color:#1A3059;font-weight:800;'>Tipo contrato</div></div>" &
+			"</div></div>"
+		displayFolder: 11 HTML Content
+		lineageTag: d4e5f6a7-b8c9-0123-d4e5-f6a7b8c90123
+
+	measure HTML_P1_Footer =
+			VAR _fecha = FORMAT(NOW(), "DD/MM/YYYY HH:MM")
+			RETURN
+			"<div style='width:100%;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;background:#FFFFFF;border:1px solid #DCE5F2;border-radius:9px;font-family:Outfit,Poppins,Segoe UI,Arial,sans-serif;'>" &
+			"<span style='color:#53657D;font-size:9.5px;letter-spacing:.3px;'>Fuente: PLANTA DE PERSONAL " & UNICHAR(183) & " Promedio mensual " & UNICHAR(183) & " Ultima actualizaci" & UNICHAR(243) & "n: " & _fecha & "</span>" &
+			"<span style='color:#F7931E;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;'>Propuesta visual basada en Inicio Corporativo</span></div>"
+		displayFolder: 11 HTML Content
+		lineageTag: e5f6a7b8-c9d0-1234-e5f6-a7b8c9d01234
+
+	measure HTML_P1_KPIs =
+			VAR _colab = FORMAT([Tot_empleados_Promedio], "#,##0")
+			VAR _edad = IF(ISBLANK([Prom_Edad]), "-", FORMAT([Prom_Edad], "0") & " a" & UNICHAR(241) & "os")
+			VAR _pFem = FORMAT([%FEM], "0%")
+			VAR _pMasc = FORMAT([%MASC], "0%")
+			VAR _wFem = FORMAT(MIN([%FEM], 1) * 160, "0")
+			VAR _wMasc = FORMAT(MIN([%MASC], 1) * 160, "0")
+			VAR _antig = IF(ISBLANK([Rango_Antiguedad_Moda]), "-", [Rango_Antiguedad_Moda])
+			VAR _gen = IF(ISBLANK([Generacion_Top]), "-", [Generacion_Top])
+			VAR _card = "flex:1;background:#F7F9FC;border-radius:8px;padding:13px 15px;display:flex;flex-direction:column;justify-content:space-between;border-left:4px solid "
+			VAR _lbl = "color:#53657D;font-size:9px;text-transform:uppercase;letter-spacing:1.2px"
+			VAR _val = "color:#1B487F;font-size:26px;font-weight:850;line-height:1"
+			RETURN
+			"<div style='width:100%;height:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #DCE5F2;border-radius:14px;box-shadow:0 10px 28px rgba(11,28,53,.07);font-family:Outfit,Poppins,Segoe UI,Arial,sans-serif;display:flex;align-items:stretch;gap:12px;padding:14px 16px;'>" &
+			"<div style='width:230px;padding:13px 8px 13px 16px;box-sizing:border-box;border-left:7px solid #F7931E;'><div style='font-size:10px;color:#0B1C35;font-weight:900;text-transform:uppercase;letter-spacing:1px;'>Indicadores clave</div><div style='font-size:9.5px;color:#6B7D93;line-height:13px;margin-top:6px;'>Lectura ejecutiva del promedio demogr" & UNICHAR(225) & "fico filtrado.</div></div>" &
+			"<div style='" & _card & "#F7931E;'><span style='" & _lbl & "'>Colaboradores</span><span style='" & _val & "'>" & _colab & "</span><span style='color:#F7931E;font-size:9px;font-weight:700'>Promedio mensual</span></div>" &
+			"<div style='" & _card & "#1B487F;'><span style='" & _lbl & "'>Edad Promedio</span><span style='" & _val & "'>" & _edad & "</span><span style='color:#53657D;font-size:9px'>Basado en campo EDAD</span></div>" &
+			"<div style='" & _card & "#F7931E;flex:1.35;'><span style='" & _lbl & "'>G" & UNICHAR(233) & "nero</span><svg width='160' height='12' style='margin:8px 0'><rect width='" & _wFem & "' height='12' rx='3' fill='#F7931E'/><rect x='" & _wFem & "' width='" & _wMasc & "' height='12' rx='3' fill='#1B487F'/></svg><div style='display:flex;gap:14px'><span style='color:#F7931E;font-size:10px;font-weight:800'>F " & _pFem & "</span><span style='color:#1B487F;font-size:10px;font-weight:800'>M " & _pMasc & "</span></div></div>" &
+			"<div style='" & _card & "#1A3059;'><span style='" & _lbl & "'>Antig" & UNICHAR(252) & "edad</span><span style='color:#1B487F;font-size:17px;font-weight:850;line-height:1.25'>" & _antig & "</span><span style='color:#53657D;font-size:9px'>Rango predominante</span></div>" &
+			"<div style='flex:1;background:#0B1C35;color:#fff;border-radius:8px;padding:13px 15px;display:flex;flex-direction:column;justify-content:space-between;'><span style='color:#B8C8DE;font-size:9px;text-transform:uppercase;letter-spacing:1.2px'>Generaci" & UNICHAR(243) & "n</span><span style='color:#FFFFFF;font-size:17px;font-weight:850;line-height:1.25'>" & _gen & "</span><span style='color:#F7931E;font-size:9px;font-weight:700'>Mayor presencia en planta</span></div></div>"
+		displayFolder: 11 HTML Content
+		lineageTag: f6a7b8c9-d0e1-2345-f6a7-b8c9d0e12345
+
+	measure Tot_Accidentes = COUNT(ACCIDENTALIDAD[Empresa])
+		formatString: 0
+		displayFolder: 05 SST
+		lineageTag: 98a962f4-1ba9-41b5-9182-ed15b18cc43f
+
+	measure ConteoP = DISTINCTCOUNT(AUSENTISMOS[Identificación])
+		formatString: #,0
+		displayFolder: 04 Ausentismos
+		lineageTag: eab70eb0-5fb4-4436-ab11-545488f74f52
+
+	measure CMujeres = CALCULATE([ConteoP],AUSENTISMOS[Genero]="Femenino") /[ConteoP]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 04 Ausentismos
+		lineageTag: 37ce37c7-5e29-4609-a2ba-cc8b3d3b490f
+
+	measure CHombres = CALCULATE([ConteoP],AUSENTISMOS[Genero]="Masculino") /[ConteoP]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 04 Ausentismos
+		lineageTag: da41866a-0da4-4db0-8402-705d2cd6f7bc
+
+	measure %AusM = ```
+			[ConteoP]/[Prom_Colaboradores] 
+			```
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 04 Ausentismos
+		lineageTag: 87599fdb-0d20-4473-b1d7-ae6fe6eb0098
+
+	measure DIAS_AUSENTISMO = SUM(AUSENTISMOS[Cantidad Real])
+		formatString: 0
+		displayFolder: 04 Ausentismos
+		lineageTag: ae071dfa-605b-4963-aad7-920dc941cb75
+
+	measure 'Tasa Ausentismo' = [Ausentismo]/(Tbl_Medidas[Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 04 Ausentismos
+		lineageTag: 4183ab2e-709b-4ffa-b4bb-fe03c15169da
+
+	measure Ausentismo = IF(ISBLANK(SUM(AUSENTISMOS[Cantidad Real])),0,(SUM(AUSENTISMOS[Cantidad Real])))
+		formatString: #,0
+		displayFolder: 04 Ausentismos
+		lineageTag: aebad52b-682c-4f73-b745-28c2518a9e07
+
+	measure 'Tasa Ausentismo_EL' = [Ausentismo]/([Tot_Colab-Directos]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 04 Ausentismos
+		lineageTag: 06678ef6-6f2e-43c1-b0e6-ff44ac28669b
+
+	measure Tasa_Ausent_Anual = [Ausentismo]/(([Prom_Colab])*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 04 Ausentismos
+		lineageTag: f4a052c4-b861-4e0e-9c9e-a8a7e2340bb3
+
+	measure Ind_Rot = (SUM('Planta Ppto'[Ingresos])-SUM('Planta Ppto'[Retiros]))/sum('Planta Ppto'[Total-Sena])
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 19650ba2-b55d-4486-b176-fac7bc1c9a97
+
+		changedProperty = IsHidden
+
+	measure Resumen = SUM('Planta Ppto'[Total])
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 4cd9619f-5262-441f-8f78-8c1cce817be9
+
+		changedProperty = IsHidden
+
+	measure tot_Año_prom =
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			RETURN
+			DIVIDE(
+			    CALCULATE(
+			        [Resumen],
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    ),
+			    CALCULATE(
+			        DISTINCTCOUNT ( 'Planta Ppto'[Mes Num] ),
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 5f68c1c5-9b09-4ea7-ae36-ac0712edba0c
+
+		changedProperty = IsHidden
+
+	measure Var_Ppto =
+			
+			VAR Ppto2025 =
+			    CALCULATE(
+			        [tot_Año_prom],
+			        'Planta Ppto'[Ppto/Real] = "Ppto",
+			        'Planta Ppto'[Año] = "2025"
+			    )
+			VAR Ppto2024 =
+			    CALCULATE(
+			        [tot_Año_prom],
+			        'Planta Ppto'[Ppto/Real] = "Ppto",
+			        'Planta Ppto'[Año] = "2024"
+			    )
+			RETURN
+			DIVIDE( Ppto2025, Ppto2024 ) - 1
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: eb629bb9-c65d-42b3-ad0f-b3f59547e6b4
+
+		changedProperty = IsHidden
+
+	measure Var_Real =
+			( CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real",'Planta Ppto'[Año]="2025")/
+			CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real",'Planta Ppto'[Año]="2024"))-1
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: c87924ea-9a2d-40d9-acd1-3f11a6210689
+
+		changedProperty = IsHidden
+
+	measure Tot_Indef = SUM('Planta Ppto'[Indefinidos])
+		formatString: #,0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: cc6613f5-63a4-4990-9ddb-1036fe164982
+
+		changedProperty = IsHidden
+
+	measure tot_Año_Indef_Prom =
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			RETURN
+			DIVIDE(
+			    CALCULATE(
+			        [Tot_Indef],
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    ),
+			    CALCULATE(
+			        DISTINCTCOUNT ( 'Planta Ppto'[Mes Num] ),
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    )
+			)
+		formatString: #,0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 5596a837-44d4-4cc4-84e8-61fc597d691b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Tot_Fijo = SUM('Planta Ppto'[Fijos])
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 44ba6019-39f7-4227-827c-3ad221f3bc3a
+
+		changedProperty = IsHidden
+
+	measure tot_Año_Fijo_Prom =
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			RETURN
+			DIVIDE(
+			    CALCULATE(
+			        [Tot_Fijo],
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    ),
+			    CALCULATE(
+			        DISTINCTCOUNT ( 'Planta Ppto'[Mes Num] ),
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 31fc3985-4b8c-4db0-8495-7604fa20f8c1
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tot_Temp = SUM('Planta Ppto'[Temporales])
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 3978f09c-250b-4bef-a1cc-c725741f1f93
+
+		changedProperty = IsHidden
+
+	measure tot_Año_Temp_prom =
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			RETURN
+			DIVIDE(
+			    CALCULATE(
+			        [Tot_Temp],
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    ),
+			    CALCULATE(
+			        DISTINCTCOUNT ( 'Planta Ppto'[Mes Num] ),
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: d96ff88b-9ffd-4170-99dd-199ce5873478
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tot_Sena = SUM('Planta Ppto'[Sena])
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 3abfcbdc-0417-41b3-90c7-fabd7b8f9d5e
+
+		changedProperty = IsHidden
+
+	measure tot_Año_Sena_prom =
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			RETURN
+			DIVIDE(
+			    CALCULATE(
+			        [Tot_Sena],
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    ),
+			    CALCULATE(
+			        DISTINCTCOUNT ( 'Planta Ppto'[Mes Num] ),
+			        FILTER(
+			            ALL ( 'Planta Ppto'[Mes Num] ),
+			            'Planta Ppto'[Mes Num] <= MesSel
+			        )
+			    )
+			)
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: b55d3010-15a6-415a-bf67-34ce4fad828b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure KPI_PPTO = IF([Var_Ppto]>0,UNICHAR(129093),UNICHAR(129095))
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 7755b6fe-a6d7-43af-b4ba-0e07cc45bef5
+
+	measure KPI_REAL = IF([Var_Real]>0,UNICHAR(129093),UNICHAR(129095))
+		displayFolder: 02 Ppto vs Real
+		lineageTag: c6b06e10-5a17-4c58-bfba-dd8fbe9c0daa
+
+	measure Ind_Retiros = SUM('Planta Ppto'[Retiros])/SUM('Planta Ppto'[Total-Sena])
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 725f6b0b-d70f-4ace-8f20-6772c3ab0771
+
+	measure Efic = SUM('Planta Ppto'[Gasto Personal])/SUM('Planta Ppto'[Ventas (MM)])
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 69cefef4-b72b-45be-9704-9899959d97d3
+
+	measure KPI_EFI = IF([Efic]>[%Efiprom],UNICHAR(129093),UNICHAR(129095))
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 8ae1e81b-f515-4171-88bb-d10e0af2a47d
+
+	measure %Efiprom = SUM('Planta Ppto'[Ppto Gasto Personal])/SUM('Planta Ppto'[Ppto Ventas (MM)])
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: f26b1d68-3e6f-4765-ab96-747382975db4
+
+	measure Var_GL = [Efic]/[%Efiprom]
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 18e0fa81-c218-4bcc-a26c-0b8472fa0851
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tot_Año = [Tot_Fijo]+[Tot_Indef]+[Tot_Temp]+[Tot_Sena]
+		formatString: #,0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: ed016dde-f503-47cc-8015-922e7e8dcf1e
+
+	measure Efic_Emp = SUM('Planta Ppto'[Ventas (MM)])/[Tot_Colab-Sena]
+		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+		displayFolder: 02 Ppto vs Real
+		lineageTag: b9286b75-d034-42df-a854-8efb2a6f9eb8
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prom_Colab = CALCULATE(AVERAGE('Planta Ppto'[Total]),'Planta Ppto'[Ppto/Real]="REAL")
+		displayFolder: 02 Ppto vs Real
+		lineageTag: d6b7e095-8ae8-4eaa-8149-abc607bfa3dc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Prom_Colab_Directo = CALCULATE(AVERAGE('Planta Ppto'[Indefinidos]),'Planta Ppto'[Ppto/Real]="REAL")+CALCULATE(AVERAGE('Planta Ppto'[Fijos]),'Planta Ppto'[Ppto/Real]="REAL")
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 64d4532d-0ba5-49cd-abeb-6ffc4e5a3a7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Cump_GL = SUM('Planta Ppto'[Gasto Personal])/SUM('Planta Ppto'[Ppto Gasto Personal])
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 83bb187f-5554-47b2-b369-5e438a085377
+
+	measure Prom_Anual_Real =
+			
+			AVERAGEX(
+			    VALUES ( 'Planta Ppto'[Mes Num] ),
+			    CALCULATE(
+			        SUM ( 'Planta Ppto'[Total] ),
+			        'Planta Ppto'[Ppto/Real] = "Real"
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 2e80dc1b-e3af-41f2-98a5-6d64e66b110c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Prom_Anual_Real_Linea =
+			
+			IF(
+			    SELECTEDVALUE('Planta Ppto'[Ppto/Real]) = "Real",
+			    [Prom_Anual_Real],
+			    BLANK()
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 4b842184-799a-4e58-8616-3735afb8bfa5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Prom_Anual_Real_Indef =
+			
+			AVERAGEX(
+			    VALUES ( 'Planta Ppto'[Mes Num] ),
+			    CALCULATE(
+			        SUM ( 'Planta Ppto'[Indefinidos] ),
+			        'Planta Ppto'[Ppto/Real] = "Real"
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 5de4c5e3-c916-4b84-be98-8fb39c159d2d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Prom_Anual_Real_Sena =
+			
+			AVERAGEX(
+			    VALUES ( 'Planta Ppto'[Mes Num] ),
+			    CALCULATE(
+			        SUM ( 'Planta Ppto'[Sena] ),
+			        'Planta Ppto'[Ppto/Real] = "Real"
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: aa54cfbc-0fde-46a5-863d-481dd9d078a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Prom_Anual_Real_Temp =
+			
+			AVERAGEX(
+			    VALUES ( 'Planta Ppto'[Mes Num] ),
+			    CALCULATE(
+			        SUM ( 'Planta Ppto'[Temporales] ),
+			        'Planta Ppto'[Ppto/Real] = "Real"
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 0df6bb92-1d04-418f-a02d-6fa92448faa3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Prom_Anual_Real_Fijo =
+			
+			AVERAGEX(
+			    VALUES ( 'Planta Ppto'[Mes Num] ),
+			    CALCULATE(
+			        SUM ( 'Planta Ppto'[Fijos] ),
+			        'Planta Ppto'[Ppto/Real] = "Real"
+			    )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: fbba9119-b3b1-452f-8025-d4dfb9e5bbdc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tot_Año_Indef_PromEmpresas_FIX =
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			
+			-- Promedio YTD consolidado (suma de empresas seleccionadas / #meses YTD)
+			VAR NumYTD_Total =
+			    CALCULATE(
+			        [Tot_Indef],
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR DenYTD_Total =
+			    CALCULATE(
+			        DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR PromYTD_Total = DIVIDE( NumYTD_Total, DenYTD_Total )
+			
+			-- Promedio YTD por empresa (para cuando estás en el nivel Empresa)
+			VAR PromYTD_PorEmpresa =
+			    AVERAGEX(
+			        VALUES ( 'Planta Ppto'[Empresa] ),
+			        VAR NumYTD_Emp =
+			            CALCULATE(
+			                [Tot_Indef],
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        VAR DenYTD_Emp =
+			            CALCULATE(
+			                DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        RETURN DIVIDE( NumYTD_Emp, DenYTD_Emp )
+			    )
+			
+			RETURN
+			IF(
+			    ISINSCOPE('Planta Ppto'[Empresa]),   -- Si estoy en fila Empresa
+			    PromYTD_PorEmpresa,                  -- muestro promedio por empresa
+			    PromYTD_Total                        -- si es total, muestro consolidado
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: df1e2e0b-fc91-493e-a82f-989ef99867ed
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tot_Año_Fijo_PromEmpresas_FIX = ```
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			
+			VAR NumYTD_Total =
+			    CALCULATE(
+			        [Tot_Fijo],
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR DenYTD_Total =
+			    CALCULATE(
+			        DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR PromYTD_Total = DIVIDE( NumYTD_Total, DenYTD_Total )
+			
+			VAR PromYTD_PorEmpresa =
+			    AVERAGEX(
+			        VALUES ( 'Planta Ppto'[Empresa] ),
+			        VAR NumYTD =
+			            CALCULATE(
+			                [Tot_Fijo],
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        VAR DenYTD =
+			            CALCULATE(
+			                DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        RETURN DIVIDE( NumYTD, DenYTD )
+			    )
+			
+			RETURN
+			IF(
+			    ISINSCOPE('Planta Ppto'[Empresa]),
+			    PromYTD_PorEmpresa,
+			    PromYTD_Total
+			)
+			
+			```
+		displayFolder: 02 Ppto vs Real
+		lineageTag: e9190bab-e36f-4b75-a611-32e4bca03d83
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tot_Año_Sena_PromEmpresas_FIX = ```
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			
+			VAR NumYTD_Total =
+			    CALCULATE(
+			        [Tot_Sena],
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR DenYTD_Total =
+			    CALCULATE(
+			        DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR PromYTD_Total = DIVIDE( NumYTD_Total, DenYTD_Total )
+			
+			VAR PromYTD_PorEmpresa =
+			    AVERAGEX(
+			        VALUES ( 'Planta Ppto'[Empresa] ),
+			        VAR NumYTD =
+			            CALCULATE(
+			                [Tot_Sena],
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        VAR DenYTD =
+			            CALCULATE(
+			                DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        RETURN DIVIDE( NumYTD, DenYTD )
+			    )
+			
+			RETURN
+			IF(
+			    ISINSCOPE('Planta Ppto'[Empresa]),
+			    PromYTD_PorEmpresa,
+			    PromYTD_Total
+			)
+			
+			```
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 29336c6c-82e0-4a74-94e8-26522a15125d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tot_Año_Temp_PromEmpresas_FIX =
+			
+			VAR MesSel = MAX ( 'Planta Ppto'[Mes Num] )
+			
+			VAR NumYTD_Total =
+			    CALCULATE(
+			        [Tot_Temp],
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR DenYTD_Total =
+			    CALCULATE(
+			        DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			        FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			    )
+			
+			VAR PromYTD_Total = DIVIDE( NumYTD_Total, DenYTD_Total )
+			
+			VAR PromYTD_PorEmpresa =
+			    AVERAGEX(
+			        VALUES ( 'Planta Ppto'[Empresa] ),
+			        VAR NumYTD =
+			            CALCULATE(
+			                [Tot_Temp],
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        VAR DenYTD =
+			            CALCULATE(
+			                DISTINCTCOUNT('Planta Ppto'[Mes Num]),
+			                FILTER( ALL('Planta Ppto'[Mes Num]), 'Planta Ppto'[Mes Num] <= MesSel )
+			            )
+			        RETURN DIVIDE( NumYTD, DenYTD )
+			    )
+			
+			RETURN
+			IF(
+			    ISINSCOPE('Planta Ppto'[Empresa]),
+			    PromYTD_PorEmpresa,
+			    PromYTD_Total
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 12e304b4-e6f0-47bc-8f34-3210e8679dd8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total-Sena YTD Año Seleccionado' =
+			
+			VAR AnioSel = SELECTEDVALUE('DimPeriodoYM'[Año])
+			VAR MesMax = MAX('DimPeriodoYM'[Numero])
+			RETURN
+			IF(
+			    OR(ISBLANK(AnioSel), ISBLANK(MesMax)),
+			    BLANK(),
+			    CALCULATE(
+			        [SumadeTotal-Sena],
+			        'DimPeriodoYM'[Año] = AnioSel,
+			        FILTER(ALL('DimPeriodoYM'[Numero]), 'DimPeriodoYM'[Numero] <= MesMax)
+			    )
+			)
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 0c692bb4-192f-44d8-980e-8f4f516bb564
+
+	measure SumadeTotal-Sena = SUM('Planta Ppto'[Total-Sena])
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 1a509881-f952-4bd8-91a5-6d4d158220ce
+
+	measure PromediodeTotal-Sena =
+			
+			AVERAGEX (
+			    VALUES ( DimPeriodoYM[IndexAnioMes] ),
+			    CALCULATE ( [SumadeTotal-Sena] )
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 31d3f86c-eb09-4667-872f-48d9ca92d68b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Ingresos_Calidad = ```
+			
+			CALCULATE(
+			    COUNT('Ppto Ingresos'[Empresa]),
+			    'Ppto Ingresos'[Descripción Estado Cargo] IN {"Contrato Fijo", "Contrato Indefinido", "INDEFINIDO EN PROPIEDAD", "INDEFINIDO", "FIJO"}	
+			)
+			```
+		formatString: #,0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 78006e0f-3147-4412-83d9-d197fcc57a81
+
+	measure Ret_Calidad = CALCULATE(COUNT('Ppto Ingresos'[Empresa]), 'Ppto Ingresos'[Retiros_Calidad]=1,'Ppto Ingresos'[Descripción Estado Cargo]<>"TEMPORAL")
+		formatString: #,0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 770cba31-3345-471c-9f04-b0fa5eb8783d
+
+	measure Ind_Calidad = ([Ingresos_Calidad]-[Ret_Calidad])/[Ingresos_Calidad]
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 941fe65b-f763-4977-88c4-cdcbca701908
+
+	measure Tot_ingresos = COUNTA('Ppto Ingresos'[Grupo Empresarial])
+		formatString: #,0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: c9f1fd59-233c-4060-8b80-94c88588022b
+
+	measure Ing_Calidad_2025 = (CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="09.Septiembre",Mes[Meses]="10.Octubre"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="11.Noviembre",Mes[Meses]="12.Diciembre"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="01.Enero",Mes[Meses]="02.Febrero"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="03.Marzo",Mes[Meses]="04.Abril"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="05.Mayo",Mes[Meses]="06.Junio"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="07.Julio",Mes[Meses]="08.Agosto")))
+		formatString: 0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 3d8a8c28-8040-4a50-a142-cc2e794204c8
+
+	measure ret_Calidad_2025 = (CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="09.Septiembre",Mes[Meses]="10.Octubre"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="11.Noviembre",Mes[Meses]="12.Diciembre"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="01.Enero",Mes[Meses]="02.Febrero"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="03.Marzo",Mes[Meses]="04.Abril"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="05.Mayo",Mes[Meses]="06.Junio"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="07.Julio",Mes[Meses]="08.Agosto")))
+		formatString: 0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 845040ac-39d0-4fd4-b9cc-cd798bc32e86
+
+	measure Ind_Calidad_2025 = ([Ing_Calidad_2025]-[ret_Calidad_2025])/[Ing_Calidad_2025]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: bf26566b-bf15-4526-8e88-01323d1d1102
+
+	measure Tot_Retiros = COUNT('Ppto Retiros'[Mes])
+		formatString: #,0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 6983b8e0-3730-40c6-a912-c88fa8d5318b
+
+	measure Índice_Rotación = ([Tot_ingresos]-[Tot_Retiros])/[Tot_Colab-Sena]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: d45d3c6e-7317-4600-83e1-3d93ad982865
+
+	measure Índice_Retiros = [Tot_Retiros]/[Tot_Colab-Sena]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: d7064b38-6c9b-46f9-b269-4757284bd27f
+
+	measure Solicitudes = COUNT('Selección Challenger'[Empresa])
+		formatString: 0
+		isHidden
+		displayFolder: 06 Seleccion
+		lineageTag: e33e5468-7cb0-4bc3-8393-36bc24436637
+
+		changedProperty = IsHidden
+
+	measure Solicitudes2024 = CALCULATE([Solicitudes],'Selección Challenger'[Año_Met]=2024)
+		formatString: 0
+		isHidden
+		displayFolder: 06 Seleccion
+		lineageTag: 9caa1a39-13b4-4a92-b76c-2aedda91c951
+
+		changedProperty = IsHidden
+
+	measure Solicitud = COUNT('Selección Grupo Lemco'[Empresa])
+		formatString: #,0
+		displayFolder: 06 Seleccion
+		lineageTag: 48d57ea4-82b4-41b7-a873-e50bc46b1219
+
+	measure Ind_opor = IF([Solicitud]=0,"N/A",IF((CALCULATE([Solicitud],'Selección Grupo Lemco'[¿Se cierra sobre los tiempos?]="SI")/[Solicitud])=0,0,CALCULATE([Solicitud],'Selección Grupo Lemco'[¿Se cierra sobre los tiempos?]="SI")/[Solicitud]))
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 06 Seleccion
+		lineageTag: d523d3f8-4d18-4087-9819-1705ac00d439
+
+	measure %Cumplimiento = IF(SUM('SENA UNIDADES'[Días Cotizados])/SUM('SENA UNIDADES'[Días Meta])>=1,1,0)
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: 07 SENA
+		lineageTag: 69b56781-a804-4487-9127-b5bda0c02882
+
+	measure M_Frecuencia = (SUM('SST GENERAL'[#Accidentes])/SUM('SST GENERAL'[Empleados]))*100
+		formatString: 0.00
+		displayFolder: 05 SST
+		lineageTag: cc62cece-8ca0-4518-9aa3-336c5934655f
+
+	measure M_Severidad = ((SUM('SST GENERAL'[Dias de Ausentismo])+SUM('SST GENERAL'[Días Cargados]))/SUM('SST GENERAL'[Empleados]))*100
+		formatString: 0.00
+		displayFolder: 05 SST
+		lineageTag: f33a3b4a-dead-4583-9c62-07edc69141a6
+
+	measure MSector = AVERAGE('SST GENERAL'[Indice Accidentalidad del Sector])
+		formatString: 0.00
+		displayFolder: 05 SST
+		lineageTag: 9b7e9e03-2a2c-4d83-8ca4-87d324a0125d
+
+	measure Tasa_Acc = (SUM('SST GENERAL'[#Accidentes])/CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real"))*100
+		formatString: 0.00
+		displayFolder: 05 SST
+		lineageTag: f7c3f9b9-b65f-4f2c-a484-5746fa241616
+
+	measure 'Dias Ausentismo Acc.Lab' = SUM('SST GENERAL'[Dias de Ausentismo])+SUM('SST GENERAL'[Días Cargados])
+		formatString: 0
+		displayFolder: 05 SST
+		lineageTag: 279e8b21-15e4-486e-99ab-21631b93c2f1
+
+	measure 'HTML Demografico Promedio Shell' =
+			VAR _colab = IF(ISBLANK([Tot_empleados_Promedio]), "-", FORMAT([Tot_empleados_Promedio], "#,##0"))
+			VAR _fem = IF(ISBLANK([%FEM]), "-", FORMAT([%FEM], "0%"))
+			VAR _masc = IF(ISBLANK([%MASC]), "-", FORMAT([%MASC], "0%"))
+			VAR _edad = IF(ISBLANK([Prom_Edad]), "-", FORMAT([Prom_Edad], "0") & " a&ntilde;os")
+			VAR _gen = IF(ISBLANK([Generacion_Top]), "-", [Generacion_Top])
+			VAR _antig = IF(ISBLANK([Rango_Antiguedad_Moda]), "-", [Rango_Antiguedad_Moda])
+			RETURN
+			"<div style='width:2100px;height:900px;box-sizing:border-box;position:relative;background:#F7F9FC;font-family:Outfit,Segoe UI,Arial,sans-serif;color:#0B1C35;overflow:hidden;'>" &
+			"<div style='height:96px;background:#0B1C35;color:#fff;padding:22px 42px;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;'>" &
+			"<div><div style='font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:#F7931E;font-weight:800;'>Dashboard Corporativo &middot; Grupo LEMCO</div><div style='font-size:30px;line-height:34px;font-weight:850;margin-top:5px;'>Demogr&aacute;fico (Promedio)</div></div>" &
+			"<div style='text-align:right;font-size:11px;color:#B8C8DE;line-height:16px;'><b style='color:#fff;'>Planeaci&oacute;n de Personal</b><br/>Lectura ejecutiva de planta y composici&oacute;n demogr&aacute;fica</div></div>" &
+			"<div style='position:absolute;left:40px;top:116px;width:2020px;height:86px;background:#fff;border:1px solid #DCE5F2;border-radius:14px;box-shadow:0 10px 28px rgba(11,28,53,.07);overflow:hidden;'>" &
+			"<div style='position:absolute;left:0;top:0;width:7px;height:86px;background:#F7931E;'></div><div style='position:absolute;left:24px;top:20px;width:230px;'><div style='font-size:11px;font-weight:900;color:#0B1C35;text-transform:uppercase;letter-spacing:1px;'>Contexto de an&aacute;lisis</div><div style='font-size:9.5px;color:#6B7D93;line-height:13px;margin-top:5px;'>Filtros nativos conservados para explorar la poblaci&oacute;n.</div></div>" &
+			"<div style='position:absolute;left:260px;top:14px;width:180px;height:58px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;padding:7px 9px;box-sizing:border-box;'><div style='font-size:9px;color:#1A3059;font-weight:800;'>A&ntilde;o</div></div>" &
+			"<div style='position:absolute;left:460px;top:14px;width:180px;height:58px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;padding:7px 9px;box-sizing:border-box;'><div style='font-size:9px;color:#1A3059;font-weight:800;'>Mes</div></div>" &
+			"<div style='position:absolute;left:660px;top:14px;width:200px;height:58px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;padding:7px 9px;box-sizing:border-box;'><div style='font-size:9px;color:#1A3059;font-weight:800;'>Grupo empresa</div></div>" &
+			"<div style='position:absolute;left:880px;top:14px;width:420px;height:58px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;padding:7px 9px;box-sizing:border-box;'><div style='font-size:9px;color:#1A3059;font-weight:800;'>Empresa</div></div>" &
+			"<div style='position:absolute;left:1320px;top:14px;width:360px;height:58px;background:#F7F9FC;border:1px solid #E6EEF5;border-radius:8px;padding:7px 9px;box-sizing:border-box;'><div style='font-size:9px;color:#1A3059;font-weight:800;'>Tipo contrato</div></div></div>" &
+			"<div style='position:absolute;left:40px;top:220px;width:2020px;height:112px;display:flex;gap:14px;'>" &
+			"<div style='width:270px;background:#fff;border:1px solid #DCE5F2;border-radius:12px;border-left:7px solid #F7931E;padding:20px 22px;box-sizing:border-box;box-shadow:0 10px 28px rgba(11,28,53,.06);'><div style='font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;'>Indicadores clave</div><div style='font-size:10px;color:#6B7D93;line-height:14px;margin-top:6px;'>Promedio mensual bajo el contexto filtrado.</div></div>" &
+			"<div style='flex:1;background:#fff;border:1px solid #DCE5F2;border-left:5px solid #F7931E;border-radius:10px;padding:16px 18px;box-sizing:border-box;'><div style='font-size:10px;color:#53657D;'>Colaboradores</div><div style='font-size:32px;font-weight:850;color:#1B487F;margin-top:5px;'>" & _colab & "</div></div>" &
+			"<div style='flex:1;background:#fff;border:1px solid #DCE5F2;border-left:5px solid #1B487F;border-radius:10px;padding:16px 18px;box-sizing:border-box;'><div style='font-size:10px;color:#53657D;'>Edad promedio</div><div style='font-size:28px;font-weight:850;color:#1B487F;margin-top:6px;'>" & _edad & "</div></div>" &
+			"<div style='flex:1;background:#fff;border:1px solid #DCE5F2;border-left:5px solid #F7931E;border-radius:10px;padding:16px 18px;box-sizing:border-box;'><div style='font-size:10px;color:#53657D;'>Distribuci&oacute;n g&eacute;nero</div><div style='font-size:24px;font-weight:850;color:#1B487F;margin-top:8px;'>F " & _fem & " <span style='color:#F7931E;'>/</span> M " & _masc & "</div></div>" &
+			"<div style='flex:1.2;background:#0B1C35;color:#fff;border:1px solid #0B1C35;border-radius:10px;padding:16px 18px;box-sizing:border-box;'><div style='font-size:10px;color:#B8C8DE;'>Generaci&oacute;n principal</div><div style='font-size:20px;font-weight:850;line-height:24px;margin-top:8px;'>" & _gen & "</div><div style='font-size:9px;color:#F7931E;margin-top:6px;'>Antig&uuml;edad: " & _antig & "</div></div></div>" &
+			"<div style='position:absolute;left:40px;top:352px;width:2020px;height:492px;display:grid;grid-template-columns:460px 360px 360px 360px 400px;grid-template-rows:230px 240px;gap:18px;'>" &
+			"<div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;'></div><div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;'></div><div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;'></div><div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;'></div><div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;'></div>" &
+			"<div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;'></div><div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;grid-column:2 / span 2;'></div><div style='background:#fff;border:1px solid #DCE5F2;border-radius:12px;grid-column:4 / span 2;'></div></div>" &
+			"<div style='position:absolute;left:40px;top:856px;width:2020px;height:34px;background:#fff;border:1px solid #DCE5F2;border-radius:9px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;'><span style='font-size:10px;color:#53657D;'>Fuente: PLANTA DE PERSONAL &middot; Visuales nativos conservados</span><span style='font-size:9px;color:#F7931E;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;'>Redise&ntilde;o LEMCO con HTML Content</span></div></div>"
+		formatString: Text
+		displayFolder: 11 HTML Content
+		lineageTag: d3c0a110-2026-0611-a001-demograficohtml
+
+	measure Retiros_Voluntarios =
+			CALCULATE (
+			    [Tot_Retiros],
+			    KEEPFILTERS ( 'Ppto Retiros'[Tipo de retiro] = "Voluntario" )
+			)
+		formatString: #,0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 4c5855f7-f2c5-40b5-8c38-ae9593d3805f
+
+	measure Retiros_Involuntarios =
+			CALCULATE (
+			    [Tot_Retiros],
+			    KEEPFILTERS ( 'Ppto Retiros'[Tipo de retiro] = "Involuntario" )
+			)
+		formatString: #,0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 17ec4f45-276c-45f6-ba0a-cee3d2086507
+
+	measure Participacion_Retiros_Voluntarios =
+			DIVIDE (
+			    [Retiros_Voluntarios],
+			    [Tot_Retiros],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 760b2503-5294-4100-acbe-20b0f7f3df36
+
+	measure Rotacion_Voluntaria =
+			DIVIDE (
+			    [Retiros_Voluntarios],
+			    [PromediodeTotal-Sena],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: bc3382bb-6e60-4d82-893d-0b3afd3a25de
+
+	measure Rotacion_Involuntaria =
+			DIVIDE (
+			    [Retiros_Involuntarios],
+			    [PromediodeTotal-Sena],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: eee27829-9a44-45dc-8c21-3b5f4e0ef640
+
+	measure Cantidad_Retiros_Voluntarios = SUM ( 'Planta Ppto'[Retiros Voluntarios] )
+		formatString: 0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: e5397722-05e2-4fe8-9caf-4cd87623ece5
+
+	measure Cantidad_Retiros_Involuntarios = [Cantidad_Retiros] - [Cantidad_Retiros_Voluntarios]
+		formatString: 0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 6ddca869-3c41-45fb-8892-e39ab7dbe0aa
+
+	measure Participacion_Retiros_Voluntarios_Agregada =
+			DIVIDE (
+			    [Cantidad_Retiros_Voluntarios],
+			    [Cantidad_Retiros],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 226d107a-042f-452d-a3c5-fb6280f728a7
+
+	measure Rotacion_Voluntaria_Anual_Acumulada =
+			DIVIDE (
+			    [Cantidad_Retiros_Voluntarios],
+			    [PromediodeTotal-Sena],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: b00930f2-cbe1-4463-82fb-c621b9e2448e
+
+	measure Rotacion_Involuntaria_Anual_Acumulada =
+			DIVIDE (
+			    [Cantidad_Retiros_Involuntarios],
+			    [PromediodeTotal-Sena],
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: 673428f2-6c06-4627-a29b-81260884d917
+
+	measure Retiros_Segun_Tipo =
+			VAR TipoSeleccionado = SELECTEDVALUE ( 'Ppto Retiros'[Tipo de retiro], "Total" )
+			RETURN
+			SWITCH (
+			    TipoSeleccionado,
+			    "Voluntario", [Cantidad_Retiros_Voluntarios],
+			    "Involuntario", [Cantidad_Retiros_Involuntarios],
+			    [Cantidad_Retiros]
+			)
+		formatString: 0
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: f1a2b3c4-d5e6-7f8a-9b0c-d1e2f3a4b5c6
+
+	measure Rotacion_Segun_Tipo =
+			VAR TipoSeleccionado = SELECTEDVALUE ( 'Ppto Retiros'[Tipo de retiro], "Total" )
+			RETURN
+			SWITCH (
+			    TipoSeleccionado,
+			    "Voluntario", [Rotacion_Voluntaria_Anual_Acumulada],
+			    "Involuntario", [Rotacion_Involuntaria_Anual_Acumulada],
+			    [Rotacion_Anual_Acumulada]
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: e2d3c4b5-a6f7-8e9d-0c1b-2a3f4e5d6c7b
 
 	partition Tbl_Medidas = m
 		mode: import

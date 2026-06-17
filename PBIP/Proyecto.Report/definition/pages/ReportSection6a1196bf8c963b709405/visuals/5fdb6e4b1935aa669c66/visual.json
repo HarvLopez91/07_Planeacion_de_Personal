@@ -69,13 +69,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Retiros"
                 }
               },
-              "queryRef": "Ppto Retiros.Tot_Retiros",
+              "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Tot_Retiros"
             }
           ]
@@ -88,7 +88,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Ppto Retiros"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_Retiros"
@@ -806,5 +806,63 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a028361e3c0721ca6d8b",
+        "field": {
+          "GroupRef": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Detalle (grupos)",
+            "GroupedColumns": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ppto Retiros"
+                    }
+                  },
+                  "Property": "Detalle"
+                }
+              }
+            ]
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "587e25e6785825907bae",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a506432eb91036d002b0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_Retiros"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

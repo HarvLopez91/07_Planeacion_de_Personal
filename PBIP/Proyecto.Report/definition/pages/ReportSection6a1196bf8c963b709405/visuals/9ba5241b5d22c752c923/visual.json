@@ -3,9 +3,9 @@
   "name": "9ba5241b5d22c752c923",
   "position": {
     "x": 265,
-    "y": 128.33333333333334,
+    "y": 168,
     "z": 16000,
-    "height": 270,
+    "height": 230,
     "width": 261.66666666666669,
     "tabOrder": 12000
   },
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Retiros"
                 }
               },
-              "queryRef": "Ppto Retiros.Tot_Retiros",
+              "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Tot_Retiros"
             }
           ]
@@ -55,19 +55,18 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Ppto Retiros"
+                    "Entity": "DimPeriodoYM"
                   }
                 },
-                "Property": "Tot_Retiros"
+                "Property": "Año"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": true
+        ]
       }
     },
     "objects": {

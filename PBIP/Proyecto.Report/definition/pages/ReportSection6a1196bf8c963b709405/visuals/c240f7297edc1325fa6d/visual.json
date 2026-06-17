@@ -26,7 +26,7 @@
                   "Property": "Área"
                 }
               },
-              "queryRef": "RETIROS.Área",
+              "queryRef": "Ppto Retiros.Área",
               "nativeQueryRef": "Área"
             },
             {
@@ -48,15 +48,30 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Retiros"
                 }
               },
-              "queryRef": "RETIROS.Tot_Retiros",
+              "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Retiros",
               "displayName": "Retiros"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Retiros_Voluntarios"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Retiros_Voluntarios",
+              "nativeQueryRef": "Retiros_Voluntarios",
+              "displayName": "Voluntarios"
             }
           ]
         }
@@ -68,7 +83,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Ppto Retiros"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_Retiros"
@@ -258,7 +273,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Ind_Retiros"
           }
         },
         {
@@ -309,23 +324,37 @@
           "selector": {
             "metadata": "RETIROS.Tot_Retiros"
           }
-        }
-      ],
-      "columnWidth": [
+        },
         {
           "properties": {
-            "value": {
+            "styleHeader": {
               "expr": {
                 "Literal": {
-                  "Value": "131D"
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "RETIROS.Área"
+            "metadata": "Tbl_Medidas.Tot_Retiros"
           }
-        },
+        }
+      ],
+      "columnWidth": [
         {
           "properties": {
             "value": {
@@ -352,6 +381,48 @@
           },
           "selector": {
             "metadata": "RETIROS.Tot_Retiros"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "54D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Tot_Retiros"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "131D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Ppto Retiros.Área"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Retiros_Voluntarios"
           }
         }
       ]
@@ -429,48 +500,6 @@
         },
         "type": "Categorical",
         "howCreated": "User"
-      },
-      {
-        "name": "5240fc1d070ad8eea0a0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Ppto Retiros"
-              }
-            },
-            "Property": "Área"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "e055c15fbcd224133120",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Ppto Retiros"
-              }
-            },
-            "Property": "Cargo"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "de3b3f40a5bcc80b1d22",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Ppto Retiros"
-              }
-            },
-            "Property": "Tot_Retiros"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
