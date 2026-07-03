@@ -207,16 +207,24 @@ Esa Spec vive en `Specs/` una vez se adopte esa carpeta (sección 14); mientras 
 
 ## 9. Política de archivos `.md`
 
+Reglas base:
+
+- **`Docs/`** = documentación oficial, vigente y **versionada** en Git.
+- **`Outputs/`** = evidencia y diagnósticos de trabajo, **local y no versionada** (excluida por `.gitignore`; solo se versiona con aprobación explícita, ver sección 11).
+- **`Specs/`** = planes aprobables antes de implementar, únicamente cuando esa carpeta se adopte (sección 14); hoy no existe y no se crea sin necesidad real.
+- **Runbooks y ADRs pertenecen a `Docs/`** — no son una categoría aparte de esta política: `Docs/RUNBOOK.md` y `Docs/decisions/` ya son documentación oficial y siguen la misma regla que cualquier otro documento de `Docs/`.
+
 | Tipo | Dónde vive | Características |
 |---|---|---|
-| **Documentación oficial** | `Docs/` | Vigente, verificable, mantenida. Pasa la regla de `Docs/README.md` |
-| **Diagnósticos** | `Outputs/documentation/` | Snapshot de un análisis puntual. Con fecha, no se actualiza — se reemplaza por uno nuevo |
+| **Documentación oficial** (incl. runbooks y ADRs) | `Docs/` | Vigente, verificable, versionada, mantenida. `Docs/RUNBOOK.md` y `Docs/decisions/` son documentación oficial, no una categoría distinta. Pasa la regla de `Docs/README.md` |
+| **Diagnósticos y evidencia operativa** | `Outputs/` (raíz) | Local, no versionada. Snapshot de un análisis o validación puntual, con fecha en el nombre. No se actualiza — se reemplaza por uno nuevo. Sigue la convención `NN_` de la sección 10 |
 | **Specs** *(al adoptarse `Specs/`)* | `Specs/` | Plan aprobado antes de implementar, incl. specs de migración estructural; una vez implementado, su contenido relevante pasa a `Docs/` o al ADR correspondiente |
-| **Evidencias** | `Outputs/` | Resultado de una validación o prueba manual, con fecha |
-| **Resultados de prompts / registros de sesión** | `Outputs/` | Registros como `precommit_*.md`, `estado_pre_push_*.md` |
-| **Análisis temporales** | `Outputs/` | Cualquier `.md` generado para responder una pregunta puntual que no se vuelve referencia permanente |
+| **Resultados de prompts / registros de sesión** | `Outputs/` (raíz) | Registros de una sesión de trabajo con IA, con fecha |
+| **Análisis temporales** | `Outputs/` (raíz) | Cualquier `.md` generado para responder una pregunta puntual que no se vuelve referencia permanente |
 
-Regla simple: **si el archivo describe el estado actual del proyecto de forma permanente → `Docs/`. Si describe un evento, un análisis puntual o un plan → `Outputs/` (o `Specs/` una vez se adopte).**
+**Ubicación de diagnósticos dentro de `Outputs/` (actualizado 2026-07-03):** los diagnósticos operativos (preflight Git, diagnóstico de codebase y similares) se guardan en la **raíz de `Outputs/`**, siguiendo la convención `NN_` de la sección 10 — así quedaron `Outputs/00_2026-07-03_preflight_git.md` y `Outputs/01_2026-07-03_diagnostico_codebase.md`. `Outputs/documentation/` queda como ubicación **opcional e histórica**: solo se retoma si en el futuro se decide agrupar un volumen alto de documentos de diagnóstico documental en una subcarpeta dedicada. No es obligatoria ni es la ubicación por defecto actual.
+
+Regla simple: **si el archivo describe el estado actual del proyecto de forma permanente y versionada → `Docs/`. Si describe un evento, un análisis puntual, evidencia de trabajo o un plan → `Outputs/` (o `Specs/` una vez se adopte).**
 
 ---
 
@@ -227,11 +235,24 @@ Regla simple: **si el archivo describe el estado actual del proyecto de forma pe
 | Carpetas de dominio (nivel workspace) | `NN_Nombre_Con_Guion_Bajo` | `07_Planeación_de_Personal` |
 | Carpetas internas del proyecto (estándar corporativo) | Nombre directo, sin numeración | `Docs/`, `Inputs/`, `Outputs/`, `Specs/` |
 | Documentación oficial en `Docs/` | `MAYUSCULAS_CON_GUION_BAJO.md`, en inglés técnico | `DATA_MODEL.md`, `SECURITY_AND_PRIVACY.md` |
-| Archivos en `Outputs/` | `descripcion_corta_en_minusculas_AAAA-MM-DD.md` | `ajuste_antiguedad_demografico_promedio_2026-06-17.md` |
+| **Archivos en `Outputs/` (convención oficial vigente)** | `NN_AAAA-MM-DD_descripcion_corta.md` | `00_2026-07-03_preflight_git.md`, `01_2026-07-03_diagnostico_codebase.md` |
+| Archivos en `Outputs/` (convención alternativa/histórica) | `descripcion_corta_en_minusculas_AAAA-MM-DD.md` | `ajuste_antiguedad_demografico_promedio_2026-06-17.md` — válida para registros puntuales que no forman parte de una línea de trabajo numerada |
 | Specs *(al adoptarse)* | `spec_descripcion_corta_AAAA-MM-DD.md` | `spec_migracion_estructura_carpetas_2026-07-03.md` |
 | Scripts *(al adoptarse)* | `verbo_objeto.ps1` / `.py`, minúsculas con guion bajo | `validar_encoding_tmdl.ps1` |
 | Assets *(al adoptarse)* | minúsculas con guion, sin espacios | `logo-lemco-horizontal.png` |
 | Tablas y medidas TMDL | Ver `CLAUDE.md` del proyecto (ej. columna `Año` con ñ minúscula) | — |
+
+### Significado del prefijo `NN_` en `Outputs/`
+
+`NN_` es un contador de dos dígitos que numera los archivos de una **línea de trabajo o sesión de trabajo relevante**, no del proyecto completo:
+
+| `NN_` | Significado |
+|---|---|
+| `00` | Preflight o validación inicial de esa línea de trabajo (ej. estado de Git antes de empezar) |
+| `01` | Diagnóstico base de esa línea de trabajo |
+| `02` en adelante | Análisis, evidencias o resultados posteriores de la misma línea de trabajo, en orden cronológico |
+
+El contador **reinicia por línea de trabajo o sesión de trabajo relevante**, no es correlativo único para todo `Outputs/` ni para todo el proyecto. Distintas líneas de trabajo pueden tener cada una su propio `00_`, `01_`, etc. — el contexto que las distingue es la fecha (`AAAA-MM-DD`) y la `descripcion_corta`, no un número global. Si se necesita distinguir dos líneas de trabajo con el mismo `NN_` y la misma fecha, usar la `descripcion_corta` para diferenciarlas en vez de crear un segundo esquema de numeración.
 
 Evitar espacios en nombres de archivo nuevos cuando sea posible (los existentes con espacio, como `Selección Challenger.tmdl`, se mantienen — no renombrar sin autorización).
 
