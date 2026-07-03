@@ -104,6 +104,7 @@ Respuestas, documentación y nombres de medidas/columnas visibles al usuario en 
 - Identidad Git confirmada antes de cualquier commit.
 - Encoding UTF-8 sin BOM en cualquier `.tmdl`/`.json` tocado.
 - `Docs/` actualizado si el cambio es funcional.
+- Antes de cerrar cualquier tarea, validar si el cambio requiere actualizar Docs, Outputs, Specs, README, CHANGELOG, RUNBOOK o ADRs. Si aplica, documentarlo en el archivo correspondiente antes del commit (matriz completa en `Docs/ESTRUCTURA_PROYECTO.md` sección 18).
 
 ---
 

@@ -367,3 +367,31 @@ Este documento se debe actualizar cada vez que se active una de estas carpetas, 
 5. Cuando el usuario lo apruebe, referenciar este documento desde `Docs/README.md` y desde la sección "Estructura del repositorio" de `README.md` (raíz) — pendiente, no incluido en esta entrega por decisión explícita del usuario.
 6. Si se decide avanzar con la migración real hacia el estándar corporativo (sección 6), elaborar primero la Spec de migración correspondiente antes de ejecutar cualquier `git mv`.
 7. Evaluar si este documento debe replicarse (adaptado) en otros proyectos PBIP del workspace de People Analytics para que el estándar corporativo sea consistente en todos ellos.
+
+---
+
+## 18. Criterio de actualización documental por cambio
+
+Matriz de referencia para decidir **qué documento actualizar** según el tipo de cambio realizado en el proyecto. Úsala antes de cerrar cualquier tarea (ver checklist de la sección 16 y la regla equivalente en `CLAUDE.md`).
+
+| Tipo de cambio | Documento que debe actualizarse | Evidencia esperada | ¿Requiere commit separado? | Observación |
+|---|---|---|---|---|
+| Estructura de carpetas | `Docs/ESTRUCTURA_PROYECTO.md` (secciones 4-7) | Árbol y tabla de carpetas con el nuevo estado | Sí, si coexiste con otros cambios funcionales | Nunca ejecutar la migración sin Spec previa (sección 6) |
+| Modelo semántico (orden de tablas, grupos de consulta, cultura) | `Docs/ARCHITECTURE.md` | Diagrama de capas y tabla de grupos de consulta actualizados | Sí | Diagnosticar antes de tocar `PBIP/` (ver `CLAUDE.md`) |
+| Tablas (agregar, quitar, renombrar) | `Docs/DATA_MODEL.md` (+ `Docs/ARCHITECTURE.md` si cambia el conteo total) | Fila nueva/actualizada en la clasificación de tablas | Sí | Verificar el conteo real con `ls` antes de escribir un número — no asumir |
+| Relaciones | `Docs/DATA_MODEL.md` (sección Relaciones) | Fila nueva en la tabla del eje correspondiente | Sí | Evaluar cardinalidad y riesgo; actualizar "Riesgos del modelo" si aplica |
+| Medidas DAX | `Docs/METRICS_CATALOG.md` | Medida documentada con fórmula simplificada, formato y dominio | No necesariamente | Si es un cambio relevante, agregar también entrada en `Docs/CHANGELOG.md` |
+| Power Query (transformaciones M) | `Docs/DATA_PIPELINE.md` | Paso de transformación agregado al flujo correspondiente | No necesariamente | Si cambia una fuente o ruta, revisar también `Docs/SECURITY_AND_PRIVACY.md` |
+| Fuentes de datos (nuevo archivo, nueva cuenta SharePoint) | `Docs/DATA_PIPELINE.md` (+ `Docs/SECURITY_AND_PRIVACY.md` si aplica) | Fila nueva en el inventario de fuentes | Sí | Evaluar PII antes de documentar nombres de archivo o cuentas |
+| Visuales / páginas | `Docs/BI_GUIDELINES.md` | Fila actualizada en el inventario de páginas o bookmarks | Sí | Verificar conteo real (`ls pages/`, `ls bookmarks/`) antes de escribir un número |
+| Seguridad / PII / RLS | `Docs/SECURITY_AND_PRIVACY.md` (+ ADR en `Docs/decisions/` si es una decisión) | Campo o tabla agregado al inventario de PII, o estado de RLS actualizado | Sí, commit propio | Máxima prioridad — nunca diferir |
+| Operación / publicación / refresh | `Docs/RUNBOOK.md` | Procedimiento actualizado o problema conocido agregado | No necesariamente | Verificar que cualquier nombre de archivo o ruta citada siga vigente (ej. `Proyecto7.pbip`) |
+| Decisiones técnicas | `Docs/decisions/README.md` (nuevo ADR) | ADR con contexto, opciones, decisión y consecuencias | Sí, commit propio | Actualizar también el índice de decisiones en el mismo archivo |
+| Cambios funcionales relevantes | `Docs/CHANGELOG.md` | Entrada nueva con fecha y descripción | No necesariamente | Es el resumen ejecutivo del historial — no reemplaza los documentos específicos |
+| Diagnósticos temporales | `Outputs/` (`NN_AAAA-MM-DD_descripcion_corta.md`) | Archivo de diagnóstico con fecha en el nombre | No (`Outputs/` no se versiona por defecto) | Nunca en `Docs/` — regla ya definida en `Docs/README.md` |
+| Planes de implementación | `Specs/` (al adoptarse) o `Outputs/` con prefijo `spec_` mientras tanto | Plan con análisis de impacto | No, hasta que se implemente | Ver secciones 6 y 14 de este documento |
+| Reglas de IA | `AGENTS.md` (fuente) + `CLAUDE.md` (adaptador) | Regla nueva documentada en ambos si aplica a todos los agentes, o solo en `CLAUDE.md` si es específica de Claude Code | Sí, commit propio | Mantener sincronizados — ver sección 13 |
+| Cambios en `README.md` | `README.md` (raíz) | Sección o tabla actualizada | Sí | Requiere autorización explícita separada del resto del cambio |
+| Cambios en `.gitignore` | `.gitignore` (+ sección 12 de este documento si cambia la política) | Regla nueva en `.gitignore` y su justificación documentada | Sí, commit propio | Nunca agregar una regla sin documentar el riesgo que mitiga |
+
+Regla simple: **si terminaste una tarea y no sabes si falta actualizar algo, busca el tipo de cambio en esta tabla antes de cerrarla.**
