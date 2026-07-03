@@ -18,3 +18,12 @@ desktop.ini
 *.bak
 ~$*.xlsx
 ~$*.docx
+
+# Inputs sin evaluar por datos personales — no versionar contenido (agregado 2026-07-03)
+# Excepciones: permitir README.md o .gitkeep si se necesita documentar/preservar la carpeta vacía
+Inputs/*
+!Inputs/.gitkeep
+!Inputs/README.md
+
+# Archivo de marca de gran tamaño (128 MB) — no versionar sin decisión separada (agregado 2026-07-03)
+Docs/Manual Marca Grupo LEMCO.pdf
