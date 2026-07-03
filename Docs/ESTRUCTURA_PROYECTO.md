@@ -1,0 +1,348 @@
+# Estándar Corporativo de Estructura — Proyectos Power BI/PBIP de People Analytics
+
+> Documento generado el **2026-07-03** y actualizado el **2026-07-03** a partir del análisis directo del repositorio (`git status`, inventario de carpetas verificado con `ls -d */` y búsqueda recursiva). Complementa [ARCHITECTURE.md](ARCHITECTURE.md) (arquitectura interna del PBIP) con la organización del **repositorio completo** y define el estándar corporativo objetivo para proyectos PBIP de People Analytics del Grupo Empresarial Lemco.
+
+---
+
+## 1. Propósito
+
+Este documento define el **estándar corporativo obligatorio** de estructura de carpetas para proyectos Power BI/PBIP de People Analytics, y documenta cómo se compara la estructura **actual y real** de `07_Planeación_de_Personal` contra ese estándar. Sirve como referencia para el propietario del proyecto y para agentes de IA (Claude Code, Codex, GitHub Copilot) que trabajen en él o en otros proyectos PBIP del área.
+
+No reemplaza a [ARCHITECTURE.md](ARCHITECTURE.md), que describe la arquitectura interna del proyecto PBIP (Report/SemanticModel). Este documento cubre el nivel del repositorio: todo lo que está alrededor y encima del PBIP.
+
+---
+
+## 2. Alcance y carácter obligatorio
+
+- La **estructura de 16 carpetas** definida en la sección 5 ("Estándar corporativo de carpetas") es el objetivo obligatorio para todo proyecto PBIP nuevo o migrado de People Analytics.
+- Para `07_Planeación_de_Personal` específicamente, este documento **no ejecuta ninguna migración**: no se renombra, mueve, elimina ni crea ninguna carpeta en esta fase. Solo se documenta el estado actual, el estándar objetivo y el mapa de migración preliminar (sección 6).
+- Cualquier migración real hacia el estándar requiere primero una **Spec de migración** aprobada (ver sección 6) — no se asume que este documento autorice ejecutar cambios.
+
+---
+
+## 3. Principios de organización
+
+1. **Separar lo oficial de lo temporal.** `Docs/` es la única fuente de verdad vigente; `Outputs/` guarda diagnósticos, propuestas y evidencias que no son verdad oficial hasta que se incorporan a `Docs/`.
+2. **No versionar datos personales ni binarios pesados.** `Data/` e `Inputs/` con archivos Excel de personas quedan fuera de Git.
+3. **Cada carpeta tiene un dueño de propósito único.** Si un archivo no encaja claramente en una carpeta del estándar, es señal de que falta una regla o de que el archivo está mal ubicado.
+4. **Adopción gradual, no big-bang.** El estándar define 16 carpetas; un proyecto no necesita tenerlas todas pobladas desde el día uno. Se crean cuando hay contenido real que las justifique (ver sección 14).
+5. **Ninguna migración sin Spec.** Pasar de la estructura actual de un proyecto al estándar corporativo es un cambio estructural — requiere análisis de impacto documentado antes de tocar una sola carpeta.
+6. **Trazabilidad ante todo.** Todo cambio funcional relevante debe quedar documentado en `Docs/` (oficial) o `Outputs/documentation/` (huella del proceso).
+
+---
+
+## 4. Estructura actual detectada (verificada)
+
+```text
+07_Planeación_de_Personal/
+├── .claude/                    # Config local de Claude Code (settings.local.json) — no versionado
+├── .git/
+├── .gitignore
+├── AGENTS.md                   # Reglas para agentes de IA (sin trackear en Git aún)
+├── CLAUDE.md                   # Adaptador de AGENTS.md para Claude Code (sin trackear en Git aún)
+├── README.md                   # Punto de entrada del repositorio
+├── Data/                       # Vacía actualmente — excluida de Git por .gitignore
+├── Inputs/                     # 1 archivo: Base_Rotacion_Atraccion_Seleccion.xlsx — sin trackear en Git
+├── Docs/                       # Documentación oficial (sin trackear en Git aún)
+│   ├── README.md               # Índice y gobierno de Docs/
+│   ├── PROJECT_CONTEXT.md
+│   ├── ARCHITECTURE.md
+│   ├── DATA_MODEL.md
+│   ├── METRICS_CATALOG.md
+│   ├── DATA_PIPELINE.md
+│   ├── BI_GUIDELINES.md
+│   ├── SECURITY_AND_PRIVACY.md
+│   ├── RUNBOOK.md
+│   ├── CHANGELOG.md
+│   ├── decisions/README.md     # ADRs (7 decisiones, 3 pendientes)
+│   └── Manual Marca Grupo LEMCO.pdf
+├── Outputs/                    # Diagnósticos y propuestas generados — excluida de Git por .gitignore
+│   ├── documentation/          # Inventarios y diagnósticos de la documentación misma
+│   └── *.md                    # Propuestas y registros puntuales de cambios (ver sección 9)
+└── PBIP/
+    ├── Proyecto7.pbip          # Manifiesto del proyecto (renombrado 2026-06-17, ver commit cfb3a15)
+    ├── .gitignore               # Excluye .pbi/cache.abf y .pbi/localSettings.json
+    ├── Proyecto.Report/         # Ver ARCHITECTURE.md
+    └── Proyecto.SemanticModel/  # Ver ARCHITECTURE.md
+```
+
+**Hallazgos relevantes de este análisis (2026-07-03), verificados con `ls -d */` y búsqueda recursiva de carpetas numeradas (`find . -maxdepth 3 -type d -iname "0*_*"` → sin resultados):**
+
+- La estructura raíz de este proyecto es **plana y sin numeración interna**: `Data/`, `Docs/`, `Inputs/`, `Outputs/`, `PBIP/`. No existen subcarpetas del tipo `00_Fuentes`, `01_PBIP`, `02_Modelo_Datos`, `03_Documentacion`, etc. dentro de este proyecto.
+- `Docs/`, `AGENTS.md`, `CLAUDE.md` e `Inputs/` aparecen como `??` (sin trackear) en `git status`. La documentación oficial actual todavía no está versionada.
+- `Data/` está vacía hoy, aunque el `README.md` raíz la describe con contenido histórico (`2026/05_Mayo/`). Verificar si ese contenido se movió, se eliminó o nunca se versionó — no se asume nada sin confirmación del usuario.
+- No existen las carpetas `Specs/`, `Scripts/`, `Tools/`, `Assets/`, `Tests/`, `Archive/`, `.codex/`, `.agents/`, `.github/`, `.vscode/`.
+- No hay `.github/copilot-instructions.md`; las instrucciones de IA viven en `AGENTS.md` (fuente) y `CLAUDE.md` (adaptador).
+
+> **Nota sobre el esquema numerado de origen:** en la solicitud que originó este documento se planteó un mapa de migración partiendo de un esquema numerado (`00_Fuentes`, `01_PBIP`, `02_Modelo_Datos`, `03_Documentacion`, `04_Outputs`, `05_Assets`, `06_Validaciones`). Ese esquema **no corresponde a la estructura real verificada de `07_Planeación_de_Personal`** — puede tratarse de una convención propuesta a futuro para proyectos nuevos, o del esquema de numeración del workspace padre (`01_`…`07_` para los sub-proyectos de People Analytics, ver `CLAUDE.md` raíz del workspace), que es un nivel distinto (numera proyectos completos, no carpetas dentro de un proyecto). La sección 6 usa la estructura real verificada como punto de partida.
+
+---
+
+## 5. Estándar corporativo de carpetas
+
+Estructura **objetivo obligatoria** para proyectos Power BI/PBIP de People Analytics:
+
+```text
+PBIP/
+Data/
+Inputs/
+Outputs/
+Docs/
+Specs/
+Scripts/
+Tools/
+Assets/
+Tests/
+Archive/
+.github/
+.claude/
+.codex/
+.agents/
+.vscode/
+```
+
+| Carpeta | Propósito | Estado en `07_Planeación_de_Personal` |
+|---|---|---|
+| `PBIP/` | Proyecto Power BI en formato texto (Report + SemanticModel) | **Existe y se usa** |
+| `Data/` | Datos fuente locales de referencia, no versionados | **Existe** (vacía actualmente, ver hallazgo sección 4) |
+| `Inputs/` | Archivos de entrada puntuales para análisis | **Existe** |
+| `Outputs/` | Diagnósticos, propuestas y evidencias generadas | **Existe y se usa activamente** |
+| `Docs/` | Documentación oficial y vigente | **Existe y se usa activamente** |
+| `Specs/` | Especificaciones de cambios antes de implementarlos, incl. specs de migración | **No existe** — pendiente de adopción |
+| `Scripts/` | Automatizaciones reutilizables (PowerShell, Python) | **No existe** — pendiente de adopción |
+| `Tools/` | Utilidades de soporte al desarrollo, no parte del producto | **No existe** — pendiente de adopción |
+| `Assets/` | Recursos gráficos fuente fuera del PBIP | **No existe** — pendiente de adopción |
+| `Tests/` | Evidencia de pruebas manuales o checklists de QA | **No existe** — pendiente de adopción |
+| `Archive/` | Versiones descontinuadas conservadas fuera del árbol activo | **No existe** — pendiente de adopción |
+| `.github/` | Configuración de GitHub (Actions, plantillas, `copilot-instructions.md`) | **No existe** — pendiente de adopción |
+| `.claude/` | Configuración local de Claude Code | **Existe** |
+| `.codex/` | Configuración específica de Codex, si la herramienta lo exige | **No existe** — hoy Codex lee `AGENTS.md` directamente, sin carpeta propia |
+| `.agents/` | Configuración específica de otros agentes, si la herramienta lo exige | **No existe** — mismo criterio que `.codex/` |
+| `.vscode/` | Configuración de workspace de VS Code | **No existe** — pendiente de adopción |
+
+**6 de 16 carpetas del estándar ya existen y están en uso** (`PBIP/`, `Data/`, `Inputs/`, `Outputs/`, `Docs/`, `.claude/`). Las 10 restantes no se crean en esta fase — ver criterio de activación en sección 14.
+
+---
+
+## 6. Mapa de migración desde la estructura actual
+
+**Este mapa es preliminar y exclusivamente informativo.** No autoriza ni ejecuta ningún renombramiento, movimiento, eliminación o creación de carpetas. Toda migración real requiere primero una Spec de migración (ver requisitos al final de esta sección).
+
+Mapa corregido con base en la estructura **real verificada** (no en el esquema numerado hipotético):
+
+| Carpeta real actual | Carpeta objetivo corporativo | Estado / acción |
+|---|---|---|
+| `Data/` | `Data/` | Ya alineada — sin acción |
+| `Inputs/` | `Inputs/` | Ya alineada — sin acción (pendiente evaluar si su contenido debe tratarse como dato personal, ver sección 11) |
+| `Outputs/` | `Outputs/` | Ya alineada — sin acción |
+| `Docs/` | `Docs/` | Ya alineada — sin acción. `Docs/DATA_MODEL.md` ya cubre la documentación del modelo de datos como archivo dentro de `Docs/`; no se requiere una subcarpeta `Docs/Modelo_Datos/` separada ni mover nada a `Data/` |
+| `PBIP/` | `PBIP/` | Ya alineada — sin acción |
+| `.claude/` | `.claude/` | Ya alineada — sin acción |
+| *(no existe)* | `Specs/` | Pendiente de adopción — crear solo cuando haya un primer plan que valga la pena versionar antes de implementarlo |
+| *(no existe)* | `Scripts/` | Pendiente de adopción |
+| *(no existe)* | `Tools/` | Pendiente de adopción |
+| *(no existe)* | `Assets/` | Pendiente de adopción |
+| *(no existe)* | `Tests/` | Pendiente de adopción |
+| *(no existe)* | `Archive/` | Pendiente de adopción |
+| *(no existe)* | `.github/` | Pendiente de adopción |
+| *(no existe)* | `.codex/` | Pendiente de adopción — evaluar primero si Codex realmente necesita carpeta propia además de `AGENTS.md` |
+| *(no existe)* | `.agents/` | Pendiente de adopción — mismo criterio que `.codex/` |
+| *(no existe)* | `.vscode/` | Pendiente de adopción |
+
+**Sobre el mapa numerado originalmente propuesto** (`00_Fuentes → Inputs/`, `01_PBIP → PBIP/`, `02_Modelo_Datos → Docs/Modelo_Datos/ o Data/`, `03_Documentacion → Docs/`, `04_Outputs → Outputs/`, `05_Assets → Assets/`, `06_Validaciones → Tests/`): se deja registrado aquí como referencia, pero **no aplica a este proyecto** porque `07_Planeación_de_Personal` nunca tuvo subcarpetas numeradas — su estructura interna ya usa nombres directos. Si otro proyecto del workspace (`01_`…`06_`) sí usa subcarpetas numeradas internamente, ese mapa debería verificarse y documentarse en el `ESTRUCTURA_PROYECTO.md` de ese proyecto específico, no en este.
+
+**Antes de ejecutar cualquier migración real** (aunque hoy sea trivial porque 6 de 16 carpetas ya están alineadas), se debe producir una **Spec de migración** que incluya:
+
+1. Análisis de impacto (qué se mueve, qué queda igual).
+2. Lista de archivos afectados.
+3. Riesgos identificados (incl. referencias rotas dentro del PBIP, enlaces en `Docs/`, rutas usadas por agentes de IA).
+4. Validaciones PBIP requeridas (abrir en Power BI Desktop, confirmar que el modelo carga, confirmar `git status` limpio después).
+5. Comandos Git exactos a ejecutar (`git mv`, no `mv` + `git add`, para preservar historial).
+6. Plan de rollback (cómo revertir si algo falla).
+
+Esa Spec vive en `Specs/` una vez se adopte esa carpeta (sección 14); mientras tanto, se registra como propuesta en `Outputs/` con prefijo `spec_migracion_`.
+
+---
+
+## 7. Tabla de carpetas — propósito, contenido, versionamiento y riesgos
+
+| Carpeta | Propósito | Ejemplos de contenido | ¿Versionar? | Riesgos |
+|---|---|---|---|---|
+| `PBIP/` | Proyecto Power BI en formato texto | `.tmdl`, `.json`, `.pbip` | **Sí** (excepto `.pbi/cache.abf` y `.pbi/localSettings.json`) | Power BI Desktop puede reescribir archivos al guardar; revisar `git status` antes/después de abrir |
+| `Docs/` | Documentación oficial y vigente | `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs | **Sí** | Que se cuele contenido temporal o especulativo (regla en `Docs/README.md`) |
+| `Data/` | Datos fuente locales de referencia (Excel con datos personales) | Consolidados anuales, bases crudas | **No** (`.gitignore`) | Contiene PII — nunca forzar el versionamiento |
+| `Inputs/` | Archivos de entrada puntuales para análisis o cargas específicas | `Base_Rotacion_Atraccion_Seleccion.xlsx` | **No** recomendado si contiene datos personales — evaluar caso a caso | Hoy no está en `.gitignore` (ver sección 12) |
+| `Outputs/` | Diagnósticos, propuestas y evidencias generadas (por IA o manualmente) | Propuestas de rediseño, registros pre-commit, inventarios, specs mientras no exista `Specs/` | **No** por defecto; solo con aprobación explícita | Puede acumular archivos obsoletos sin fecha de expiración clara |
+| `Specs/` | Especificaciones de cambios antes de implementarlos, incl. migraciones estructurales | Plan de una migración de medidas, spec de migración de carpetas | Sí, cuando se adopte | Confundirse con `Outputs/` si no se define el límite (sección 9) |
+| `Scripts/` | Automatizaciones reutilizables | Scripts de validación de encoding TMDL | Sí, cuando se adopte | Que contengan credenciales embebidas |
+| `Tools/` | Utilidades de soporte al desarrollo, no parte del producto | Conversores, linters propios | Sí, cuando se adopte | Duplicar con `Scripts/` sin criterio claro |
+| `Assets/` | Recursos gráficos fuente fuera del PBIP | Logos en alta resolución, plantillas de marca | Sí, cuando se adopte | Duplicar con `PBIP/.../StaticResources/` |
+| `Tests/` | Evidencia de pruebas manuales o checklists de QA | Checklist de validación de la página QA_Demográfico | Sí, cuando se adopte | Confundir "evidencia de prueba" con "documentación oficial" |
+| `Archive/` | Versiones descontinuadas conservadas fuera del árbol activo | Páginas de reporte eliminadas, versiones anteriores de medidas | Sí, cuando se adopte | Crecer sin límite si no hay política de retención |
+| `.github/` | Configuración de GitHub | `copilot-instructions.md`, workflows | Sí, cuando se adopte | — |
+| `.claude/` | Configuración local de Claude Code | `settings.local.json` | **No** (config de máquina/usuario) | Puede contener rutas o permisos específicos del equipo local |
+| `.codex/` | Configuración específica de Codex | Configuración de herramienta | Evaluar al adoptar | Duplicar instrucciones ya cubiertas por `AGENTS.md` |
+| `.agents/` | Configuración específica de otros agentes | Configuración de herramienta | Evaluar al adoptar | Mismo riesgo que `.codex/` |
+| `.vscode/` | Configuración de workspace de VS Code | `extensions.json`, `settings.json` | Sí (sin datos sensibles), cuando se adopte | Que incluya rutas absolutas del equipo local |
+
+---
+
+## 8. Reglas por tipo de carpeta
+
+- **PBIP/**: no modificar `relationships.tmdl`, `model.tmdl` ni nombres de columnas fuente sin análisis previo (ver "Lo que NO debe tocar Claude Code" en `CLAUDE.md`). Encoding UTF-8 sin BOM obligatorio.
+- **Data/**: nunca versionar. Si se necesita compartir un snapshot, documentar en `Docs/DATA_PIPELINE.md` dónde vive realmente (SharePoint/OneDrive), no copiarlo al repo.
+- **Inputs/**: usar solo para archivos de entrada de un análisis puntual y en curso. Si el archivo contiene datos personales, tratarlo igual que `Data/` (no versionar). Revisar y limpiar cuando el análisis concluya.
+- **Outputs/**: cada archivo debe tener fecha en el nombre (`AAAA-MM-DD`) y ser prescindible — es huella de proceso, no fuente de verdad.
+- **Docs/**: solo contenido vigente, verificable y mantenible. Toda adición pasa la regla ya definida en `Docs/README.md`.
+- **Specs/** *(al adoptarse)*: describe **qué se va a hacer antes de hacerlo** (plan aprobado, incl. specs de migración estructural). Se diferencia de `Outputs/` (documenta lo que **ya se hizo o se propuso**) y de `Docs/` (documenta el estado **vigente**).
+- **Scripts/ y Tools/** *(al adoptarse)*: código idempotente, con cabecera de una línea explicando su propósito; nunca credenciales embebidas.
+- **Assets/** *(al adoptarse)*: solo recursos fuente; los assets ya integrados al PBIP siguen viviendo en `StaticResources/`.
+- **Tests/** *(al adoptarse)*: evidencia de validación manual, no reemplaza pruebas automatizadas (el proyecto no tiene ninguna).
+- **Archive/** *(al adoptarse)*: todo archivo movido aquí debe indicar por qué se archivó y desde cuándo.
+- **.claude/, .codex/, .agents/**: configuración de herramienta, no documentación de proyecto. `AGENTS.md` en la raíz sigue siendo la fuente única de instrucciones para cualquier agente.
+- **.github/** *(al adoptarse)*: cualquier workflow que toque el PBIP debe ser solo de validación (lint de JSON/TMDL), nunca de publicación automática sin aprobación humana.
+- **.vscode/** *(al adoptarse)*: no incluir rutas absolutas ni credenciales.
+
+---
+
+## 9. Política de archivos `.md`
+
+| Tipo | Dónde vive | Características |
+|---|---|---|
+| **Documentación oficial** | `Docs/` | Vigente, verificable, mantenida. Pasa la regla de `Docs/README.md` |
+| **Diagnósticos** | `Outputs/documentation/` | Snapshot de un análisis puntual. Con fecha, no se actualiza — se reemplaza por uno nuevo |
+| **Specs** *(al adoptarse `Specs/`)* | `Specs/` | Plan aprobado antes de implementar, incl. specs de migración estructural; una vez implementado, su contenido relevante pasa a `Docs/` o al ADR correspondiente |
+| **Evidencias** | `Outputs/` | Resultado de una validación o prueba manual, con fecha |
+| **Resultados de prompts / registros de sesión** | `Outputs/` | Registros como `precommit_*.md`, `estado_pre_push_*.md` |
+| **Análisis temporales** | `Outputs/` | Cualquier `.md` generado para responder una pregunta puntual que no se vuelve referencia permanente |
+
+Regla simple: **si el archivo describe el estado actual del proyecto de forma permanente → `Docs/`. Si describe un evento, un análisis puntual o un plan → `Outputs/` (o `Specs/` una vez se adopte).**
+
+---
+
+## 10. Reglas de nombres
+
+| Elemento | Convención | Ejemplo |
+|---|---|---|
+| Carpetas de dominio (nivel workspace) | `NN_Nombre_Con_Guion_Bajo` | `07_Planeación_de_Personal` |
+| Carpetas internas del proyecto (estándar corporativo) | Nombre directo, sin numeración | `Docs/`, `Inputs/`, `Outputs/`, `Specs/` |
+| Documentación oficial en `Docs/` | `MAYUSCULAS_CON_GUION_BAJO.md`, en inglés técnico | `DATA_MODEL.md`, `SECURITY_AND_PRIVACY.md` |
+| Archivos en `Outputs/` | `descripcion_corta_en_minusculas_AAAA-MM-DD.md` | `ajuste_antiguedad_demografico_promedio_2026-06-17.md` |
+| Specs *(al adoptarse)* | `spec_descripcion_corta_AAAA-MM-DD.md` | `spec_migracion_estructura_carpetas_2026-07-03.md` |
+| Scripts *(al adoptarse)* | `verbo_objeto.ps1` / `.py`, minúsculas con guion bajo | `validar_encoding_tmdl.ps1` |
+| Assets *(al adoptarse)* | minúsculas con guion, sin espacios | `logo-lemco-horizontal.png` |
+| Tablas y medidas TMDL | Ver `CLAUDE.md` del proyecto (ej. columna `Año` con ñ minúscula) | — |
+
+Evitar espacios en nombres de archivo nuevos cuando sea posible (los existentes con espacio, como `Selección Challenger.tmdl`, se mantienen — no renombrar sin autorización).
+
+---
+
+## 11. Reglas de versionamiento Git
+
+**Sí versionar:**
+- `PBIP/` completo (excepto `.pbi/cache.abf` y `.pbi/localSettings.json`)
+- `Docs/` completo
+- `README.md`, `AGENTS.md`, `CLAUDE.md`
+- `.gitignore`
+
+**No versionar:**
+- `Data/` — contiene archivos Excel con datos personales
+- `Outputs/` — salidas temporales, solo con aprobación explícita y justificación de trazabilidad formal
+- Cachés de Power BI (`**/.pbi/cache.abf`)
+- Configuración local (`**/.pbi/localSettings.json`, `.claude/settings.local.json`)
+- Archivos temporales del sistema operativo y de Office (`Thumbs.db`, `~$*.xlsx`, `desktop.ini`)
+
+**Archivos sensibles / datos personales:** cualquier archivo con nombres, cédulas, salarios o datos de incapacidades médicas debe evaluarse contra `Docs/SECURITY_AND_PRIVACY.md` antes de considerarse para versionar. Por defecto, no se versiona.
+
+**Pendiente de decisión del usuario:** `Inputs/` no está hoy en `.gitignore` y contiene un archivo Excel (`Base_Rotacion_Atraccion_Seleccion.xlsx`) sin trackear. Si ese archivo tiene datos personales, debería tratarse como `Data/` (ver sección 12).
+
+---
+
+## 12. Recomendaciones para `.gitignore`
+
+El `.gitignore` actual ya cubre lo esencial:
+
+```gitignore
+Data/
+Outputs/
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
+*.bak
+~$*.xlsx
+~$*.docx
+```
+
+**Recomendación (no aplicada — requiere confirmación del usuario):** evaluar agregar `Inputs/` si los archivos que contiene tienen datos personales, siguiendo el mismo criterio que `Data/`. Hoy `Inputs/Base_Rotacion_Atraccion_Seleccion.xlsx` aparece como sin trackear y podría versionarse por accidente en el próximo `git add`.
+
+Si en el futuro se adoptan `Scripts/` o `Tools/`, agregar reglas para no versionar credenciales (`*.env`, `secrets.*`).
+
+---
+
+## 13. Buenas prácticas para trabajo con IA
+
+- **Claude Code / Codex / GitHub Copilot** leen `AGENTS.md` (fuente) y `CLAUDE.md` (adaptador específico) en la raíz del proyecto — mantenerlos sincronizados si se actualiza uno.
+- **No implementar sin diagnóstico.** Antes de un cambio funcional, generar o consultar el diagnóstico correspondiente en `Outputs/documentation/`.
+- **No mover archivos sin análisis de impacto.** Especialmente en `PBIP/` — un archivo movido puede romper referencias internas del modelo o del reporte. Para migraciones estructurales, ver requisito de Spec en sección 6.
+- **Documentar resultados en `Outputs/`**, nunca en `Docs/` directamente; la promoción a `Docs/` es una decisión explícita del usuario.
+- **Documentar planes en `Specs/`** una vez se adopte esa carpeta; mientras tanto, los planes se comunican en la conversación o se guardan en `Outputs/` con prefijo `spec_` o `propuesta_`.
+- **Confirmar antes de commit/push.** Ningún agente ejecuta `git commit`, `git push` ni publica sin aprobación explícita (regla ya vigente en `AGENTS.md` y `CLAUDE.md`).
+
+---
+
+## 14. Plan de adopción gradual del estándar corporativo
+
+Ninguna de las 10 carpetas pendientes se crea por adelantado. Criterio de activación:
+
+| Carpeta | Se crea cuando... |
+|---|---|
+| `Specs/` | Aparezca el primer plan que valga la pena versionar antes de implementarlo — incluida la primera Spec de migración estructural real (ver sección 6) |
+| `Scripts/` | Se escriba el primer script reutilizable (hoy no hay ninguno en el repo) |
+| `Tools/` | Se necesite una utilidad de soporte que no es un script de un solo uso |
+| `Assets/` | Se gestionen recursos gráficos fuente fuera del propio PBIP |
+| `Tests/` | Se formalice un proceso de QA manual más allá de la página `QA_Demográfico` ya existente en el reporte |
+| `Archive/` | Se decida conservar fuera del árbol activo algo que hoy se maneja como "página oculta" dentro del PBIP (ver ADR-005 en `Docs/decisions/README.md`) |
+| `.github/` | Se activen GitHub Actions o se formalicen plantillas de PR/Issue |
+| `.codex/` | Se confirme que Codex requiere configuración propia más allá de `AGENTS.md` |
+| `.agents/` | Se confirme que algún otro agente requiere configuración propia más allá de `AGENTS.md` |
+| `.vscode/` | El equipo crezca y se necesite configuración de workspace compartida |
+
+Este documento se debe actualizar cada vez que se active una de estas carpetas, moviéndola de "pendiente" a "existente" en las secciones 4, 5, 6 y 7.
+
+---
+
+## 15. Checklist antes de crear, mover o eliminar carpetas
+
+- [ ] ¿Hay contenido real que justifique la carpeta hoy (no "por si acaso")?
+- [ ] ¿Ya existe una carpeta del estándar que cubra este propósito? (revisar sección 5)
+- [ ] ¿Es una migración estructural (renombrar/mover una carpeta existente)? Si es así, ¿existe una Spec de migración aprobada con análisis de impacto, archivos afectados, riesgos, validaciones PBIP, comandos Git y plan de rollback? (sección 6)
+- [ ] ¿Se documentó el motivo en `Outputs/documentation/` o en la conversación con el usuario?
+- [ ] ¿Se tiene autorización explícita del usuario para crear/mover/eliminar/renombrar? (regla transversal de `AGENTS.md`)
+- [ ] ¿Se actualizó este documento (secciones 4, 5, 6, 7) si la carpeta es nueva o cambió de estado?
+- [ ] ¿El `.gitignore` necesita ajuste por la carpeta nueva?
+
+---
+
+## 16. Checklist antes de commit
+
+- [ ] `git status` revisado — ningún archivo de `Data/` ni de `Outputs/` (sin aprobación) en el stage
+- [ ] Si el commit toca `PBIP/`, confirmar que Power BI Desktop está cerrado y que los cambios son intencionales (no reescritura automática)
+- [ ] Encoding UTF-8 sin BOM verificado en `.tmdl`/`.json` modificados
+- [ ] Documentación oficial (`Docs/`) actualizada si el cambio es funcional
+- [ ] Mensaje de commit en Conventional Commits en español (`tipo(alcance): descripción`)
+- [ ] Aprobación explícita del usuario obtenida antes de ejecutar el commit
+
+---
+
+## 17. Próximos pasos recomendados
+
+1. Confirmar con el usuario si `Docs/`, `AGENTS.md`, `CLAUDE.md` e `Inputs/` deben incorporarse al próximo commit (hoy están sin trackear).
+2. Confirmar el estado real de `Data/` (vacía actualmente) frente a lo descrito en `README.md` raíz — puede requerir actualizar ese README o recuperar el contenido esperado.
+3. Decidir si `Inputs/Base_Rotacion_Atraccion_Seleccion.xlsx` contiene datos personales; si es así, agregar `Inputs/` al `.gitignore`.
+4. Revisar los ~150 archivos modificados en `PBIP/` (bookmarks, visuals, tablas) para confirmar si son cambios intencionales o reescritura de Power BI Desktop, antes de cualquier commit.
+5. Cuando el usuario lo apruebe, referenciar este documento desde `Docs/README.md` y desde la sección "Estructura del repositorio" de `README.md` (raíz) — pendiente, no incluido en esta entrega por decisión explícita del usuario.
+6. Si se decide avanzar con la migración real hacia el estándar corporativo (sección 6), elaborar primero la Spec de migración correspondiente antes de ejecutar cualquier `git mv`.
+7. Evaluar si este documento debe replicarse (adaptado) en otros proyectos PBIP del workspace de People Analytics para que el estándar corporativo sea consistente en todos ellos.
