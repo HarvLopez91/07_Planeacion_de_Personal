@@ -45,6 +45,8 @@ Planta de personal activa por mes y empresa. Incluye datos historicos desde 2024
 ### 2. Presupuesto vs Real (PptovsReal)
 Comparacion entre la planta presupuestada y la planta real ejecutada. Incluye indicadores de variacion interanual, eficiencia de gasto laboral frente a ventas, ingresos y retiros.
 
+En la pagina Retiros se incorpora una matriz de antiguedad del personal retirado por ano. Su proposito es analizar la distribucion de retiros segun el rango de antiguedad al retiro, calculado desde `Fecha Inicio` y `Fecha Vencimiento` en `Ppto Retiros`.
+
 ### 3. Seleccion
 Seguimiento de procesos de seleccion (requisiciones) por empresa. Registra fechas de requerimiento, meta de cierre, terminacion del proceso, tiempos de seleccion y origen de la vacante.
 

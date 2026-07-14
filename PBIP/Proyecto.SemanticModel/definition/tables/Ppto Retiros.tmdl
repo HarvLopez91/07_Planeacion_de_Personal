@@ -452,6 +452,34 @@ table 'Ppto Retiros'
 
 		annotation SummarizationSetBy = Automatic
 
+	column Meses_Antiguedad_Retiro
+		dataType: int64
+		lineageTag: 1f450ea2-f811-4f4f-91e2-cf5c487a7478
+		summarizeBy: none
+		sourceColumn: Meses_Antiguedad_Retiro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Rango_Antiguedad_Retiro
+		dataType: string
+		lineageTag: a69b70d5-5669-4201-91c3-b2f8c12bb937
+		summarizeBy: none
+		sourceColumn: Rango_Antiguedad_Retiro
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orden_Rango_Antiguedad_Retiro
+		dataType: int64
+		lineageTag: e307977d-b1d8-48f7-b458-d41f7a13927a
+		summarizeBy: none
+		sourceColumn: Orden_Rango_Antiguedad_Retiro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition 'Ppto Retiros' = m
 		mode: import
 		queryGroup: PptovsReal
@@ -459,9 +487,51 @@ table 'Ppto Retiros'
 				let
 				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/PptovsReal.xlsx"), null, true),
 				    RETIROS_Sheet = Origen{[Item="RETIROS",Kind="Sheet"]}[Data],
-				    #"Encabezados promovidos" = Table.PromoteHeaders(RETIROS_Sheet, [PromoteAllScalars=true])
+				    #"Encabezados promovidos" = Table.PromoteHeaders(RETIROS_Sheet, [PromoteAllScalars=true]),
+				    #"Meses antiguedad retiro" = Table.AddColumn(#"Encabezados promovidos", "Meses_Antiguedad_Retiro", each
+				        let
+				            ConvertirFecha = (valor as any) as nullable date =>
+				                let
+				                    FechaDirecta = try Date.From(valor) otherwise null,
+				                    Texto = if FechaDirecta <> null then null else try Text.Trim(Text.From(valor)) otherwise null,
+				                    FechaEsCO = if FechaDirecta <> null or Texto = null or Texto = "" then null else try Date.FromText(Texto, "es-CO") otherwise null,
+				                    FechaEnUS = if FechaDirecta <> null or FechaEsCO <> null or Texto = null or Texto = "" then null else try Date.FromText(Texto, "en-US") otherwise null,
+				                    Resultado = if FechaDirecta <> null then FechaDirecta else if FechaEsCO <> null then FechaEsCO else FechaEnUS
+				                in
+				                    Resultado,
+				            FechaInicio = ConvertirFecha(try [Fecha Inicio] otherwise null),
+				            FechaFin = ConvertirFecha(try [Fecha Vencimiento] otherwise null),
+				            MesesBase = if FechaInicio = null or FechaFin = null or FechaFin < FechaInicio then null else (Date.Year(FechaFin) - Date.Year(FechaInicio)) * 12 + (Date.Month(FechaFin) - Date.Month(FechaInicio)),
+				            MesesCompletos = if MesesBase = null then null else if Date.Day(FechaFin) < Date.Day(FechaInicio) then MesesBase - 1 else MesesBase,
+				            MesesValidos = if MesesCompletos = null or MesesCompletos < 0 then null else MesesCompletos
+				        in
+				            MesesValidos, Int64.Type),
+				    #"Rango antiguedad retiro" = Table.AddColumn(#"Meses antiguedad retiro", "Rango_Antiguedad_Retiro", each
+				        let
+				            Meses = [Meses_Antiguedad_Retiro]
+				        in
+				            if Meses = null then "Sin clasificar"
+				            else if Meses <= 11 then "a. Menos de 1 año"
+				            else if Meses <= 35 then "b. Entre 1 y 2 años"
+				            else if Meses <= 71 then "c. Entre 3 y 5 años"
+				            else if Meses <= 119 then "d. Entre 6 y 9 años"
+				            else if Meses <= 239 then "e. Entre 10 y 19 años"
+				            else if Meses <= 359 then "f. Entre 20 y 29 años"
+				            else "g. 30 años o más", type text),
+				    #"Orden rango antiguedad retiro" = Table.AddColumn(#"Rango antiguedad retiro", "Orden_Rango_Antiguedad_Retiro", each
+				        let
+				            Meses = [Meses_Antiguedad_Retiro]
+				        in
+				            if Meses = null then 99
+				            else if Meses <= 11 then 1
+				            else if Meses <= 35 then 2
+				            else if Meses <= 71 then 3
+				            else if Meses <= 119 then 4
+				            else if Meses <= 239 then 5
+				            else if Meses <= 359 then 6
+				            else 7, Int64.Type)
 				in
-				    #"Encabezados promovidos"
+				    #"Orden rango antiguedad retiro"
 
 	annotation PBI_ResultType = Table
 

@@ -126,6 +126,22 @@
 | `Ppto Gasto Personal` | decimal | Gasto laboral presupuestado |
 | `IndexAnioMes` | col. calculada | `Ano * 12 + Mes Num` (indice ordinal para ordenamiento) |
 
+### Ppto Retiros (antiguedad al retiro)
+
+La tabla `Ppto Retiros` incorpora columnas tecnicas para analizar la antiguedad del personal retirado desde las fechas reales del retiro:
+
+| Columna | Tipo | Descripcion |
+|---|---|---|
+| `Meses_Antiguedad_Retiro` | int64 | Meses completos entre `Fecha Inicio` y `Fecha Vencimiento`. Si alguna fecha es nula, invalida o `Fecha Vencimiento` es menor que `Fecha Inicio`, devuelve `null`. |
+| `Rango_Antiguedad_Retiro` | string | Clasificacion de antiguedad al retiro en rangos prefijados `a.` a `g.` y categoria `Sin clasificar`. |
+| `Orden_Rango_Antiguedad_Retiro` | int64 | Orden numerico del rango: 1 a 7 para rangos validos y 99 para `Sin clasificar`. |
+
+Regla de calculo:
+
+- Base: `Fecha Inicio` y `Fecha Vencimiento`.
+- Calculo: meses completos entre fecha de inicio y fecha de vencimiento, restando un mes cuando el dia de vencimiento es menor que el dia de inicio.
+- La columna de origen `Meses de permanencia` permanece disponible en la tabla, pero no es la base del rango de antiguedad al retiro.
+
 ---
 
 ## Relaciones (41 relaciones explicitas)

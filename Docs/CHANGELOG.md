@@ -6,6 +6,17 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-07-14
+
+### Agregado
+
+- Matriz de antiguedad al retiro en la pagina Retiros, con filas por `Ppto Retiros[Rango_Antiguedad_Retiro]`, columnas por `Anos[Ano]` y valores de `Tbl_Medidas[Tot_Retiros]`.
+- Columnas tecnicas en `Ppto Retiros` para calcular antiguedad al retiro desde `Fecha Inicio` y `Fecha Vencimiento`: `Meses_Antiguedad_Retiro`, `Rango_Antiguedad_Retiro` y `Orden_Rango_Antiguedad_Retiro`.
+
+### Modificado
+
+- La clasificacion de antiguedad al retiro deja de usar `Meses de permanencia` como base funcional y pasa a calcularse desde las fechas reales del retiro.
+
 ## [Sin version] — 2026-07-03
 
 ### Agregado
