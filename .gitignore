@@ -27,3 +27,7 @@ Inputs/*
 
 # Archivo de marca de gran tamaño (128 MB) — no versionar sin decisión separada (agregado 2026-07-03)
 Docs/Manual Marca Grupo LEMCO.pdf
+
+# Informes operativos recurrentes derivados de Power BI
+Reports/Recurring/01_Retiros_y_Rotacion_Manufactura/**/*.xlsx
+Reports/Recurring/02_Retiros_y_Rotacion_Muebles/**/*.xlsx
