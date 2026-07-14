@@ -100,4 +100,4 @@ Al realizar cambios en el proyecto, agregar una nueva entrada con el siguiente f
 - Elemento eliminado y razon
 ```
 
-> **Nota:** Este proyecto no tiene control de versiones Git activo. Se recomienda inicializar un repositorio Git para complementar este registro con un historial de commits. Ver [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) para consideraciones de privacidad antes de hacer el repositorio publico.
+> **Nota:** Este proyecto cuenta con control de versiones Git. Los cambios PBIP deben manejarse con staging selectivo por alcance; no usar `git add .`. El push requiere aprobacion explicita.

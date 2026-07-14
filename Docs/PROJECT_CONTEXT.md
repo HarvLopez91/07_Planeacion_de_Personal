@@ -104,7 +104,7 @@ El modelo usa las siguientes clasificaciones que aplican a multiples dominios:
 
 ## Limitaciones conocidas
 
-1. No existe control de versiones (Git) configurado.
+1. Existe control de versiones Git, pero el repositorio mantiene cambios PBIP acumulados pendientes de saneamiento y requiere staging selectivo por alcance.
 2. Los archivos fuente son Excel en SharePoint personal, no en un repositorio centralizado ni en una base de datos.
 3. Las credenciales de acceso a SharePoint son personales de dos cuentas distintas.
 4. No hay parametros de Power Query: las rutas estan hardcodeadas en el codigo M.
