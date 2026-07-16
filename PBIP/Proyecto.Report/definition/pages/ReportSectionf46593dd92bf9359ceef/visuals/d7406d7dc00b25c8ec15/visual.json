@@ -7,32 +7,13 @@
     "z": 6000,
     "height": 227.5,
     "width": 792.5,
-    "tabOrder": 9000
+    "tabOrder": 10000
   },
   "visual": {
-    "visualType": "pivotTable",
+    "visualType": "barChart",
     "query": {
       "queryState": {
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Generaciones"
-                    }
-                  },
-                  "Property": "Generación"
-                }
-              },
-              "queryRef": "Generaciones.Generación",
-              "nativeQueryRef": "Generación",
-              "active": true
-            }
-          ]
-        },
-        "Rows": {
+        "Category": {
           "projections": [
             {
               "field": {
@@ -46,83 +27,27 @@
                 }
               },
               "queryRef": "PLANTA DE PERSONAL.DEPENDENCIA",
-              "nativeQueryRef": "DEPENDENCIA",
+              "nativeQueryRef": "Dependencia",
               "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
-                    }
-                  },
-                  "Property": "CARGO"
-                }
-              },
-              "queryRef": "PLANTA DE PERSONAL.CARGO",
-              "nativeQueryRef": "CARGO",
-              "active": false
             }
           ]
         },
-        "Values": {
+        "Y": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados_Promedio"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados_Promedio",
+              "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "Colaboradores",
               "displayName": "Colaboradores"
-            },
-            {
-              "field": {
-                "Arithmetic": {
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
-                        }
-                      },
-                      "Property": "Tot_empleados_Promedio"
-                    }
-                  },
-                  "Right": {
-                    "ScopedEval": {
-                      "Expression": {
-                        "Measure": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
-                            }
-                          },
-                          "Property": "Tot_empleados_Promedio"
-                        }
-                      },
-                      "Scope": [
-                        {
-                          "RoleRef": {
-                            "Role": "Rows"
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "Operator": 3
-                }
-              },
-              "queryRef": "Divide(PLANTA DE PERSONAL.Tot_empleados_Promedio, ScopedEval(PLANTA DE PERSONAL.Tot_empleados_Promedio, [Role.Rows]))",
-              "nativeQueryRef": "%",
-              "displayName": "%"
             }
           ]
         }
@@ -134,7 +59,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "PLANTA DE PERSONAL"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_empleados_Promedio"
@@ -142,17 +67,25 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
-      "columnHeaders": [
+      "categoryAxis": [
         {
           "properties": {
-            "alignment": {
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "'Center'"
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
@@ -163,48 +96,20 @@
                 }
               }
             },
-            "bold": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "10D"
                 }
               }
             },
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#000032'"
-                    }
-                  }
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FFFFFF'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "total": [
-        {
-          "properties": {
-            "backColor": {
+            "labelColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": -0.2
+                      "ColorId": 1,
+                      "Percent": 0
                     }
                   }
                 }
@@ -213,156 +118,90 @@
           }
         }
       ],
-      "subTotals": [
+      "valueAxis": [
         {
           "properties": {
-            "columnSubtotals": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1A3059'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
-            }
-          }
-        },
-        {
-          "properties": {
-            "backColor": {
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'OutsideEnd'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "color": {
               "solid": {
                 "color": {
                   "expr": {
                     "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": -0.2
+                      "ColorId": 1,
+                      "Percent": 0
                     }
                   }
                 }
               }
             },
-            "applyToHeaders": {
+            "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "Row"
-          }
-        }
-      ],
-      "columnWidth": [
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "61D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "scopeId": {
-                  "Comparison": {
-                    "ComparisonKind": 0,
-                    "Left": {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Entity": "Generaciones"
-                          }
-                        },
-                        "Property": "Generación"
-                      }
-                    },
-                    "Right": {
-                      "Literal": {
-                        "Value": "'Baby Boomers'"
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "75D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "scopeId": {
-                  "Comparison": {
-                    "ComparisonKind": 0,
-                    "Left": {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Entity": "Generaciones"
-                          }
-                        },
-                        "Property": "Generación"
-                      }
-                    },
-                    "Right": {
-                      "Literal": {
-                        "Value": "'Generación X'"
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "351.53576935922854D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "PLANTA DE PERSONAL.DEPENDENCIA"
-          }
-        }
-      ],
-      "columnFormatting": [
-        {
-          "properties": {
-            "styleHeader": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "styleTotal": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Center'"
+                  "Value": "1D"
                 }
               }
             },
@@ -373,37 +212,19 @@
                 }
               }
             }
-          },
-          "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_empleados_Promedio"
           }
-        },
+        }
+      ],
+      "general": [
         {
           "properties": {
-            "styleHeader": {
+            "responsive": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "styleTotal": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Center'"
+                  "Value": "false"
                 }
               }
             }
-          },
-          "selector": {
-            "metadata": "Divide(PLANTA DE PERSONAL.Tot_empleados_Promedio, ScopedEval(PLANTA DE PERSONAL.Tot_empleados_Promedio, [Role.Rows]))"
           }
         }
       ]
@@ -422,7 +243,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Generación por Dependencia'"
+                  "Value": "'Colaboradores por dependencia'"
                 }
               }
             },
@@ -440,13 +261,6 @@
                 }
               }
             },
-            "alignment": {
-              "expr": {
-                "Literal": {
-                  "Value": "'center'"
-                }
-              }
-            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -458,11 +272,70 @@
                   }
                 }
               }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
             }
           }
         }
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "680f4b089321164fc4c6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "PLANTA DE PERSONAL"
+              }
+            },
+            "Property": "DEPENDENCIA"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1c69e0e41f373bb29a98",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_empleados_Promedio"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
