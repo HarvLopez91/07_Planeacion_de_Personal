@@ -4,6 +4,23 @@
 
 ---
 
+## Estado arquitectónico actual (2026-07-17)
+
+El proyecto ya opera como PBIP versionable con Git y documentación estructurada en `Docs/`, `Specs/` y `Outputs/`.
+
+Puntos vigentes:
+
+- `PBIP/Proyecto7.pbip` es el archivo de entrada.
+- `Docs/` contiene documentación oficial.
+- `Specs/` contiene análisis de impacto y planes aprobables.
+- `Outputs/` contiene evidencias temporales y no debe versionarse por defecto.
+- El modelo mantiene Power Query M en TMDL con conectores `Excel.Workbook(Web.Contents(...), null, true)`.
+- La migración hacia SharePoint corporativo está parcialmente implementada.
+- Persisten bloqueos o riesgos de Formula Firewall hasta validar `Aplicar cambios` y refresh local completo.
+- No se ha aprobado refactor a `SharePoint.Contents`, `SharePoint.Files`, parámetros M ni funciones centralizadas.
+
+Los diagramas de fuentes incluidos en este documento son una referencia estructural. Para el estado vigente de cada URL y fuente, usar [DATA_PIPELINE.md](DATA_PIPELINE.md) y [PROJECT_STATUS.md](PROJECT_STATUS.md).
+
 ## Formato del proyecto: PBIP
 
 El proyecto utiliza el formato **Power BI Project (PBIP)**, que separa el reporte y el modelo semantico en carpetas independientes versionables como texto plano.

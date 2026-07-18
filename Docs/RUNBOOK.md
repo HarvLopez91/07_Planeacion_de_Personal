@@ -29,6 +29,8 @@ Al abrir, Power BI Desktop cargara tanto el modelo semantico como el reporte. Si
 
 ## 2. Actualizar el modelo (refresh manual)
 
+> Estado 2026-07-17: antes de declarar exitoso el refresh, validar el bloqueo de Formula Firewall documentado en [TROUBLESHOOTING.md](TROUBLESHOOTING.md). No avanzar a validación funcional si `Aplicar cambios` o refresh muestran consultas bloqueadas.
+
 1. Con el proyecto abierto, ir a la pestaña **Inicio**
 2. Hacer clic en **Actualizar** (o `Ctrl+Alt+F5` para actualizar todo)
 3. Esperar a que todas las tablas se actualicen
@@ -49,6 +51,38 @@ Si las credenciales expiran:
 2. Seleccionar la fuente con error
 3. Hacer clic en **Editar permisos** o **Borrar permisos**
 4. Re-autenticar con la cuenta correcta
+
+### Validar niveles de privacidad
+
+Para fuentes SharePoint corporativas:
+
+1. Ir a **Archivo → Opciones y configuración → Configuración de origen de datos**.
+2. Revisar orígenes del archivo actual y permisos globales.
+3. Localizar entradas de `lemcosas.sharepoint.com` y `lemcosas-my.sharepoint.com`.
+4. Confirmar autenticación con cuenta organizacional.
+5. Configurar fuentes corporativas como **Organizacional**.
+6. Evitar **Ignorar niveles de privacidad** como solución permanente.
+7. No borrar permisos personales sin autorización explícita.
+8. Registrar la versión exacta de Power BI Desktop.
+
+Si Power BI Desktop es julio de 2026 o posterior, revisar si existe la característica preliminar:
+
+```text
+Permitir que las particiones del firewall de privacidad que hacen referencia a otras particiones también accedan a orígenes de datos
+```
+
+No activar ni desactivar esta opción sin aprobación funcional/técnica. Documentar su disponibilidad y estado.
+
+### Validación mínima antes de cerrar refresh
+
+Confirmar:
+
+- Vista previa de `PLANTA DE PERSONAL`.
+- Vista previa de `Selección Grupo Lemco`.
+- Vista previa de `SENA UNIDADES`.
+- `Aplicar cambios` sin errores.
+- Refresh completo sin errores de credenciales, privacidad, hoja, clave, columna o tipo.
+- `git status -sb` posterior para clasificar ruido de Desktop.
 
 ---
 

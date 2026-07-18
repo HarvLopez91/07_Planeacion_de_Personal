@@ -1,40 +1,111 @@
-# Planeacion de Personal — People Analytics
+# Planeación de Personal - People Analytics
 
-Reporte de People Analytics del **Grupo Empresarial Lemco** construido en formato **Power BI Project (PBIP)**.
+Repositorio del dashboard **Planeación de Personal** del Grupo Empresarial Lemco, construido como **Power BI Desktop Project (PBIP)**.
 
-Cubre los dominios de HeadCount, Presupuesto vs Real, Seleccion, Ausentismo, Incapacidades y Seguridad y Salud en el Trabajo (SST) para las empresas del grupo: Challenger, Habitel Hotels, Grupo Sky, Lemco y Fundacion Challenger.
+El proyecto centraliza indicadores de Gestión Humana para headcount, presupuesto vs real, ingresos, retiros, selección, ausentismo, incapacidades, SST y gasto laboral. El público principal es la Gerencia Corporativa de Gestión Humana y equipos directivos que consumen analítica agregada.
 
-## Documentacion tecnica
+## Estado Actual
 
-La documentacion detallada del proyecto se encuentra en la carpeta [`Docs/`](Docs/README.md).
+Estado documentado: `2026-07-17`.
 
-| Documento | Descripcion |
-|---|---|
-| [Contexto del Proyecto](Docs/PROJECT_CONTEXT.md) | Proposito, dominio de negocio y empresas del grupo |
-| [Arquitectura](Docs/ARCHITECTURE.md) | Estructura PBIP, modelo semantico y reporte |
-| [Modelo de Datos](Docs/DATA_MODEL.md) | Tablas, columnas, relaciones y cardinalidades |
-| [Catalogo de Metricas](Docs/METRICS_CATALOG.md) | Medidas DAX clasificadas por dominio |
-| [Pipeline de Datos](Docs/DATA_PIPELINE.md) | Fuentes, Power Query y proceso de actualizacion |
-| [Guia de BI](Docs/BI_GUIDELINES.md) | Paginas del reporte, bookmarks y convenciones |
-| [Seguridad y Privacidad](Docs/SECURITY_AND_PRIVACY.md) | Datos sensibles, accesos y riesgos |
-| [Runbook Operativo](Docs/RUNBOOK.md) | Procedimientos de mantenimiento y actualizacion |
-| [Registro de Cambios](Docs/CHANGELOG.md) | Historial de versiones |
+- PBIP principal: `PBIP/Proyecto7.pbip`.
+- Rama principal: `main`.
+- Repositorio remoto: `https://github.com/HarvLopez91/07_Planeacion_de_Personal.git`.
+- El proyecto usa Git y requiere staging selectivo por alcance.
+- La migración de fuentes a SharePoint corporativo está en curso.
+- La validación de **Formula Firewall** sigue pendiente de evidencia interactiva en Power BI Desktop.
+- No debe avanzarse a validación funcional de páginas hasta confirmar que `Aplicar cambios` y el refresh completo terminan sin errores.
+- El working tree puede contener cambios PBIP acumulados fuera de alcance; no limpiarlo ni mezclarlo con documentación.
 
-## Estructura del repositorio
+## Estructura Principal
 
-```
+```text
 07_Planeacion_de_Personal/
-├── Data/               # Datos locales de referencia (actualmente 2026/05_Mayo/)
-├── Docs/               # Documentacion tecnica del proyecto
-└── PBIP/               # Proyecto Power BI en formato PBIP
-    ├── Proyecto.pbip               # Archivo de entrada del proyecto
-    ├── Proyecto.Report/            # Definicion del reporte
-    └── Proyecto.SemanticModel/     # Modelo semantico (TMDL + DAX + Power Query)
+├── PBIP/        # Proyecto Power BI Desktop Project
+├── Docs/        # Documentación oficial versionada
+├── Specs/       # Análisis de impacto y planes aprobables
+├── Outputs/     # Evidencia temporal local, no versionada
+├── Data/        # Datos locales, no versionados
+├── Reports/     # Informes recurrentes versionables
+├── Tools/       # Utilidades de soporte, si están aprobadas
+├── Assets/      # Recursos de apoyo, si están aprobados
+├── README.md
+├── AGENTS.md
+└── CLAUDE.md
 ```
 
-## Estado actual
+`Outputs/` y `Data/` no deben incluirse en commits. `Specs/` no se mezcla con commits técnicos salvo aprobación explícita.
 
-- **Formato:** Power BI Project (PBIP) v1.0
-- **Control de versiones:** No configurado (`Pendiente de confirmar`)
-- **Ultima actualizacion del modelo:** visible en la pagina *Fecha de Actualizacion* del reporte
-- **Cultura del modelo:** `es-ES` / `es-CO`
+## Requisitos de Trabajo
+
+- Power BI Desktop compatible con PBIP y TMDL.
+- Git.
+- VS Code u otro editor seguro para UTF-8.
+- Acceso organizacional al sitio SharePoint corporativo.
+- Cuenta con permisos para abrir las fuentes de datos del modelo.
+
+Para validar el bloqueo actual de Formula Firewall, usar Power BI Desktop de julio de 2026 o posterior y revisar la opción preliminar de particiones de privacidad. Ver [Docs/TROUBLESHOOTING.md](Docs/TROUBLESHOOTING.md).
+
+## Cómo Abrir el PBIP
+
+1. Cerrar otras sesiones de Power BI Desktop sobre este proyecto.
+2. Abrir Power BI Desktop.
+3. Usar `Archivo > Abrir`.
+4. Seleccionar `PBIP/Proyecto7.pbip`.
+5. No guardar si Power BI Desktop abre con errores no diagnosticados.
+
+## Flujo de Desarrollo
+
+1. Diagnosticar el alcance.
+2. Crear o revisar Spec si el cambio es funcional, de modelo, fuente o visual.
+3. Implementar solo los archivos autorizados.
+4. Validar en Power BI Desktop cuando aplique.
+5. Auditar `git diff` y clasificar ruido de Desktop.
+6. Hacer staging selectivo con rutas explícitas.
+7. Commit separado por bloque.
+8. Push solo con aprobación explícita.
+
+Comandos base:
+
+```powershell
+git status -sb
+git diff --cached --name-status
+git diff --check
+git log --oneline origin/main..HEAD
+git log --oneline HEAD..origin/main
+```
+
+Nunca usar `git add .`.
+
+## Documentación Oficial
+
+El índice de documentación vive en [Docs/README.md](Docs/README.md).
+
+Documentos clave:
+
+- [Contexto del proyecto](Docs/PROJECT_CONTEXT.md)
+- [Estado y roadmap](Docs/PROJECT_STATUS.md)
+- [Arquitectura](Docs/ARCHITECTURE.md)
+- [Modelo de datos](Docs/DATA_MODEL.md)
+- [Fuentes y pipeline](Docs/DATA_PIPELINE.md)
+- [Guía BI](Docs/BI_GUIDELINES.md)
+- [Runbook operativo](Docs/RUNBOOK.md)
+- [Gobierno Git](Docs/GIT_GOVERNANCE.md)
+- [Troubleshooting](Docs/TROUBLESHOOTING.md)
+- [Seguridad y privacidad](Docs/SECURITY_AND_PRIVACY.md)
+
+## Reglas Críticas
+
+- No exponer datos personales ni registros individuales.
+- No versionar `Data/` ni `Outputs/`.
+- No mezclar cambios PBIP, Docs, Specs y Tools en un mismo commit.
+- No editar TMDL mientras Power BI Desktop mantiene cambios pendientes.
+- No modificar `PBI_ResultType` para ocultar errores.
+- No afirmar refresh exitoso sin evidencia visual o confirmación explícita.
+
+## Próximos Pasos
+
+1. Validar Formula Firewall en Power BI Desktop actualizado.
+2. Confirmar `Aplicar cambios` y refresh completo sin errores.
+3. Auditar cambios PBIP pendientes por bloque.
+4. Tratar por separado los pendientes de `AREAS`, `REQUISICIONES HABITEL 2026.xlsx`, `AUSENTISMOS` y `Estructura`.

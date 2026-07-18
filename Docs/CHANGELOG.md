@@ -6,6 +6,20 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-07-17
+
+### Agregado
+
+- `Docs/PROJECT_STATUS.md` para consolidar estado operativo, bloqueos vigentes y pendientes del proyecto.
+- `Docs/GIT_GOVERNANCE.md` para documentar reglas de staging selectivo, commit y push.
+- `Docs/TROUBLESHOOTING.md` para documentar diagnóstico y validación de Formula Firewall, rutas SharePoint y ruido PBIP.
+
+### Modificado
+
+- `README.md`, `AGENTS.md` y `CLAUDE.md` actualizados al estado real del proyecto `Proyecto7.pbip`.
+- `Docs/README.md` actualizado como índice oficial de documentación.
+- `Docs/PROJECT_CONTEXT.md`, `Docs/ARCHITECTURE.md`, `Docs/DATA_PIPELINE.md`, `Docs/RUNBOOK.md` y `Docs/SECURITY_AND_PRIVACY.md` alineados con Git activo, migración de fuentes a SharePoint corporativo y bloqueo vigente de Formula Firewall.
+
 ## [Sin version] - 2026-07-14
 
 ### Agregado

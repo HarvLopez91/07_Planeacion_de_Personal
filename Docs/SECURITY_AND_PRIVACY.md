@@ -57,17 +57,21 @@ Este proyecto maneja **datos personales de empleados** del Grupo Empresarial Lem
 
 ## Gestion de credenciales de fuentes de datos
 
-Las fuentes de datos estan en SharePoint/OneDrive de Microsoft 365. El acceso requiere autenticacion con las cuentas propietarias de los archivos:
+Las fuentes de datos estan en SharePoint/OneDrive de Microsoft 365. El objetivo de gobierno es usar el sitio corporativo `TalentoHumanoGrupoLemco` y credenciales organizacionales, evitando dependencia de rutas personales.
 
-| Cuenta | Archivos que gestiona | Riesgo |
+Estado documentado al 2026-07-17:
+
+| Origen | Estado | Riesgo |
 |---|---|---|
-| Cuenta A (`edwin_clavijo_challenger_co`) | HeadCount, PptovsReal, SST | Si esta cuenta cambia de contrasena o es desactivada, la mitad del modelo falla |
-| Cuenta B (`maria_bohorquez_challenger_co`) | Ausentismos, Maestro, Incapacidades, Seleccion, Estructura | Idem |
+| Sitio corporativo `lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco` | Ruta objetivo para fuentes gobernadas | Requiere permisos organizacionales y niveles de privacidad consistentes |
+| Cuenta personal `edwin_clavijo_challenger_co` | Origen histórico de varias fuentes | Riesgo de continuidad si persisten dependencias |
+| Cuenta personal `maria_bohorquez_challenger_co` | Origen histórico de Ausentismos, Estructura y otras fuentes | Riesgo de continuidad y Formula Firewall si se mezcla con sitio corporativo |
 
 **Riesgos identificados:**
-1. Las credenciales son personales. Si la persona deja la organizacion, el modelo pierde acceso a sus fuentes.
-2. No existe una cuenta de servicio dedicada para el pipeline de datos.
-3. Los archivos estan en carpetas personales de OneDrive, no en un sitio SharePoint compartido de equipo.
+1. Las rutas personales remanentes pueden fallar si la cuenta cambia, se desactiva o pierde permisos.
+2. Entradas duplicadas de SharePoint con distintos niveles de privacidad pueden activar Formula Firewall.
+3. No existe una cuenta de servicio dedicada para el pipeline de datos.
+4. No hay documentación final de credenciales, gateway o refresh programado en Power BI Service.
 
 ---
 
@@ -94,9 +98,9 @@ Los siguientes archivos del repositorio local **no deben compartirse publicament
 Las siguientes son recomendaciones derivadas del analisis. Su implementacion es `Pendiente de decision`:
 
 1. **Implementar Row-Level Security (RLS)** para restringir el acceso por empresa segun el usuario del reporte publicado.
-2. **Migrar los archivos fuente a un sitio SharePoint de equipo** (no carpetas personales) con una cuenta de servicio.
+2. **Finalizar la migración de archivos fuente a SharePoint corporativo** y eliminar gradualmente dependencias de rutas personales.
 3. **Crear parametros de Power Query** para las rutas de los archivos, facilitando migracion sin edicion del codigo M.
 4. **Revisar si los campos de datos personales sensibles** (direccion, telefono, email, salario) son necesarios en el modelo o pueden eliminarse/enmascararse.
 5. **Documentar y cumplir con la politica de tratamiento de datos** de la organizacion bajo la Ley 1581 de 2012.
-6. **Inicializar un repositorio Git privado** con `.gitignore` correcto para versionar el proyecto sin exponer datos.
+6. **Mantener el repositorio Git con staging selectivo** y no versionar `Data/`, `Outputs/` ni archivos con datos personales.
 7. **Evaluar el contenido de `Inputs/Base_Rotacion_Atraccion_Seleccion.xlsx`** (agregado 2026-07-03) para confirmar si tiene datos personales; si los tiene, tratarlo como `Data/` y no versionarlo.

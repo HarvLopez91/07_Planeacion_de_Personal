@@ -5,6 +5,38 @@
 
 ---
 
+## Estado actual de fuentes (2026-07-17)
+
+La estrategia vigente es migrar las fuentes Excel desde rutas personales de SharePoint/OneDrive hacia el sitio corporativo:
+
+```text
+https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco
+```
+
+El patrón técnico vigente para el bloque actual se mantiene como:
+
+```powerquery
+Excel.Workbook(Web.Contents("<url corporativa>"), null, true)
+```
+
+No se ha aprobado todavía una refactorización a `SharePoint.Contents`, `SharePoint.Files`, parámetros o funciones compartidas.
+
+Estado documentado:
+
+| Familia | Estado |
+|---|---|
+| `PptovsReal.xlsx` | Ruta corporativa aplicada para `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos` |
+| `Consolidado 2024.xlsx` / `Consolidado 2025.xlsx` | Rutas corporativas identificadas; `PLANTA DE PERSONAL` sigue pendiente de refresh exitoso |
+| Selección / SENA | Rutas corporativas revisadas; `SENA UNIDADES` debe conservar `Item="SENA", Kind="Sheet"` |
+| SST / Accidentalidad | Ruta corporativa documentada para `Accidentalidad_Consolidado.xlsx` |
+| Incapacidades / CIE-10 | Ruta corporativa reportada para `Incapacidades_GL.xlsx`, pendiente de validación final |
+| Días Laborales | Ruta corporativa reportada para `Feriados.xlsx`, pendiente de validación final |
+| `AUSENTISMOS` y `Estructura` | Persisten como fuentes personales o pendientes de análisis |
+| `AREAS` | Sigue ligada a `Consolidado 2024.xlsx`; requiere análisis posterior antes de cambiar origen |
+| `REQUISICIONES HABITEL 2026.xlsx` | Fuente nueva fuera de alcance; requiere Spec propia |
+
+El refresh local completo no debe declararse exitoso hasta validar `Aplicar cambios` y refresh sin errores en Power BI Desktop. Ver [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
+
 ## Patron general
 
 Todas las fuentes de datos son archivos **Microsoft Excel alojados en SharePoint/OneDrive**. El acceso se realiza mediante la funcion `Web.Contents` de Power Query apuntando a la URL de descarga del archivo en el tenant de Microsoft 365 de la organizacion.
@@ -13,22 +45,23 @@ No existen parametros de Power Query formales. Las rutas a los archivos estan **
 
 ---
 
-## Cuentas de SharePoint identificadas
+## Cuentas y sitios de SharePoint identificados
 
-El modelo consume datos desde dos cuentas de SharePoint distintas:
+El modelo históricamente consumió datos desde cuentas personales y actualmente avanza hacia el sitio corporativo:
 
-| Alias de cuenta | Propietario identificado | Tablas que alimenta |
+| Origen | Estado | Tablas o familias |
 |---|---|---|
-| `edwin_clavijo_challenger_co` | Responsable del modelo (Cuenta A) | HeadCount, PptovsReal, SST GENERAL / ACCIDENTALIDAD |
-| `maria_bohorquez_challenger_co` | Gerencia Gestion Humana (Cuenta B) | Ausentismos, Maestro, Incapacidades, Seleccion (todas), Estructura |
+| `lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco` | Objetivo corporativo | HeadCount, PptovsReal, Selección, SENA, SST, Incapacidades y fuentes futuras |
+| `edwin_clavijo_challenger_co` | Origen personal histórico | Debe eliminarse gradualmente cuando exista ruta corporativa aprobada |
+| `maria_bohorquez_challenger_co` | Origen personal histórico | Persisten referencias en fuentes pendientes como `AUSENTISMOS` y `Estructura` |
 
-> Las credenciales de autenticacion se gestionan en Power BI Desktop / Power BI Service por separado para cada cuenta. Si alguna de las dos cuentas cambia de contrasena o es desactivada, las tablas que dependen de ella fallaran en la actualizacion. Ver [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md).
+> Las credenciales y niveles de privacidad se gestionan en Power BI Desktop / Power BI Service. Las fuentes corporativas combinadas deben quedar como `Organizacional`. Ver [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) y [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 
 ---
 
 ## Inventario de fuentes de datos
 
-### Cuenta A (`edwin_clavijo_challenger_co`)
+### Fuentes HeadCount / Presupuesto / SST
 
 | Archivo | Hoja(s) consumida(s) | Tabla(s) resultante(s) | Grupo |
 |---|---|---|---|
@@ -36,15 +69,15 @@ El modelo consume datos desde dos cuentas de SharePoint distintas:
 | `Consolidado 2025.xlsx` | `Consolidado2025` | `Consolidado2025` (staging oculta) | HeadCount |
 | `PptovsReal.xlsx` | `Planta Personal` | `Planta Ppto` | PptovsReal |
 | `PptovsReal.xlsx` | `RETIROS` | `Ppto Retiros` | PptovsReal |
-| `PptovsReal.xlsx` | `(Pendiente de confirmar para Ppto Ingresos)` | `Ppto Ingresos` | PptovsReal |
-| `Accidentalidad.xlsx` | `SST GENERAL` | `SST GENERAL` | SST |
-| `Accidentalidad.xlsx` | `(hoja SST_CHA — Pendiente de confirmar nombre)` | `SST_CHA` | SST |
-| `Accidentalidad.xlsx` | `(hoja SST-HABITELH — Pendiente de confirmar nombre)` | `SST-HABITELH` | SST |
-| `Accidentalidad.xlsx` | `(hoja SST-GSKY — Pendiente de confirmar nombre)` | `SST-GSKY` | SST |
+| `PptovsReal.xlsx` | `INGRESOS` | `Ppto Ingresos` | PptovsReal |
+| `Accidentalidad_Consolidado.xlsx` | `SST GENERAL` | `SST GENERAL` | SST |
+| `Accidentalidad_Consolidado.xlsx` | `(hoja SST_CHA — Pendiente de confirmar nombre)` | `SST_CHA` | SST |
+| `Accidentalidad_Consolidado.xlsx` | `(hoja SST-HABITELH — Pendiente de confirmar nombre)` | `SST-HABITELH` | SST |
+| `Accidentalidad_Consolidado.xlsx` | `(hoja SST-GSKY — Pendiente de confirmar nombre)` | `SST-GSKY` | SST |
 
 > Nota: `SST_CHA`, `SST-HABITELH` y `SST-GSKY` son tablas intermedias que se consolidan en `ACCIDENTALIDAD` mediante `Table.Combine`. No tienen relaciones propias en el modelo.
 
-### Cuenta B (`maria_bohorquez_challenger_co`)
+### Fuentes Selección / Ausentismo / Medicina
 
 | Archivo | Hoja consumida | Tabla resultante | Grupo |
 |---|---|---|---|
@@ -52,9 +85,10 @@ El modelo consume datos desde dos cuentas de SharePoint distintas:
 | `Maestro.xlsx` | `Maestro` | `Maestro` | *(sin grupo)* |
 | `Incapacidades_GL.xlsx` | `Incapacidades` | `Incapacidades` | Incapacidades |
 | `REQUISICIONES_CYL.xlsx` | `Matriz 2025` (con 4 filas de encabezado a saltar) | `Seleccion Challenger` | Seleccion |
-| `(archivo Habitel — Pendiente de confirmar)` | `(hoja — Pendiente de confirmar)` | `Seleccion Habitel Hotels` | Seleccion |
-| `(archivo Sky — Pendiente de confirmar)` | `(hoja — Pendiente de confirmar)` | `Seleccion Grupo Sky` | Seleccion |
-| `(archivo Lemco — Pendiente de confirmar)` | `(hoja — Pendiente de confirmar)` | `Seleccion Grupo Lemco` | Seleccion |
+| `REQUISICIONES HABITEL.xlsx` | `(hoja — Pendiente de confirmar)` | `Seleccion Habitel Hotels` | Seleccion |
+| `REQUISICIONES SKY.xlsx` | `(hoja — Pendiente de confirmar)` | `Seleccion Grupo Sky` | Seleccion |
+| consultas base de selección | append / transformaciones | `Seleccion Grupo Lemco` | Seleccion |
+| `SENA.xlsx` | `SENA` | `SENA UNIDADES` | SENA |
 | `Estructura.xlsx` | `Estructura` | `Estructura` | *(sin grupo)* |
 
 ### Fuentes embebidas (sin SharePoint)

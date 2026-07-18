@@ -4,6 +4,22 @@
 
 ---
 
+## Nota de vigencia 2026-07-17
+
+Este documento conserva el análisis estructural realizado el 2026-07-03 y debe leerse como estándar corporativo y referencia histórica de adopción. El estado real del repositorio evolucionó después de esa fecha:
+
+- El proyecto sí cuenta con Git activo.
+- `Docs/` está versionado como documentación oficial.
+- `Specs/` existe y contiene análisis de impacto y planes aprobables.
+- `Outputs/` se usa como evidencia temporal local y no debe versionarse por defecto.
+- `AGENTS.md` y `CLAUDE.md` son parte de las instrucciones operativas versionables.
+- `Tools/`, `Assets/` y otras carpetas pueden existir como cambios pendientes o componentes no necesariamente aprobados para commit.
+- El repositorio mantiene cambios PBIP acumulados fuera de alcance, por lo que se exige staging selectivo.
+
+Para estado operativo vigente usar [PROJECT_STATUS.md](PROJECT_STATUS.md). Para reglas de Git usar [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md).
+
+---
+
 ## 1. Propósito
 
 Este documento define el **estándar corporativo obligatorio** de estructura de carpetas para proyectos Power BI/PBIP de People Analytics, y documenta cómo se compara la estructura **actual y real** de `07_Planeación_de_Personal` contra ese estándar. Sirve como referencia para el propietario del proyecto y para agentes de IA (Claude Code, Codex, GitHub Copilot) que trabajen en él o en otros proyectos PBIP del área.
@@ -27,7 +43,7 @@ No reemplaza a [ARCHITECTURE.md](ARCHITECTURE.md), que describe la arquitectura 
 3. **Cada carpeta tiene un dueño de propósito único.** Si un archivo no encaja claramente en una carpeta del estándar, es señal de que falta una regla o de que el archivo está mal ubicado.
 4. **Adopción gradual, no big-bang.** El estándar define 16 carpetas; un proyecto no necesita tenerlas todas pobladas desde el día uno. Se crean cuando hay contenido real que las justifique (ver sección 14).
 5. **Ninguna migración sin Spec.** Pasar de la estructura actual de un proyecto al estándar corporativo es un cambio estructural — requiere análisis de impacto documentado antes de tocar una sola carpeta.
-6. **Trazabilidad ante todo.** Todo cambio funcional relevante debe quedar documentado en `Docs/` (oficial) o `Outputs/documentation/` (huella del proceso).
+6. **Trazabilidad ante todo.** Todo cambio funcional relevante debe quedar documentado en `Docs/` (oficial), `Specs/` (plan aprobable) u `Outputs/` (huella del proceso).
 
 ---
 
@@ -38,12 +54,12 @@ No reemplaza a [ARCHITECTURE.md](ARCHITECTURE.md), que describe la arquitectura 
 ├── .claude/                    # Config local de Claude Code (settings.local.json) — no versionado
 ├── .git/
 ├── .gitignore
-├── AGENTS.md                   # Reglas para agentes de IA (sin trackear en Git aún)
-├── CLAUDE.md                   # Adaptador de AGENTS.md para Claude Code (sin trackear en Git aún)
+├── AGENTS.md                   # Reglas para agentes de IA
+├── CLAUDE.md                   # Adaptador de AGENTS.md para Claude Code
 ├── README.md                   # Punto de entrada del repositorio
 ├── Data/                       # Vacía actualmente — excluida de Git por .gitignore
 ├── Inputs/                     # 1 archivo: Base_Rotacion_Atraccion_Seleccion.xlsx — sin trackear en Git
-├── Docs/                       # Documentación oficial (sin trackear en Git aún)
+├── Docs/                       # Documentación oficial versionada
 │   ├── README.md               # Índice y gobierno de Docs/
 │   ├── PROJECT_CONTEXT.md
 │   ├── ARCHITECTURE.md
@@ -211,7 +227,7 @@ Reglas base:
 
 - **`Docs/`** = documentación oficial, vigente y **versionada** en Git.
 - **`Outputs/`** = evidencia y diagnósticos de trabajo, **local y no versionada** (excluida por `.gitignore`; solo se versiona con aprobación explícita, ver sección 11).
-- **`Specs/`** = planes aprobables antes de implementar, únicamente cuando esa carpeta se adopte (sección 14); hoy no existe y no se crea sin necesidad real.
+- **`Specs/`** = análisis de impacto y planes aprobables antes de implementar. Ya existe en el proyecto y no debe mezclarse con commits técnicos salvo aprobación explícita.
 - **Runbooks y ADRs pertenecen a `Docs/`** — no son una categoría aparte de esta política: `Docs/RUNBOOK.md` y `Docs/decisions/` ya son documentación oficial y siguen la misma regla que cualquier otro documento de `Docs/`.
 
 | Tipo | Dónde vive | Características |
@@ -306,10 +322,10 @@ Si en el futuro se adoptan `Scripts/` o `Tools/`, agregar reglas para no version
 ## 13. Buenas prácticas para trabajo con IA
 
 - **Claude Code / Codex / GitHub Copilot** leen `AGENTS.md` (fuente) y `CLAUDE.md` (adaptador específico) en la raíz del proyecto — mantenerlos sincronizados si se actualiza uno.
-- **No implementar sin diagnóstico.** Antes de un cambio funcional, generar o consultar el diagnóstico correspondiente en `Outputs/documentation/`.
+- **No implementar sin diagnóstico.** Antes de un cambio funcional, generar o consultar el diagnóstico correspondiente en `Outputs/` o la Spec aplicable.
 - **No mover archivos sin análisis de impacto.** Especialmente en `PBIP/` — un archivo movido puede romper referencias internas del modelo o del reporte. Para migraciones estructurales, ver requisito de Spec en sección 6.
 - **Documentar resultados en `Outputs/`**, nunca en `Docs/` directamente; la promoción a `Docs/` es una decisión explícita del usuario.
-- **Documentar planes en `Specs/`** una vez se adopte esa carpeta; mientras tanto, los planes se comunican en la conversación o se guardan en `Outputs/` con prefijo `spec_` o `propuesta_`.
+- **Documentar planes en `Specs/`** cuando el cambio requiera análisis aprobable antes de implementar. Los diagnósticos y evidencias de ejecución se guardan en `Outputs/`.
 - **Confirmar antes de commit/push.** Ningún agente ejecuta `git commit`, `git push` ni publica sin aprobación explícita (regla ya vigente en `AGENTS.md` y `CLAUDE.md`).
 
 ---
@@ -320,7 +336,7 @@ Ninguna de las 10 carpetas pendientes se crea por adelantado. Criterio de activa
 
 | Carpeta | Se crea cuando... |
 |---|---|
-| `Specs/` | Aparezca el primer plan que valga la pena versionar antes de implementarlo — incluida la primera Spec de migración estructural real (ver sección 6) |
+| `Specs/` | Ya existe; mantenerla para análisis de impacto y planes aprobables antes de implementar |
 | `Scripts/` | Se escriba el primer script reutilizable (hoy no hay ninguno en el repo) |
 | `Tools/` | Se necesite una utilidad de soporte que no es un script de un solo uso |
 | `Assets/` | Se gestionen recursos gráficos fuente fuera del propio PBIP |
@@ -340,7 +356,7 @@ Este documento se debe actualizar cada vez que se active una de estas carpetas, 
 - [ ] ¿Hay contenido real que justifique la carpeta hoy (no "por si acaso")?
 - [ ] ¿Ya existe una carpeta del estándar que cubra este propósito? (revisar sección 5)
 - [ ] ¿Es una migración estructural (renombrar/mover una carpeta existente)? Si es así, ¿existe una Spec de migración aprobada con análisis de impacto, archivos afectados, riesgos, validaciones PBIP, comandos Git y plan de rollback? (sección 6)
-- [ ] ¿Se documentó el motivo en `Outputs/documentation/` o en la conversación con el usuario?
+- [ ] ¿Se documentó el motivo en `Outputs/`, `Specs/` o en la conversación con el usuario?
 - [ ] ¿Se tiene autorización explícita del usuario para crear/mover/eliminar/renombrar? (regla transversal de `AGENTS.md`)
 - [ ] ¿Se actualizó este documento (secciones 4, 5, 6, 7) si la carpeta es nueva o cambió de estado?
 - [ ] ¿El `.gitignore` necesita ajuste por la carpeta nueva?

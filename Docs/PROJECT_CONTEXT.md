@@ -74,8 +74,9 @@ El modelo usa las siguientes clasificaciones que aplican a multiples dominios:
 ## Alcance temporal
 
 - **Dato mas antiguo identificado:** 2024 (`Consolidado 2024.xlsx`)
-- **Dato mas reciente identificado:** 2025 (`Consolidado 2025.xlsx`)
-- **Cobertura futura:** `Pendiente de confirmar`
+- **Dato mas reciente en uso funcional:** 2026, con corte de trabajo junio 2026 en páginas operativas del reporte (`Pendiente de validación final de refresh`)
+- **Fuentes históricas identificadas:** `Consolidado 2024.xlsx`, `Consolidado 2025.xlsx` y archivos de presupuesto/real usados para 2026
+- **Cobertura futura:** requiere validar fuentes 2026 adicionales y refresh completo
 
 > Nota (verificado 2026-07-03): la carpeta `Data/` esta **vacia** en el repositorio local — no existe la subcarpeta `Data/2026/05_Mayo/` mencionada en versiones anteriores de este documento y de `Docs/CHANGELOG.md`. No se ha confirmado si ese contenido se elimino, se movio, o nunca se llego a versionar localmente; `Pendiente de confirmar` con el usuario. `Data/` esta excluida de Git por `.gitignore`, por lo que su historial no es recuperable desde el repositorio.
 
@@ -105,8 +106,10 @@ El modelo usa las siguientes clasificaciones que aplican a multiples dominios:
 ## Limitaciones conocidas
 
 1. Existe control de versiones Git, pero el repositorio mantiene cambios PBIP acumulados pendientes de saneamiento y requiere staging selectivo por alcance.
-2. Los archivos fuente son Excel en SharePoint personal, no en un repositorio centralizado ni en una base de datos.
-3. Las credenciales de acceso a SharePoint son personales de dos cuentas distintas.
-4. No hay parametros de Power Query: las rutas estan hardcodeadas en el codigo M.
+2. La migración de rutas personales a SharePoint corporativo está en curso; `PptovsReal.xlsx` ya fue alineado para tablas de presupuesto/real, pero aún existen fuentes personales o pendientes de análisis.
+3. Persisten riesgos de Formula Firewall en Power Query hasta validar `Aplicar cambios` y refresh completo en Power BI Desktop.
+4. No hay parámetros de Power Query: las rutas están hardcodeadas en el código M.
+5. No hay evidencia documental de RLS configurado en el modelo.
+6. La publicación al servicio Power BI y refresh programado siguen pendientes de documentación formal.
 
-> Ver detalles en [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) y [DATA_PIPELINE.md](DATA_PIPELINE.md).
+> Ver detalles en [PROJECT_STATUS.md](PROJECT_STATUS.md), [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md), [DATA_PIPELINE.md](DATA_PIPELINE.md) y [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
