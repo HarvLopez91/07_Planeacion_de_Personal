@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "a13419ae405d93defde0",
   "position": {
     "x": 244.69082830201472,
@@ -57,13 +57,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "ACCIDENTALIDAD"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Accidentes"
                 }
               },
-              "queryRef": "Divide(ACCIDENTALIDAD.Tot_Accidentes, ScopedEval(ACCIDENTALIDAD.Tot_Accidentes, []))",
+              "queryRef": "Divide(Tbl_Medidas.Tot_Accidentes, ScopedEval(Tbl_Medidas.Tot_Accidentes, []))",
               "nativeQueryRef": "Tot_Accidentes"
             }
           ]
@@ -76,7 +76,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "ACCIDENTALIDAD"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_Accidentes"
@@ -569,6 +569,11 @@
                         "Name": "a",
                         "Entity": "ACCIDENTALIDAD",
                         "Type": 0
+                      },
+                      {
+                        "Name": "m",
+                        "Entity": "Tbl_Medidas",
+                        "Type": 0
                       }
                     ],
                     "Select": [
@@ -591,7 +596,7 @@
                           "Measure": {
                             "Expression": {
                               "SourceRef": {
-                                "Source": "a"
+                                "Source": "m"
                               }
                             },
                             "Property": "Tot_Accidentes"

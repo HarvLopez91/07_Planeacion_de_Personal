@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "c7ec5ff04e4a51016bd9",
   "position": {
     "x": 252.34541415100736,
@@ -57,13 +57,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "ACCIDENTALIDAD"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Accidentes"
                 }
               },
-              "queryRef": "ACCIDENTALIDAD.Tot_Accidentes",
+              "queryRef": "Tbl_Medidas.Tot_Accidentes",
               "nativeQueryRef": "Tot_Accidentes"
             }
           ]
@@ -76,7 +76,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "ACCIDENTALIDAD"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_Accidentes"
@@ -627,6 +627,11 @@
                         "Name": "a",
                         "Entity": "ACCIDENTALIDAD",
                         "Type": 0
+                      },
+                      {
+                        "Name": "m",
+                        "Entity": "Tbl_Medidas",
+                        "Type": 0
                       }
                     ],
                     "Select": [
@@ -649,7 +654,7 @@
                           "Measure": {
                             "Expression": {
                               "SourceRef": {
-                                "Source": "a"
+                                "Source": "m"
                               }
                             },
                             "Property": "Tot_Accidentes"

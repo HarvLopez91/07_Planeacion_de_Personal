@@ -57,13 +57,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "ACCIDENTALIDAD"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Accidentes"
                 }
               },
-              "queryRef": "ACCIDENTALIDAD.Tot_Accidentes",
+              "queryRef": "Tbl_Medidas.Tot_Accidentes",
               "nativeQueryRef": "Tot_Accidentes"
             }
           ]
