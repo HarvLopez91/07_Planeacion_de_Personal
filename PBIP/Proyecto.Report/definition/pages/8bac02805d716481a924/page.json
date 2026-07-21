@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
   "name": "8bac02805d716481a924",
-  "displayName": "Comportamiento_HC_Anual_v4",
+  "displayName": "Comportamiento HC Anual",
   "displayOption": "FitToPage",
   "height": 900,
   "width": 1600,
@@ -50,6 +50,5 @@
         }
       }
     ]
-  },
-  "visibility": "HiddenInViewMode"
+  }
 }
