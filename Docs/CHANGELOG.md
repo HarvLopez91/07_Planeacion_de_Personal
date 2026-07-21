@@ -6,6 +6,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-07-21
+
+### Corregido
+
+- Pagina `Gasto Laboral`: se ajustaron las unidades visuales de `Presupuesto Gasto Personal` y `Gasto Personal` en el grafico `Gasto Labora (Ppto vs Ejecucion)` y la tabla mensual para evitar que negocios con valores menores frente a Challenger se mostraran como `$0,0 mill.`.
+- Causa identificada: `labelDisplayUnits` estaba forzado a millones (`1000000D`) en las etiquetas/valores monetarios, con precision reducida.
+- Solucion aplicada: las unidades de visualizacion quedaron sin escala forzada (`1D`) en las series/columnas monetarias, conservando calculos, medidas, colores, filtros, navegacion y diseno.
+- Archivos PBIP modificados: `visuals/b351f0de695056ac18a5/visual.json` y `visuals/ced924c91be19c603ad0/visual.json` dentro de la pagina `2ee3ca8f42b01e9a6840`.
+- Validaciones ejecutadas: parseo JSON de ambos visuales, revision de campos usados, revision de diff y `git diff --check`.
+
 ## [Sin version] - 2026-07-17
 
 ### Agregado
