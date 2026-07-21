@@ -24,6 +24,16 @@ Este proyecto maneja **datos personales de empleados** del Grupo Empresarial Lem
 
 ---
 
+## Fuentes normativas y gobierno de datos
+
+| Documento | Código | Versión / fecha | Ruta | Propósito | Alcance | Relevancia para el proyecto |
+|---|---|---|---|---|---|---|
+| [Política de Tratamiento de Datos Versión Web](<20241025 CSP-POL-09 Política de Tratamiento de Datos Version Web (002).pdf>) | `CSP-POL-09` | Versión 8, 25 de octubre de 2024 | `Docs/20241025 CSP-POL-09 Política de Tratamiento de Datos Version Web (002).pdf` | Fuente corporativa oficial para orientar el tratamiento de datos personales. | Aplica a las empresas que conforman el Grupo LEMCO y regula la recolección, almacenamiento, uso, circulación y supresión de datos personales, así como su transferencia y transmisión. | Debe considerarse como referencia de gobierno para este proyecto de Gestión Humana y People Analytics, porque el modelo procesa datos personales, incluidos datos privados y sensibles. |
+
+Esta referencia no reemplaza el análisis técnico de sensibilidad del modelo ni las validaciones de acceso, RLS, credenciales y privacidad de Power BI. Su función es dejar trazabilidad de la política corporativa que gobierna el tratamiento de los datos usados por el proyecto.
+
+---
+
 ## Campos con datos personales por tabla
 
 | Tabla | Campos sensibles identificados |
