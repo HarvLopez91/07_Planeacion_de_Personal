@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "b351f0de695056ac18a5",
+  "name": "2a3dbb237d2b4914b4f7",
   "position": {
     "x": 333.65853658536588,
     "y": 161.34146341463415,
-    "z": 6000,
+    "z": 6001,
     "height": 377.5609756097561,
     "width": 934.02439024390242,
-    "tabOrder": 3000
+    "tabOrder": 3001
   },
   "visual": {
     "visualType": "lineChart",
@@ -42,10 +42,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "GL_Ppto_Visual_Otros"
+                  "Property": "GL_Ppto_Visual_Challenger"
                 }
               },
-              "queryRef": "Tbl_Medidas.GL_Ppto_Visual_Otros",
+              "queryRef": "Tbl_Medidas.GL_Ppto_Visual_Challenger",
               "nativeQueryRef": "Presupuesto Gasto Personal",
               "displayName": "Presupuesto Gasto Personal"
             },
@@ -57,10 +57,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "GL_Real_Visual_Otros"
+                  "Property": "GL_Real_Visual_Challenger"
                 }
               },
-              "queryRef": "Tbl_Medidas.GL_Real_Visual_Otros",
+              "queryRef": "Tbl_Medidas.GL_Real_Visual_Challenger",
               "nativeQueryRef": "Gasto Personal",
               "displayName": "Gasto Personal"
             }
@@ -277,7 +277,7 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "1000000D"
                 }
               }
             },
@@ -363,7 +363,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Real_Visual_Otros"
+            "metadata": "Tbl_Medidas.GL_Real_Visual_Challenger"
           }
         },
         {
@@ -388,7 +388,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Ppto_Visual_Otros"
+            "metadata": "Tbl_Medidas.GL_Ppto_Visual_Challenger"
           }
         }
       ],
@@ -433,7 +433,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Ppto_Visual_Otros"
+            "metadata": "Tbl_Medidas.GL_Ppto_Visual_Challenger"
           }
         }
       ],
@@ -565,7 +565,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Ppto_Visual_Otros"
+            "metadata": "Tbl_Medidas.GL_Ppto_Visual_Challenger"
           }
         },
         {
@@ -583,7 +583,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Real_Visual_Otros"
+            "metadata": "Tbl_Medidas.GL_Real_Visual_Challenger"
           }
         }
       ]
@@ -592,13 +592,6 @@
       "title": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
             "text": {
               "expr": {
                 "Literal": {
