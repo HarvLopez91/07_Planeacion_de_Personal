@@ -3,10 +3,10 @@
   "name": "3a3b9be98b2235400be2",
   "position": {
     "x": 0,
-    "y": 468.21687603595672,
+    "y": 392.41336116754934,
     "z": 9000,
-    "height": 109.75609756097562,
-    "width": 320.28797123347937,
+    "height": 186.20689655172413,
+    "width": 320.68965517241378,
     "tabOrder": 13000
   },
   "visual": {
@@ -39,29 +39,30 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Var_Real"
                 }
               },
-              "queryRef": "Planta Ppto.Var_Real",
-              "nativeQueryRef": "Variación Real",
-              "displayName": "Variación Real"
+              "queryRef": "Tbl_Medidas.Var_Real",
+              "nativeQueryRef": "Var. Real (Año act. vs ant.)",
+              "displayName": "Var. Real (Año act. vs ant.)"
             },
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Var_Ppto"
                 }
               },
-              "queryRef": "Planta Ppto.Var_Ppto",
-              "nativeQueryRef": "Var_Ppto"
+              "queryRef": "Tbl_Medidas.Var_Ppto",
+              "nativeQueryRef": "Var. Ppto (Año act. vs ant.)",
+              "displayName": "Var. Ppto (Año act. vs ant.)"
             }
           ]
         }
@@ -185,7 +186,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Real"
@@ -212,7 +213,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Real"
@@ -246,7 +247,7 @@
                 }
               }
             ],
-            "metadata": "Planta Ppto.Var_Real"
+            "metadata": "Tbl_Medidas.Var_Real"
           }
         }
       ],
@@ -307,7 +308,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Real"
+            "metadata": "Tbl_Medidas.Var_Real"
           }
         }
       ],
@@ -337,7 +338,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Real"
+            "metadata": "Tbl_Medidas.Var_Real"
           }
         },
         {
@@ -365,7 +366,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Ppto"
+            "metadata": "Tbl_Medidas.Var_Ppto"
           }
         }
       ]
@@ -521,6 +522,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "1309c046b0708de18040",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Var_Real"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5a7a1c905c10ed7eb091",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Var_Ppto"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

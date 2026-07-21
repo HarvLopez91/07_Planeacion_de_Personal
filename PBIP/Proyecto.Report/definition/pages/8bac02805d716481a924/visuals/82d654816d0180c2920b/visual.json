@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "82d654816d0180c2920b",
   "position": {
-    "x": 350.78363938479231,
-    "y": 437.02525538379666,
+    "x": 346.55172413793105,
+    "y": 389.3099128916873,
     "z": 11000,
-    "height": 140.06395445555535,
-    "width": 363.40917912792742,
+    "height": 188.27586206896552,
+    "width": 367.24137931034483,
     "tabOrder": 12000
   },
   "visual": {
@@ -39,33 +39,50 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Var_Ppto"
                 }
               },
-              "queryRef": "Planta Ppto.Var_Ppto",
-              "nativeQueryRef": "Variación Ppto",
-              "displayName": "Variación Ppto"
+              "queryRef": "Tbl_Medidas.Var_Ppto",
+              "nativeQueryRef": "Var. Ppto (Año act. vs ant.)",
+              "displayName": "Var. Ppto (Año act. vs ant.)"
             },
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Var_Real"
                 }
               },
-              "queryRef": "Planta Ppto.Var_Real",
-              "nativeQueryRef": "Variación Real",
-              "displayName": "Variación Real"
+              "queryRef": "Tbl_Medidas.Var_Real",
+              "nativeQueryRef": "Var. Real (Año act. vs ant.)",
+              "displayName": "Var. Real (Año act. vs ant.)"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Empresas"
+                  }
+                },
+                "Property": "Empresas"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
@@ -186,7 +203,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Ppto"
@@ -213,7 +230,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Ppto"
@@ -247,7 +264,7 @@
                 }
               }
             ],
-            "metadata": "Planta Ppto.Var_Ppto"
+            "metadata": "Tbl_Medidas.Var_Ppto"
           }
         },
         {
@@ -266,7 +283,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Real"
@@ -293,7 +310,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Real"
@@ -327,7 +344,7 @@
                 }
               }
             ],
-            "metadata": "Planta Ppto.Var_Real"
+            "metadata": "Tbl_Medidas.Var_Real"
           }
         }
       ],
@@ -388,7 +405,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Ppto"
+            "metadata": "Tbl_Medidas.Var_Ppto"
           }
         },
         {
@@ -402,7 +419,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Real"
+            "metadata": "Tbl_Medidas.Var_Real"
           }
         }
       ],
@@ -425,7 +442,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Ppto"
+            "metadata": "Tbl_Medidas.Var_Ppto"
           }
         },
         {
@@ -446,7 +463,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Var_Real"
+            "metadata": "Tbl_Medidas.Var_Real"
           }
         }
       ]
@@ -675,6 +692,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "6c7a61c0738234020cec",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Var_Ppto"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "17395a06520084772505",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Var_Real"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

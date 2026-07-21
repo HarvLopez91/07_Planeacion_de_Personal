@@ -20,15 +20,15 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Var_Real"
                 }
               },
-              "queryRef": "Planta Ppto.Var_Real",
-              "nativeQueryRef": "Variación Real 2025 vs 2024",
-              "displayName": "Variación Real 2025 vs 2024"
+              "queryRef": "Tbl_Medidas.Var_Real",
+              "nativeQueryRef": "Variación Real Año actual vs año anterior",
+              "displayName": "Variación Real Año actual vs año anterior"
             }
           ]
         }
@@ -40,7 +40,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Planta Ppto"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Var_Real"
@@ -79,7 +79,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -121,6 +121,52 @@
       ]
     },
     "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Titulo_Var_Real"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            }
+          }
+        }
+      ],
       "background": [
         {
           "properties": {

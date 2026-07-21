@@ -255,20 +255,23 @@ table Tbl_Medidas
 
 	measure Var_Ppto =
 			
-			VAR Ppto2025 =
+			VAR AnioAct = FORMAT ( [AnioActual_Comparado], "0" )
+			VAR AnioAnt = FORMAT ( [AnioAnterior_Comparado], "0" )
+			VAR PptoActual =
 			    CALCULATE(
 			        [tot_Año_prom],
 			        'Planta Ppto'[Ppto/Real] = "Ppto",
-			        'Planta Ppto'[Año] = "2025"
+			        'Planta Ppto'[Año] = AnioAct
 			    )
-			VAR Ppto2024 =
+			VAR PptoAnterior =
 			    CALCULATE(
 			        [tot_Año_prom],
 			        'Planta Ppto'[Ppto/Real] = "Ppto",
-			        'Planta Ppto'[Año] = "2024"
+			        'Planta Ppto'[Año] = AnioAnt
 			    )
+			VAR Ratio = DIVIDE ( PptoActual, PptoAnterior )
 			RETURN
-			DIVIDE( Ppto2025, Ppto2024 ) - 1
+			IF ( ISBLANK ( Ratio ), BLANK(), Ratio - 1 )
 		formatString: 0\ %;-0\ %;0\ %
 		displayFolder: 02 Ppto vs Real
 		lineageTag: eb629bb9-c65d-42b3-ad0f-b3f59547e6b4
@@ -276,8 +279,24 @@ table Tbl_Medidas
 		changedProperty = IsHidden
 
 	measure Var_Real =
-			( CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real",'Planta Ppto'[Año]="2025")/
-			CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real",'Planta Ppto'[Año]="2024"))-1
+			
+			VAR AnioAct = FORMAT ( [AnioActual_Comparado], "0" )
+			VAR AnioAnt = FORMAT ( [AnioAnterior_Comparado], "0" )
+			VAR RealActual =
+			    CALCULATE(
+			        [tot_Año_prom],
+			        'Planta Ppto'[Ppto/Real] = "Real",
+			        'Planta Ppto'[Año] = AnioAct
+			    )
+			VAR RealAnterior =
+			    CALCULATE(
+			        [tot_Año_prom],
+			        'Planta Ppto'[Ppto/Real] = "Real",
+			        'Planta Ppto'[Año] = AnioAnt
+			    )
+			VAR Ratio = DIVIDE ( RealActual, RealAnterior )
+			RETURN
+			IF ( ISBLANK ( Ratio ), BLANK(), Ratio - 1 )
 		formatString: 0\ %;-0\ %;0\ %
 		displayFolder: 02 Ppto vs Real
 		lineageTag: c87924ea-9a2d-40d9-acd1-3f11a6210689
@@ -1042,6 +1061,64 @@ table Tbl_Medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: 03 Ingresos y Retiros
 		lineageTag: e2d3c4b5-a6f7-8e9d-0c1b-2a3f4e5d6c7b
+
+	measure AnioActual_Comparado =
+			
+			VAR AniosSel = VALUES ( 'Años'[Año] )
+			VAR NumAnios = COUNTROWS ( AniosSel )
+			RETURN
+			IF (
+			    NumAnios >= 1 && NumAnios <= 2,
+			    MAXX ( AniosSel, VALUE ( 'Años'[Año] ) ),
+			    CALCULATE ( MAXX ( 'Años', VALUE ( 'Años'[Año] ) ), ALL ( 'Años' ) )
+			)
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: e6f2ba63-715a-4f23-b975-7c5e0f56abb8
+
+		changedProperty = IsHidden
+
+	measure AnioAnterior_Comparado =
+			
+			VAR AniosSel = VALUES ( 'Años'[Año] )
+			VAR NumAnios = COUNTROWS ( AniosSel )
+			RETURN
+			IF (
+			    NumAnios = 2,
+			    MINX ( AniosSel, VALUE ( 'Años'[Año] ) ),
+			    [AnioActual_Comparado] - 1
+			)
+		formatString: 0
+		displayFolder: 02 Ppto vs Real
+		lineageTag: e20c7118-3e6d-4b1c-a7a8-a39ba78c98c4
+
+		changedProperty = IsHidden
+
+	measure Titulo_Var_Ppto =
+			
+			VAR AnioAct = [AnioActual_Comparado]
+			VAR AnioAnt = [AnioAnterior_Comparado]
+			RETURN
+			IF(
+			    ISBLANK ( AnioAct ) || ISBLANK ( AnioAnt ),
+			    "Variación Presupuesto (sin año disponible)",
+			    "Variación Presupuesto (" & AnioAct & " vs. " & AnioAnt & ")"
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 34af358c-ca90-4cf4-84cf-70963c5ce67b
+
+	measure Titulo_Var_Real =
+			
+			VAR AnioAct = [AnioActual_Comparado]
+			VAR AnioAnt = [AnioAnterior_Comparado]
+			RETURN
+			IF(
+			    ISBLANK ( AnioAct ) || ISBLANK ( AnioAnt ),
+			    "Variación Real (sin año disponible)",
+			    "Variación Real (" & AnioAct & " vs. " & AnioAnt & ")"
+			)
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 59db7ea4-726b-43e5-93ef-5f09f5ce19bb
 
 	partition Tbl_Medidas = m
 		mode: import
