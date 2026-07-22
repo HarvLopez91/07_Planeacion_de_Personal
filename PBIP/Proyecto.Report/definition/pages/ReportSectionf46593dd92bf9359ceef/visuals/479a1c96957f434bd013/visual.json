@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "a58d5b2e9f6c4a21b103",
+  "name": "479a1c96957f434bd013",
   "position": {
     "x": 17.939574749479007,
-    "y": 686.99324324324334,
+    "y": 601.512726583073,
     "z": 15000,
-    "height": 72.128378378378372,
+    "height": 73.3108108108108,
     "width": 240.03378378378378,
-    "tabOrder": 15000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "slicer",
@@ -17,24 +17,86 @@
           "projections": [
             {
               "field": {
+                "GroupRef": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
+                  "Property": "Tipo de Cargo",
+                  "GroupedColumns": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "OBSERVACION"
+                      }
+                    }
+                  ]
+                }
+              },
+              "queryRef": "PLANTA DE PERSONAL.Tipo de Cargo",
+              "nativeQueryRef": "Tipo de Cargo",
+              "active": true
+            },
+            {
+              "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Estructura"
+                      "Entity": "PLANTA DE PERSONAL"
                     }
                   },
-                  "Property": "DEPENDENCIA"
+                  "Property": "OBSERVACION"
                 }
               },
-              "queryRef": "Estructura.DEPENDENCIA",
-              "nativeQueryRef": "Dependencia",
-              "active": true,
-              "displayName": "Dependencia"
+              "queryRef": "PLANTA DE PERSONAL.OBSERVACION",
+              "nativeQueryRef": "OBSERVACION",
+              "active": false
             }
           ]
         }
       }
     },
+    "expansionStates": [
+      {
+        "roles": [
+          "Values"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "PLANTA DE PERSONAL.Tipo de Cargo"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
+                  "Property": "Tipo de Cargo"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "PLANTA DE PERSONAL.OBSERVACION"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
     "objects": {
       "data": [
         {
@@ -56,13 +118,6 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
-                }
-              }
-            },
-            "selfFilterEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
                 }
               }
             }
@@ -152,22 +207,10 @@
                 }
               }
             },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 1,
-                      "Percent": 0
-                    }
-                  }
-                }
-              }
-            },
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dependencia'"
+                  "Value": "'Tipo de Cargo'"
                 }
               }
             }
@@ -176,82 +219,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "parentGroupName": "20644d3047b208148676",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "6ebfd57692dc14d233ff",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Estructura"
-              }
-            },
-            "Property": "DEPENDENCIA"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "e",
-              "Entity": "Estructura",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "e"
-                              }
-                            },
-                            "Property": "DEPENDENCIA"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      }
-    ]
   }
 }

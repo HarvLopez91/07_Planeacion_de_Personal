@@ -1188,6 +1188,20 @@ table Tbl_Medidas
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 59db7ea4-726b-43e5-93ef-5f09f5ce19bb
 
+	measure 'Titulo Colaboradores Dependencia' =
+			VAR _Dependencia =
+			    SELECTEDVALUE (
+			        'PLANTA DE PERSONAL'[DEPENDENCIA]
+			    )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Dependencia ),
+			        "CARGOS DE " & _Dependencia,
+			        "COLABORADORES POR DEPENDENCIA Y CARGO"
+			    )
+		displayFolder: 01 HeadCount HC
+		lineageTag: 67605bb2-4d98-4551-bde2-89beabc41b3e
+
 	partition Tbl_Medidas = m
 		mode: import
 		source =

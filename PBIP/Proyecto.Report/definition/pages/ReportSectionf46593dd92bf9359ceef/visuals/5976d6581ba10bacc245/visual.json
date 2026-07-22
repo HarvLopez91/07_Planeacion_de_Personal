@@ -4,10 +4,10 @@
   "position": {
     "x": 1812.5,
     "y": 90,
-    "z": 12000,
+    "z": 13000,
     "height": 28.75,
     "width": 287.5,
-    "tabOrder": 13000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados_Promedio"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados_Promedio",
+              "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "Tot_empleados_Promedio",
               "displayName": "Colaboradores"
             },
@@ -56,7 +56,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados_Promedio"
@@ -68,7 +68,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -80,7 +80,7 @@
                   "Operator": 3
                 }
               },
-              "queryRef": "Divide(PLANTA DE PERSONAL.Tot_empleados_Promedio, ScopedEval(PLANTA DE PERSONAL.Tot_empleados_Promedio, []))",
+              "queryRef": "Divide(Tbl_Medidas.Tot_empleados_Promedio, ScopedEval(Tbl_Medidas.Tot_empleados_Promedio, []))",
               "nativeQueryRef": "%",
               "displayName": "%"
             }
@@ -96,7 +96,7 @@
                   "Measure": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "PLANTA DE PERSONAL"
+                        "Entity": "Tbl_Medidas"
                       }
                     },
                     "Property": "Tot_empleados_Promedio"
@@ -108,7 +108,7 @@
                       "Measure": {
                         "Expression": {
                           "SourceRef": {
-                            "Entity": "PLANTA DE PERSONAL"
+                            "Entity": "Tbl_Medidas"
                           }
                         },
                         "Property": "Tot_empleados_Promedio"
@@ -341,7 +341,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_empleados_Promedio"
+            "metadata": "Tbl_Medidas.Tot_empleados_Promedio"
           }
         },
         {
@@ -369,7 +369,7 @@
             }
           },
           "selector": {
-            "metadata": "Divide(PLANTA DE PERSONAL.Tot_empleados_Promedio, ScopedEval(PLANTA DE PERSONAL.Tot_empleados_Promedio, []))"
+            "metadata": "Divide(Tbl_Medidas.Tot_empleados_Promedio, ScopedEval(Tbl_Medidas.Tot_empleados_Promedio, []))"
           }
         }
       ]

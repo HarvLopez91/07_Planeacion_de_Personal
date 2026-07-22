@@ -4,7 +4,7 @@
   "position": {
     "x": 1349.7424061327947,
     "y": 112.63240324774347,
-    "z": 11000,
+    "z": 12000,
     "height": 260.79180228863413,
     "width": 399.9101593513812,
     "tabOrder": 5000
@@ -41,7 +41,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados_Promedio"
@@ -53,7 +53,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -65,7 +65,7 @@
                   "Operator": 3
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados_Promedio",
+              "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "%TG Tot_empleados_Promedio"
             }
           ]
@@ -80,7 +80,7 @@
                   "Measure": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "PLANTA DE PERSONAL"
+                        "Entity": "Tbl_Medidas"
                       }
                     },
                     "Property": "Tot_empleados_Promedio"
@@ -92,7 +92,7 @@
                       "Measure": {
                         "Expression": {
                           "SourceRef": {
-                            "Entity": "PLANTA DE PERSONAL"
+                            "Entity": "Tbl_Medidas"
                           }
                         },
                         "Property": "Tot_empleados_Promedio"

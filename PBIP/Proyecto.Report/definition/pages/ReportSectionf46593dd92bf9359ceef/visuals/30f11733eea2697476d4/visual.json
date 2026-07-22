@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "30f11733eea2697476d4",
   "position": {
-    "x": 1754.7169811320755,
-    "y": 142.9245283018868,
-    "z": 13000,
-    "height": 166.98113207547169,
-    "width": 291.50943396226415,
+    "x": 1754.2437779195916,
+    "y": 143.39502233567327,
+    "z": 14000,
+    "height": 190.29993618379069,
+    "width": 300.1914486279515,
     "tabOrder": 6000
   },
   "visual": {
@@ -63,13 +63,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados_Promedio"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados_Promedio",
+              "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "Colaboradores",
               "displayName": "Colaboradores"
             },
@@ -80,7 +80,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados"
@@ -92,7 +92,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados"
@@ -104,7 +104,7 @@
                   "Operator": 3
                 }
               },
-              "queryRef": "Divide(PLANTA DE PERSONAL.Tot_empleados, ScopedEval(PLANTA DE PERSONAL.Tot_empleados, []))",
+              "queryRef": "Divide(Tbl_Medidas.Tot_empleados, ScopedEval(Tbl_Medidas.Tot_empleados, []))",
               "nativeQueryRef": "%",
               "displayName": "%"
             }
@@ -115,33 +115,13 @@
         "sort": [
           {
             "field": {
-              "Arithmetic": {
-                "Left": {
-                  "Measure": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "PLANTA DE PERSONAL"
-                      }
-                    },
-                    "Property": "Tot_empleados"
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Tbl_Medidas"
                   }
                 },
-                "Right": {
-                  "ScopedEval": {
-                    "Expression": {
-                      "Measure": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Entity": "PLANTA DE PERSONAL"
-                          }
-                        },
-                        "Property": "Tot_empleados"
-                      }
-                    },
-                    "Scope": []
-                  }
-                },
-                "Operator": 3
+                "Property": "Tot_empleados_Promedio"
               }
             },
             "direction": "Descending"
@@ -259,7 +239,7 @@
             }
           },
           "selector": {
-            "metadata": "Divide(PLANTA DE PERSONAL.Tot_empleados, ScopedEval(PLANTA DE PERSONAL.Tot_empleados, []))"
+            "metadata": "Divide(Tbl_Medidas.Tot_empleados, ScopedEval(Tbl_Medidas.Tot_empleados, []))"
           }
         },
         {
@@ -294,7 +274,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_empleados_Promedio"
+            "metadata": "Tbl_Medidas.Tot_empleados_Promedio"
           }
         }
       ],
@@ -327,5 +307,81 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "658786e1ca409ca6892c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Generaciones"
+              }
+            },
+            "Property": "Generación"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "g",
+              "Entity": "Generaciones",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "g"
+                              }
+                            },
+                            "Property": "Generación"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

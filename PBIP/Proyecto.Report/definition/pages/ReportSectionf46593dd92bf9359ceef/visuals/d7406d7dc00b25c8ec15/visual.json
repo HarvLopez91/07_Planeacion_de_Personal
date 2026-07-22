@@ -1,19 +1,19 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "d7406d7dc00b25c8ec15",
   "position": {
     "x": 1301.25,
     "y": 660,
-    "z": 6000,
+    "z": 7000,
     "height": 227.5,
     "width": 792.5,
-    "tabOrder": 10000
+    "tabOrder": 9000
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Category": {
+        "Rows": {
           "projections": [
             {
               "field": {
@@ -27,12 +27,28 @@
                 }
               },
               "queryRef": "PLANTA DE PERSONAL.DEPENDENCIA",
-              "nativeQueryRef": "Dependencia",
-              "active": true
+              "nativeQueryRef": "DEPENDENCIA / CARGO",
+              "active": true,
+              "displayName": "DEPENDENCIA / CARGO"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
+                  "Property": "CARGO"
+                }
+              },
+              "queryRef": "PLANTA DE PERSONAL.CARGO",
+              "nativeQueryRef": "CARGO",
+              "active": false
             }
           ]
         },
-        "Y": {
+        "Values": {
           "projections": [
             {
               "field": {
@@ -48,6 +64,41 @@
               "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "Colaboradores",
               "displayName": "Colaboradores"
+            },
+            {
+              "field": {
+                "Arithmetic": {
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Tbl_Medidas"
+                        }
+                      },
+                      "Property": "Tot_empleados_Promedio"
+                    }
+                  },
+                  "Right": {
+                    "ScopedEval": {
+                      "Expression": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Tbl_Medidas"
+                            }
+                          },
+                          "Property": "Tot_empleados_Promedio"
+                        }
+                      },
+                      "Scope": []
+                    }
+                  },
+                  "Operator": 3
+                }
+              },
+              "queryRef": "Divide(Tbl_Medidas.Tot_empleados_Promedio, ScopedEval(Tbl_Medidas.Tot_empleados_Promedio, []))",
+              "nativeQueryRef": "%",
+              "displayName": "%"
             }
           ]
         }
@@ -71,137 +122,139 @@
         "isDefaultSort": true
       }
     },
-    "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fontFamily": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Calibri'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            },
-            "labelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 1,
-                      "Percent": 0
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "PLANTA DE PERSONAL.DEPENDENCIA"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
                     }
-                  }
+                  },
+                  "Property": "DEPENDENCIA"
                 }
               }
-            }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "PLANTA DE PERSONAL.CARGO"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
           }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "general": [
+        {
+          "properties": {}
         }
       ],
-      "valueAxis": [
+      "rowHeaders": [
         {
           "properties": {
-            "showAxisTitle": {
+            "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "'Left'"
                 }
               }
             },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "dataPoint": [
-        {
-          "properties": {
-            "fill": {
+            "backColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1A3059'"
+                      "Value": "'#1B487F'"
                     }
                   }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
           }
         }
       ],
-      "labels": [
+      "columnHeaders": [
         {
           "properties": {
-            "show": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B487F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "styleHeader": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
             },
-            "labelPosition": {
+            "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "'OutsideEnd'"
-                }
-              }
-            },
-            "fontFamily": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Calibri'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 1,
-                      "Percent": 0
-                    }
-                  }
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
+                  "Value": "'Center'"
                 }
               }
             },
@@ -211,20 +264,45 @@
                   "Value": "0L"
                 }
               }
-            }
-          }
-        }
-      ],
-      "general": [
-        {
-          "properties": {
-            "responsive": {
+            },
+            "styleTotal": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Tot_empleados_Promedio"
+          }
+        },
+        {
+          "properties": {
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Divide(Tbl_Medidas.Tot_empleados_Promedio, ScopedEval(Tbl_Medidas.Tot_empleados_Promedio, []))"
           }
         }
       ]
@@ -242,8 +320,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Colaboradores por dependencia'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Titulo Colaboradores Dependencia"
                 }
               }
             },
@@ -305,37 +388,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "680f4b089321164fc4c6",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "PLANTA DE PERSONAL"
-              }
-            },
-            "Property": "DEPENDENCIA"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1c69e0e41f373bb29a98",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Tbl_Medidas"
-              }
-            },
-            "Property": "Tot_empleados_Promedio"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

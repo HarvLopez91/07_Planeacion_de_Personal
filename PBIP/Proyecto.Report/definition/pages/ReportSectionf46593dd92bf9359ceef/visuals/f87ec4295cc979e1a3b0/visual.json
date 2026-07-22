@@ -4,7 +4,7 @@
   "position": {
     "x": 1301.6752577319587,
     "y": 389.69072164948454,
-    "z": 8000,
+    "z": 9000,
     "height": 270.61855670103091,
     "width": 779.38144329896909,
     "tabOrder": 10000
@@ -47,7 +47,7 @@
               },
               "queryRef": "PLANTA DE PERSONAL.GENERACIÓN",
               "nativeQueryRef": "GENERACIÓN",
-              "displayName": "Rango de Edad"
+              "displayName": "Generación"
             }
           ]
         },
@@ -58,13 +58,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados_Promedio"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados_Promedio",
+              "queryRef": "Tbl_Medidas.Tot_empleados_Promedio",
               "nativeQueryRef": "Empleados",
               "displayName": "Empleados"
             }
@@ -355,7 +355,7 @@
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'Millenials'"
+                        "Value": "'Millennials'"
                       }
                     }
                   }
@@ -762,5 +762,81 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "99244291aeb40358e73b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "PLANTA DE PERSONAL"
+              }
+            },
+            "Property": "GENERACI&#211;N"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "PLANTA DE PERSONAL",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "p"
+                              }
+                            },
+                            "Property": "GENERACI&#211;N"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

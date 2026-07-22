@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "95dbf4dcfcaa2348b0f7",
   "position": {
-    "x": 18.560958310347544,
-    "y": 194.89006225864924,
+    "x": 18.470297518508573,
+    "y": 188.49880979766118,
     "z": 3000,
     "height": 67.283473875009861,
     "width": 238.97233824572464,
@@ -89,7 +89,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'05.Mayo'"
+                                "Value": "'06.Junio'"
                               }
                             }
                           ]
