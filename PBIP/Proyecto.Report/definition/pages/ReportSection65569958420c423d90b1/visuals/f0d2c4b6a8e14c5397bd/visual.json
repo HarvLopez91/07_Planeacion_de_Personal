@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "cba349945ec4b0577321",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "f0d2c4b6a8e14c5397bd",
   "position": {
     "x": 390,
     "y": 468.62068965517238,
-    "z": 5000,
+    "z": 6000,
     "height": 294.82758620689657,
-    "width": 570,
-    "tabOrder": 4000
+    "width": 591.72413793103453,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "tableEx",
@@ -37,10 +37,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Prod_Gasto_Personal_Otros"
+                  "Property": "Prod_Gasto_Personal_Challenger"
                 }
               },
-              "queryRef": "Tbl_Medidas.Prod_Gasto_Personal_Otros",
+              "queryRef": "Tbl_Medidas.Prod_Gasto_Personal_Challenger",
               "nativeQueryRef": "Gasto Personal",
               "displayName": "Gasto Personal"
             },
@@ -52,10 +52,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Prod_Ingreso_Operacional_Otros"
+                  "Property": "Prod_Ingreso_Operacional_Challenger"
                 }
               },
-              "queryRef": "Tbl_Medidas.Prod_Ingreso_Operacional_Otros",
+              "queryRef": "Tbl_Medidas.Prod_Ingreso_Operacional_Challenger",
               "nativeQueryRef": "Ingreso Operacional",
               "displayName": "Ingreso Operacional"
             },
@@ -67,10 +67,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Prod_Efic_Otros"
+                  "Property": "Prod_Efic_Challenger"
                 }
               },
-              "queryRef": "Tbl_Medidas.Prod_Efic_Otros",
+              "queryRef": "Tbl_Medidas.Prod_Efic_Challenger",
               "nativeQueryRef": "Productividad",
               "displayName": "Productividad"
             }
@@ -207,7 +207,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Gasto_Personal_Otros"
+            "metadata": "Tbl_Medidas.Prod_Gasto_Personal_Challenger"
           }
         },
         {
@@ -242,7 +242,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Ingreso_Operacional_Otros"
+            "metadata": "Tbl_Medidas.Prod_Ingreso_Operacional_Challenger"
           }
         },
         {
@@ -270,7 +270,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Efic_Otros"
+            "metadata": "Tbl_Medidas.Prod_Efic_Challenger"
           }
         }
       ],
@@ -292,7 +292,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Gasto_Personal_Otros"
+            "metadata": "Tbl_Medidas.Prod_Gasto_Personal_Challenger"
           }
         },
         {
@@ -306,7 +306,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Ingreso_Operacional_Otros"
+            "metadata": "Tbl_Medidas.Prod_Ingreso_Operacional_Challenger"
           }
         },
         {
@@ -320,7 +320,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Efic_Otros"
+            "metadata": "Tbl_Medidas.Prod_Efic_Challenger"
           }
         }
       ]

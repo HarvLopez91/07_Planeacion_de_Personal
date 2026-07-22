@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Colaboradores"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Prom_Colaboradores",
+              "queryRef": "Tbl_Medidas.Prom_Colaboradores",
               "nativeQueryRef": "Promedio Colaboradores",
               "displayName": "Promedio Colaboradores"
             },
@@ -127,7 +127,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Prom_Colaboradores"
+            "metadata": "Tbl_Medidas.Prom_Colaboradores"
           }
         },
         {
@@ -282,7 +282,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Prom_Colaboradores"
+            "metadata": "Tbl_Medidas.Prom_Colaboradores"
           }
         },
         {

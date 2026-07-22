@@ -1421,7 +1421,7 @@ cultureInfo es-ES
 			    "planta_de_personal.prom_colaboradores": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "PLANTA DE PERSONAL",
+			          "ConceptualEntity": "Tbl_Medidas",
 			          "ConceptualProperty": "Prom_Colaboradores"
 			        }
 			      },
@@ -3101,7 +3101,7 @@ cultureInfo es-ES
 			    "planta_ppto.efic": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Planta Ppto",
+			          "ConceptualEntity": "Tbl_Medidas",
 			          "ConceptualProperty": "Efic"
 			        }
 			      },
@@ -3131,33 +3131,13 @@ cultureInfo es-ES
 			            },
 			            "Weight": 0.9
 			          }
-			        },
-			        {
-			          "Productividad": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Ejecución 2025": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
 			    "planta_ppto.kpi_efi": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Planta Ppto",
+			          "ConceptualEntity": "Tbl_Medidas",
 			          "ConceptualProperty": "KPI_EFI"
 			        }
 			      },
@@ -3180,7 +3160,7 @@ cultureInfo es-ES
 			    "planta_ppto.efiprom": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Planta Ppto",
+			          "ConceptualEntity": "Tbl_Medidas",
 			          "ConceptualProperty": "%Efiprom"
 			        }
 			      },
@@ -3236,7 +3216,7 @@ cultureInfo es-ES
 			    "planta_ppto.var_GL": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Planta Ppto",
+			          "ConceptualEntity": "Tbl_Medidas",
 			          "ConceptualProperty": "Var_GL"
 			        }
 			      },
@@ -7416,10 +7396,10 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "accidentalidad.tot_accidentes": {
+			    "tbl_medidas.tot_accidentes": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "ACCIDENTALIDAD",
+			          "ConceptualEntity": "Tbl_Medidas",
 			          "ConceptualProperty": "Tot_Accidentes"
 			        }
 			      },

@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Efic"
                 }
               },
-              "queryRef": "Planta Ppto.Efic",
+              "queryRef": "Tbl_Medidas.Efic",
               "nativeQueryRef": "Ejecución",
               "displayName": "Ejecución"
             }
@@ -58,13 +58,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "%Efiprom"
                 }
               },
-              "queryRef": "Planta Ppto.%Efiprom",
+              "queryRef": "Tbl_Medidas.%Efiprom",
               "nativeQueryRef": "% Presupuestado",
               "displayName": "% Presupuestado"
             }
@@ -291,6 +291,13 @@
                   "Value": "1L"
                 }
               }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
             }
           }
         },
@@ -342,7 +349,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic"
+            "metadata": "Tbl_Medidas.Efic"
           }
         },
         {
@@ -356,7 +363,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.%Efiprom"
+            "metadata": "Tbl_Medidas.%Efiprom"
           }
         }
       ],
@@ -554,8 +561,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Comparativo Acumulado (Ene-Jul) Anual'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Subtitulo_Productividad_Comparativo_Acumulado"
                 }
               }
             },

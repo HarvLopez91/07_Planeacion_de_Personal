@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "KPI_EFI"
                 }
               },
-              "queryRef": "Planta Ppto.KPI_EFI",
+              "queryRef": "Tbl_Medidas.KPI_EFI",
               "nativeQueryRef": "KPI_EFI"
             }
           ]
@@ -64,7 +64,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_GL"
@@ -91,7 +91,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_GL"

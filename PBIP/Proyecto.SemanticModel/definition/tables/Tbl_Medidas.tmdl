@@ -1063,32 +1063,81 @@ table Tbl_Medidas
 		lineageTag: e2d3c4b5-a6f7-8e9d-0c1b-2a3f4e5d6c7b
 
 	measure GL_Ppto_Gasto_Personal = SUM('Planta Ppto'[Ppto Gasto Personal])
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 5bada4f2-ceeb-40bc-aaee-c403c2650c03
+
+		formatStringDefinition =
+				VAR Valor = ABS ( [GL_Ppto_Gasto_Personal] )
+				RETURN
+				IF (
+				    [GL_Usar_Millones],
+				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    SWITCH (
+				        TRUE (),
+				        Valor >= 1000000000, "$ #,0,,,.0 ""bill."";-$ #,0,,,.0 ""bill."";$ 0.0 ""bill.""",
+				        Valor >= 1000000, "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				        Valor >= 1000, "$ #,0,.0 ""mil"";-$ #,0,.0 ""mil"";$ 0.0 ""mil""",
+				        "$ #,0.0;-$ #,0.0;$ 0.0"
+				    )
+				)
 
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure GL_Gasto_Personal = SUM('Planta Ppto'[Gasto Personal])
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: e220c2b3-1481-4bff-871c-53ee705a9d67
 
+		formatStringDefinition =
+				VAR Valor = ABS ( [GL_Gasto_Personal] )
+				RETURN
+				IF (
+				    [GL_Usar_Millones],
+				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    SWITCH (
+				        TRUE (),
+				        Valor >= 1000000000, "$ #,0,,,.0 ""bill."";-$ #,0,,,.0 ""bill."";$ 0.0 ""bill.""",
+				        Valor >= 1000000, "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				        Valor >= 1000, "$ #,0,.0 ""mil"";-$ #,0,.0 ""mil"";$ 0.0 ""mil""",
+				        "$ #,0.0;-$ #,0.0;$ 0.0"
+				    )
+				)
+
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
-	measure GL_Es_Challenger =
-
-			VAR GrupoSeleccionado = SELECTEDVALUE ( Empresas[Grupo Empresa] )
+	measure GL_Usar_Millones =
+			VAR HayFiltroGrupo =
+			    ISFILTERED ( Empresas[Grupo Empresa] )
+			VAR HayFiltroEmpresa =
+			    ISFILTERED ( Empresas[Empresas] )
+			VAR GruposSeleccionados =
+			    FILTER (
+			        ALLSELECTED ( Empresas[Grupo Empresa] ),
+			        NOT ISBLANK ( Empresas[Grupo Empresa] )
+			    )
+			VAR GruposVisibles =
+			    COUNTROWS ( GruposSeleccionados )
+			VAR TotalGrupos =
+			    CALCULATE (
+			        DISTINCTCOUNT ( Empresas[Grupo Empresa] ),
+			        REMOVEFILTERS ( Empresas )
+			    )
+			VAR GrupoUnico =
+			    SELECTEDVALUE ( Empresas[Grupo Empresa] )
+			VAR EsChallengerEfectivo =
+			    GruposVisibles = 1
+			        && GrupoUnico = "Challenger"
+			VAR SinFiltroNegocio =
+			    NOT HayFiltroGrupo && NOT HayFiltroEmpresa
+			VAR EstanTodosLosGrupos =
+			    GruposVisibles = TotalGrupos
 			RETURN
-			HASONEVALUE ( Empresas[Grupo Empresa] ) && GrupoSeleccionado = "Challenger"
+			    EsChallengerEfectivo || SinFiltroNegocio || EstanTodosLosGrupos
 		displayFolder: 02 Ppto vs Real
 		lineageTag: fe4d54d4-22ed-411b-b776-383d87903635
 
 		changedProperty = IsHidden
 
-	measure GL_Ppto_Visual_Challenger =
-
-			IF ( [GL_Es_Challenger], [GL_Ppto_Gasto_Personal], BLANK() )
+	measure GL_Ppto_Visual_Challenger = IF ( [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 16fafe11-2224-46f5-931c-f48a67abbaa7
@@ -1097,9 +1146,7 @@ table Tbl_Medidas
 
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
-	measure GL_Real_Visual_Challenger =
-
-			IF ( [GL_Es_Challenger], [GL_Gasto_Personal], BLANK() )
+	measure GL_Real_Visual_Challenger = IF ( [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: c3f87f4d-8661-488a-8be8-1aad59980ece
@@ -1108,9 +1155,7 @@ table Tbl_Medidas
 
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
-	measure GL_Ppto_Visual_Otros =
-
-			IF ( NOT [GL_Es_Challenger], [GL_Ppto_Gasto_Personal], BLANK() )
+	measure GL_Ppto_Visual_Otros = IF ( NOT [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 51be7814-436f-4757-8731-3988c3f8661c
@@ -1119,9 +1164,7 @@ table Tbl_Medidas
 
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
-	measure GL_Real_Visual_Otros =
-
-			IF ( NOT [GL_Es_Challenger], [GL_Gasto_Personal], BLANK() )
+	measure GL_Real_Visual_Otros = IF ( NOT [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: acac35c3-2f66-4988-8069-b35cad890c38
@@ -1187,6 +1230,209 @@ table Tbl_Medidas
 			)
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 59db7ea4-726b-43e5-93ef-5f09f5ce19bb
+
+	measure Titulo_Productividad_Gasto_Laboral =
+
+			VAR AnioSeleccionado =
+			    SELECTEDVALUE ( 'Años'[Año] )
+			RETURN
+			    "Gasto Laboral Vs Ventas - Ejecución "
+			        & IF (
+			            NOT ISBLANK ( AnioSeleccionado ),
+			            AnioSeleccionado,
+			            "años seleccionados"
+			        )
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 8f0a00d7-a72b-4cda-8f0c-bd57ec44f9e4
+
+	measure Prod_Gasto_Personal = SUM('Planta Ppto'[Gasto Personal])
+		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+		displayFolder: 05 Productividad
+		lineageTag: 0b4b7fb1-4f0b-4b8f-9050-2f11d4cb62e5
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Ingreso_Operacional = SUM('Planta Ppto'[Ventas (MM)])
+		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+		displayFolder: 05 Productividad
+		lineageTag: f33a12b7-b682-4ec1-8ae8-1b95d4f5379f
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Usar_Millones =
+
+			VAR HayFiltroGrupo =
+			    ISFILTERED ( Empresas[Grupo Empresa] )
+			VAR HayFiltroEmpresa =
+			    ISFILTERED ( Empresas[Empresas] )
+			VAR GruposSeleccionados =
+			    FILTER (
+			        ALLSELECTED ( Empresas[Grupo Empresa] ),
+			        NOT ISBLANK ( Empresas[Grupo Empresa] )
+			    )
+			VAR CantidadGruposVisibles =
+			    COUNTROWS ( GruposSeleccionados )
+			VAR CantidadTotalGrupos =
+			    CALCULATE (
+			        DISTINCTCOUNT ( Empresas[Grupo Empresa] ),
+			        REMOVEFILTERS ( Empresas )
+			    )
+			VAR GrupoUnico =
+			    SELECTEDVALUE ( Empresas[Grupo Empresa] )
+			VAR EsChallengerUnico =
+			    CantidadGruposVisibles = 1
+			        && GrupoUnico = "Challenger"
+			VAR EstanTodosLosGrupos =
+			    CantidadGruposVisibles = CantidadTotalGrupos
+			VAR SinFiltroNegocio =
+			    NOT HayFiltroGrupo && NOT HayFiltroEmpresa
+			RETURN
+			    EsChallengerUnico || EstanTodosLosGrupos || SinFiltroNegocio
+		displayFolder: 05 Productividad
+		lineageTag: 3db170f4-6e4d-4ac6-a39d-242d1724248c
+
+		changedProperty = IsHidden
+
+	measure Prod_Gasto_Personal_Challenger =
+
+			IF ( [Prod_Usar_Millones], [Prod_Gasto_Personal], BLANK() )
+		displayFolder: 05 Productividad
+		lineageTag: e61b1eaa-63d2-4e88-a412-f7712d419871
+
+		formatStringDefinition = "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill."""
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Ingreso_Operacional_Challenger =
+
+			IF ( [Prod_Usar_Millones], [Prod_Ingreso_Operacional], BLANK() )
+		displayFolder: 05 Productividad
+		lineageTag: 0e494d2a-54ab-43f6-afc0-2300e4ff2b9a
+
+		formatStringDefinition = "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill."""
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Efic_Challenger =
+
+			IF ( [Prod_Usar_Millones], [Efic], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad
+		lineageTag: 244a94d2-b146-419e-97cf-e00c8a69ace3
+
+		changedProperty = IsHidden
+
+	measure Prod_Gasto_Personal_Otros =
+
+			IF ( NOT [Prod_Usar_Millones], [Prod_Gasto_Personal], BLANK() )
+		displayFolder: 05 Productividad
+		lineageTag: b74db4eb-2c14-4fa6-9cb8-74ea282d52eb
+
+		formatStringDefinition =
+				VAR Valor = ABS ( [Prod_Gasto_Personal] )
+				RETURN
+				SWITCH (
+				    TRUE (),
+				    Valor >= 1000000000, "$ #,0,,,.0 ""bill."";-$ #,0,,,.0 ""bill."";$ 0.0 ""bill.""",
+				    Valor >= 1000000, "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    Valor >= 1000, "$ #,0,.0 ""mil"";-$ #,0,.0 ""mil"";$ 0.0 ""mil""",
+				    "$ #,0.0;-$ #,0.0;$ 0.0"
+				)
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Ingreso_Operacional_Otros =
+
+			IF ( NOT [Prod_Usar_Millones], [Prod_Ingreso_Operacional], BLANK() )
+		displayFolder: 05 Productividad
+		lineageTag: 8579edff-3f66-4bdb-a9e7-bb4729a17d2f
+
+		formatStringDefinition =
+				VAR Valor = ABS ( [Prod_Ingreso_Operacional] )
+				RETURN
+				SWITCH (
+				    TRUE (),
+				    Valor >= 1000000000, "$ #,0,,,.0 ""bill."";-$ #,0,,,.0 ""bill."";$ 0.0 ""bill.""",
+				    Valor >= 1000000, "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    Valor >= 1000, "$ #,0,.0 ""mil"";-$ #,0,.0 ""mil"";$ 0.0 ""mil""",
+				    "$ #,0.0;-$ #,0.0;$ 0.0"
+				)
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Efic_Otros =
+
+			IF ( NOT [Prod_Usar_Millones], [Efic], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad
+		lineageTag: b97c32d2-ec44-4f47-af0b-d450d0d47ad9
+
+		changedProperty = IsHidden
+
+	measure Subtitulo_Productividad_Comparativo_Acumulado =
+
+			VAR HayFiltroMes =
+			    ISFILTERED ( Mes[Meses] )
+			VAR MesesSeleccionados =
+			    FILTER (
+			        ADDCOLUMNS (
+			            VALUES ( Mes[Meses] ),
+			            "__Orden", CALCULATE ( MAX ( Mes[Numero] ) ),
+			            "__Abrev", CALCULATE ( MAX ( Mes[Mes Abrev] ) )
+			        ),
+			        NOT ISBLANK ( Mes[Meses] )
+			    )
+			VAR CantidadMeses =
+			    COUNTROWS ( MesesSeleccionados )
+			VAR CantidadTotalMeses =
+			    COUNTROWS ( FILTER ( ALL ( Mes ), NOT ISBLANK ( Mes[Meses] ) ) )
+			VAR OrdenMinimo =
+			    MINX ( MesesSeleccionados, [__Orden] )
+			VAR OrdenMaximo =
+			    MAXX ( MesesSeleccionados, [__Orden] )
+			VAR AbrevMinima =
+			    MAXX (
+			        FILTER ( MesesSeleccionados, [__Orden] = OrdenMinimo ),
+			        [__Abrev]
+			    )
+			VAR AbrevMaxima =
+			    MAXX (
+			        FILTER ( MesesSeleccionados, [__Orden] = OrdenMaximo ),
+			        [__Abrev]
+			    )
+			VAR EsRangoContinuo =
+			    CantidadMeses = OrdenMaximo - OrdenMinimo + 1
+			VAR ListaMeses =
+			    CONCATENATEX (
+			        MesesSeleccionados,
+			        [__Abrev],
+			        ", ",
+			        [__Orden],
+			        ASC
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        NOT HayFiltroMes || CantidadMeses = 0 || CantidadMeses = CantidadTotalMeses,
+			            "Comparativo Acumulado Anual",
+			        CantidadMeses = 1,
+			            "Comparativo Acumulado (" & AbrevMinima & ") Anual",
+			        EsRangoContinuo,
+			            "Comparativo Acumulado (" & AbrevMinima & "–" & AbrevMaxima & ") Anual",
+			        CantidadMeses <= 4,
+			            "Comparativo Acumulado (" & ListaMeses & ") Anual",
+			        "Comparativo Acumulado (" & CantidadMeses & " meses seleccionados) Anual"
+			    )
+		displayFolder: 05 Productividad
+		lineageTag: 2debe8ed-0a85-441d-b4b7-7ef66f4ef44d
 
 	partition Tbl_Medidas = m
 		mode: import
