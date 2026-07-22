@@ -90,6 +90,39 @@ table Consolidado2025
 
 		annotation SummarizationSetBy = Automatic
 
+	column ID_Jefe_Inmediato
+		dataType: string
+		isHidden
+		lineageTag: 2b961dd8-8c76-46dc-b923-56fe5edbead7
+		summarizeBy: none
+		sourceColumn: ID_Jefe_Inmediato
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Jefe Inmediato (nombre-apellido)'
+		dataType: string
+		isHidden
+		lineageTag: 9e1ed1f2-63be-4134-ab36-122f3ec56889
+		summarizeBy: none
+		sourceColumn: Jefe Inmediato (nombre-apellido)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descripción Cargo_Jefe Inmediato'
+		dataType: string
+		isHidden
+		lineageTag: 39d439da-0d1d-4196-a23f-e5312080010c
+		summarizeBy: none
+		sourceColumn: Descripción Cargo_Jefe Inmediato
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
 	column CCO
 		dataType: string
 		isHidden
