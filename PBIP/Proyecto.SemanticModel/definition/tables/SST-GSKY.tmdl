@@ -299,7 +299,7 @@ table SST-GSKY
 		queryGroup: SST
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/SST/Accidentalidad.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/09_SST_GA/Data/Accidentalidad_Consolidado.xlsx"), null, true),
 				    #"SST-SKY_Sheet" = Origen{[Item="SST-SKY",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"SST-SKY_Sheet", [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Grupo Empresa", type text}, {"Empresa", type text}, {"#", Int64.Type}, {"AÑO", Int64.Type}, {"MES", type text}, {"IDENTIFICACIÓN", Int64.Type}, {"Apellidos y Nombre", type text}, {"Edad", Int64.Type}, {"Rango de Edad", type text}, {"Genero", type text}, {"TIPO DE CONTRATO", type text}, {"Gerencia/Dirección", type text}, {"AREA", type text}, {"C. Costo", type text}, {"CIUDAD", type text}, {"Días perdidos", Int64.Type}, {"Prorroga", type text}, {"Total días perdidos", Int64.Type}, {"Cargo", type text}, {"Parte Afectada", type text}, {"Mecanismo", type text}, {"Lugar", type text}, {"Agente", type text}, {"Tipo Lesión", type text}, {"Peligro", type text}, {"ACTO Y/O CONDICION", type text}})
