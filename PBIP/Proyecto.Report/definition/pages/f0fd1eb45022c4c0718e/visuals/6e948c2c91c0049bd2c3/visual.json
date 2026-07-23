@@ -23,11 +23,11 @@
                       "Entity": "PLANTA DE PERSONAL"
                     }
                   },
-                  "Property": "OBSERVACION"
+                  "Property": "NIVEL_DE_CARGO"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.OBSERVACION",
-              "nativeQueryRef": "OBSERVACION",
+              "queryRef": "PLANTA DE PERSONAL.NIVEL_DE_CARGO",
+              "nativeQueryRef": "NIVEL_DE_CARGO",
               "active": true
             }
           ]

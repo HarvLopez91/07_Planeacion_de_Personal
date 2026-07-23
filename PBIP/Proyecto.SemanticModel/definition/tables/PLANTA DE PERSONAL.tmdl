@@ -225,13 +225,15 @@ table 'PLANTA DE PERSONAL'
 
 		annotation SummarizationSetBy = Automatic
 
-	column OBSERVACION
+	column NIVEL_DE_CARGO
 		dataType: string
 		lineageTag: c129c157-2f6e-4ac3-a252-090354813e3f
 		summarizeBy: none
-		sourceColumn: OBSERVACION
+		sourceColumn: NIVEL_DE_CARGO
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"PLANTA DE PERSONAL","TableItemName":"Tipo de Cargo","ObjectType":4},"LinkType":"UsedInGroup"}]
 
 	column MES
 		dataType: string
@@ -500,6 +502,65 @@ table 'PLANTA DE PERSONAL'
 
 		annotation SummarizationSetBy = Automatic
 
+
+	column 'Tipo de Cargo' =
+			SWITCH(
+				TRUE,
+				ISBLANK('PLANTA DE PERSONAL'[NIVEL_DE_CARGO]),
+				"(En blanco)",
+				'PLANTA DE PERSONAL'[NIVEL_DE_CARGO] IN {"Analista",
+					"Analista Profesional",
+					"Aprendiz/Practicante",
+					"Base Administrativa"},
+				"Administrativos",
+				'PLANTA DE PERSONAL'[NIVEL_DE_CARGO] IN {"Director",
+					"Gerente",
+					"Presidente"},
+				"Estratégicos",
+				'PLANTA DE PERSONAL'[NIVEL_DE_CARGO] IN {"Auxiliar",
+					"Base Operativa",
+					"N/R",
+					"Operario",
+					"Operario Calificado",
+					"Supervisor"},
+				"Operativos",
+				'PLANTA DE PERSONAL'[NIVEL_DE_CARGO] IN {"Coordinador",
+					"Jefe"},
+				"Tácticos",
+				'PLANTA DE PERSONAL'[NIVEL_DE_CARGO]
+			)
+		lineageTag: 106af83e-bf66-4fff-965d-ef671ee7160d
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "PLANTA DE PERSONAL"
+				          }
+				        },
+				        "Property": "NIVEL_DE_CARGO"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"PLANTA DE PERSONAL"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"NIVEL_DE_CARGO"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Administrativos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"NIVEL_DE_CARGO"}}],"Values":[[{"Literal":{"Value":"'Analista'"}}],[{"Literal":{"Value":"'Analista Profesional'"}}],[{"Literal":{"Value":"'Aprendiz/Practicante'"}}],[{"Literal":{"Value":"'Base Administrativa'"}}]]}}},{"DisplayName":"Estratégicos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"NIVEL_DE_CARGO"}}],"Values":[[{"Literal":{"Value":"'Director'"}}],[{"Literal":{"Value":"'Gerente'"}}],[{"Literal":{"Value":"'Presidente'"}}]]}}},{"DisplayName":"Operativos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"NIVEL_DE_CARGO"}}],"Values":[[{"Literal":{"Value":"'Auxiliar'"}}],[{"Literal":{"Value":"'Base Operativa'"}}],[{"Literal":{"Value":"'N/R'"}}],[{"Literal":{"Value":"'Operario'"}}],[{"Literal":{"Value":"'Operario Calificado'"}}],[{"Literal":{"Value":"'Supervisor'"}}]]}}},{"DisplayName":"Tácticos","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"NIVEL_DE_CARGO"}}],"Values":[[{"Literal":{"Value":"'Coordinador'"}}],[{"Literal":{"Value":"'Jefe'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column TIPO_DE_CARGO
+		dataType: string
+		lineageTag: f7e530d2-7665-441f-88fa-678119b8a6c3
+		summarizeBy: none
+		sourceColumn: TIPO_DE_CARGO
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'PLANTA DE PERSONAL' = m
 		mode: import
 		queryGroup: HeadCount
@@ -509,13 +570,13 @@ table 'PLANTA DE PERSONAL'
 				    #"PLANTA DE PERSONAL_Sheet" = Origen{[Item="PLANTA DE PERSONAL",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"PLANTA DE PERSONAL_Sheet", [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"MES", type text}, {"AÑO", type text}, {"Rango Antigüedad", type text}, {"Antigüedad", type text}, {"SUELDO_B", Currency.Type}, {"F_INICIO", type date}, {"F_CENCIM", type date}}),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"RANGO DE EDAD", "GENERACIÓN"}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"RANGO DE EDAD", "GENERACIÓN"}, {"OBSERVACION", "NIVEL_DE_CARGO"}}, MissingField.Ignore),
 				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"GRUPO EMPRESA", type text}, {"Nombre Empresa", type text}, {"DEPENDENCIA", type text}, {"AREA", type text}, {"DEPARTAMENTO", type text}, {"N_Contrato", type text}}),
 				    #"Consulta anexada" = Table.Combine({#"Tipo cambiado1", Consolidado2025}),
 				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Consulta anexada",{{"GENERACIÓN", "GENERACI&#211;N"}}),
 				    #"Generacion homologada" = Table.ReplaceValue(#"Columnas con nombre cambiado1","Millenials","Millennials",Replacer.ReplaceText,{"GENERACI&#211;N"}),
 				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Generacion homologada",{{"MES", type text}}),
-				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Tipo cambiado2",{{"OBSERVACION", Text.Proper, type text}, {"EST_CIVIL", Text.Proper, type text}, {"TIPO_CONTR", Text.Proper, type text}}),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Tipo cambiado2",{{"NIVEL_DE_CARGO", Text.Proper, type text}, {"EST_CIVIL", Text.Proper, type text}, {"TIPO_CONTR", Text.Proper, type text}}),
 				    #"Rango Antigüedad Recalculado" = Table.AddColumn(
 				        #"Poner En Mayúsculas Cada Palabra",
 				        "Rango Antigüedad Nuevo",

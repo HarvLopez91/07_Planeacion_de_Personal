@@ -365,12 +365,12 @@ table Consolidado2025
 
 		annotation SummarizationSetBy = Automatic
 
-	column OBSERVACION
+	column NIVEL_DE_CARGO
 		dataType: string
 		isHidden
 		lineageTag: 68f815bb-4e46-42e0-9964-11f5a396101c
 		summarizeBy: none
-		sourceColumn: OBSERVACION
+		sourceColumn: NIVEL_DE_CARGO
 
 		changedProperty = IsHidden
 
@@ -522,6 +522,18 @@ table Consolidado2025
 
 		annotation SummarizationSetBy = Automatic
 
+
+	column TIPO_DE_CARGO
+		dataType: string
+		isHidden
+		lineageTag: b6b05055-8a5b-492e-9e44-99c544723a20
+		summarizeBy: none
+		sourceColumn: TIPO_DE_CARGO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Consolidado2025 = m
 		mode: import
 		queryGroup: HeadCount
@@ -531,7 +543,7 @@ table Consolidado2025
 				    Consolidado2025_Sheet = Origen{[Item="Consolidado2025",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Consolidado2025_Sheet, [PromoteAllScalars=true]),
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"RANGO DE EDAD", "GENERACIÓN"}}),
-				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"MES", type text}})
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"MES", type text}, {"NIVEL_DE_CARGO", type text}, {"TIPO_DE_CARGO", type text}})
 				in
 				    #"Tipo cambiado1"
 
