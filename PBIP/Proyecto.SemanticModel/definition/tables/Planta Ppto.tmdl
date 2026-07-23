@@ -233,7 +233,7 @@ table 'Planta Ppto'
 		queryGroup: PptovsReal
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/PptovsReal.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/PptovsReal.xlsx"), null, true),
 				    #"Planta Personal_Sheet" = Origen{[Item="Planta Personal",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Planta Personal_Sheet", [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Fijos", Int64.Type}, {"Indefinidos", Int64.Type}, {"Sena", Int64.Type}, {"Temporales", Int64.Type}, {"Total", Int64.Type}, {"Total-Sena", Int64.Type}, {"Ingresos", Int64.Type}, {"Retiros", Int64.Type}, {"Retiros Voluntarios", Int64.Type}, {"Ventas (MM)", Currency.Type}, {"Gasto Personal", Currency.Type}, {"Ppto Ventas (MM)", Currency.Type}, {"Ppto Gasto Personal", Currency.Type}})
