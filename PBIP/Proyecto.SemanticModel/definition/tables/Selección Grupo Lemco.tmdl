@@ -305,7 +305,7 @@ table 'Selección Grupo Lemco'
 		queryGroup: Selección
 		source =
 				let
-				    Origen = Table.Combine({#"Selección Challenger", #"Selección Habitel Hotels", #"Selección Grupo Sky"}),
+				    Origen = Table.Combine({Table.Buffer(#"Selección Challenger"), Table.Buffer(#"Selección Habitel Hotels"), Table.Buffer(#"Selección Grupo Sky")}),
 				    #"Personalizada agregada" = Table.AddColumn(Origen, "Mes_Num_Meta", each Date.Month([FECHA META CIERRE])),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Personalizada agregada",{"Mes_Num_Meta"}),
 				    #"Columna duplicada" = Table.DuplicateColumn(#"Columnas quitadas", "FECHA META CIERRE", "FECHA META CIERRE - Copia"),
