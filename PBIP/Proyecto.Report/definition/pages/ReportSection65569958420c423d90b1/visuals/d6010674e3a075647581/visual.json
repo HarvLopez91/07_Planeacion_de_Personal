@@ -46,8 +46,8 @@
                 }
               },
               "queryRef": "Planta Ppto.Efic",
-              "nativeQueryRef": "Ejecución 2025",
-              "displayName": "Ejecución 2025"
+              "nativeQueryRef": "Ejecución",
+              "displayName": "Ejecución"
             }
           ]
         },
