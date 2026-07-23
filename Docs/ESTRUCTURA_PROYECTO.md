@@ -38,12 +38,16 @@ No reemplaza a [ARCHITECTURE.md](ARCHITECTURE.md), que describe la arquitectura 
 
 ## 3. Principios de organización
 
-1. **Separar lo oficial de lo temporal.** `Docs/` es la única fuente de verdad vigente; `Outputs/` guarda diagnósticos, propuestas y evidencias que no son verdad oficial hasta que se incorporan a `Docs/`.
-2. **No versionar datos personales ni binarios pesados.** `Data/` e `Inputs/` con archivos Excel de personas quedan fuera de Git.
+1. **Separar lo oficial de lo temporal.** `Docs/` es la fuente canónica de la documentación oficial, estable y mantenible del proyecto. Los archivos PBIP, scripts y demás artefactos técnicos son la fuente de verdad de la implementación ejecutable.
+2. **Versionamiento con criterio.** No versionar datos personales ni archivos binarios, pesados, derivados o temporales que no sean necesarios para el funcionamiento, reproducción o documentación oficial del repositorio. Las excepciones y criterios detallados se rigen por [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md).
 3. **Cada carpeta tiene un dueño de propósito único.** Si un archivo no encaja claramente en una carpeta del estándar, es señal de que falta una regla o de que el archivo está mal ubicado.
-4. **Adopción gradual, no big-bang.** El estándar define 16 carpetas; un proyecto no necesita tenerlas todas pobladas desde el día uno. Se crean cuando hay contenido real que las justifique (ver sección 14).
-5. **Ninguna migración sin Spec.** Pasar de la estructura actual de un proyecto al estándar corporativo es un cambio estructural — requiere análisis de impacto documentado antes de tocar una sola carpeta.
-6. **Trazabilidad ante todo.** Todo cambio funcional relevante debe quedar documentado en `Docs/` (oficial), `Specs/` (plan aprobable) u `Outputs/` (huella del proceso).
+4. **Reutilizar antes de crear.** Antes de crear una carpeta nueva, verificar si ya existe una ubicación destinada al mismo propósito.
+5. **Evitar duplicaciones.** No deben duplicarse estructuras ni crearse ubicaciones innecesarias.
+6. **Alcance del sistema de archivos.** No crear, copiar, descargar ni conservar intencionalmente artefactos del proyecto fuera de la raíz del repositorio, salvo autorización expresa del usuario. Se permiten archivos temporales administrados automáticamente por las herramientas cuando sean necesarios para la ejecución, siempre que no se conviertan en entregables, fuentes permanentes ni archivos versionados.
+7. **Clasificación por propósito.** La clasificación depende del propósito principal del archivo, no únicamente de su formato.
+8. **Adopción gradual, no big-bang.** El estándar define 16 carpetas; un proyecto no necesita tenerlas todas pobladas desde el día uno. Se crean cuando hay contenido real que las justifique (ver sección 14).
+9. **Ninguna migración sin Spec.** Pasar de la estructura actual de un proyecto al estándar corporativo es un cambio estructural — requiere análisis de impacto documentado antes de tocar una sola carpeta.
+10. **Trazabilidad ante todo.** Todo cambio funcional relevante debe quedar documentado en `Docs/` (oficial), `Specs/` (plan de implementación) u `Outputs/` (huella del proceso).
 
 ---
 
@@ -225,9 +229,9 @@ Esa Spec vive en `Specs/` una vez se adopte esa carpeta (sección 14); mientras 
 
 Reglas base:
 
-- **`Docs/`** = documentación oficial, vigente y **versionada** en Git.
-- **`Outputs/`** = evidencia y diagnósticos de trabajo, **local y no versionada** (excluida por `.gitignore`; solo se versiona con aprobación explícita, ver sección 11).
-- **`Specs/`** = análisis de impacto y planes aprobables antes de implementar. Ya existe en el proyecto y no debe mezclarse con commits técnicos salvo aprobación explícita.
+- **`Specs/`** = especificaciones, requisitos, análisis de impacto, diseños técnicos y planes de implementación.
+- **`Outputs/`** = resultados temporales, diagnósticos, evidencias, exportaciones y archivos generados durante la ejecución.
+- **`Docs/`** = documentación oficial, estable, mantenible y vigente del proyecto.
 - **Runbooks y ADRs pertenecen a `Docs/`** — no son una categoría aparte de esta política: `Docs/RUNBOOK.md` y `Docs/decisions/` ya son documentación oficial y siguen la misma regla que cualquier otro documento de `Docs/`.
 
 | Tipo | Dónde vive | Características |
@@ -240,7 +244,13 @@ Reglas base:
 
 **Ubicación de diagnósticos dentro de `Outputs/` (actualizado 2026-07-03):** los diagnósticos operativos (preflight Git, diagnóstico de codebase y similares) se guardan en la **raíz de `Outputs/`**, siguiendo la convención `NN_` de la sección 10 — así quedaron `Outputs/00_2026-07-03_preflight_git.md` y `Outputs/01_2026-07-03_diagnostico_codebase.md`. `Outputs/documentation/` queda como ubicación **opcional e histórica**: solo se retoma si en el futuro se decide agrupar un volumen alto de documentos de diagnóstico documental en una subcarpeta dedicada. No es obligatoria ni es la ubicación por defecto actual.
 
-Regla simple: **si el archivo describe el estado actual del proyecto de forma permanente y versionada → `Docs/`. Si describe un evento, un análisis puntual, evidencia de trabajo o un plan → `Outputs/` (o `Specs/` una vez se adopte).**
+Regla simple: **si el archivo define requisitos, diseño o plan antes de implementar → `Specs/`; si documenta evidencia o resultado temporal de ejecución → `Outputs/`; si documenta el estado oficial y mantenible del proyecto → `Docs/`.**
+
+Ejemplos:
+
+- Análisis de impacto de un cambio de fuente → `Specs/`.
+- Diagnóstico generado por un script → `Outputs/`.
+- Arquitectura oficial implementada → `Docs/`.
 
 ---
 

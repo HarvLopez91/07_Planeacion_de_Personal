@@ -8,20 +8,25 @@ Este repositorio corresponde al proyecto Power BI/PBIP `07_Planeación_de_Person
 
 - PBIP principal: `PBIP/Proyecto7.pbip`.
 - Documentación oficial: `Docs/`.
-- Specs aprobables: `Specs/`.
+- Especificaciones, análisis de impacto, requisitos y planes de implementación: `Specs/`.
 - Evidencias temporales: `Outputs/`.
 - Datos locales: `Data/`, no versionar.
 
-## Reglas Operativas
+## Bloque operativo mínimo
 
-1. Leer `AGENTS.md` antes de actuar.
-2. Consultar `Docs/README.md` para ubicar la documentación oficial.
-3. Ejecutar `git status -sb` antes de cualquier cambio.
-4. No usar `git add .`.
-5. No hacer commit ni push sin autorización explícita.
-6. No limpiar, revertir ni descartar cambios del usuario.
-7. No modificar PBIP sin alcance aprobado y evidencia previa.
-8. No exponer datos personales ni registros individuales.
+1. Trabajar únicamente dentro del alcance aprobado por el usuario.
+2. No crear ni conservar intencionalmente artefactos del proyecto fuera de la raíz, salvo autorización; se permiten temporales automáticos no permanentes.
+3. No eliminar, descartar, sobrescribir ni revertir cambios existentes del usuario.
+4. No usar `git add .` ni `git add -A`.
+5. No ejecutar commit ni push sin autorización explícita.
+6. Clasificar los archivos según su propósito en `Specs/`, `Outputs/` o `Docs/`.
+7. Consultar la fuente canónica correspondiente cuando la tarea involucre estructura, Git o privacidad.
+
+## Fuentes canónicas
+
+- Ubicación o creación de archivos: [Docs/ESTRUCTURA_PROYECTO.md](Docs/ESTRUCTURA_PROYECTO.md)
+- Staging, commit, push o exclusiones: [Docs/GIT_GOVERNANCE.md](Docs/GIT_GOVERNANCE.md)
+- Datos personales, confidenciales o fuentes sensibles: [Docs/SECURITY_AND_PRIVACY.md](Docs/SECURITY_AND_PRIVACY.md)
 
 ## Estado Crítico Vigente
 
@@ -32,28 +37,6 @@ Al `2026-07-17`, la migración de fuentes hacia SharePoint corporativo no está 
 - `SENA UNIDADES`.
 
 No afirmar que `Aplicar cambios` o el refresh local fueron exitosos sin evidencia visual o confirmación explícita del usuario.
-
-## Staging y Commits
-
-Usar staging selectivo con rutas explícitas. El working tree puede estar sucio por cambios PBIP preexistentes y no relacionados.
-
-Antes de cualquier commit:
-
-```powershell
-git status -sb
-git diff --cached --name-status
-git diff --check
-git config --local --get user.name
-git config --local --get user.email
-git var GIT_AUTHOR_IDENT
-git var GIT_COMMITTER_IDENT
-```
-
-Identidad esperada:
-
-```text
-EdwinClavijoChallenger <edwin.clavijo@challenger.co>
-```
 
 ## Documentos Clave
 

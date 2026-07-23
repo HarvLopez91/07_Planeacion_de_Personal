@@ -32,6 +32,13 @@ Este proyecto maneja **datos personales de empleados** del Grupo Empresarial Lem
 
 Esta referencia no reemplaza el análisis técnico de sensibilidad del modelo ni las validaciones de acceso, RLS, credenciales y privacidad de Power BI. Su función es dejar trazabilidad de la política corporativa que gobierna el tratamiento de los datos usados por el proyecto.
 
+## Referencias de gobernanza relacionadas
+
+- Estructura y ubicación de archivos: [ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md)
+- Staging, commits, push y exclusiones: [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md)
+
+Este documento se mantiene enfocado en sensibilidad de datos, privacidad, publicación y acceso.
+
 ---
 
 ## Campos con datos personales por tabla
@@ -95,7 +102,7 @@ Los siguientes archivos del repositorio local **no deben compartirse publicament
 | `PBIP/Proyecto.Report/.pbi/localSettings.json` | Configuracion local del editor — puede contener rutas o preferencias de usuario |
 | `PBIP/Proyecto.SemanticModel/.pbi/localSettings.json` | Idem |
 | Archivos `.xlsx` en `Data/` | Si se agregan datos fuente al repositorio local, podrian contener datos personales |
-| **Archivos en `Inputs/`** | **Riesgo ALTO, sin evaluar (agregado 2026-07-03).** La carpeta `Inputs/` contiene hoy `Base_Rotacion_Atraccion_Seleccion.xlsx` (496 KB). Por su nombre ("Rotacion" y "Atraccion y Seleccion"), es probable que incluya datos nominales de colaboradores o candidatos. **No se ha confirmado su contenido.** Tratar como `Data/` (no versionar) hasta que se evalue explicitamente. Ver tambien `Docs/ESTRUCTURA_PROYECTO.md` seccion 11. |
+| **Archivos en `Inputs/`** | **Riesgo ALTO, sin evaluar (agregado 2026-07-03).** La carpeta `Inputs/` contiene hoy `Base_Rotacion_Atraccion_Seleccion.xlsx` (496 KB). Por su nombre ("Rotacion" y "Atraccion y Seleccion"), es probable que incluya datos nominales de colaboradores o candidatos. **No se ha confirmado su contenido.** Los archivos de `Inputs/` no deben versionarse hasta validar su sensibilidad, finalidad, confidencialidad, tamaño, licencia, necesidad para reproducir el proyecto y autorización de inclusión. La ausencia de datos personales no implica aprobación automática para Git. Ver tambien [ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md) y [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md). |
 
 > El archivo `PBIP/.gitignore` ya esta presente en el proyecto. Se recomienda verificar que `cache.abf` y `localSettings.json` esten incluidos en las exclusiones.
 >
@@ -113,4 +120,4 @@ Las siguientes son recomendaciones derivadas del analisis. Su implementacion es 
 4. **Revisar si los campos de datos personales sensibles** (direccion, telefono, email, salario) son necesarios en el modelo o pueden eliminarse/enmascararse.
 5. **Documentar y cumplir con la politica de tratamiento de datos** de la organizacion bajo la Ley 1581 de 2012.
 6. **Mantener el repositorio Git con staging selectivo** y no versionar `Data/`, `Outputs/` ni archivos con datos personales.
-7. **Evaluar el contenido de `Inputs/Base_Rotacion_Atraccion_Seleccion.xlsx`** (agregado 2026-07-03) para confirmar si tiene datos personales; si los tiene, tratarlo como `Data/` y no versionarlo.
+7. **Evaluar el contenido de `Inputs/Base_Rotacion_Atraccion_Seleccion.xlsx`** (agregado 2026-07-03) para confirmar sensibilidad, finalidad, confidencialidad, tamaño, licencia y necesidad real para reproducir el proyecto; su ausencia de datos personales no autoriza por sí sola su versionamiento.
