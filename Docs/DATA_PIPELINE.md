@@ -5,7 +5,7 @@
 
 ---
 
-## Estado actual de fuentes (2026-07-17)
+## Estado actual de fuentes (2026-07-23)
 
 La estrategia vigente es migrar las fuentes Excel desde rutas personales de SharePoint/OneDrive hacia el sitio corporativo:
 
@@ -25,7 +25,7 @@ Estado documentado:
 
 | Familia | Estado |
 |---|---|
-| `PptovsReal.xlsx` | Ruta corporativa aplicada para `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos` |
+| `PptovsReal.xlsx` | Ruta corporativa aplicada, validada y publicada para `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos` mediante commit tecnico `e287657` |
 | `Consolidado 2024.xlsx` / `Consolidado 2025.xlsx` | Rutas corporativas identificadas; `PLANTA DE PERSONAL` sigue pendiente de refresh exitoso |
 | Selección / SENA | Rutas corporativas revisadas; `SENA UNIDADES` debe conservar `Item="SENA", Kind="Sheet"` |
 | SST / Accidentalidad | Ruta corporativa documentada para `Accidentalidad_Consolidado.xlsx` |
@@ -35,7 +35,7 @@ Estado documentado:
 | `AREAS` | Sigue ligada a `Consolidado 2024.xlsx`; requiere análisis posterior antes de cambiar origen |
 | `REQUISICIONES HABITEL 2026.xlsx` | Fuente nueva fuera de alcance; requiere Spec propia |
 
-El refresh local completo no debe declararse exitoso hasta validar `Aplicar cambios` y refresh sin errores en Power BI Desktop. Ver [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
+Para `PptovsReal.xlsx`, el refresh y las paginas dependientes fueron validados funcionalmente por el usuario antes del commit tecnico `e287657`. Para las demas familias, el refresh local completo no debe declararse exitoso hasta validar `Aplicar cambios` y refresh sin errores en Power BI Desktop. Ver [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 
 ## Patron general
 
@@ -178,13 +178,33 @@ Esta tabla alimenta la pagina **Fecha de Actualizacion** del reporte.
 
 ---
 
+## Flujo de carga: PptovsReal
+
+`PptovsReal.xlsx` se consume desde el sitio corporativo de SharePoint del Grupo Lemco mediante el patron vigente:
+
+```powerquery
+Excel.Workbook(Web.Contents("<url corporativa>"), null, true)
+```
+
+Consultas asociadas:
+
+| Hoja | Tabla semantica | Estado |
+|---|---|---|
+| `Planta Personal` | `Planta Ppto` | Migrada a SharePoint corporativo |
+| `INGRESOS` | `Ppto Ingresos` | Migrada a SharePoint corporativo |
+| `RETIROS` | `Ppto Retiros` | Migrada a SharePoint corporativo |
+
+La ruta personal anterior dejo de ser el origen activo de estas tres consultas. La migracion fue validada mediante refresh y revision funcional del usuario, y quedo publicada en el commit tecnico `e287657acc948672b274d7907b736a455428a258`.
+
+---
+
 ## Limitaciones y riesgos del pipeline
 
 | # | Riesgo | Impacto |
 |---|---|---|
 | 1 | Rutas hardcodeadas | Cualquier renombramiento o movimiento de archivo rompe la carga sin aviso |
 | 2 | Dos cuentas propietarias de archivos | Dependencia en personas especificas; riesgo de indisponibilidad |
-| 3 | Archivo `PptovsReal.xlsx` compartido | Tres tablas (`Planta Ppto`, `Ppto Retiros`, potencialmente `Ppto Ingresos`) dependen del mismo Excel; cambios en el archivo afectan multiples tablas simultaneamente |
+| 3 | Archivo `PptovsReal.xlsx` compartido | Tres tablas (`Planta Ppto`, `Ppto Retiros`, `Ppto Ingresos`) dependen del mismo Excel corporativo; cambios en el archivo afectan multiples tablas simultaneamente |
 | 4 | Datos embebidos en binario (`Empresas`, `Mes`) | Para actualizar el catalogo de empresas hay que regenerar el binario comprimido en Power Query o cambiar el patron de carga |
 | 5 | `REQUISICIONES_CYL.xlsx` usa `Matriz 2025` como nombre de hoja | Cada ano probablemente requiere actualizar el nombre de la hoja en el codigo M de `Seleccion Challenger` |
 | 6 | Sin actualizacion programada documentada | No se conoce la frecuencia oficial de actualizacion (`Pendiente de confirmar`) |

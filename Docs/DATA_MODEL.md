@@ -36,6 +36,18 @@
 |---|---|
 | `Consolidado2025` | Tabla intermedia `isHidden = true`. Carga el archivo 2025 de HeadCount y es consumida por `PLANTA DE PERSONAL` mediante `Table.Combine` en Power Query. No tiene relaciones propias en el modelo. |
 
+### Fuente PptovsReal
+
+Las tablas `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos` consumen el archivo `PptovsReal.xlsx` desde SharePoint corporativo usando `Excel.Workbook(Web.Contents(...), null, true)`.
+
+| Tabla | Hoja consumida | Estado de fuente |
+|---|---|---|
+| `Planta Ppto` | `Planta Personal` | Migrada a SharePoint corporativo |
+| `Ppto Retiros` | `RETIROS` | Migrada a SharePoint corporativo |
+| `Ppto Ingresos` | `INGRESOS` | Migrada a SharePoint corporativo |
+
+La migracion se publico en el commit tecnico `e287657acc948672b274d7907b736a455428a258` y conserva las transformaciones existentes de cada consulta.
+
 ### Dimensiones
 
 | Tabla | Descripcion |

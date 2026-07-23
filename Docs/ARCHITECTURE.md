@@ -15,7 +15,7 @@ Puntos vigentes:
 - `Specs/` contiene análisis de impacto y planes aprobables.
 - `Outputs/` contiene evidencias temporales y no debe versionarse por defecto.
 - El modelo mantiene Power Query M en TMDL con conectores `Excel.Workbook(Web.Contents(...), null, true)`.
-- La migración hacia SharePoint corporativo está parcialmente implementada.
+- La migración hacia SharePoint corporativo está parcialmente implementada; `PptovsReal.xlsx` ya quedo migrado para `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos`.
 - Persisten bloqueos o riesgos de Formula Firewall hasta validar `Aplicar cambios` y refresh local completo.
 - No se ha aprobado refactor a `SharePoint.Contents`, `SharePoint.Files`, parámetros M ni funciones centralizadas.
 
@@ -67,7 +67,7 @@ graph TB
     subgraph Fuentes["Fuentes de Datos (SharePoint / OneDrive)"]
         E1["Consolidado 2024.xlsx\n(edwin_clavijo)"]
         E2["Consolidado 2025.xlsx\n(edwin_clavijo)"]
-        E3["PptovsReal.xlsx\n(edwin_clavijo)"]
+        E3["PptovsReal.xlsx\n(SharePoint corporativo)"]
         E4["Accidentalidad.xlsx\n(edwin_clavijo)"]
         E5["Ausentismos Power BI.xlsx\n(maria_bohorquez)"]
         E6["Maestro.xlsx\n(maria_bohorquez)"]

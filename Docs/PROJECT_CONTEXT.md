@@ -45,6 +45,8 @@ Planta de personal activa por mes y empresa. Incluye datos historicos desde 2024
 ### 2. Presupuesto vs Real (PptovsReal)
 Comparacion entre la planta presupuestada y la planta real ejecutada. Incluye indicadores de variacion interanual, eficiencia de gasto laboral frente a ventas, ingresos y retiros.
 
+Las consultas `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos` consumen `PptovsReal.xlsx` desde SharePoint corporativo mediante `Excel.Workbook(Web.Contents(...), null, true)`. Esta migracion fue validada por refresh y revision funcional del usuario, y quedo publicada en el commit tecnico `e287657acc948672b274d7907b736a455428a258`.
+
 En la pagina Retiros se incorpora una matriz de antiguedad del personal retirado por ano. Su proposito es analizar la distribucion de retiros segun el rango de antiguedad al retiro, calculado desde `Fecha Inicio` y `Fecha Vencimiento` en `Ppto Retiros`.
 
 ### 3. Seleccion
@@ -106,7 +108,7 @@ El modelo usa las siguientes clasificaciones que aplican a multiples dominios:
 ## Limitaciones conocidas
 
 1. Existe control de versiones Git, pero el repositorio mantiene cambios PBIP acumulados pendientes de saneamiento y requiere staging selectivo por alcance.
-2. La migración de rutas personales a SharePoint corporativo está en curso; `PptovsReal.xlsx` ya fue alineado para tablas de presupuesto/real, pero aún existen fuentes personales o pendientes de análisis.
+2. La migración de rutas personales a SharePoint corporativo está en curso para el repositorio en general; `PptovsReal.xlsx` ya fue migrado y publicado para `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos`, pero aún existen otras fuentes personales o pendientes de análisis.
 3. Persisten riesgos de Formula Firewall en Power Query hasta validar `Aplicar cambios` y refresh completo en Power BI Desktop.
 4. No hay parámetros de Power Query: las rutas están hardcodeadas en el código M.
 5. No hay evidencia documental de RLS configurado en el modelo.
