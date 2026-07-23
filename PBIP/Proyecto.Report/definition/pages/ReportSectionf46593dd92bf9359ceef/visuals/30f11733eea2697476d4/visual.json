@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "30f11733eea2697476d4",
   "position": {
-    "x": 1754.2437779195916,
-    "y": 143.39502233567327,
+    "x": 1787.8378378378377,
+    "y": 146.64084138521946,
     "z": 14000,
-    "height": 190.29993618379069,
-    "width": 300.1914486279515,
+    "height": 190.37162162162161,
+    "width": 305.06756756756755,
     "tabOrder": 6000
   },
   "visual": {
@@ -121,7 +121,7 @@
                     "Entity": "Tbl_Medidas"
                   }
                 },
-                "Property": "Tot_empleados_Promedio"
+                "Property": "Tot_empleados"
               }
             },
             "direction": "Descending"
@@ -157,6 +157,20 @@
           },
           "selector": {
             "metadata": "Generaciones.Edades"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "128.56081302733273D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Generaciones.Generación"
           }
         }
       ],
@@ -381,6 +395,82 @@
             }
           ]
         }
+      },
+      {
+        "name": "c3236afc024940400ec4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Generaciones"
+              }
+            },
+            "Property": "Rango Años de Nacimiento"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a1aa50c1c78ad42abb06",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Generaciones"
+              }
+            },
+            "Property": "Edades"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4d21365a45e319c03058",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_empleados_Promedio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "48c521e68229d9c7e120",
+        "field": {
+          "Arithmetic": {
+            "Left": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Tbl_Medidas"
+                  }
+                },
+                "Property": "Tot_empleados"
+              }
+            },
+            "Right": {
+              "ScopedEval": {
+                "Expression": {
+                  "Measure": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Tbl_Medidas"
+                      }
+                    },
+                    "Property": "Tot_empleados"
+                  }
+                },
+                "Scope": []
+              }
+            },
+            "Operator": 3
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }
