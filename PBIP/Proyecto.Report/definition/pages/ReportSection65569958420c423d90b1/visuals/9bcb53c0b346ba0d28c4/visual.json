@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "%Efiprom"
                 }
               },
-              "queryRef": "Planta Ppto.%Efiprom",
+              "queryRef": "Tbl_Medidas.%Efiprom",
               "nativeQueryRef": "Gasto vs Venta Presupuestado",
               "displayName": "Gasto vs Venta Presupuestado"
             },
@@ -35,13 +35,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Efic"
                 }
               },
-              "queryRef": "Planta Ppto.Efic",
+              "queryRef": "Tbl_Medidas.Efic",
               "nativeQueryRef": "Gasto vs Venta Ejecutado",
               "displayName": "Gasto vs Venta Ejecutado"
             }
@@ -62,7 +62,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic"
+            "metadata": "Tbl_Medidas.Efic"
           }
         },
         {
@@ -76,7 +76,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.%Efiprom"
+            "metadata": "Tbl_Medidas.%Efiprom"
           }
         }
       ],
@@ -171,7 +171,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.%Efiprom"
+            "metadata": "Tbl_Medidas.%Efiprom"
           }
         },
         {
@@ -192,7 +192,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic"
+            "metadata": "Tbl_Medidas.Efic"
           }
         }
       ]

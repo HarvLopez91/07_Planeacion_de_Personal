@@ -14,6 +14,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### Corregido
 
+- Cierre funcional de las paginas `Productividad` y `Gasto Laboral`: se consolida en PBIR el estado final validado por el usuario, incluidos filtros y selecciones visuales, unidades monetarias por contexto de negocio, titulos dinamicos y referencias a medidas centralizadas en `Tbl_Medidas`.
+- `Productividad`: el grafico mensual usa `Titulo_Productividad_Gasto_Laboral`; el comparativo acumulado usa `Subtitulo_Productividad_Comparativo_Acumulado`, que diferencia ausencia de filtro, un mes, rango continuo, meses no consecutivos y todos los meses.
+- `Gasto Laboral`: se conserva la presentacion aprobada en millones para Challenger/consolidado y en unidades automaticas o valores completos para otros negocios, sin cambios en los calculos.
+- Se elimina el formato estatico de `GL_Ppto_Gasto_Personal` y `GL_Gasto_Personal` porque ya cuentan con `formatStringDefinition`; esto evita que Power BI Desktop rechace el proyecto por definir simultaneamente `FormatString` y `FormatStringDefinition`.
+- Validaciones de cierre: apertura correcta de `Proyecto7.pbip` sin conflicto TMDL, aprobacion funcional del usuario para ambas paginas, parseo JSON/PBIR, auditorias DAX, semantica y navegacion, UTF-8 sin BOM y revision selectiva del diff Git.
 - Pagina `Gasto Laboral`: el grafico mensual conserva millones con una cifra decimal para Challenger, vista consolidada y seleccion de todos los grupos; los demas negocios usan unidades automaticas.
 - La tabla mensual presenta esos mismos contextos consolidados en millones y muestra para otros negocios los importes completos con una cifra decimal, incluidos filas y totales, sin convertir valores distintos de cero en cero visual.
 - La tarjeta `Cumplimiento Gasto Laboral` referencia `Tbl_Medidas[Cump_GL]` y conserva una cifra decimal; no se modifico su formula ni el contexto de filtros.

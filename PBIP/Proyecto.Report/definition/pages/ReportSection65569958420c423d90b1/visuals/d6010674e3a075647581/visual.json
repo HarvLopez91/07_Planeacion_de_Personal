@@ -1,10 +1,10 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "d6010674e3a075647581",
   "position": {
     "x": 302.82884471881152,
     "y": 136.76141374397938,
-    "z": 7000,
+    "z": 8000,
     "height": 312.59751712909576,
     "width": 640.82491011464629,
     "tabOrder": 3000
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Efic"
                 }
               },
-              "queryRef": "Planta Ppto.Efic",
+              "queryRef": "Tbl_Medidas.Efic",
               "nativeQueryRef": "Ejecución",
               "displayName": "Ejecución"
             }
@@ -58,13 +58,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "%Efiprom"
                 }
               },
-              "queryRef": "Planta Ppto.%Efiprom",
+              "queryRef": "Tbl_Medidas.%Efiprom",
               "nativeQueryRef": "% Presupuestado",
               "displayName": "% Presupuestado"
             }
@@ -342,7 +342,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic"
+            "metadata": "Tbl_Medidas.Efic"
           }
         },
         {
@@ -368,7 +368,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.%Efiprom"
+            "metadata": "Tbl_Medidas.%Efiprom"
           }
         }
       ],
@@ -505,8 +505,13 @@
           "properties": {
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Gasto Laboral Vs Ventas'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Titulo_Productividad_Gasto_Laboral"
                 }
               }
             },

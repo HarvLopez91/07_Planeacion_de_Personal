@@ -136,6 +136,8 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | `Prod_Gasto_Personal_Tabla` | Dinamico | Reutiliza `[Prod_Gasto_Personal]`; millones para Challenger/consolidado y valor entero completo para otros negocios. |
 | `Prod_Ingreso_Operacional_Tabla` | Dinamico | Reutiliza `[Prod_Ingreso_Operacional]` con la misma regla de presentacion. |
 | `Prod_Efic_Tabla` | `0.0 %` | Reutiliza `[Efic]` para mantener la productividad y los totales sin alterar su logica. |
+| `Titulo_Productividad_Gasto_Laboral` | Texto | Genera el titulo del grafico mensual con el ano seleccionado; si hay varios anos, indica que existen anos seleccionados. |
+| `Subtitulo_Productividad_Comparativo_Acumulado` | Texto | Genera el subtitulo del comparativo acumulado con los meses ordenados por `Mes[Numero]`; distingue un mes, rangos continuos, selecciones no consecutivas y contexto anual. |
 
 ### Rotacion e Indice de Retiros
 

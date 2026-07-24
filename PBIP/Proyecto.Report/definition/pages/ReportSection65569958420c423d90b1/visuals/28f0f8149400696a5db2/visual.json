@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "28f0f8149400696a5db2",
   "position": {
     "x": 13.333333333333332,
     "y": 177.77777777777777,
-    "z": 11000,
+    "z": 12000,
     "height": 84.444444444444443,
     "width": 253.33333333333331,
-    "tabOrder": 11000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "slicer",
@@ -89,6 +89,41 @@
                             {
                               "Literal": {
                                 "Value": "'01.Enero'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'02.Febrero'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'03.Marzo'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'04.Abril'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'05.Mayo'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'06.Junio'"
                               }
                             }
                           ]

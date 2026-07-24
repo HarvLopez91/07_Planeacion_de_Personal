@@ -1063,7 +1063,6 @@ table Tbl_Medidas
 		lineageTag: e2d3c4b5-a6f7-8e9d-0c1b-2a3f4e5d6c7b
 
 	measure GL_Ppto_Gasto_Personal = SUM('Planta Ppto'[Ppto Gasto Personal])
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 5bada4f2-ceeb-40bc-aaee-c403c2650c03
 
@@ -1077,7 +1076,6 @@ table Tbl_Medidas
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure GL_Gasto_Personal = SUM('Planta Ppto'[Gasto Personal])
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: e220c2b3-1481-4bff-871c-53ee705a9d67
 
@@ -1238,6 +1236,76 @@ table Tbl_Medidas
 			    )
 		displayFolder: 01 HeadCount HC
 		lineageTag: 67605bb2-4d98-4551-bde2-89beabc41b3e
+
+	measure Subtitulo_Productividad_Comparativo_Acumulado =
+
+			VAR HayFiltroMes =
+			    ISFILTERED ( Mes[Meses] )
+			VAR MesesSeleccionados =
+			    FILTER (
+			        ADDCOLUMNS (
+			            VALUES ( Mes[Meses] ),
+			            "__Orden", CALCULATE ( MAX ( Mes[Numero] ) ),
+			            "__Abrev", CALCULATE ( MAX ( Mes[Mes Abrev] ) )
+			        ),
+			        NOT ISBLANK ( Mes[Meses] )
+			    )
+			VAR CantidadMeses =
+			    COUNTROWS ( MesesSeleccionados )
+			VAR CantidadTotalMeses =
+			    COUNTROWS ( FILTER ( ALL ( Mes ), NOT ISBLANK ( Mes[Meses] ) ) )
+			VAR OrdenMinimo =
+			    MINX ( MesesSeleccionados, [__Orden] )
+			VAR OrdenMaximo =
+			    MAXX ( MesesSeleccionados, [__Orden] )
+			VAR AbrevMinima =
+			    MAXX (
+			        FILTER ( MesesSeleccionados, [__Orden] = OrdenMinimo ),
+			        [__Abrev]
+			    )
+			VAR AbrevMaxima =
+			    MAXX (
+			        FILTER ( MesesSeleccionados, [__Orden] = OrdenMaximo ),
+			        [__Abrev]
+			    )
+			VAR EsRangoContinuo =
+			    CantidadMeses = OrdenMaximo - OrdenMinimo + 1
+			VAR ListaMeses =
+			    CONCATENATEX (
+			        MesesSeleccionados,
+			        [__Abrev],
+			        ", ",
+			        [__Orden],
+			        ASC
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        NOT HayFiltroMes || CantidadMeses = 0 || CantidadMeses = CantidadTotalMeses,
+			            "Comparativo Acumulado Anual",
+			        CantidadMeses = 1,
+			            "Comparativo Acumulado (" & AbrevMinima & ") Anual",
+			        EsRangoContinuo,
+			            "Comparativo Acumulado (" & AbrevMinima & "-" & AbrevMaxima & ") Anual",
+			        CantidadMeses <= 4,
+			            "Comparativo Acumulado (" & ListaMeses & ") Anual",
+			        "Comparativo Acumulado (" & CantidadMeses & " meses seleccionados) Anual"
+			    )
+		lineageTag: 3654e8f2-0237-4a6d-b435-876a19ad2891
+
+	measure Titulo_Productividad_Gasto_Laboral =
+
+			VAR AnioSeleccionado =
+			    SELECTEDVALUE ( 'Años'[Año] )
+			RETURN
+			    "Gasto Laboral Vs Ventas - Ejecución "
+			        & IF (
+			            NOT ISBLANK ( AnioSeleccionado ),
+			            AnioSeleccionado,
+			            "años seleccionados"
+			        )
+		displayFolder: 05 Productividad
+		lineageTag: 8f0a00d7-a72b-4cda-8f0c-bd57ec44f9e4
 
 	measure Prod_Gasto_Personal = SUM('Planta Ppto'[Gasto Personal])
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
