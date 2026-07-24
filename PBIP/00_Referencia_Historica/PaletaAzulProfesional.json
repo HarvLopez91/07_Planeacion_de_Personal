@@ -1,0 +1,15 @@
+{
+  "name": "Paleta Azul Profesional",
+  "dataColors": [
+    "#0C123E",
+    "#1E2A6A",
+    "#4A5FA9",
+    "#FFC857",
+    "#70D6A8",
+    "#F25C54",
+    "#D5D7E3"
+  ],
+  "background": "#F4F6FA",
+  "foreground": "#0C123E",
+  "tableAccent": "#1E2A6A"
+}

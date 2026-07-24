@@ -8,6 +8,10 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ## [Sin version] - 2026-07-24
 
+### Agregado
+
+- `PBIP/00_Referencia_Historica/`: carpeta con versiones historicas del reporte en formato `.pbix` (previas a la migracion a PBIP) y un tema de color (`PaletaAzulProfesional.json`). Documentada en `ESTRUCTURA_PROYECTO.md`. Solo el tema JSON se versiona; los 5 archivos `.pbix` quedan excluidos via `.gitignore` por tratarse de binarios no necesarios para reproducir `Proyecto7.pbip` y por sensibilidad de datos sin verificar (ver `SECURITY_AND_PRIVACY.md`).
+
 ### Corregido
 
 - Pagina `Productividad`: la tabla `cba349945ec4b0577321` conserva los importes completos, sin abreviaturas, cuando el contexto corresponde a unidades de negocio diferentes de Challenger.

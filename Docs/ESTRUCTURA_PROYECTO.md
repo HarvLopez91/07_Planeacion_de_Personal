@@ -83,8 +83,25 @@ No reemplaza a [ARCHITECTURE.md](ARCHITECTURE.md), que describe la arquitectura 
     ├── Proyecto7.pbip          # Manifiesto del proyecto (renombrado 2026-06-17, ver commit cfb3a15)
     ├── .gitignore               # Excluye .pbi/cache.abf y .pbi/localSettings.json
     ├── Proyecto.Report/         # Ver ARCHITECTURE.md
-    └── Proyecto.SemanticModel/  # Ver ARCHITECTURE.md
+    ├── Proyecto.SemanticModel/  # Ver ARCHITECTURE.md
+    └── 00_Referencia_Historica/ # Agregada 2026-07 — ver nota abajo
 ```
+
+**Nota sobre `PBIP/00_Referencia_Historica/` (agregada la semana del 2026-07-17, sin trackear en Git al momento de este análisis):**
+
+Contiene versiones anteriores del reporte en formato `.pbix` (binario, previas a la migración a PBIP) y un tema de color:
+
+| Archivo | Tamaño | Descripción inferida |
+|---|---|---|
+| `PaletaAzulProfesional.json` | 262 B | Tema/paleta de colores de Power BI Desktop (JSON de tema, sin datos) |
+| `Tablero Gerencia Corporativa GH.pbix` | 1,5 MB | Versión histórica de un tablero para Gerencia Corporativa de Gestión Humana (coincide con la audiencia primaria descrita en `PROJECT_CONTEXT.md`) |
+| `Tableros_Gestión Humana - Challenger Colombia_V0.0.0.pbix` / `_V1.0.0.pbix` | 3,8 MB / 5,3 MB | Versiones históricas previas a la migración a `Proyecto7.pbip`, específicas de Challenger Colombia |
+| `Tableros_Gestión Humana_V0.0.0.pbix` / `_V1.0.0.pbix` | 11 MB / 7,6 MB | Versiones históricas previas a la migración, alcance general del grupo |
+
+**Decisión de versionamiento:**
+
+- `PaletaAzulProfesional.json`: **versionado**. Archivo de texto pequeño, sin datos, sin riesgo.
+- Los 5 archivos `.pbix`: **no versionados**, agregados a `.gitignore`. A diferencia de PBIP (que separa definición de datos), un `.pbix` embebe el modelo de datos completo, incluyendo filas importadas. Dado que este proyecto está clasificado como sensibilidad **ALTA** (`SECURITY_AND_PRIVACY.md`) y estos archivos no se abrieron para confirmar su contenido, aplica la misma cautela ya usada para `Inputs/`: la ausencia de datos personales no se asume, se verifica. Además, la regla de `GIT_GOVERNANCE.md` ("no versionar... binarios o archivos pesados que no sean necesarios para el funcionamiento, reproducción o documentación oficial del repositorio") aplica directamente — son referencia histórica, no necesarios para reproducir `Proyecto7.pbip`. Incluirlos requeriría autorización expresa y específica, idealmente después de confirmar en Power BI Desktop que no contienen datos personales sin enmascarar.
 
 **Hallazgos relevantes de este análisis (2026-07-03), verificados con `ls -d */` y búsqueda recursiva de carpetas numeradas (`find . -maxdepth 3 -type d -iname "0*_*"` → sin resultados):**
 
