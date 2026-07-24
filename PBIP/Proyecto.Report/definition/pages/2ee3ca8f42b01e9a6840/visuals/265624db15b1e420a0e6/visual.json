@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Cump_GL"
                 }
               },
-              "queryRef": "Planta Ppto.Cump_GL",
+              "queryRef": "Tbl_Medidas.Cump_GL",
               "nativeQueryRef": "Cump_GL"
             }
           ]
@@ -39,7 +39,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Planta Ppto"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Cump_GL"
@@ -82,7 +82,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Cump_GL"
@@ -111,7 +111,7 @@
                                     "Measure": {
                                       "Expression": {
                                         "SourceRef": {
-                                          "Entity": "Planta Ppto"
+                                          "Entity": "Tbl_Medidas"
                                         }
                                       },
                                       "Property": "Cump_GL"
@@ -131,7 +131,7 @@
                                     "Measure": {
                                       "Expression": {
                                         "SourceRef": {
-                                          "Entity": "Planta Ppto"
+                                          "Entity": "Tbl_Medidas"
                                         }
                                       },
                                       "Property": "Cump_GL"
@@ -155,6 +155,13 @@
                       ]
                     }
                   }
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
                 }
               }
             }

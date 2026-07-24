@@ -14,6 +14,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### Corregido
 
+- Pagina `Gasto Laboral`: el grafico mensual conserva millones con una cifra decimal para Challenger, vista consolidada y seleccion de todos los grupos; los demas negocios usan unidades automaticas.
+- La tabla mensual presenta esos mismos contextos consolidados en millones y muestra para otros negocios los importes completos con una cifra decimal, incluidos filas y totales, sin convertir valores distintos de cero en cero visual.
+- La tarjeta `Cumplimiento Gasto Laboral` referencia `Tbl_Medidas[Cump_GL]` y conserva una cifra decimal; no se modifico su formula ni el contexto de filtros.
+- La implementacion reutiliza las sumas numericas existentes y limita el cambio a formato y seleccion de la variante visual, sin modificar calculos, relaciones, fuentes ni logica de negocio.
+- Validaciones: Challenger, consolidado, todos los grupos y negocios distintos de Challenger; etiquetas, grafico, tabla, totales y tarjeta; parseo JSON/PBIR, auditorias DAX, semantica y navegacion, UTF-8 sin BOM y revision selectiva del diff Git.
 - Pagina `Productividad`: la tabla `cba349945ec4b0577321` conserva los importes completos, sin abreviaturas, cuando el contexto corresponde a unidades de negocio diferentes de Challenger.
 - Challenger, la vista consolidada y la seleccion de todos los grupos mantienen la presentacion monetaria en millones con una cifra decimal.
 - El ajuste usa medidas numericas de presentacion en `Tbl_Medidas`; las expresiones base continuan siendo las sumas de `Gasto Personal` y `Ventas (MM)`, sin cambios en calculos, filtros ni logica de productividad.

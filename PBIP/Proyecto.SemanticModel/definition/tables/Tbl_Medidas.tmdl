@@ -1067,6 +1067,13 @@ table Tbl_Medidas
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 5bada4f2-ceeb-40bc-aaee-c403c2650c03
 
+		formatStringDefinition =
+				IF (
+				    [GL_Usar_Millones],
+				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    "$ #,0.0;-$ #,0.0;$ 0.0"
+				)
+
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure GL_Gasto_Personal = SUM('Planta Ppto'[Gasto Personal])
@@ -1074,13 +1081,43 @@ table Tbl_Medidas
 		displayFolder: 02 Ppto vs Real
 		lineageTag: e220c2b3-1481-4bff-871c-53ee705a9d67
 
+		formatStringDefinition =
+				IF (
+				    [GL_Usar_Millones],
+				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    "$ #,0.0;-$ #,0.0;$ 0.0"
+				)
+
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
-	measure GL_Es_Challenger =
-
-			VAR GrupoSeleccionado = SELECTEDVALUE ( Empresas[Grupo Empresa] )
+	measure GL_Usar_Millones =
+			VAR HayFiltroGrupo =
+			    ISFILTERED ( Empresas[Grupo Empresa] )
+			VAR HayFiltroEmpresa =
+			    ISFILTERED ( Empresas[Empresas] )
+			VAR GruposSeleccionados =
+			    FILTER (
+			        ALLSELECTED ( Empresas[Grupo Empresa] ),
+			        NOT ISBLANK ( Empresas[Grupo Empresa] )
+			    )
+			VAR GruposVisibles =
+			    COUNTROWS ( GruposSeleccionados )
+			VAR TotalGrupos =
+			    CALCULATE (
+			        DISTINCTCOUNT ( Empresas[Grupo Empresa] ),
+			        REMOVEFILTERS ( Empresas )
+			    )
+			VAR GrupoUnico =
+			    SELECTEDVALUE ( Empresas[Grupo Empresa] )
+			VAR EsChallengerEfectivo =
+			    GruposVisibles = 1
+			        && GrupoUnico = "Challenger"
+			VAR SinFiltroNegocio =
+			    NOT HayFiltroGrupo && NOT HayFiltroEmpresa
+			VAR EstanTodosLosGrupos =
+			    GruposVisibles = TotalGrupos
 			RETURN
-			HASONEVALUE ( Empresas[Grupo Empresa] ) && GrupoSeleccionado = "Challenger"
+			    EsChallengerEfectivo || SinFiltroNegocio || EstanTodosLosGrupos
 		displayFolder: 02 Ppto vs Real
 		lineageTag: fe4d54d4-22ed-411b-b776-383d87903635
 
@@ -1088,7 +1125,7 @@ table Tbl_Medidas
 
 	measure GL_Ppto_Visual_Challenger =
 
-			IF ( [GL_Es_Challenger], [GL_Ppto_Gasto_Personal], BLANK() )
+			IF ( [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 16fafe11-2224-46f5-931c-f48a67abbaa7
@@ -1099,7 +1136,7 @@ table Tbl_Medidas
 
 	measure GL_Real_Visual_Challenger =
 
-			IF ( [GL_Es_Challenger], [GL_Gasto_Personal], BLANK() )
+			IF ( [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: c3f87f4d-8661-488a-8be8-1aad59980ece
@@ -1110,7 +1147,7 @@ table Tbl_Medidas
 
 	measure GL_Ppto_Visual_Otros =
 
-			IF ( NOT [GL_Es_Challenger], [GL_Ppto_Gasto_Personal], BLANK() )
+			IF ( NOT [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 51be7814-436f-4757-8731-3988c3f8661c
@@ -1121,7 +1158,7 @@ table Tbl_Medidas
 
 	measure GL_Real_Visual_Otros =
 
-			IF ( NOT [GL_Es_Challenger], [GL_Gasto_Personal], BLANK() )
+			IF ( NOT [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
 		lineageTag: acac35c3-2f66-4988-8069-b35cad890c38

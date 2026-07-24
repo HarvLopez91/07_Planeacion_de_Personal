@@ -114,6 +114,18 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | `Cump_GL` | `0.00 %` | Gasto Personal real / Gasto Personal presupuestado |
 | `Efic_Emp` | moneda COP | Ventas (MM) / colaboradores sin SENA (productividad por empleado) |
 
+### Presentacion monetaria de Gasto Laboral
+
+| Medida | Formato | Descripcion |
+|---|---|---|
+| `GL_Ppto_Gasto_Personal` | Dinamico | Conserva `SUM('Planta Ppto'[Ppto Gasto Personal])`; millones con una cifra decimal para Challenger/consolidado y valor completo con una cifra decimal para otros negocios. |
+| `GL_Gasto_Personal` | Dinamico | Conserva `SUM('Planta Ppto'[Gasto Personal])` y aplica la misma regla de presentacion. |
+| `GL_Usar_Millones` | Booleano | Activa la variante en millones para Challenger exclusivo, vista sin filtro o seleccion de todos los grupos. |
+| `GL_Ppto_Visual_Challenger` | Moneda numerica | Presupuesto visible exclusivamente en la variante de grafico configurada en millones. |
+| `GL_Real_Visual_Challenger` | Moneda numerica | Ejecucion visible exclusivamente en la variante de grafico configurada en millones. |
+| `GL_Ppto_Visual_Otros` | Moneda numerica | Presupuesto visible exclusivamente en la variante de grafico con unidades automaticas. |
+| `GL_Real_Visual_Otros` | Moneda numerica | Ejecucion visible exclusivamente en la variante de grafico con unidades automaticas. |
+
 ### Presentacion monetaria de Productividad
 
 | Medida | Formato | Descripcion |
