@@ -5,7 +5,7 @@
 
 ---
 
-## Estado actual de fuentes (2026-07-23)
+## Estado actual de fuentes (2026-07-24)
 
 La estrategia vigente es migrar las fuentes Excel desde rutas personales de SharePoint/OneDrive hacia el sitio corporativo:
 
@@ -195,6 +195,19 @@ Consultas asociadas:
 | `RETIROS` | `Ppto Retiros` | Migrada a SharePoint corporativo |
 
 La ruta personal anterior dejo de ser el origen activo de estas tres consultas. La migracion fue validada mediante refresh y revision funcional del usuario, y quedo publicada en el commit tecnico `e287657acc948672b274d7907b736a455428a258`.
+
+### Insumo manual de gasto laboral 2026
+
+El archivo local `Data/HeadCount/2026/06_Junio/Gasto Laboral 2026.xlsx` contiene informacion actualizada a junio de 2026 y se conserva como insumo operativo para actualizar manualmente la hoja `Planta Personal` de `PptovsReal.xlsx`.
+
+El flujo asociado es:
+
+1. Revisar y validar el corte de `Gasto Laboral 2026.xlsx`.
+2. Trasladar manualmente la informacion aprobada a la hoja `Planta Personal` de `PptovsReal.xlsx`.
+3. Publicar o reemplazar `PptovsReal.xlsx` en su ubicacion corporativa gobernada.
+4. Actualizar y validar en Power BI la consulta `Planta Ppto`, que consume esa hoja.
+
+`Gasto Laboral 2026.xlsx` no es una fuente consumida directamente por Power Query. Se almacena bajo `Data/` por contener informacion operativa de personal y potencialmente salarial; queda excluido de Git mediante `.gitignore` y no debe forzarse su versionamiento.
 
 ---
 
