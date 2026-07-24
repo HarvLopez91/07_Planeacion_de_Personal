@@ -1202,6 +1202,85 @@ table Tbl_Medidas
 		displayFolder: 01 HeadCount HC
 		lineageTag: 67605bb2-4d98-4551-bde2-89beabc41b3e
 
+	measure Prod_Gasto_Personal = SUM('Planta Ppto'[Gasto Personal])
+		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+		displayFolder: 05 Productividad
+		lineageTag: 0b4b7fb1-4f0b-4b8f-9050-2f11d4cb62e5
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Ingreso_Operacional = SUM('Planta Ppto'[Ventas (MM)])
+		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+		displayFolder: 05 Productividad
+		lineageTag: f33a12b7-b682-4ec1-8ae8-1b95d4f5379f
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Usar_Millones =
+
+			VAR HayFiltroGrupo =
+			    ISFILTERED ( Empresas[Grupo Empresa] )
+			VAR HayFiltroEmpresa =
+			    ISFILTERED ( Empresas[Empresas] )
+			VAR GruposSeleccionados =
+			    FILTER (
+			        ALLSELECTED ( Empresas[Grupo Empresa] ),
+			        NOT ISBLANK ( Empresas[Grupo Empresa] )
+			    )
+			VAR CantidadGruposVisibles =
+			    COUNTROWS ( GruposSeleccionados )
+			VAR CantidadTotalGrupos =
+			    CALCULATE (
+			        DISTINCTCOUNT ( Empresas[Grupo Empresa] ),
+			        REMOVEFILTERS ( Empresas )
+			    )
+			VAR GrupoUnico =
+			    SELECTEDVALUE ( Empresas[Grupo Empresa] )
+			VAR EsChallengerUnico =
+			    CantidadGruposVisibles = 1
+			        && GrupoUnico = "Challenger"
+			VAR EstanTodosLosGrupos =
+			    CantidadGruposVisibles = CantidadTotalGrupos
+			VAR SinFiltroNegocio =
+			    NOT HayFiltroGrupo && NOT HayFiltroEmpresa
+			RETURN
+			    EsChallengerUnico || EstanTodosLosGrupos || SinFiltroNegocio
+		displayFolder: 05 Productividad
+		lineageTag: 3db170f4-6e4d-4ac6-a39d-242d1724248c
+
+		changedProperty = IsHidden
+
+	measure Prod_Gasto_Personal_Tabla = [Prod_Gasto_Personal]
+		displayFolder: 05 Productividad
+		lineageTag: 6a1c9c2a-4e8b-4f0a-9c1e-2f7d3a5b6c8d
+
+		formatStringDefinition =
+				IF (
+				    [Prod_Usar_Millones],
+				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    "$ #,0;-$ #,0;$ 0"
+				)
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Ingreso_Operacional_Tabla = [Prod_Ingreso_Operacional]
+		displayFolder: 05 Productividad
+		lineageTag: 7b2d0d3b-5f9c-4a1b-8d2f-3a8e4b6c7d9e
+
+		formatStringDefinition =
+				IF (
+				    [Prod_Usar_Millones],
+				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
+				    "$ #,0;-$ #,0;$ 0"
+				)
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
+
+	measure Prod_Efic_Tabla = [Efic]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad
+		lineageTag: 8c3e1e4c-6a0d-4b2c-9e3a-4b9f5c7d8e0f
+
 	partition Tbl_Medidas = m
 		mode: import
 		source =

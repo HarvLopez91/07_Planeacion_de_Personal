@@ -114,6 +114,17 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | `Cump_GL` | `0.00 %` | Gasto Personal real / Gasto Personal presupuestado |
 | `Efic_Emp` | moneda COP | Ventas (MM) / colaboradores sin SENA (productividad por empleado) |
 
+### Presentacion monetaria de Productividad
+
+| Medida | Formato | Descripcion |
+|---|---|---|
+| `Prod_Gasto_Personal` | Moneda numerica | `SUM('Planta Ppto'[Gasto Personal])`; conserva el calculo base para la pagina Productividad. |
+| `Prod_Ingreso_Operacional` | Moneda numerica | `SUM('Planta Ppto'[Ventas (MM)])`; conserva el calculo base de ingreso operacional. |
+| `Prod_Usar_Millones` | Booleano | Activa millones para Challenger exclusivo, vista sin filtro o seleccion de todos los grupos; otros negocios usan valor completo. |
+| `Prod_Gasto_Personal_Tabla` | Dinamico | Reutiliza `[Prod_Gasto_Personal]`; millones para Challenger/consolidado y valor entero completo para otros negocios. |
+| `Prod_Ingreso_Operacional_Tabla` | Dinamico | Reutiliza `[Prod_Ingreso_Operacional]` con la misma regla de presentacion. |
+| `Prod_Efic_Tabla` | `0.0 %` | Reutiliza `[Efic]` para mantener la productividad y los totales sin alterar su logica. |
+
 ### Rotacion e Indice de Retiros
 
 | Medida | Formato | Descripcion |

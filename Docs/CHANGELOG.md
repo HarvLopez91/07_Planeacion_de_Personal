@@ -6,6 +6,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-07-24
+
+### Corregido
+
+- Pagina `Productividad`: la tabla `cba349945ec4b0577321` conserva los importes completos, sin abreviaturas, cuando el contexto corresponde a unidades de negocio diferentes de Challenger.
+- Challenger, la vista consolidada y la seleccion de todos los grupos mantienen la presentacion monetaria en millones con una cifra decimal.
+- El ajuste usa medidas numericas de presentacion en `Tbl_Medidas`; las expresiones base continuan siendo las sumas de `Gasto Personal` y `Ventas (MM)`, sin cambios en calculos, filtros ni logica de productividad.
+- Las etiquetas y totales de la tabla comparten las mismas medidas y cadenas de formato dinamicas. Los graficos conservan sus medidas porcentuales y su comportamiento de unidades.
+- Validaciones: escenarios 2025 y 2026 para Challenger, Grupo Sky, Habitel Hotels, Lemco y Fundacion Challenger; parseo JSON/PBIR, auditorias DAX y semantica, UTF-8 sin BOM y revision selectiva del diff Git.
+
 ## [Sin version] - 2026-07-21
 
 ### Corregido
