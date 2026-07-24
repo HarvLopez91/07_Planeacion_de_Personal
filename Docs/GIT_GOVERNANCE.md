@@ -114,6 +114,11 @@ Usar Conventional Commits en español:
 tipo(alcance): descripción breve
 ```
 
+La descripción debe redactarse en imperativo y cada commit debe representar
+un único cambio lógico. No mezclar requerimientos, páginas, medidas,
+documentación, Specs, Outputs o herramientas que no formen parte del mismo
+bloque aprobado.
+
 Ejemplos:
 
 - `docs: actualiza documentación y gobierno del proyecto PBIP`
@@ -121,6 +126,48 @@ Ejemplos:
 - `feat(visuals): agrega slicer de dependencia en demografico promedio`
 
 No incluir coautores si el usuario no lo solicita.
+
+### Cuerpo detallado
+
+El cuerpo del commit debe permitir auditar el cambio sin depender de la
+conversación que lo originó. Debe incluir:
+
+```text
+Objetivo:
+- Resultado que se buscaba.
+
+Cambios realizados:
+- Implementación o documentación incorporada.
+
+Motivo:
+- Problema funcional, técnico o de gobierno resuelto.
+
+Archivos incluidos:
+- Rutas o componentes versionados.
+
+Validaciones:
+- Pruebas funcionales, estáticas, visuales y Git ejecutadas.
+
+Exclusiones:
+- Archivos, ruido PBIP y cambios locales dejados fuera.
+
+Pendientes o riesgos:
+- Validaciones no ejecutadas, hallazgos diferidos o riesgos residuales.
+```
+
+No declarar como ejecutada una validación que no tenga evidencia.
+
+### Staging preexistente y cambios ajenos
+
+- Revisar el índice antes de agregar archivos.
+- No retirar, reescribir ni confirmar staging ajeno.
+- Si existe staging preexistente de otro requerimiento, usar un mecanismo
+  de aislamiento previamente aprobado que no altere el índice normal, o
+  detenerse si no puede garantizarse el contenido exacto del commit.
+- Validar por separado cambios staged y unstaged cuando comparten una ruta.
+- No incluir ruido de Power BI Desktop, selecciones persistidas,
+  `diagramLayout.json`, cultures, bookmarks, `pages.json` ni visuales fuera
+  de alcance sin justificación funcional explícita.
 
 ## Push
 
@@ -140,6 +187,11 @@ Hacer push solo si:
 3. No hay commits remotos pendientes.
 4. Los commits locales pendientes son exactamente los aprobados.
 5. El usuario autorizó el push.
+
+La versión publicada, desplegada o entregada debe corresponder al commit
+validado. Si una publicación se realiza desde Power BI Desktop o Power BI
+Service, registrar el hash de origen y comprobar que no existan cambios
+locales posteriores dentro del alcance publicado.
 
 Después de push:
 

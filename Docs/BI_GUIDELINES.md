@@ -139,3 +139,194 @@ Varias columnas usan el patron de **grupos de datos** de Power BI para normaliza
 Las medidas `KPI_PPTO`, `KPI_REAL` y `KPI_EFI` usan `UNICHAR` para mostrar flechas:
 - `UNICHAR(129093)` = flecha hacia arriba
 - `UNICHAR(129095)` = flecha hacia abajo
+
+---
+
+## Estándares reutilizables para desarrollo Power BI/PBIP
+
+Esta sección es la fuente canónica para diseñar, construir, corregir y
+validar páginas del reporte. Aplica tanto a mejoras de páginas existentes
+como a páginas nuevas. La estructura de artefactos se rige por
+[ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md), el versionamiento por
+[GIT_GOVERNANCE.md](GIT_GOVERNANCE.md) y la protección de información por
+[SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md).
+
+### 1. Diseño y construcción de páginas
+
+Antes de construir una página se debe definir:
+
+1. Propósito, audiencia y decisión que apoyará.
+2. Pregunta de negocio principal y preguntas secundarias.
+3. Contextos de filtro que deben compararse.
+4. Indicadores, detalle y nivel de granularidad necesarios.
+5. Criterios funcionales, visuales y de aceptación.
+
+Reglas de diseño:
+
+- Usar títulos y subtítulos dinámicos cuando el periodo o contexto de
+  negocio cambie la interpretación.
+- Diseñar sobre una cuadrícula consistente. Alinear bordes, conservar
+  espaciado regular y usar jerarquía visual para distinguir contexto,
+  indicadores, tendencias y detalle.
+- Mantener colores, tipografías, encabezados, navegación y densidad
+  coherentes con las páginas existentes.
+- Asignar nombres técnicos identificables a segmentadores, gráficos,
+  tablas, botones y visuales que tengan lógica o validaciones relevantes.
+- Revisar el orden Z en el panel de selección. Las capas deben seguir un
+  orden comprensible y estable: fondo, decoración, contenido y controles.
+- Mantener el orden de tabulación alineado con la lectura: contexto,
+  filtros, indicadores, gráficos, tablas y acciones.
+- Excluir del orden de tabulación fondos, formas, imágenes decorativas y
+  elementos sin interacción.
+- Revisar la vista móvil cuando la página esté destinada a consumo móvil;
+  su orden es independiente del orden Z y del diseño de escritorio.
+- No superponer visuales funcionales para simular formatos dinámicos,
+  alternar escalas o esconder estados. Debe preferirse un único gráfico o
+  tabla resuelto mediante medidas numéricas, formatos dinámicos,
+  parámetros o propiedades del visual.
+- Una superposición solo es aceptable para decoración no interactiva y
+  debe quedar fuera del orden de tabulación.
+
+### 2. Formatos dinámicos y unidades
+
+- Las medidas base deben conservar tipo numérico.
+- No usar `FORMAT()` cuando el resultado deba ordenar, agregar, participar
+  en cálculos o producir totales numéricos.
+- Resolver la presentación con dynamic format strings o
+  `formatStringDefinition`. Una medida no puede declarar a la vez
+  `formatString` y `formatStringDefinition`.
+- Filas y totales deben utilizar la misma medida y la misma regla de
+  formato; no crear una medida textual separada para el total.
+- Un valor distinto de cero no puede mostrarse como cero por una escala o
+  precisión inadecuada.
+- Corregir problemas visuales en el formato o en la configuración del
+  visual, no alterando el cálculo ni multiplicando o dividiendo la medida.
+- Validar unidad, escala, separadores y magnitud contra la fuente. No
+  agregar ceros ni factores manuales sin una unidad oficial documentada.
+- Separar problemas de formato de problemas de calidad de datos. Un
+  resultado bien formateado no demuestra que el dato sea correcto.
+
+Regla de presentación vigente de este proyecto, no regla universal para
+otros modelos:
+
+| Contexto | Gráficos | Tablas y matrices |
+|---|---|---|
+| Challenger o vista consolidada | Millones, una cifra decimal | Millones, una cifra decimal |
+| Otros negocios | Unidades automáticas | Valor completo, sin abreviación |
+
+Si otra página necesita una regla diferente, debe justificarla en su Spec
+y documentar la unidad de negocio, moneda y escala esperadas.
+
+### 3. Filtros, segmentadores e interacciones
+
+- Usar dimensiones gobernadas para `Año`, `Mes`, `Grupo Empresa` y
+  `Empresa`; evitar filtros directos sobre columnas equivalentes de tablas
+  de hechos.
+- Definir explícitamente si cada segmentador admite selección única o
+  múltiple, su estado inicial y si permite seleccionar todo.
+- Excluir o tratar valores nulos de forma explícita. No ocultarlos sin
+  verificar si representan un problema de calidad de datos.
+- Documentar sincronización entre páginas, selecciones persistidas y
+  alcance de cada filtro: visual, página o informe.
+- Revisar las interacciones de cada segmentador con todos los visuales de
+  la página; no asumir que la propagación del modelo garantiza la
+  interacción visual correcta.
+- Validar por separado la vista consolidada, un grupo y una empresa. Una
+  selección de empresa debe ser coherente con su grupo.
+- No cambiar relaciones a bidireccionales sin causa raíz, análisis de
+  ambigüedad y validación de efectos laterales.
+- No introducir `TREATAS`, `REMOVEFILTERS`, `ALL` u otras excepciones de
+  contexto para ocultar una relación o propagación defectuosa sin
+  evidencia técnica.
+- Registrar los filtros persistidos por Power BI Desktop antes del commit,
+  porque pueden modificar el estado inicial que verá el usuario.
+
+### 4. Órdenes independientes en Power BI
+
+Los siguientes órdenes resuelven problemas distintos y deben validarse por
+separado:
+
+| Orden | Propósito | Ejemplo del proyecto |
+|---|---|---|
+| Z o capas | Define qué elemento queda delante o detrás | Fondo debajo del gráfico y segmentadores encima |
+| Tabulación | Define el recorrido con teclado | Año antes de Mes, Grupo Empresa y Empresa |
+| Datos del visual | Ordena categorías o valores mostrados | Meses en secuencia cronológica |
+| `sortByColumn` | Ordena una columna por otra columna estable | `Mes[Meses]` por `Mes[Numero]` |
+| Campos | Define la secuencia de columnas, ejes o leyendas | Mes, presupuesto, ejecución y cumplimiento |
+| Jerarquía de drill | Define los niveles de navegación analítica | Grupo Empresa antes de Empresa |
+| Diseño móvil | Define posición y lectura en el lienzo móvil | Indicadores antes de gráficos y detalle |
+
+No se debe corregir un orden modificando otro. Por ejemplo, mover una capa
+no corrige la tabulación y ordenar alfabéticamente un visual no reemplaza
+`sortByColumn`.
+
+### 5. Validación funcional y visual
+
+Toda mejora o página nueva debe contar con una matriz de pruebas. Como
+mínimo:
+
+| Contexto | Qué validar |
+|---|---|
+| Consolidado | Totales, unidades, título, subtítulo y ausencia de filtros residuales |
+| Challenger | Valores y presentación específica del negocio |
+| Otro grupo | Propagación de filtros, magnitud y unidades |
+| Empresa | Coherencia con el grupo y detalle disponible |
+| Dos años | Comparaciones, títulos, acumulados y totales |
+| Varios meses | Orden cronológico, rangos y selecciones no consecutivas |
+
+Para cada contexto se debe revisar:
+
+- captura con los filtros visibles;
+- título y subtítulo;
+- indicadores y etiquetas;
+- gráficos y escalas;
+- tabla, filas y totales;
+- unidades, magnitud y meses;
+- ausencia de superposición entre visuales funcionales;
+- comparación contra la fuente o una reconciliación aprobada.
+
+Cada resultado se clasifica como:
+
+- **Conforme:** coincide con la regla y la fuente.
+- **No conforme:** existe una diferencia reproducible.
+- **No concluyente:** falta fuente, acceso, contexto o evidencia; no debe
+  presentarse como validación satisfactoria.
+
+La prueba funcional se realiza en Power BI Desktop sobre
+`PBIP/Proyecto7.pbip`. Después del commit se debe verificar que la versión
+publicada o desplegada corresponde al mismo commit validado; guardar en
+Desktop y publicar son acciones distintas.
+
+### 6. Validaciones estáticas PBIP
+
+La profundidad de validación debe ser proporcional al riesgo, pero el
+paquete de cierre debe confirmar:
+
+- JSON válido y compatible con el esquema PBIR aplicable.
+- TMDL válido.
+- DAX válido, evaluado con herramientas del modelo o Power BI Desktop.
+- Sin medidas duplicadas.
+- Sin referencias colgantes entre visuales, medidas, columnas o tablas.
+- UTF-8 sin BOM en `.json` y `.tmdl`.
+- Ausencia de mojibake.
+- `git diff --check -- <rutas del alcance>` limpio.
+- El PBIP abre, refresca y guarda sin errores cuando el alcance requiere
+  esas operaciones.
+
+Contar paréntesis no constituye validación suficiente de DAX ni TMDL. Si
+no se ejecuta refresh por restricciones del alcance o por un incidente
+separado, debe registrarse como **no ejecutado**, no como satisfactorio.
+
+### 7. Cierre y trazabilidad
+
+- Conservar en `Specs/` el análisis de impacto, el plan y los criterios de
+  aprobación; en `Outputs/`, la evidencia temporal; y en `Docs/`, el
+  estándar o estado oficial. La política completa está en
+  [ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md).
+- Antes de versionar, revisar el diff PBIP y clasificar el ruido generado
+  por Desktop.
+- El commit debe incluir solo el bloque lógico aprobado y su documentación
+  directamente asociada.
+- Las reglas de staging, mensaje, push y preservación de cambios ajenos se
+  mantienen exclusivamente en
+  [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md).

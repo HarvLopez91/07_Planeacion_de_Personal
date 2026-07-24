@@ -145,7 +145,7 @@ Archive/
 | `Inputs/` | Archivos de entrada puntuales para análisis | **Existe** |
 | `Outputs/` | Diagnósticos, propuestas y evidencias generadas | **Existe y se usa activamente** |
 | `Docs/` | Documentación oficial y vigente | **Existe y se usa activamente** |
-| `Specs/` | Especificaciones de cambios antes de implementarlos, incl. specs de migración | **No existe** — pendiente de adopción |
+| `Specs/` | Especificaciones de cambios antes de implementarlos, incl. specs de migración | **Existe y se usa activamente** |
 | `Scripts/` | Automatizaciones reutilizables (PowerShell, Python) | **No existe** — pendiente de adopción |
 | `Tools/` | Utilidades de soporte al desarrollo, no parte del producto | **No existe** — pendiente de adopción |
 | `Assets/` | Recursos gráficos fuente fuera del PBIP | **No existe** — pendiente de adopción |
@@ -157,7 +157,7 @@ Archive/
 | `.agents/` | Configuración específica de otros agentes, si la herramienta lo exige | **No existe** — mismo criterio que `.codex/` |
 | `.vscode/` | Configuración de workspace de VS Code | **No existe** — pendiente de adopción |
 
-**6 de 16 carpetas del estándar ya existen y están en uso** (`PBIP/`, `Data/`, `Inputs/`, `Outputs/`, `Docs/`, `.claude/`). Las 10 restantes no se crean en esta fase — ver criterio de activación en sección 14.
+**7 de 16 carpetas del estándar ya existen y están en uso** (`PBIP/`, `Data/`, `Inputs/`, `Outputs/`, `Docs/`, `Specs/`, `.claude/`). Las restantes no se crean por adelantado — ver criterio de activación en sección 14.
 
 ---
 
@@ -175,7 +175,7 @@ Mapa corregido con base en la estructura **real verificada** (no en el esquema n
 | `Docs/` | `Docs/` | Ya alineada — sin acción. `Docs/DATA_MODEL.md` ya cubre la documentación del modelo de datos como archivo dentro de `Docs/`; no se requiere una subcarpeta `Docs/Modelo_Datos/` separada ni mover nada a `Data/` |
 | `PBIP/` | `PBIP/` | Ya alineada — sin acción |
 | `.claude/` | `.claude/` | Ya alineada — sin acción |
-| *(no existe)* | `Specs/` | Pendiente de adopción — crear solo cuando haya un primer plan que valga la pena versionar antes de implementarlo |
+| `Specs/` | `Specs/` | Ya alineada — contiene análisis de impacto y planes aprobables |
 | *(no existe)* | `Scripts/` | Pendiente de adopción |
 | *(no existe)* | `Tools/` | Pendiente de adopción |
 | *(no existe)* | `Assets/` | Pendiente de adopción |
@@ -188,7 +188,7 @@ Mapa corregido con base en la estructura **real verificada** (no en el esquema n
 
 **Sobre el mapa numerado originalmente propuesto** (`00_Fuentes → Inputs/`, `01_PBIP → PBIP/`, `02_Modelo_Datos → Docs/Modelo_Datos/ o Data/`, `03_Documentacion → Docs/`, `04_Outputs → Outputs/`, `05_Assets → Assets/`, `06_Validaciones → Tests/`): se deja registrado aquí como referencia, pero **no aplica a este proyecto** porque `07_Planeación_de_Personal` nunca tuvo subcarpetas numeradas — su estructura interna ya usa nombres directos. Si otro proyecto del workspace (`01_`…`06_`) sí usa subcarpetas numeradas internamente, ese mapa debería verificarse y documentarse en el `ESTRUCTURA_PROYECTO.md` de ese proyecto específico, no en este.
 
-**Antes de ejecutar cualquier migración real** (aunque hoy sea trivial porque 6 de 16 carpetas ya están alineadas), se debe producir una **Spec de migración** que incluya:
+**Antes de ejecutar cualquier migración real** se debe producir una **Spec de migración** que incluya:
 
 1. Análisis de impacto (qué se mueve, qué queda igual).
 2. Lista de archivos afectados.
@@ -197,7 +197,7 @@ Mapa corregido con base en la estructura **real verificada** (no en el esquema n
 5. Comandos Git exactos a ejecutar (`git mv`, no `mv` + `git add`, para preservar historial).
 6. Plan de rollback (cómo revertir si algo falla).
 
-Esa Spec vive en `Specs/` una vez se adopte esa carpeta (sección 14); mientras tanto, se registra como propuesta en `Outputs/` con prefijo `spec_migracion_`.
+Esa Spec vive en `Specs/`; `Outputs/` se reserva para evidencia, diagnósticos y resultados temporales de la ejecución.
 
 ---
 
@@ -209,8 +209,8 @@ Esa Spec vive en `Specs/` una vez se adopte esa carpeta (sección 14); mientras 
 | `Docs/` | Documentación oficial y vigente | `ARCHITECTURE.md`, `DATA_MODEL.md`, ADRs | **Sí** | Que se cuele contenido temporal o especulativo (regla en `Docs/README.md`) |
 | `Data/` | Datos fuente locales de referencia (Excel con datos personales) | Consolidados anuales, bases crudas | **No** (`.gitignore`) | Contiene PII — nunca forzar el versionamiento |
 | `Inputs/` | Archivos de entrada puntuales para análisis o cargas específicas | `Base_Rotacion_Atraccion_Seleccion.xlsx` | **No** recomendado si contiene datos personales — evaluar caso a caso | Hoy no está en `.gitignore` (ver sección 12) |
-| `Outputs/` | Diagnósticos, propuestas y evidencias generadas (por IA o manualmente) | Propuestas de rediseño, registros pre-commit, inventarios, specs mientras no exista `Specs/` | **No** por defecto; solo con aprobación explícita | Puede acumular archivos obsoletos sin fecha de expiración clara |
-| `Specs/` | Especificaciones de cambios antes de implementarlos, incl. migraciones estructurales | Plan de una migración de medidas, spec de migración de carpetas | Sí, cuando se adopte | Confundirse con `Outputs/` si no se define el límite (sección 9) |
+| `Outputs/` | Diagnósticos, propuestas y evidencias generadas (por IA o manualmente) | Registros pre-commit, inventarios, capturas, pruebas y auditorías | **No** por defecto; solo con aprobación explícita | Puede acumular archivos obsoletos sin fecha de expiración clara |
+| `Specs/` | Especificaciones de cambios antes de implementarlos, incl. migraciones estructurales | Plan de una migración de medidas, spec de migración de carpetas | **Sí** | Confundirse con `Outputs/` si no se define el límite (sección 9) |
 | `Scripts/` | Automatizaciones reutilizables | Scripts de validación de encoding TMDL | Sí, cuando se adopte | Que contengan credenciales embebidas |
 | `Tools/` | Utilidades de soporte al desarrollo, no parte del producto | Conversores, linters propios | Sí, cuando se adopte | Duplicar con `Scripts/` sin criterio claro |
 | `Assets/` | Recursos gráficos fuente fuera del PBIP | Logos en alta resolución, plantillas de marca | Sí, cuando se adopte | Duplicar con `PBIP/.../StaticResources/` |
@@ -231,7 +231,7 @@ Esa Spec vive en `Specs/` una vez se adopte esa carpeta (sección 14); mientras 
 - **Inputs/**: usar solo para archivos de entrada de un análisis puntual y en curso. Si el archivo contiene datos personales, tratarlo igual que `Data/` (no versionar). Revisar y limpiar cuando el análisis concluya.
 - **Outputs/**: cada archivo debe tener fecha en el nombre (`AAAA-MM-DD`) y ser prescindible — es huella de proceso, no fuente de verdad.
 - **Docs/**: solo contenido vigente, verificable y mantenible. Toda adición pasa la regla ya definida en `Docs/README.md`.
-- **Specs/** *(al adoptarse)*: describe **qué se va a hacer antes de hacerlo** (plan aprobado, incl. specs de migración estructural). Se diferencia de `Outputs/` (documenta lo que **ya se hizo o se propuso**) y de `Docs/` (documenta el estado **vigente**).
+- **Specs/**: describe **qué se va a hacer antes de hacerlo** (análisis de impacto, decisiones pendientes, fases futuras, criterios de aprobación y planes). Se diferencia de `Outputs/` (documenta evidencia o resultados temporales) y de `Docs/` (documenta el estado **vigente**).
 - **Scripts/ y Tools/** *(al adoptarse)*: código idempotente, con cabecera de una línea explicando su propósito; nunca credenciales embebidas.
 - **Assets/** *(al adoptarse)*: solo recursos fuente; los assets ya integrados al PBIP siguen viviendo en `StaticResources/`.
 - **Tests/** *(al adoptarse)*: evidencia de validación manual, no reemplaza pruebas automatizadas (el proyecto no tiene ninguna).
@@ -255,7 +255,7 @@ Reglas base:
 |---|---|---|
 | **Documentación oficial** (incl. runbooks y ADRs) | `Docs/` | Vigente, verificable, versionada, mantenida. `Docs/RUNBOOK.md` y `Docs/decisions/` son documentación oficial, no una categoría distinta. Pasa la regla de `Docs/README.md` |
 | **Diagnósticos y evidencia operativa** | `Outputs/` (raíz) | Local, no versionada. Snapshot de un análisis o validación puntual, con fecha en el nombre. No se actualiza — se reemplaza por uno nuevo. Sigue la convención `NN_` de la sección 10 |
-| **Specs** *(al adoptarse `Specs/`)* | `Specs/` | Plan aprobado antes de implementar, incl. specs de migración estructural; una vez implementado, su contenido relevante pasa a `Docs/` o al ADR correspondiente |
+| **Specs** | `Specs/` | Análisis de impacto, requisitos, decisiones pendientes, fases futuras, criterios de aprobación y planes antes de implementar; una vez implementado, el estado estable relevante pasa a `Docs/` o al ADR correspondiente |
 | **Resultados de prompts / registros de sesión** | `Outputs/` (raíz) | Registros de una sesión de trabajo con IA, con fecha |
 | **Análisis temporales** | `Outputs/` (raíz) | Cualquier `.md` generado para responder una pregunta puntual que no se vuelve referencia permanente |
 
@@ -278,24 +278,30 @@ Ejemplos:
 | Carpetas de dominio (nivel workspace) | `NN_Nombre_Con_Guion_Bajo` | `07_Planeación_de_Personal` |
 | Carpetas internas del proyecto (estándar corporativo) | Nombre directo, sin numeración | `Docs/`, `Inputs/`, `Outputs/`, `Specs/` |
 | Documentación oficial en `Docs/` | `MAYUSCULAS_CON_GUION_BAJO.md`, en inglés técnico | `DATA_MODEL.md`, `SECURITY_AND_PRIVACY.md` |
-| **Archivos en `Outputs/` (convención oficial vigente)** | `NN_AAAA-MM-DD_descripcion_corta.md` | `00_2026-07-03_preflight_git.md`, `01_2026-07-03_diagnostico_codebase.md` |
+| **Archivos en `Outputs/` (convención oficial vigente)** | `NN_AAAA-MM-DD_descripcion_corta.md`, usando el siguiente consecutivo disponible | `00_2026-07-03_preflight_git.md`, `01_2026-07-03_diagnostico_codebase.md` |
 | Archivos en `Outputs/` (convención alternativa/histórica) | `descripcion_corta_en_minusculas_AAAA-MM-DD.md` | `ajuste_antiguedad_demografico_promedio_2026-06-17.md` — válida para registros puntuales que no forman parte de una línea de trabajo numerada |
-| Specs *(al adoptarse)* | `spec_descripcion_corta_AAAA-MM-DD.md` | `spec_migracion_estructura_carpetas_2026-07-03.md` |
+| Specs | `NNNN_tipo_descripcion_corta.md`, usando el siguiente consecutivo disponible | `0008_plan_implementacion_correccion_productividad_contexto_negocio.md` |
 | Scripts *(al adoptarse)* | `verbo_objeto.ps1` / `.py`, minúsculas con guion bajo | `validar_encoding_tmdl.ps1` |
 | Assets *(al adoptarse)* | minúsculas con guion, sin espacios | `logo-lemco-horizontal.png` |
 | Tablas y medidas TMDL | Ver `CLAUDE.md` del proyecto (ej. columna `Año` con ñ minúscula) | — |
 
 ### Significado del prefijo `NN_` en `Outputs/`
 
-`NN_` es un contador de dos dígitos que numera los archivos de una **línea de trabajo o sesión de trabajo relevante**, no del proyecto completo:
+`NN_` es un contador de dos dígitos asignado con el **siguiente consecutivo
+disponible en `Outputs/`** al momento de crear el archivo:
 
 | `NN_` | Significado |
 |---|---|
-| `00` | Preflight o validación inicial de esa línea de trabajo (ej. estado de Git antes de empezar) |
-| `01` | Diagnóstico base de esa línea de trabajo |
-| `02` en adelante | Análisis, evidencias o resultados posteriores de la misma línea de trabajo, en orden cronológico |
+| `00` | Primer archivo histórico de la secuencia |
+| `01` | Segundo archivo histórico de la secuencia |
+| `02` en adelante | Evidencias o resultados posteriores, en orden de creación |
 
-El contador **reinicia por línea de trabajo o sesión de trabajo relevante**, no es correlativo único para todo `Outputs/` ni para todo el proyecto. Distintas líneas de trabajo pueden tener cada una su propio `00_`, `01_`, etc. — el contexto que las distingue es la fecha (`AAAA-MM-DD`) y la `descripcion_corta`, no un número global. Si se necesita distinguir dos líneas de trabajo con el mismo `NN_` y la misma fecha, usar la `descripcion_corta` para diferenciarlas en vez de crear un segundo esquema de numeración.
+El consecutivo no se reinicia por sesión ni por línea de trabajo. Antes de
+crear un Output se debe inventariar `Outputs/`, identificar el mayor prefijo
+`NN_` existente y usar el siguiente valor. La fecha y la descripción
+conservan el contexto funcional; el número evita colisiones y mantiene una
+secuencia única. Si se supera `99`, se amplía el ancho del prefijo sin
+renumerar archivos existentes.
 
 Evitar espacios en nombres de archivo nuevos cuando sea posible (los existentes con espacio, como `Selección Challenger.tmdl`, se mantienen — no renombrar sin autorización).
 
@@ -432,7 +438,7 @@ Matriz de referencia para decidir **qué documento actualizar** según el tipo d
 | Decisiones técnicas | `Docs/decisions/README.md` (nuevo ADR) | ADR con contexto, opciones, decisión y consecuencias | Sí, commit propio | Actualizar también el índice de decisiones en el mismo archivo |
 | Cambios funcionales relevantes | `Docs/CHANGELOG.md` | Entrada nueva con fecha y descripción | No necesariamente | Es el resumen ejecutivo del historial — no reemplaza los documentos específicos |
 | Diagnósticos temporales | `Outputs/` (`NN_AAAA-MM-DD_descripcion_corta.md`) | Archivo de diagnóstico con fecha en el nombre | No (`Outputs/` no se versiona por defecto) | Nunca en `Docs/` — regla ya definida en `Docs/README.md` |
-| Planes de implementación | `Specs/` (al adoptarse) o `Outputs/` con prefijo `spec_` mientras tanto | Plan con análisis de impacto | No, hasta que se implemente | Ver secciones 6 y 14 de este documento |
+| Planes de implementación | `Specs/` | Plan con análisis de impacto, criterios de aprobación y fases | Sí, cuando el plan deba conservar trazabilidad | Ver secciones 6 y 14 de este documento |
 | Reglas de IA | `AGENTS.md` (fuente) + `CLAUDE.md` (adaptador) | Regla nueva documentada en ambos si aplica a todos los agentes, o solo en `CLAUDE.md` si es específica de Claude Code | Sí, commit propio | Mantener sincronizados — ver sección 13 |
 | Cambios en `README.md` | `README.md` (raíz) | Sección o tabla actualizada | Sí | Requiere autorización explícita separada del resto del cambio |
 | Cambios en `.gitignore` | `.gitignore` (+ sección 12 de este documento si cambia la política) | Regla nueva en `.gitignore` y su justificación documentada | Sí, commit propio | Nunca agregar una regla sin documentar el riesgo que mitiga |
