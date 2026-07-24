@@ -198,7 +198,7 @@ La ruta personal anterior dejo de ser el origen activo de estas tres consultas. 
 
 ### Insumo manual de gasto laboral 2026
 
-El archivo local `Data/HeadCount/2026/06_Junio/Gasto Laboral 2026.xlsx` contiene informacion actualizada a junio de 2026 y se conserva como insumo operativo para actualizar manualmente la hoja `Planta Personal` de `PptovsReal.xlsx`.
+El archivo local `Data/Gasto Laboral/2026/06_Junio/Gasto Laboral 2026.xlsx` contiene informacion actualizada a junio de 2026 y se conserva como insumo operativo para actualizar manualmente la hoja `Planta Personal` de `PptovsReal.xlsx`.
 
 El flujo asociado es:
 
