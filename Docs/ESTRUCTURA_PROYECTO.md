@@ -62,7 +62,9 @@ No reemplaza a [ARCHITECTURE.md](ARCHITECTURE.md), que describe la arquitectura 
 ├── CLAUDE.md                   # Adaptador de AGENTS.md para Claude Code
 ├── README.md                   # Punto de entrada del repositorio
 ├── Data/                       # Vacía actualmente — excluida de Git por .gitignore
-├── Inputs/                     # 1 archivo: Base_Rotacion_Atraccion_Seleccion.xlsx — sin trackear en Git
+├── Inputs/                     # sin trackear en Git (excluidos por Inputs/* en .gitignore)
+│   ├── Base_Rotacion_Atraccion_Seleccion.xlsx
+│   └── 2026/06_Junio/Presentación gestion humana sky Junio.pptx  # referencia operativa GH Sky
 ├── Docs/                       # Documentación oficial versionada
 │   ├── README.md               # Índice y gobierno de Docs/
 │   ├── PROJECT_CONTEXT.md
