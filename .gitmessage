@@ -1,0 +1,56 @@
+# Titulo obligatorio:
+# tipo(alcance): descripcion breve
+#
+# Tipos admitidos:
+# feat: nueva funcionalidad.
+# fix: correccion de un error.
+# docs: cambios de documentacion.
+# refactor: reorganizacion sin cambio funcional.
+# test: creacion o actualizacion de pruebas.
+# perf: mejora de rendimiento.
+# chore: mantenimiento tecnico.
+# build: configuracion de construccion o dependencias.
+# ci: integracion continua.
+#
+# Reglas para el titulo:
+# - Usar minuscula despues de los dos puntos.
+# - Utilizar verbo en presente.
+# - Describir el resultado del cambio.
+# - No terminar con punto.
+# - Mantenerlo breve y especifico.
+# - El alcance debe identificar el proceso, pagina, componente o dominio afectado.
+#
+# Ejemplos:
+# feat(productividad): agrega subtitulo dinamico por periodo
+# fix(gasto-laboral): corrige formato de importes por negocio
+# docs(gobernanza): actualiza estructura vigente del repositorio
+#
+# Cuerpo:
+# - Explica que se modifico.
+# - Explica por que fue necesario.
+# - Indica paginas, visuales, tablas, medidas, scripts o documentos afectados.
+# - Registra solo validaciones realmente ejecutadas.
+#
+# Referencias:
+# - Opcional. Puede incluir requerimiento, issue, Spec, analisis de impacto o evidencia funcional.
+#
+# Cambios incompatibles:
+# - Usa "BREAKING CHANGE: descripcion" solo si el cambio rompe compatibilidad
+#   o requiere acciones de migracion.
+
+tipo(alcance): descripcion breve
+
+Cambios realizados:
+-
+
+Motivo:
+-
+
+Componentes afectados:
+-
+
+Validaciones:
+-
+
+Referencias:
+-

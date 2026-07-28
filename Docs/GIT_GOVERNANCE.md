@@ -169,6 +169,74 @@ No declarar como ejecutada una validación que no tenga evidencia.
   `diagramLayout.json`, cultures, bookmarks, `pages.json` ni visuales fuera
   de alcance sin justificación funcional explícita.
 
+## Estándar de mensajes de commit
+
+Los mensajes deben seguir una estructura compatible con Conventional Commits:
+
+```text
+tipo(alcance): descripción
+```
+
+Todo commit debe representar un único bloque lógico. No deben crearse commits
+únicamente con el título, salvo casos técnicos excepcionales debidamente
+justificados. El cuerpo debe incluir como mínimo:
+
+- Cambios realizados.
+- Motivo.
+- Componentes afectados.
+- Validaciones ejecutadas.
+
+Solo deben mencionarse pruebas y validaciones que realmente se hayan ejecutado.
+Una implementación y su documentación directamente relacionada pueden formar
+parte del mismo commit cuando constituyan un único bloque lógico aprobado. No
+deben mezclarse cambios funcionalmente diferentes o no relacionados.
+
+La plantilla oficial del repositorio es `.gitmessage`. Debe configurarse en
+cada clon mediante:
+
+```bash
+git config --local commit.template .gitmessage
+```
+
+Esta configuración es local para el repositorio y no modifica la configuración
+global de Git.
+
+Para preservar párrafos y saltos de línea reales en ejecuciones automatizadas,
+se recomienda utilizar:
+
+```bash
+git commit -F <archivo>
+```
+
+o entrada estándar. No deben utilizarse secuencias literales `\n` para simular
+saltos de línea en el cuerpo del commit.
+
+Ejemplo documental:
+
+```text
+feat(productividad): agrega subtitulo dinamico por periodo seleccionado
+
+Cambios realizados:
+- Crea la medida Subtitulo_Productividad_Comparativo_Acumulado.
+- Asigna la medida al subtítulo del gráfico combinado de la página Productividad.
+
+Motivo:
+- Mostrar el periodo acumulado de acuerdo con los meses seleccionados por el usuario.
+
+Componentes afectados:
+- Modelo semántico.
+- Página Productividad.
+- Gráfico combinado de columnas agrupadas y líneas.
+
+Validaciones:
+- Sintaxis DAX revisada.
+- Comportamiento con diferentes selecciones de meses validado.
+- Staging selectivo revisado.
+```
+
+El ejemplo anterior es documental. No debe interpretarse como confirmación de
+que esas validaciones ya fueron ejecutadas en el proyecto.
+
 ## Push
 
 Antes de push:
