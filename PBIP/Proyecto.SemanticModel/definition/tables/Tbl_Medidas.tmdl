@@ -90,6 +90,48 @@ table Tbl_Medidas
 		displayFolder: 01 HeadCount HC
 		lineageTag: 21a53e63-c392-4f68-aeff-f3eb941e720c
 
+	measure Tot_empleados_Promedio_Sin_Aprendices =
+			VAR TiposExcluidos =
+			    {
+			        "CONTRATO APRENDIZAJE",
+			        "CONTRATO DE APRENDIZAJE",
+			        "SENA"
+			    }
+			RETURN
+			    AVERAGEX(
+			        VALUES('PLANTA DE PERSONAL'[MES]),
+			        CALCULATE(
+			            COUNT('PLANTA DE PERSONAL'[ID]),
+			            KEEPFILTERS(
+			                FILTER(
+			                    VALUES('PLANTA DE PERSONAL'[TIPO_CONTR]),
+			                    VAR TipoOriginal =
+			                        COALESCE(
+			                            'PLANTA DE PERSONAL'[TIPO_CONTR],
+			                            ""
+			                        )
+			                    VAR TipoNormalizado =
+			                        UPPER(
+			                            TRIM(
+			                                SUBSTITUTE(
+			                                    TipoOriginal,
+			                                    UNICHAR(160),
+			                                    " "
+			                                )
+			                            )
+			                        )
+			                    RETURN
+			                        NOT (
+			                            TipoNormalizado IN TiposExcluidos
+			                        )
+			                )
+			            )
+			        )
+			    )
+		formatString: 0.00
+		displayFolder: 01 HeadCount HC
+		lineageTag: 7388dcdf-c725-491d-a627-c340b3b61487
+
 	measure Generacion_Top =
 			CALCULATE(
 			    FIRSTNONBLANK('PLANTA DE PERSONAL'[GENERACIÓN], 1),

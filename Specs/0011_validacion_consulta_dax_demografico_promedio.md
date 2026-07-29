@@ -5,54 +5,134 @@ Fecha: 2026-07-29.
 
 ## 1. Objetivo
 
-Registrar una consulta de Vista de consulta DAX para validar el promedio de colaboradores por estructura organizacional en la pagina `Demografico (Promedio)`.
+Registrar una consulta de Vista de consulta DAX para validar el promedio de
+colaboradores por estructura organizacional en la pagina `Demografico
+(Promedio)`.
 
-La consulta devuelve:
+La consulta actualizada devuelve dos resultados:
 
-- Dependencia.
-- Area.
-- Cargo.
-- Promedio de colaboradores.
+- Resultado 1: total 2026 de colaboradores, total 2026 sin aprendices y
+  diferencia excluida.
+- Resultado 2: Dependencia, Area, Cargo, promedio de colaboradores y promedio
+  sin aprendices preparado para Excel.
 
-La consulta es un artefacto de validacion. No crea tablas fisicas, tablas calculadas, medidas, columnas, visuales, relaciones ni cambios en el modelo semantico.
+La consulta es un artefacto de validacion. No crea tablas fisicas, tablas
+calculadas, columnas, visuales ni relaciones. La version 2026 reutiliza
+`Tot_empleados_Promedio` e incorpora la medida permanente
+`Tot_empleados_Promedio_Sin_Aprendices` en `Tbl_Medidas`.
 
 ## 2. Proyecto y ubicacion
 
 - Proyecto: `PBIP/Proyecto7.pbip`.
-- Pestaña DAX Query View: `Demográfico (Promedio)`.
+- Pestaña DAX Query View: `Demografico (Promedio)`.
 - Archivo serializado: `PBIP/Proyecto.SemanticModel/DAXQueries/Demográfico (Promedio).dax`.
 - Archivo de orden de pestañas: `PBIP/Proyecto.SemanticModel/DAXQueries/.pbi/daxQueries.json`.
 
-La pestaña existente fue renombrada por el usuario desde `Consulta 1` a `Demográfico (Promedio)`. Por esa razon se versionan tambien el cambio de metadata de pestañas y la eliminacion del archivo anterior `Consulta 1.dax`.
+La pestaña existente fue renombrada por el usuario desde `Consulta 1` a
+`Demografico (Promedio)`. Por esa razon se versionaron el cambio de metadata de
+pestañas y la eliminacion del archivo anterior `Consulta 1.dax` en el commit
+inicial de esta consulta.
 
 ## 3. Consulta DAX final
 
 ```DAX
+DEFINE
+    VAR FiltroAnioDimPeriodo =
+        TREATAS(
+            { "2026" },
+            'DimPeriodoYM'[Año]
+        )
+
+    VAR FiltroAnioPlanta =
+        TREATAS(
+            { "2026" },
+            'PLANTA DE PERSONAL'[AÑO]
+        )
+
 EVALUATE
-SUMMARIZECOLUMNS(
-    'PLANTA DE PERSONAL'[DEPENDENCIA],
-    'PLANTA DE PERSONAL'[AREA],
-    'PLANTA DE PERSONAL'[CARGO],
-    "Promedio de colaboradores", [Tot_empleados_Promedio]
+ROW(
+    "Contexto",
+        "Año 2026",
+    "Promedio total de colaboradores",
+        CALCULATE(
+            [Tot_empleados_Promedio],
+            FiltroAnioDimPeriodo,
+            FiltroAnioPlanta
+        ),
+    "Promedio total sin aprendices",
+        CALCULATE(
+            [Tot_empleados_Promedio_Sin_Aprendices],
+            FiltroAnioDimPeriodo,
+            FiltroAnioPlanta
+        ),
+    "Diferencia excluida",
+        CALCULATE(
+            [Tot_empleados_Promedio],
+            FiltroAnioDimPeriodo,
+            FiltroAnioPlanta
+        )
+            - CALCULATE(
+                [Tot_empleados_Promedio_Sin_Aprendices],
+                FiltroAnioDimPeriodo,
+                FiltroAnioPlanta
+            )
 )
+
+EVALUATE
+VAR Detalle =
+    SUMMARIZECOLUMNS(
+        'PLANTA DE PERSONAL'[DEPENDENCIA],
+        'PLANTA DE PERSONAL'[AREA],
+        'PLANTA DE PERSONAL'[CARGO],
+        FiltroAnioDimPeriodo,
+        FiltroAnioPlanta,
+        "__Promedio", [Tot_empleados_Promedio],
+        "__PromedioSinAprendices", [Tot_empleados_Promedio_Sin_Aprendices]
+    )
+RETURN
+    SELECTCOLUMNS(
+        Detalle,
+        "Dependencia",
+            'PLANTA DE PERSONAL'[DEPENDENCIA],
+        "Área",
+            'PLANTA DE PERSONAL'[AREA],
+        "Cargo",
+            'PLANTA DE PERSONAL'[CARGO],
+        "Promedio de colaboradores",
+            FORMAT(
+                [__Promedio],
+                "0.###############",
+                "es-CO"
+            ),
+        "Promedio sin aprendices",
+            FORMAT(
+                [__PromedioSinAprendices],
+                "0.###############",
+                "es-CO"
+            )
+    )
 ORDER BY
-    'PLANTA DE PERSONAL'[DEPENDENCIA] ASC,
-    'PLANTA DE PERSONAL'[AREA] ASC,
-    'PLANTA DE PERSONAL'[CARGO] ASC
+    [Dependencia] ASC,
+    [Área] ASC,
+    [Cargo] ASC
 ```
 
-## 4. Campos utilizados
+## 4. Campos y medidas utilizados
 
 - `'PLANTA DE PERSONAL'[DEPENDENCIA]`.
 - `'PLANTA DE PERSONAL'[AREA]`.
 - `'PLANTA DE PERSONAL'[CARGO]`.
 - `[Tot_empleados_Promedio]`.
+- `[Tot_empleados_Promedio_Sin_Aprendices]`.
 
-La auditoria del modelo mediante `powerbi-modeling-mcp` confirmo que las columnas `DEPENDENCIA`, `AREA`, `CARGO`, `MES` e `ID` existen en `PLANTA DE PERSONAL`.
+La auditoria del modelo mediante `powerbi-modeling-mcp` confirmo que las
+columnas `DEPENDENCIA`, `AREA`, `CARGO`, `MES`, `AÑO`, `TIPO_CONTR` e `ID`
+existen en `PLANTA DE PERSONAL`.
 
 ## 5. Medida reutilizada
 
-La medida existente `Tbl_Medidas[Tot_empleados_Promedio]` fue auditada mediante `powerbi-modeling-mcp`.
+La medida existente `Tbl_Medidas[Tot_empleados_Promedio]` fue auditada mediante
+`powerbi-modeling-mcp`.
 
 Definicion serializada:
 
@@ -65,11 +145,91 @@ AVERAGEX(
 
 Formato de la medida: `0.00`.
 
-La medida no fue modificada. La consulta solo la reutiliza como valor agregado.
+La medida original no fue modificada. La consulta la reutiliza como valor
+agregado y la compara contra la medida nueva sin aprendices.
 
-## 6. Comportamiento de SUMMARIZECOLUMNS
+## 6. Medida nueva sin aprendices
 
-`SUMMARIZECOLUMNS` agrupa por Dependencia, Area y Cargo respetando el contexto de filtro aplicado a la consulta. La version final no contiene filtros fijos para permitir validar el resultado completo.
+La medida `Tbl_Medidas[Tot_empleados_Promedio_Sin_Aprendices]` conserva la
+logica mensual de `Tot_empleados_Promedio` y excluye tipos de contrato
+normalizados mediante `COALESCE`, `SUBSTITUTE(UNICHAR(160))`, `TRIM` y `UPPER`.
+
+Valores reales auditados en `PLANTA DE PERSONAL[TIPO_CONTR]`:
+
+| Valor original | Valor normalizado | Registros | Años |
+|---|---|---:|---|
+| Contrato Aprendizaje | CONTRATO APRENDIZAJE | 1053 | 2024, 2025 |
+| Contrato De Aprendizaje | CONTRATO DE APRENDIZAJE | 506 | 2024, 2025 |
+| Contrato Fijo | CONTRATO FIJO | 9959 | 2024, 2025 |
+| Contrato Indefinido | CONTRATO INDEFINIDO | 26232 | 2024, 2025 |
+| Fijo | FIJO | 3931 | 2025, 2026 |
+| Indefinido | INDEFINIDO | 18224 | 2025, 2026 |
+| Sena | SENA | 967 | 2025, 2026 |
+| Temporal | TEMPORAL | 7762 | 2024, 2025, 2026 |
+
+Exclusiones aplicadas:
+
+- `CONTRATO APRENDIZAJE`.
+- `CONTRATO DE APRENDIZAJE`.
+- `SENA`.
+
+No se encontro `PRACTICANTE` como valor de `TIPO_CONTR`. En 2026, los cargos
+`PRACTICANTE` y `APRENDIZ SENA` aparecen bajo `TIPO_CONTR = Sena`, por lo que
+quedan excluidos por el tipo de contrato auditado.
+
+Definicion DAX:
+
+```DAX
+VAR TiposExcluidos =
+    {
+        "CONTRATO APRENDIZAJE",
+        "CONTRATO DE APRENDIZAJE",
+        "SENA"
+    }
+RETURN
+    AVERAGEX(
+        VALUES('PLANTA DE PERSONAL'[MES]),
+        CALCULATE(
+            COUNT('PLANTA DE PERSONAL'[ID]),
+            KEEPFILTERS(
+                FILTER(
+                    VALUES('PLANTA DE PERSONAL'[TIPO_CONTR]),
+                    VAR TipoOriginal =
+                        COALESCE(
+                            'PLANTA DE PERSONAL'[TIPO_CONTR],
+                            ""
+                        )
+                    VAR TipoNormalizado =
+                        UPPER(
+                            TRIM(
+                                SUBSTITUTE(
+                                    TipoOriginal,
+                                    UNICHAR(160),
+                                    " "
+                                )
+                            )
+                        )
+                    RETURN
+                        NOT (
+                            TipoNormalizado IN TiposExcluidos
+                        )
+                )
+            )
+        )
+    )
+```
+
+## 7. Comportamiento de SUMMARIZECOLUMNS y filtros
+
+`SUMMARIZECOLUMNS` agrupa por Dependencia, Area y Cargo respetando el contexto
+de filtro aplicado a la consulta. La version actual contiene un filtro fijo de
+año 2026 para validar el corte publicado.
+
+`DimPeriodoYM[Año]` es texto y no filtra directamente `PLANTA DE PERSONAL`. Por
+esa razon se aplican dos filtros:
+
+- `TREATAS({ "2026" }, 'DimPeriodoYM'[Año])`.
+- `TREATAS({ "2026" }, 'PLANTA DE PERSONAL'[AÑO])`.
 
 El orden se define por:
 
@@ -77,42 +237,66 @@ El orden se define por:
 2. Area ascendente.
 3. Cargo ascendente.
 
-## 7. Validacion sin filtros
+## 8. Resultados 2026
 
-La consulta final fue ejecutada contra el modelo abierto en Power BI Desktop mediante `powerbi-modeling-mcp`.
+La consulta final fue ejecutada contra el modelo abierto en Power BI Desktop
+mediante `powerbi-modeling-mcp`.
 
-Resultado:
+| Contexto | Promedio total | Promedio sin aprendices | Diferencia |
+|---|---:|---:|---:|
+| Año 2026 | 2517 | 2416,8333333333335 | 100,16666666666652 |
+| Año 2026 / 06.Junio | 2572 | 2465 | 107 |
 
-- Filas devueltas: `1892`.
-- Promedio total de colaboradores: `5719,5`.
-- Duracion reportada de ejecucion: `32 ms` en la ejecucion completa inicial.
-- DirectQuery: `0` consultas.
+Para 2026, el unico `TIPO_CONTR` excluido con registros es `Sena`:
 
-Muestras ordenadas:
+| Valor original | Valor normalizado | Registros 2026 | Meses 2026 |
+|---|---|---:|---:|
+| Sena | SENA | 601 | 6 |
 
-| Muestra | Dependencia | Area | Cargo | Promedio de colaboradores |
-|---|---|---|---|---:|
-| Primera | *(en blanco)* | *(en blanco)* | ABOGADO SENIOR | 1 |
-| Ultima | PROYECTOS ESTRATEGICOS | PROYECTOS ESTRATEGICOS | DIRECTOR DE PROYECTOS | 1 |
+Validacion de cargos excluidos en 2026:
 
-Muestras con mayor promedio y estructura completa:
+| Tipo contrato | Cargo | Registros |
+|---|---|---:|
+| Sena | PRACTICANTE | 108 |
+| Sena | APRENDIZ SENA | 493 |
 
-| Dependencia | Area | Cargo | Promedio de colaboradores |
-|---|---|---|---:|
-| GERENCIA COMERCIAL | VENTAS | VENDEDOR JUNIOR - N10 | 578,0833333333334 |
-| DIRECCION DE MANUFACTURA | REFRIGERACION | OPERARIO - N10 | 286,8333333333333 |
-| GERENCIA DE OPERACIONES-MANUFACTURA | REFRIGERACION | OPERARIO - N10 | 171,83333333333334 |
+## 9. Exportacion a Excel
 
-Las muestras incluyen valores no enteros, coherentes con la naturaleza no aditiva de `Tot_empleados_Promedio`, que promedia conteos mensuales.
+Al copiar desde DAX Query View hacia Excel, valores como
+`1.1666666666666667` podian pegarse como `11666666666666667` porque Excel
+interpretaba el punto como separador de miles. Para evitarlo, las columnas de
+detalle se formatean con `FORMAT(..., "0.###############", "es-CO")`.
 
-## 8. Validacion con contexto de pagina
+Las columnas `Promedio de colaboradores` y `Promedio sin aprendices` del
+detalle son texto para exportacion. Si se requiere convertirlas en Excel, usar:
 
-La pagina `Demografico (Promedio)` se valido con el contexto visible:
+```excel
+=VALOR.NUMERO(D2;",";".")
+```
+
+La suma de los promedios por Dependencia-Area-Cargo no debe usarse para
+reconstruir el total anual. `Tot_empleados_Promedio` es no aditiva porque
+evalua `AVERAGEX` nuevamente dentro de cada contexto organizacional.
+
+Muestras con coma decimal:
+
+| Dependencia | Area | Cargo | Promedio | Promedio sin aprendices |
+|---|---|---|---:|---:|
+| DIRECCION DE OPERACIONES | CEDI SAN CARLOS | JEFE DE CEDI | 1,2 | 1,2 |
+| DIRECCION DE ESTRATEGIA Y MEJORAMIENTO | SST | APRENDIZ SENA | 1,2 | *(blank)* |
+| DIRECCION DE MANUFACTURA | MANTENIMIENTO REFRIGERACION | APRENDIZ SENA | 1,16666666666667 | *(blank)* |
+| DIRECCION DE MANUFACTURA | MANTENIMIENTO METALMECANICA | ANALISTA PROFESIONAL - N6 | 1,16666666666667 | 1,16666666666667 |
+
+## 10. Validacion con contexto de pagina
+
+La pagina `Demografico (Promedio)` se valido previamente con el contexto
+visible:
 
 - Año: `2026`.
 - Mes: `06.Junio`.
 
-Para comparar bajo el mismo contexto se uso una variante temporal con `TREATAS`. Esa variante no quedo guardada en el archivo `.dax`.
+Para comparar bajo el mismo contexto se uso una variante temporal con
+`TREATAS`. Esa variante no quedo guardada en el archivo `.dax`.
 
 Resultado:
 
@@ -121,46 +305,33 @@ Resultado:
 - Valor visual de referencia en la pagina: `2572` colaboradores.
 - Diferencia entre consulta y pagina: `0`.
 
-Muestras del contexto `2026` / `06.Junio`:
-
-| Dependencia | Area | Cargo | Promedio de colaboradores |
-|---|---|---|---:|
-| GERENCIA COMERCIAL | VENTAS | VENDEDOR JUNIOR - N10 | 273 |
-| DIRECCION DE MANUFACTURA | REFRIGERACION | OPERARIO - N10 | 206 |
-| DIRECCION DE MANUFACTURA | METALMECANICA (GASODOMESTICOS) | OPERARIO - N10 | 111 |
-
-## 9. Diferencias encontradas
-
-No se encontraron diferencias entre el valor total de la consulta filtrada y el valor visible de la pagina bajo el mismo contexto de Año y Mes.
-
-La consulta sin filtros devuelve mas combinaciones porque DAX Query View no aplica automaticamente los segmentadores de una pagina del reporte.
-
-## 10. Validaciones tecnicas
+## 11. Validaciones tecnicas
 
 Validaciones ejecutadas:
 
 - `powerbi-modeling-mcp`: inspeccion de medida, columnas y ejecucion DAX.
-- `powerbi-report-author doctor`.
-- `python tools/pbip/list_pbip_structure.py . --pretty`.
-- `python tools/pbip/audit_semantic_model.py . --pretty`.
-- `python tools/pbip/audit_dax_measures.py . --pretty`.
-- `python tools/governance/prepare_commit_review.py . --pretty`.
+- `powerbi-modeling-mcp`: creacion y lectura de la medida nueva.
+- `powerbi-modeling-mcp`: auditoria de `TIPO_CONTR`.
+- `powerbi-modeling-mcp`: ejecucion de consulta anual 2026 y junio 2026.
+- Validacion de formato `FORMAT(..., "0.###############", "es-CO")` con
+  muestras decimales.
+- Confirmacion de que `Tot_empleados_Promedio` permanece intacta.
 - Validacion UTF-8 sin BOM sobre archivos versionados.
 - Revision de diff y staging selectivo.
 
 No se modificaron:
 
-- TMDL del modelo semantico.
-- Medidas existentes.
-- Visuales o paginas del reporte.
+- Tablas fisicas.
+- Columnas.
 - Relaciones.
+- Visuales o paginas del reporte.
 - Fuentes de datos.
 - Archivos de `Outputs`.
 
-## 11. Archivos versionados
+## 12. Archivos versionados
 
-- `PBIP/Proyecto.SemanticModel/DAXQueries/.pbi/daxQueries.json`.
-- `PBIP/Proyecto.SemanticModel/DAXQueries/Consulta 1.dax` eliminado por renombre de pestaña.
+- `PBIP/Proyecto.SemanticModel/definition/tables/Tbl_Medidas.tmdl`.
 - `PBIP/Proyecto.SemanticModel/DAXQueries/Demográfico (Promedio).dax`.
 - `Specs/0011_validacion_consulta_dax_demografico_promedio.md`.
+- `Docs/METRICS_CATALOG.md`.
 - `Docs/CHANGELOG.md`.

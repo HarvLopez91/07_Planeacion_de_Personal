@@ -12,7 +12,7 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | Tabla contenedora | Carpeta display | Medidas | Dominio |
 |---|---|---:|---|
 | `Tbl_Medidas` | `00 Utilidades` | 1 | Filtros y soporte transversal |
-| `Tbl_Medidas` | `01 HeadCount HC` | 10 | HeadCount general |
+| `Tbl_Medidas` | `01 HeadCount HC` | 11 | HeadCount general |
 | `Tbl_Medidas` | `01 HeadCount HC - Demografico` | 3 | KPIs demograficos |
 | `Tbl_Medidas` | `02 Ppto vs Real` | 38 | Presupuesto, real, eficiencia y productividad |
 | `Tbl_Medidas` | `03 Ingresos y Retiros` | 12 | Ingresos, retiros, rotacion e indices |
@@ -38,6 +38,7 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | `Tot_Colab-Sena` | `#,0` | Total excluyendo contratos de aprendizaje SENA | `CALCULATE(COUNT([ID]), [TIPO_CONTR]<>"CONTRATO APRENDIZAJE")` |
 | `Tot_Colab-Directos` | `#,0` | Total con contrato fijo o indefinido | `CALCULATE(..., TIPO_CONTR="CONTRATO FIJO") + CALCULATE(..., TIPO_CONTR="CONTRATO INDEFINIDO")` |
 | `Tot_empleados_Promedio` | general | Promedio de colaboradores iterando por valores de mes | `AVERAGEX(VALUES([Mes]), CALCULATE(COUNT([ID])))` |
+| `Tot_empleados_Promedio_Sin_Aprendices` | `0.00` | Promedio mensual de colaboradores excluyendo tipos de contrato de aprendizaje y SENA normalizados en la medida | `AVERAGEX(VALUES([MES]), CALCULATE(COUNT([ID]), KEEPFILTERS(...)))` |
 | `Prom_Colaboradores` | `0` | Promedio hardcodeado de Enero a Julio (7 meses fijos) | Suma de 7 meses / 7 — **ADVERTENCIA: valor hardcodeado, no dinamico** |
 | `orden` | — | Medida vacia sin expresion DAX. Placeholder sin uso confirmado | — |
 

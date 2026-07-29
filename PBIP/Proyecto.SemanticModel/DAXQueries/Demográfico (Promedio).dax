@@ -1,11 +1,79 @@
+DEFINE
+    VAR FiltroAnioDimPeriodo =
+        TREATAS(
+            { "2026" },
+            'DimPeriodoYM'[Año]
+        )
+
+    VAR FiltroAnioPlanta =
+        TREATAS(
+            { "2026" },
+            'PLANTA DE PERSONAL'[AÑO]
+        )
+
 EVALUATE
-SUMMARIZECOLUMNS(
-    'PLANTA DE PERSONAL'[DEPENDENCIA],
-    'PLANTA DE PERSONAL'[AREA],
-    'PLANTA DE PERSONAL'[CARGO],
-    "Promedio de colaboradores", [Tot_empleados_Promedio]
+ROW(
+    "Contexto",
+        "Año 2026",
+    "Promedio total de colaboradores",
+        CALCULATE(
+            [Tot_empleados_Promedio],
+            FiltroAnioDimPeriodo,
+            FiltroAnioPlanta
+        ),
+    "Promedio total sin aprendices",
+        CALCULATE(
+            [Tot_empleados_Promedio_Sin_Aprendices],
+            FiltroAnioDimPeriodo,
+            FiltroAnioPlanta
+        ),
+    "Diferencia excluida",
+        CALCULATE(
+            [Tot_empleados_Promedio],
+            FiltroAnioDimPeriodo,
+            FiltroAnioPlanta
+        )
+            - CALCULATE(
+                [Tot_empleados_Promedio_Sin_Aprendices],
+                FiltroAnioDimPeriodo,
+                FiltroAnioPlanta
+            )
 )
+
+EVALUATE
+VAR Detalle =
+    SUMMARIZECOLUMNS(
+        'PLANTA DE PERSONAL'[DEPENDENCIA],
+        'PLANTA DE PERSONAL'[AREA],
+        'PLANTA DE PERSONAL'[CARGO],
+        FiltroAnioDimPeriodo,
+        FiltroAnioPlanta,
+        "__Promedio", [Tot_empleados_Promedio],
+        "__PromedioSinAprendices", [Tot_empleados_Promedio_Sin_Aprendices]
+    )
+RETURN
+    SELECTCOLUMNS(
+        Detalle,
+        "Dependencia",
+            'PLANTA DE PERSONAL'[DEPENDENCIA],
+        "Área",
+            'PLANTA DE PERSONAL'[AREA],
+        "Cargo",
+            'PLANTA DE PERSONAL'[CARGO],
+        "Promedio de colaboradores",
+            FORMAT(
+                [__Promedio],
+                "0.###############",
+                "es-CO"
+            ),
+        "Promedio sin aprendices",
+            FORMAT(
+                [__PromedioSinAprendices],
+                "0.###############",
+                "es-CO"
+            )
+    )
 ORDER BY
-    'PLANTA DE PERSONAL'[DEPENDENCIA] ASC,
-    'PLANTA DE PERSONAL'[AREA] ASC,
-    'PLANTA DE PERSONAL'[CARGO] ASC
+    [Dependencia] ASC,
+    [Área] ASC,
+    [Cargo] ASC

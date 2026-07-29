@@ -10,6 +10,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### Agregado
 
+- Medida `Tot_empleados_Promedio_Sin_Aprendices`: promedio mensual de colaboradores excluyendo los tipos de contrato auditados como aprendizaje o SENA, sin modificar la medida base `Tot_empleados_Promedio`.
+- Consulta DAX `Demografico (Promedio)`: se limita a 2026, agrega un resultado total anual y prepara el detalle Dependencia-Area-Cargo para copiar a Excel con coma decimal mediante `FORMAT(..., "es-CO")`.
 - Consulta DAX `Demografico (Promedio)`: se agrega una validacion en DAX Query View para devolver Dependencia, Area, Cargo y el promedio de colaboradores reutilizando `Tbl_Medidas[Tot_empleados_Promedio]`, sin crear objetos nuevos en el modelo ni modificar visuales del reporte.
 - Pagina `Demografico (Promedio)`: se agregan segmentadores de Area y Cargo en el panel lateral izquierdo, debajo de Dependencia, usando campos de `PLANTA DE PERSONAL` y conservando el patron desplegable con busqueda, seleccion multiple y opcion `Seleccionar todo`.
 - `PBIP/00_Referencia_Historica/`: carpeta con versiones historicas del reporte en formato `.pbix` (previas a la migracion a PBIP) y un tema de color (`PaletaAzulProfesional.json`). Documentada en `ESTRUCTURA_PROYECTO.md`. Solo el tema JSON se versiona; los 5 archivos `.pbix` quedan excluidos via `.gitignore` por tratarse de binarios no necesarios para reproducir `Proyecto7.pbip` y por sensibilidad de datos sin verificar (ver `SECURITY_AND_PRIVACY.md`).
