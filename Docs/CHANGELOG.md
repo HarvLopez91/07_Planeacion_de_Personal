@@ -10,6 +10,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### Agregado
 
+- Consulta DAX `Demografico (Promedio)`: se agrega una validacion en DAX Query View para devolver Dependencia, Area, Cargo y el promedio de colaboradores reutilizando `Tbl_Medidas[Tot_empleados_Promedio]`, sin crear objetos nuevos en el modelo ni modificar visuales del reporte.
 - Pagina `Demografico (Promedio)`: se agregan segmentadores de Area y Cargo en el panel lateral izquierdo, debajo de Dependencia, usando campos de `PLANTA DE PERSONAL` y conservando el patron desplegable con busqueda, seleccion multiple y opcion `Seleccionar todo`.
 - `PBIP/00_Referencia_Historica/`: carpeta con versiones historicas del reporte en formato `.pbix` (previas a la migracion a PBIP) y un tema de color (`PaletaAzulProfesional.json`). Documentada en `ESTRUCTURA_PROYECTO.md`. Solo el tema JSON se versiona; los 5 archivos `.pbix` quedan excluidos via `.gitignore` por tratarse de binarios no necesarios para reproducir `Proyecto7.pbip` y por sensibilidad de datos sin verificar (ver `SECURITY_AND_PRIVACY.md`).
 
