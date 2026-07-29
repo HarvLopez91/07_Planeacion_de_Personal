@@ -12,6 +12,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 - Medida `Tot_empleados_Promedio_Sin_Aprendices`: promedio mensual de colaboradores excluyendo los tipos de contrato auditados como aprendizaje o SENA, sin modificar la medida base `Tot_empleados_Promedio`.
 - Consulta DAX `Demografico (Promedio)`: se limita a 2026, agrega un resultado total anual y prepara el detalle Dependencia-Area-Cargo para copiar a Excel con coma decimal mediante `FORMAT(..., "es-CO")`.
+- Consulta DAX `Demografico (Promedio)`: se documenta la validacion cruzada contra `Retiros`, confirmando `2524,8571428571427` para 2026, `2423,714285714286` sin aprendices y `2572` / `2465` para junio y julio de 2026 bajo filtros equivalentes.
 - Consulta DAX `Demografico (Promedio)`: se revalida contra el modelo abierto con la carga vigente de `PLANTA DE PERSONAL`, registrando `2524,8571428571427` como promedio total 2026, `2423,714285714286` como promedio sin aprendices y `1040` filas de detalle Dependencia-Area-Cargo.
 - Consulta DAX `Demografico (Promedio)`: se agrega una validacion en DAX Query View para devolver Dependencia, Area, Cargo y el promedio de colaboradores reutilizando `Tbl_Medidas[Tot_empleados_Promedio]`, sin crear objetos nuevos en el modelo ni modificar visuales del reporte.
 - Pagina `Demografico (Promedio)`: se agregan segmentadores de Area y Cargo en el panel lateral izquierdo, debajo de Dependencia, usando campos de `PLANTA DE PERSONAL` y conservando el patron desplegable con busqueda, seleccion multiple y opcion `Seleccionar todo`.

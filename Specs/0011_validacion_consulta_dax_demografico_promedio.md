@@ -246,6 +246,7 @@ mediante `powerbi-modeling-mcp`.
 |---|---:|---:|---:|
 | Año 2026 | 2524,8571428571427 | 2423,714285714286 | 101,14285714285688 |
 | Año 2026 / 06.Junio | 2572 | 2465 | 107 |
+| Año 2026 / 07.Julio | 2572 | 2465 | 107 |
 
 La ejecución del 2026 completo devolvió `1040` filas de detalle
 Dependencia-Area-Cargo, con `49` dependencias, `148` áreas y `326` cargos. El
@@ -310,7 +311,37 @@ Resultado:
 - Valor visual de referencia en la pagina: `2572` colaboradores.
 - Diferencia entre consulta y pagina: `0`.
 
-## 11. Validaciones tecnicas
+## 11. Validacion cruzada con Retiros
+
+La consulta DAX `Demografico (Promedio)` tambien se uso como referencia para
+validar la correccion de los segmentadores temporales de la pagina `Retiros`.
+
+Campos validados:
+
+- Dependencia.
+- Area.
+- Cargo.
+
+Medidas validadas:
+
+- `Tot_empleados_Promedio`.
+- `Tot_empleados_Promedio_Sin_Aprendices`.
+
+Resultados conciliados entre `Retiros` y `Demografico (Promedio)` bajo filtros
+equivalentes:
+
+| Contexto | Promedio total | Promedio sin aprendices | Resultado |
+|---|---:|---:|---|
+| Año 2026, todos los meses | 2524,8571428571427 | 2423,714285714286 | Coincide |
+| Año 2026, Mes 06.Junio | 2572 | 2465 | Coincide |
+| Año 2026, Mes 07.Julio | 2572 | 2465 | Coincide |
+
+La tabla temporal creada en `Retiros` para comparar
+`Tot_empleados_Promedio` y `Tot_empleados_Promedio_Sin_Aprendices` no forma
+parte del diseño final del reporte. La pagina debe conservar solo los visuales
+funcionales aprobados.
+
+## 12. Validaciones tecnicas
 
 Validaciones ejecutadas:
 
@@ -333,7 +364,7 @@ No se modificaron:
 - Fuentes de datos.
 - Archivos de `Outputs`.
 
-## 12. Archivos versionados
+## 13. Archivos versionados
 
 - `PBIP/Proyecto.SemanticModel/definition/tables/Tbl_Medidas.tmdl`.
 - `PBIP/Proyecto.SemanticModel/DAXQueries/Demográfico (Promedio).dax`.
