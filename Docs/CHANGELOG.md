@@ -19,6 +19,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### Corregido
 
+- Pagina `Retiros`: los segmentadores temporales pasan de `DimPeriodoYM` a las dimensiones compartidas `Años` y `Mes`, corrigiendo la propagacion hacia `PLANTA DE PERSONAL` y reconciliando `Tot_empleados_Promedio` con `Demografico (Promedio)` para 2026, junio y julio.
 - Cierre funcional de las paginas `Productividad` y `Gasto Laboral`: se consolida en PBIR el estado final validado por el usuario, incluidos filtros y selecciones visuales, unidades monetarias por contexto de negocio, titulos dinamicos y referencias a medidas centralizadas en `Tbl_Medidas`.
 - `Productividad`: el grafico mensual usa `Titulo_Productividad_Gasto_Laboral`; el comparativo acumulado usa `Subtitulo_Productividad_Comparativo_Acumulado`, que diferencia ausencia de filtro, un mes, rango continuo, meses no consecutivos y todos los meses.
 - `Gasto Laboral`: se conserva la presentacion aprobada en millones para Challenger/consolidado y en unidades automaticas o valores completos para otros negocios, sin cambios en los calculos.

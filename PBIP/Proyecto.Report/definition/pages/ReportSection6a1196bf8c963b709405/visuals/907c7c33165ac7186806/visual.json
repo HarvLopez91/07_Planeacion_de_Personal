@@ -1,8 +1,8 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "907c7c33165ac7186806",
   "position": {
-    "x": 6.3852011396784576,
+    "x": 6.113271163760146,
     "y": 83.75,
     "z": 8000,
     "height": 72.5,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "DimPeriodoYM"
+                      "Entity": "Años"
                     }
                   },
                   "Property": "Año"
                 }
               },
-              "queryRef": "DimPeriodoYM.Año",
-              "nativeQueryRef": "Año1",
+              "queryRef": "Años.Año",
+              "nativeQueryRef": "Año",
               "active": true
             }
           ]
@@ -57,7 +57,7 @@
                 "From": [
                   {
                     "Name": "d",
-                    "Entity": "DimPeriodoYM",
+                    "Entity": "Años",
                     "Type": 0
                   }
                 ],
@@ -184,84 +184,5 @@
       "filterChanges": true
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "Filterbe9819fcc50eed642d18",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Años"
-              }
-            },
-            "Property": "Año"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "a",
-              "Entity": "Años",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "a"
-                          }
-                        },
-                        "Property": "Año"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'2024'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'2025'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'2026'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {}
-            }
-          ]
-        }
-      }
-    ]
   }
 }
