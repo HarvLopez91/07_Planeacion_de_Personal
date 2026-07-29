@@ -244,8 +244,13 @@ mediante `powerbi-modeling-mcp`.
 
 | Contexto | Promedio total | Promedio sin aprendices | Diferencia |
 |---|---:|---:|---:|
-| Año 2026 | 2517 | 2416,8333333333335 | 100,16666666666652 |
+| Año 2026 | 2524,8571428571427 | 2423,714285714286 | 101,14285714285688 |
 | Año 2026 / 06.Junio | 2572 | 2465 | 107 |
+
+La ejecución del 2026 completo devolvió `1040` filas de detalle
+Dependencia-Area-Cargo, con `49` dependencias, `148` áreas y `326` cargos. El
+valor anual se actualizó contra el modelo abierto el 2026-07-29 después de la
+carga más reciente de `PLANTA DE PERSONAL`.
 
 Para 2026, el unico `TIPO_CONTR` excluido con registros es `Sena`:
 
@@ -282,10 +287,10 @@ Muestras con coma decimal:
 
 | Dependencia | Area | Cargo | Promedio | Promedio sin aprendices |
 |---|---|---|---:|---:|
-| DIRECCION DE OPERACIONES | CEDI SAN CARLOS | JEFE DE CEDI | 1,2 | 1,2 |
-| DIRECCION DE ESTRATEGIA Y MEJORAMIENTO | SST | APRENDIZ SENA | 1,2 | *(blank)* |
-| DIRECCION DE MANUFACTURA | MANTENIMIENTO REFRIGERACION | APRENDIZ SENA | 1,16666666666667 | *(blank)* |
-| DIRECCION DE MANUFACTURA | MANTENIMIENTO METALMECANICA | ANALISTA PROFESIONAL - N6 | 1,16666666666667 | 1,16666666666667 |
+| 01 OPERACIONALES | APRENDICES Y PRACTICANTES | APRENDIZ SENA | 5 | *(blank)* |
+| 02 NO DISTRIBUIDOS O DE APOYO | COSTOS | COORDINADOR | 1 | 1 |
+| COORDINACION DE GESTION HUMANA | COORDINACION DE GESTION HUMANA | ANALISTA PROFESIONAL GESTION HUMANA | 2 | 2 |
+| COORDINACION DE GESTION HUMANA | COORDINACION DE GESTION HUMANA | JEFE DE GESTION HUMANA | 1 | 1 |
 
 ## 10. Validacion con contexto de pagina
 
