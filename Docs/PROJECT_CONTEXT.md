@@ -42,6 +42,10 @@ El reporte cubre seis dominios funcionales de gestion humana:
 ### 1. HeadCount
 Planta de personal activa por mes y empresa. Incluye datos historicos desde 2024. Permite analizar composicion por tipo de contrato, genero, generacion, area, dependencia, estado civil y nivel educativo.
 
+En la pagina `Demografico (Promedio)`, el panel lateral incorpora filtros de
+Dependencia, Area y Cargo para explorar la planta con una secuencia jerarquica
+sin modificar el modelo semantico ni las medidas existentes.
+
 ### 2. Presupuesto vs Real (PptovsReal)
 Comparacion entre la planta presupuestada y la planta real ejecutada. Incluye indicadores de variacion interanual, eficiencia de gasto laboral frente a ventas, ingresos y retiros.
 

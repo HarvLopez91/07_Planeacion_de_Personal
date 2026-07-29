@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "a58d5b2e9f6c4a21b103",
+  "name": "a93404e0eabc48bb9e8e",
   "position": {
-    "x": 17.941478683458584,
-    "y": 654.16657700897815,
+    "x": 18.382898877237267,
+    "y": 734.98957924148476,
     "z": 15000,
-    "height": 72.128378378378372,
-    "width": 240.03378378378378,
-    "tabOrder": 15000
+    "height": 72.169811320754718,
+    "width": 239.15094339622641,
+    "tabOrder": 15001
   },
   "visual": {
     "visualType": "slicer",
@@ -20,16 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Estructura"
+                      "Entity": "PLANTA DE PERSONAL"
                     }
                   },
-                  "Property": "DEPENDENCIA"
+                  "Property": "AREA"
                 }
               },
-              "queryRef": "Estructura.DEPENDENCIA",
-              "nativeQueryRef": "Dependencia",
+              "queryRef": "PLANTA DE PERSONAL.AREA",
+              "nativeQueryRef": "AREA",
               "active": true,
-              "displayName": "Dependencia"
+              "displayName": "Área"
             }
           ]
         }
@@ -167,7 +167,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dependencia'"
+                  "Value": "'Área'"
                 }
               }
             }
@@ -177,19 +177,18 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "20644d3047b208148676",
   "filterConfig": {
     "filters": [
       {
-        "name": "6ebfd57692dc14d233ff",
+        "name": "area_not_blank",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Estructura"
+                "Entity": "PLANTA DE PERSONAL"
               }
             },
-            "Property": "DEPENDENCIA"
+            "Property": "AREA"
           }
         },
         "type": "Categorical",
@@ -197,8 +196,8 @@
           "Version": 2,
           "From": [
             {
-              "Name": "e",
-              "Entity": "Estructura",
+              "Name": "p",
+              "Entity": "PLANTA DE PERSONAL",
               "Type": 0
             }
           ],
@@ -213,10 +212,10 @@
                           "Column": {
                             "Expression": {
                               "SourceRef": {
-                                "Source": "e"
+                                "Source": "p"
                               }
                             },
-                            "Property": "DEPENDENCIA"
+                            "Property": "AREA"
                           }
                         }
                       ],
@@ -225,6 +224,13 @@
                           {
                             "Literal": {
                               "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "''"
                             }
                           }
                         ]
@@ -236,6 +242,7 @@
             }
           ]
         },
+        "howCreated": "User",
         "objects": {
           "general": [
             {
@@ -253,5 +260,6 @@
         }
       }
     ]
-  }
+  },
+  "parentGroupName": "20644d3047b208148676"
 }

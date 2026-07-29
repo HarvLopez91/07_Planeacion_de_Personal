@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "a58d5b2e9f6c4a21b103",
+  "name": "83a053e3e767d88dd07a",
   "position": {
-    "x": 17.941478683458584,
-    "y": 654.16657700897815,
-    "z": 15000,
-    "height": 72.128378378378372,
-    "width": 240.03378378378378,
-    "tabOrder": 15000
+    "x": 16.9811320754717,
+    "y": 815.8540144163677,
+    "z": 15001,
+    "height": 72.169811320754718,
+    "width": 239.15094339622641,
+    "tabOrder": 15002
   },
   "visual": {
     "visualType": "slicer",
@@ -20,16 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Estructura"
+                      "Entity": "PLANTA DE PERSONAL"
                     }
                   },
-                  "Property": "DEPENDENCIA"
+                  "Property": "CARGO"
                 }
               },
-              "queryRef": "Estructura.DEPENDENCIA",
-              "nativeQueryRef": "Dependencia",
+              "queryRef": "PLANTA DE PERSONAL.CARGO",
+              "nativeQueryRef": "CARGO",
               "active": true,
-              "displayName": "Dependencia"
+              "displayName": "Cargo"
             }
           ]
         }
@@ -167,7 +167,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dependencia'"
+                  "Value": "'Cargo'"
                 }
               }
             }
@@ -177,19 +177,18 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "20644d3047b208148676",
   "filterConfig": {
     "filters": [
       {
-        "name": "6ebfd57692dc14d233ff",
+        "name": "cargo_not_blank",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Estructura"
+                "Entity": "PLANTA DE PERSONAL"
               }
             },
-            "Property": "DEPENDENCIA"
+            "Property": "CARGO"
           }
         },
         "type": "Categorical",
@@ -197,8 +196,8 @@
           "Version": 2,
           "From": [
             {
-              "Name": "e",
-              "Entity": "Estructura",
+              "Name": "p",
+              "Entity": "PLANTA DE PERSONAL",
               "Type": 0
             }
           ],
@@ -213,10 +212,10 @@
                           "Column": {
                             "Expression": {
                               "SourceRef": {
-                                "Source": "e"
+                                "Source": "p"
                               }
                             },
-                            "Property": "DEPENDENCIA"
+                            "Property": "CARGO"
                           }
                         }
                       ],
@@ -225,6 +224,13 @@
                           {
                             "Literal": {
                               "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "''"
                             }
                           }
                         ]
@@ -236,6 +242,7 @@
             }
           ]
         },
+        "howCreated": "User",
         "objects": {
           "general": [
             {
@@ -253,5 +260,6 @@
         }
       }
     ]
-  }
+  },
+  "parentGroupName": "20644d3047b208148676"
 }
