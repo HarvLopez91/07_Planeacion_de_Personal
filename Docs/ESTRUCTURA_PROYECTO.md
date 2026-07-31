@@ -233,7 +233,7 @@ Esa Spec vive en `Specs/`; `Outputs/` se reserva para evidencia, diagnósticos y
 - **Inputs/**: usar solo para archivos de entrada de un análisis puntual y en curso. Si el archivo contiene datos personales, tratarlo igual que `Data/` (no versionar). Revisar y limpiar cuando el análisis concluya.
 - **Outputs/**: cada archivo debe tener fecha en el nombre (`AAAA-MM-DD`) y ser prescindible — es huella de proceso, no fuente de verdad.
 - **Docs/**: solo contenido vigente, verificable y mantenible. Toda adición pasa la regla ya definida en `Docs/README.md`.
-- **Specs/**: describe **qué se va a hacer antes de hacerlo** (análisis de impacto, decisiones pendientes, fases futuras, criterios de aprobación y planes). Se diferencia de `Outputs/` (documenta evidencia o resultados temporales) y de `Docs/` (documenta el estado **vigente**).
+- **Specs/**: describe **qué se va a hacer antes de hacerlo** (análisis de impacto, decisiones pendientes, fases futuras, criterios de aprobación y planes). Se diferencia de `Outputs/` (documenta evidencia o resultados temporales) y de `Docs/` (documenta el estado **vigente**). `Specs/00_roadmap_y_backlog.md` es el índice maestro de iniciativas, prioridades y estado de todos los specs; consultarlo antes de proponer o retomar una iniciativa.
 - **Scripts/ y Tools/** *(al adoptarse)*: código idempotente, con cabecera de una línea explicando su propósito; nunca credenciales embebidas.
 - **Assets/** *(al adoptarse)*: solo recursos fuente; los assets ya integrados al PBIP siguen viviendo en `StaticResources/`.
 - **Tests/** *(al adoptarse)*: evidencia de validación manual, no reemplaza pruebas automatizadas (el proyecto no tiene ninguna).

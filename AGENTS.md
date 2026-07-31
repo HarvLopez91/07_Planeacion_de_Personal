@@ -25,6 +25,18 @@ Dashboard Power BI/PBIP de People Analytics para Planeación de Personal del Gru
 - Ubicación o creación de archivos: [Docs/ESTRUCTURA_PROYECTO.md](Docs/ESTRUCTURA_PROYECTO.md)
 - Staging, commit, push o exclusiones: [Docs/GIT_GOVERNANCE.md](Docs/GIT_GOVERNANCE.md)
 - Datos personales, confidenciales o fuentes sensibles: [Docs/SECURITY_AND_PRIVACY.md](Docs/SECURITY_AND_PRIVACY.md)
+- Mejoras e implementaciones futuras: [Specs/00_roadmap_y_backlog.md](Specs/00_roadmap_y_backlog.md)
+
+## Roadmap y backlog
+
+- La fuente maestra de mejoras e implementaciones futuras es `Specs/00_roadmap_y_backlog.md`.
+- Todo agente debe consultarla antes de proponer una nueva iniciativa o retomar una existente.
+- Registrar una iniciativa no autoriza su ejecución.
+- Antes de iniciar una implementación, debe existir autorización expresa y, cuando aplique, análisis de impacto y plan de implementación en `Specs/`.
+- Al avanzar una iniciativa, actualizar su estado, próximo paso, evidencia y enlaces relacionados en el roadmap.
+- Ningún agente debe marcar una iniciativa como finalizada sin pruebas y evidencia verificable.
+- No crear documentos duplicados de roadmap o backlog en `Outputs/`.
+- Mantener IDs estables y evitar renumerar iniciativas existentes.
 
 ## Criterio de entrega
 
