@@ -1,0 +1,155 @@
+# Roadmap y backlog técnico
+
+## 1. Propósito
+
+Este archivo es la **fuente maestra** para registrar, priorizar y dar seguimiento a mejoras, implementaciones futuras e iniciativas en curso del proyecto `07_Planeación_de_Personal`.
+
+Reglas de interpretación:
+
+- El roadmap **orienta la planeación**; no es un plan de ejecución en sí mismo.
+- **Registrar una iniciativa aquí no constituye autorización para ejecutarla.**
+- Todo cambio funcional sobre `PBIP/Proyecto7.pbip` (modelo, DAX, Power Query, fuentes, relaciones, visuales, páginas) requiere **aprobación expresa del usuario**, conforme a `AGENTS.md`, `CLAUDE.md` y `Docs/GIT_GOVERNANCE.md`.
+- Las implementaciones aprobadas deben contar con **especificaciones independientes** en `Specs/` (análisis de impacto y/o plan de implementación) antes de ejecutarse.
+- Este roadmap **no reemplaza** los análisis de impacto ni los planes de implementación existentes en `Specs/`; los enlaza y resume su estado.
+
+## 2. Alcance del proyecto
+
+| Campo | Valor |
+|---|---|
+| Nombre del proyecto | Dashboard Power BI/PBIP de Planeación de Personal — `07_Planeación_de_Personal` |
+| Repositorio | `HarvLopez91/07_Planeacion_de_Personal` |
+| PBIP principal | `PBIP/Proyecto7.pbip` |
+| Rama base | `main` |
+| Área funcional | People Analytics Grupo Empresarial Lemco — HeadCount, Presupuesto (PptovsReal), Selección, Ausentismo/Incapacidades, SST, SENA |
+| Estado general | Migración de fuentes a SharePoint corporativo **en curso** (parcial: PptovsReal y SST cerrados; PLANTA DE PERSONAL, Selección Grupo Lemco, SENA UNIDADES con Formula Firewall sin validar). Working tree con cambios PBIP acumulados pendientes de auditar |
+| Fecha de última actualización de este roadmap | 2026-07-30 |
+| Responsable de mantenimiento documental | Edwin Clavijo |
+
+## 3. Reglas de gobierno
+
+- Cada iniciativa tiene un **ID único y estable** (categoría + número consecutivo). No se renumeran IDs existentes aunque cambie su prioridad o estado.
+- Los estados se actualizan **solo con evidencia** verificable (commit, archivo de `Specs/`, resultado de validación) — no por declaración sin respaldo.
+- Ningún agente (Codex, Claude Code, Copilot u otro) puede marcar una iniciativa como **Finalizada** sin evidencia de validación enlazada.
+- No mezclar mejoras de gobierno documental con cambios funcionales de PBIP en un mismo commit, salvo autorización expresa.
+- `Specs/` contiene decisiones, análisis de impacto y planes de implementación oficiales.
+- `Docs/` contiene documentación estable del estado vigente del proyecto.
+- `Outputs/` contiene evidencias y borradores; **no es fuente oficial** salvo aprobación explícita del usuario.
+- `.agents/skills/` contiene las skills del repositorio (propias y vendored — ver sección 11).
+- `Tools/` contiene herramientas ejecutables organizadas por dominio (`Tools/governance/`, `Tools/pbip/`, `Tools/automation/`); son de **solo lectura por defecto**.
+- Toda iniciativa que pase a **Planificada** o **En curso** debe tener análisis de impacto y/o plan de implementación en `Specs/`, y validación registrada cuando aplique.
+- Los cambios funcionales deben conservar trazabilidad completa: iniciativa (ID) → spec(s) → archivos modificados → validación → commit.
+- No declarar Formula Firewall resuelto ni refresh exitoso sin evidencia visual confirmada en Power BI Desktop (regla ya vigente en `Docs/TROUBLESHOOTING.md` y `CLAUDE.md`).
+
+## 4. Catálogo de estados
+
+| Estado | Uso |
+|---|---|
+| Idea | Propuesta inicial sin análisis; puede no llegar a ejecutarse |
+| En evaluación | Se está valorando viabilidad, alcance o impacto |
+| Priorizada | Evaluada y aceptada como relevante; en espera de turno o recursos |
+| Planificada | Cuenta con plan de implementación aprobado, aún sin iniciar ejecución |
+| En curso | Implementación activa, con o sin commits parciales |
+| Bloqueada | Detenida por una dependencia externa, decisión pendiente o falta de datos |
+| En validación | Implementada, pendiente de confirmación funcional o evidencia final |
+| Finalizada | Implementada y validada con evidencia verificable |
+| Descartada | Evaluada y no se ejecutará; se documenta el motivo |
+
+## 5. Catálogo de prioridades
+
+| Prioridad | Criterio |
+|---|---|
+| Crítica | Bloquea gobierno, integridad del modelo, Formula Firewall o cumplimiento de datos personales (ver `Docs/SECURITY_AND_PRIVACY.md`); impacto alto y urgencia alta |
+| Alta | Impacto relevante para la Dirección de Gestión Humana o para la trazabilidad de fuentes/refresh; esfuerzo razonable |
+| Media | Mejora de gobierno, calidad o reutilización sin urgencia inmediata |
+| Baja | Ajuste cosmético, exploratorio o de bajo impacto |
+
+La prioridad considera impacto, riesgo, dependencia, urgencia y esfuerzo — no solo preferencia.
+
+## 6. En curso
+
+| ID | Iniciativa | Tipo | Prioridad | Estado | Dependencias | Próximo paso | Criterio de aceptación | Especificación o evidencia |
+|---|---|---|---|---|---|---|---|---|
+| DATA-001 | Validación de Formula Firewall para consultas raíz `PLANTA DE PERSONAL`, `Selección Grupo Lemco`, `SENA UNIDADES` | Datos / Power Query | Crítica | En evaluación | Sesión interactiva en Power BI Desktop (no automatizable) | Ejecutar el procedimiento manual documentado en `Docs/TROUBLESHOOTING.md` y registrar evidencia visual | Las tres consultas raíz cargan sin bloqueo de Formula Firewall, con evidencia visual adjunta | `CLAUDE.md`, `Docs/TROUBLESHOOTING.md`, `Docs/PROJECT_STATUS.md` |
+| GOV-001 | Auditoría del working tree PBIP acumulado (235+ rutas modificadas/eliminadas/sin trackear) | Gobierno / Git | Alta | En evaluación | Ninguna | Clasificar cambios por bloque (bookmarks, páginas, tablas TMDL) antes de cualquier staging | Inventario documentado de qué bloques son ruido de Power BI Desktop vs. cambios funcionales reales | `git status --short --branch` (07_Planeación_de_Personal), README.md §"Próximos Pasos" |
+| GOV-002 | Triage de ramas y worktrees activos sin fusionar (`.wt/hotfix-ausentismos`, `.wt/integracion-productividad`, `.wt/prod`, `.wt/Proyecto7_productividad_gasto`, `.wt/sst`) | Gobierno / Git | Media | En evaluación | Ninguna | Confirmar con el usuario cuáles siguen vigentes y cuáles pueden cerrarse | Cada worktree/rama tiene una decisión documentada (fusionar, mantener o descartar) | Ramas locales: `fix/productividad-contexto-negocio`, `harvlopez91-docs-estructura-vigente`, `hotfix/ausentismos-medidas-duplicadas`, `integration/productividad-contexto-negocio`, `refactor/sst-table-names` |
+
+Nota: `DATA-002` (refresh completo), `DATA-003` (matriz de retiros por estructura) y `DATA-004` (diagnóstico de brechas de homologación) están activas pero bloqueadas — ver [sección 9](#9-bloqueadas) para evitar duplicar su registro en dos tablas.
+
+## 7. Próximas implementaciones
+
+| ID | Iniciativa | Descripción | Aplica a | Prioridad | Dependencias | Riesgos | Próximo paso |
+|---|---|---|---|---|---|---|---|
+| DATA-005 | Migración de `AREAS` a fuente corporativa SharePoint | Hoy ligada a `Consolidado 2024.xlsx`, pendiente de análisis | Datos | Media | Ninguna conocida | Podría depender de la misma consulta bloqueada por Formula Firewall | Analizar impacto en `Specs/` antes de tocar la fuente |
+| DATA-006 | Migración de `AUSENTISMOS` y `Estructura` a fuente corporativa | Persisten como fuentes personales o pendientes de análisis (`Docs/DATA_PIPELINE.md`) | Datos | Media | Ninguna conocida | Riesgo de romper medidas dependientes si el esquema cambia | Analizar impacto y plan de implementación |
+| DATA-007 | Evaluar alcance de `REQUISICIONES HABITEL 2026.xlsx` | Declarado "fuera de alcance" en `Docs/DATA_PIPELINE.md`; confirmar si debe incorporarse | Datos | Baja | Ninguna | Ninguno si permanece fuera de alcance | Confirmar con el usuario si se mantiene fuera de alcance o se prioriza |
+| GOV-003 | Corregir `Tools/governance/outputs_indexer.py` y `Tools/governance/prepare_commit_review.py` copiados sin adaptar desde `04_Aprendizaje_y_Desarrollo` | Las constantes `DOMINIOS` y `DOCUMENTOS_GOBIERNO` referencian dominios y archivos del proyecto hermano (ej. `ds07_nine_box`, `Docs/BRAND_GUIDELINES.md`) que no existen aquí | Gobierno / Tools | Media | Ninguna | Los reportes que generen hoy no serán confiables para este proyecto | Adaptar dominios y rutas de gobierno al vocabulario real de Planeación de Personal antes de comitear |
+| GOV-004 | Corregir el nombre de la skill `pbi-aprendizaje-inventario` | El nombre referencia el dominio del proyecto hermano (Aprendizaje), no Planeación de Personal | Gobierno / Skills | Baja | GOV-003 | Confusión sobre el alcance real de la skill | Renombrar junto con la corrección de `Tools/pbip/list_pbip_structure.py` si aplica |
+| DOC-001 | Actualizar `Docs/CHANGELOG.md` | El encabezado más reciente (`2026-07-24`) no refleja el contenido real, que incluye trabajo del 2026-07-29 (Specs 0010–0012); faltan entradas para Specs 0013–0014 | Documentación | Media | Ninguna | Ninguno | Redactar entradas faltantes y corregir encabezado de fecha |
+| DOC-002 | Resolver ADR-005, ADR-006 y ADR-007 pendientes | Páginas ocultas obsoletas (ADR-005), ausencia de RLS (ADR-006), encoding HTML en nombre de columna `GENERACIÓN` (ADR-007) | Modelo / Gobierno | Media | Ninguna | ADR-006 tiene implicación de seguridad de datos (todos los usuarios ven todas las empresas) | Revisar `Docs/decisions/README.md` y decidir cada ADR con el usuario |
+| QA-001 | Replicar `tools/pbip_validation/` (validador estático PBIP) desde `04_Aprendizaje_y_Desarrollo` | Proyecto 4 ya cuenta con un validador estático (`validate_pbip.py`) que no está replicado aquí | QA / Automatización | Media | Requiere `project_rules.json` propio de este proyecto | Duplicar sin adaptar produciría falsos positivos/negativos | Evaluar junto con GOV-003 como parte de la validación cruzada Proyecto 4 ↔ Proyecto 7 |
+
+## 8. Ideas por evaluar
+
+| ID | Idea | Problema u oportunidad | Beneficio esperado | Riesgo o duda | Decisión pendiente |
+|---|---|---|---|---|---|
+| DATA-008 | Formalizar contrato de datos para `PptovsReal.xlsx` como fuente compartida con `04_Aprendizaje_y_Desarrollo` | `specs/22` de `04_Aprendizaje_y_Desarrollo` propone consumir `FechaRetiro` desde esta fuente | Evita acoplamiento implícito entre proyectos | Cambios en esta fuente podrían romper el consumo del proyecto hermano sin aviso | Definir si se documenta un contrato explícito (ver `contracts/` de Proyecto 4 como referencia) |
+| AI-001 | Gobierno formal de las skills vendored `skills-for-fabric` en este repositorio | Mismo paquete y commit de origen (`d79f3393...`) que en Proyecto 4; sin cadencia de actualización documentada más allá de `check-updates` | Mantener skills alineadas con upstream | Actualizaciones podrían chocar con las 7 skills propias locales | Definir responsable y cadencia de revisión |
+| PBIP-001 | Corregir medida `Prom_Colaboradores` hardcodeada | `Docs/METRICS_CATALOG.md` advierte que divide siempre entre 7, incorrecta fuera de enero-julio | Corrección de una medida activa con riesgo de dato erróneo en producción | Cambio de DAX en medida ya publicada; requiere validación cuidadosa | Confirmar prioridad con el usuario (impacto en reportes ejecutivos) |
+| DOC-003 | Vigencia de `Docs/decisions/README.md` | Único documento del índice de `Docs/README.md` marcado "Pendiente" | Cerrar el índice documental como 100% vigente | Ninguno | Resolver junto con DOC-002 |
+
+## 9. Bloqueadas
+
+| ID | Iniciativa | Motivo del bloqueo | Dependencia | Responsable de resolución | Condición de desbloqueo |
+|---|---|---|---|---|---|
+| DATA-002 | Confirmar refresh completo sin errores | Depende de validar Formula Firewall primero | DATA-001 | Edwin Clavijo (sesión interactiva en Power BI Desktop) | DATA-001 cerrada con evidencia |
+| DATA-003 | Matriz de retiros por estructura | Nodos de estructura sin homologación inequívoca | DATA-004 | Edwin Clavijo | Homologación completa o decisión de aceptar remanente documentada |
+| DATA-004 | Diagnóstico de brechas de homologación de retiros | Universo de 1.351 registros sin asignación no reconstruible con evidencia disponible; `powerbi-modeling-mcp` no tuvo instancia local de Power BI Desktop durante el preflight | Disponibilidad de Power BI Desktop en vivo o evidencia adicional | Edwin Clavijo | Nueva evidencia disponible o decisión de cerrar el diagnóstico con el remanente aceptado |
+
+## 10. Finalizadas
+
+| ID | Iniciativa | Fecha de cierre | Resultado | Evidencia | Commit |
+|---|---|---|---|---|---|
+| DATA-009 | Cambio de fuente de `PptovsReal.xlsx` a SharePoint corporativo | 2026-07-23 | Cerrado | `Specs/0006_analisis_impacto_cambio_fuente_pptovsreal_sharepoint.md`, `Specs/0007_plan_implementacion_cambio_fuente_pptovsreal_sharepoint.md` | `e287657` |
+| PBIP-002 | Corrección de productividad y contexto de negocio | 2026-07-24 | Cerrado (reemplazó el plan original de fases 0-8 por copia directa del PBIP productivo real, documentado explícitamente) | `Specs/0008_plan_implementacion_correccion_productividad_contexto_negocio.md` | `a1dbb62`, `eaefa0e`, `0d524bd`, `f2aa4d59836b73f5162139cdaa03f51c0da2c766` |
+| DATA-010 | Migración de 4 consultas SST a `Accidentalidad_Consolidado.xlsx` corporativo | 2026-07-22 | Migrado y documentado como resultado final | `Specs/0009_actualizacion_origen_datos_sst_sharepoint.md` | No especificado en la spec |
+| PBIP-003 | Segmentadores de Área/Cargo en panel Demográfico (Promedio) | 2026-07-29 | Implementado | `Specs/0010_segmentadores_area_cargo_demografico_promedio.md` | No especificado en la spec |
+| DAX-001 | Validación de consulta DAX del panel Demográfico (Promedio) | 2026-07-29 | Implementado y validado | `Specs/0011_validacion_consulta_dax_demografico_promedio.md` | No especificado en la spec |
+| PBIP-004 | Corrección de segmentadores temporales de Retiros | 2026-07-29 | Validado para versionamiento | `Specs/0012_correccion_segmentadores_temporales_retiros.md` | Archivos versionados: 2 `visual.json`, la spec y `Docs/CHANGELOG.md` (commit no confirmado en la spec) |
+| AI-002 | Incorporación de skills oficiales de Power BI (`skills-for-fabric`) | 2026-07-29 | 7 skills vendored instaladas en `.agents/skills/` bajo licencia MIT | `.agents/UPSTREAM.md`, `Docs/POWERBI_CODEX_SKILLS.md` | No especificado en la spec |
+
+## 11. Componentes reutilizables
+
+| Componente | Ruta | Clasificación | Notas |
+|---|---|---|---|
+| Auditorías PBIP de solo lectura (`list_pbip_structure`, `audit_navigation`, `audit_semantic_model`, `audit_dax_measures`) | `Tools/pbip/` | Reutilizable directamente | Copiadas desde `04_Aprendizaje_y_Desarrollo/tools/pbip/`; sin dependencias del dominio de negocio, pero **aún no comitedas** en este repositorio |
+| Linter de gobierno de skills (`skills_lint.py`) | `Tools/governance/skills_lint.py` | Reutilizable directamente | Ya tracked en este repositorio; valida convenciones genéricas |
+| Indexador de `Outputs/` y preparación de commit (`outputs_indexer.py`, `prepare_commit_review.py`) | `Tools/governance/` | Reutilizable mediante configuración — **pendiente de adaptar** | Ver GOV-003: copiados sin adaptar desde el proyecto hermano; requieren ajuste de dominios y rutas de gobierno antes de considerarse confiables aquí |
+| Skills propias del proyecto (`outputs-governance`, `pbi-aprendizaje-inventario`, `pbi-commit-prep`, `pbi-dax-measures-audit`, `pbi-navigation-audit`, `pbi-semantic-model-audit`, `powerbi-signals`) | `.agents/skills/` | Reutilizable mediante configuración | Adaptadas parcialmente desde `04_Aprendizaje_y_Desarrollo`; el nombre `pbi-aprendizaje-inventario` conserva vocabulario del proyecto hermano (ver GOV-004) |
+| Skills vendored oficiales de Microsoft (`skills-for-fabric`) | `.agents/skills/` (check-updates, powerbi-report-authoring, powerbi-report-design, powerbi-report-management, powerbi-report-planning, semantic-model-authoring), `.agents/common/` | Reutilizable directamente | Mismo paquete y commit de origen (`d79f3393...`) que en `04_Aprendizaje_y_Desarrollo`; mantener sincronizadas vía `check-updates` |
+| Suite de validación estática PBIP (`tools/pbip_validation/`) | No presente aún en este repositorio | Candidato a reutilizable mediante configuración | Ver QA-001; existe en Proyecto 4 pero no se ha replicado aquí |
+| Informes recurrentes derivados del PBI (`Reports/Recurring/`) | `Reports/Recurring/01_Retiros_y_Rotacion_Manufactura/`, `Reports/Recurring/02_Retiros_y_Rotacion_Muebles/` | Específico del proyecto | Patrón de carpeta (`Current/` + `History/` + `README.md`) replicable como convención, aunque el contenido `.xlsx` es específico y no versionado |
+| Prototipo de automatización SharePoint (`open_sharepoint_excel_prototype.py`) | `Tools/automation/` | Específico del proyecto | Experimental, no productivo; URL apunta a la Entrevista Corporativa de Retiro (mismo prototipo que en Proyecto 4, sin confirmar si es copia idéntica) |
+
+## 12. Flujo de una iniciativa
+
+```
+Idea
+ → evaluación
+ → priorización
+ → análisis de impacto (Specs/)
+ → plan de implementación (Specs/)
+ → autorización expresa del usuario
+ → desarrollo
+ → validación
+ → documentación (Docs/ y este roadmap)
+ → commit y push
+ → cierre con evidencia
+```
+
+Ningún paso se salta cuando el usuario ha definido un plan secuencial explícito para la iniciativa (ver `AGENTS.md` y `CLAUDE.md`).
+
+## 13. Historial de actualización del roadmap
+
+| Fecha | Cambio | Iniciativas afectadas | Autor o agente |
+|---|---|---|---|
+| 2026-07-30 | Creación inicial del roadmap y backlog a partir del estado real del repositorio (AGENTS.md, Docs, Specs, Tools, skills, git status) | Todas las registradas en este documento | Claude Code |

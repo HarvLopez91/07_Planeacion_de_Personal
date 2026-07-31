@@ -83,8 +83,9 @@ El índice de documentación vive en [Docs/README.md](Docs/README.md).
 
 Documentos clave:
 
+- [Roadmap y backlog técnico](Specs/00_roadmap_y_backlog.md)
 - [Contexto del proyecto](Docs/PROJECT_CONTEXT.md)
-- [Estado y roadmap](Docs/PROJECT_STATUS.md)
+- [Estado operativo](Docs/PROJECT_STATUS.md)
 - [Arquitectura](Docs/ARCHITECTURE.md)
 - [Modelo de datos](Docs/DATA_MODEL.md)
 - [Fuentes y pipeline](Docs/DATA_PIPELINE.md)
