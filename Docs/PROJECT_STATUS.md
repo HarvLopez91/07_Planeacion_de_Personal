@@ -36,6 +36,7 @@ Estado documentado:
 - Persisten rutas personales o pendientes de análisis en fuentes como `AUSENTISMOS` y `Estructura`.
 - `AREAS` sigue construyéndose desde `Consolidado 2024.xlsx`; se documenta como requerimiento de análisis posterior.
 - `REQUISICIONES HABITEL 2026.xlsx` es una fuente nueva pendiente de análisis de impacto; no está incorporada.
+- `Data/Contratos_Kactus/` quedó organizada manualmente con `Fuente_Oficial`, `Historico` e `Insumos_Vigentes`; la integración con Power BI y sus consumidores están por validar.
 
 ## Bloqueo Técnico Vigente
 
@@ -62,6 +63,7 @@ La validación definitiva requiere Power BI Desktop de julio de 2026 o posterior
 | Analizar incorporación de `REQUISICIONES HABITEL 2026.xlsx` | Fuente | Pendiente |
 | Migrar rutas personales restantes de `AUSENTISMOS` y `Estructura` | Fuente | Pendiente |
 | Definir publicación y refresh programado en Power BI Service | Operación | Pendiente |
+| Validar archivo oficial, consumidores y rutas de `Data/Contratos_Kactus/` | Fuente | En validación |
 
 ## Criterio para Avanzar a Validación Funcional
 
