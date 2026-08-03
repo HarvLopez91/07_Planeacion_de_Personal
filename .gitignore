@@ -35,3 +35,6 @@ Reports/Recurring/02_Retiros_y_Rotacion_Muebles/**/*.xlsx
 # Versiones historicas .pbix — binarios pesados con datos embebidos sin verificar (agregado 2026-07-24)
 # El tema PaletaAzulProfesional.json en la misma carpeta sí se versiona
 PBIP/00_Referencia_Historica/*.pbix
+
+# Entorno virtual local de Python
+.venv/
