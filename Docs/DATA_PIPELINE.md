@@ -228,15 +228,28 @@ Finalidad de cada carpeta:
 
 | Carpeta | Finalidad | Estado de integracion |
 |---|---|---|
-| `Data/Contratos_Kactus/Insumos_Vigentes/` | Archivos mas recientes descargados de Kactus y utilizados para el proceso operativo vigente. | Estructura fisica verificada; consumidores Power BI pendientes de validar. |
+| `Data/Contratos_Kactus/Insumos_Vigentes/` | Archivos mas recientes descargados de Kactus y utilizados para el proceso operativo vigente. | Estructura fisica verificada; consumida por las consultas internas del consolidador de contratos validado el 2026-08-03. |
 | `Data/Contratos_Kactus/Historico/` | Respaldos mensuales separados del arbol activo de procesamiento. | Excluida del procesamiento activo por regla documental; no debe entrar en combinaciones de carpeta. |
-| `Data/Contratos_Kactus/Fuente_Oficial/` | Archivo consolidado estable destinado a convertirse en fuente oficial del proyecto. | Nombre del archivo oficial y consumo por Power BI: `Por confirmar`. |
+| `Data/Contratos_Kactus/Fuente_Oficial/` | Archivo consolidado estable destinado a convertirse en fuente oficial del proyecto. | Archivo oficial identificado: `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`; consumo por `PBIP/Proyecto7.pbip` pendiente de validar. |
 
 Estado real de integracion con Power BI:
 
-- No se encontro referencia activa a `Data/Contratos_Kactus/`, `CONSOLIDADOR_CONTRATOS`, `Consolidado_Contratos` ni `XL_001_CONSOLIDADOR_CONTRATOS` en los archivos versionados.
-- No se debe declarar esta carpeta como fuente activa del PBIP hasta identificar una consulta Power Query o TMDL que la consuma.
-- Si una consulta futura se conecta a esta estructura, debe manejarse como una iniciativa separada con analisis de impacto, porque el modelo mantiene rutas de fuente hardcodeadas.
+- En los archivos versionados del PBIP no se encontro referencia activa a `Data/Contratos_Kactus/`, `CONSOLIDADOR_CONTRATOS`, `Consolidado_Contratos` ni `XL_001_CONSOLIDADOR_CONTRATOS`.
+- No se debe declarar esta carpeta como fuente activa de `PBIP/Proyecto7.pbip` hasta identificar una consulta Power Query o TMDL que la consuma.
+- El archivo `Data/Contratos_Kactus/Fuente_Oficial/CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx` si contiene consultas Power Query internas validadas contra la nueva ubicacion SharePoint.
+- Si una consulta futura del PBIP se conecta a esta estructura, debe manejarse como una iniciativa separada con analisis de impacto, porque el modelo mantiene rutas de fuente hardcodeadas.
+
+Validacion del consolidador de contratos realizada el `2026-08-03`:
+
+- Libro revisado: `Data/Contratos_Kactus/Fuente_Oficial/CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`.
+- Ubicacion SharePoint del libro: sitio corporativo `TalentoHumanoGrupoLemco`, ruta `5. People analytics/07_Planeacion_de_Personal/Data/Contratos_Kactus/Fuente_Oficial/`.
+- Consultas Power Query encontradas: 10.
+- Consultas fuente con `Web.Contents`: 9, todas apuntando a `Data/Contratos_Kactus/Insumos_Vigentes/`.
+- Consulta consolidada: `Fact_Contrataciones`, construida mediante combinacion de las consultas fuente.
+- Consultas fuente validadas: `CHALLENGER_SAS`, `FUNDACION_CHALLENGER`, `HABITEL_SAS`, `LEMCO_SAS`, `OPERADORA_HABITEL_SAS`, `SKY_ELECTRONICS_ZONA_FRANCA_SAS`, `SKY_FORWARDER_SAS`, `SKY_INDUSTRIAL` y `SKY_LOGISTICA_INTEGRAL`.
+- No se encontraron referencias internas a `Historico/` ni a `Fuente_Oficial/` como carpeta de insumos activos dentro de esas consultas fuente.
+- `RefreshAll` del libro se ejecuto desde Excel Desktop sin excepcion capturada; las consultas finalizaron sin quedar en estado `Refreshing`.
+- El libro fue guardado despues de la actualizacion para conservar la conexion validada, pero permanece bajo `Data/` y no debe versionarse.
 
 Reglas de procesamiento:
 
@@ -249,9 +262,8 @@ Reglas de procesamiento:
 
 Pendientes:
 
-- Confirmar URL corporativa exacta de Microsoft 365.
-- Identificar el archivo oficial dentro de `Fuente_Oficial/`, si ya existe.
-- Validar consumidores actuales o futuros antes de cambiar rutas de Power BI.
+- Confirmar si la URL corporativa documentada debe parametrizarse o mantenerse hardcodeada en el consolidador.
+- Validar consumidores actuales o futuros del consolidador antes de cambiar rutas de Power BI.
 - Documentar cualquier migracion de consultas en una Spec propia antes de modificar Power Query.
 
 ---

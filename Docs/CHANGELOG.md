@@ -15,10 +15,17 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 - Registro de sensibilidad alta para la fuente de contratos Kactus y confirmacion de exclusion total de `Data/` en Git.
 - Roadmap actualizado para dar seguimiento a la validacion de consumidores, archivo oficial y rutas de Power BI asociadas a contratos Kactus.
 
+### Validado
+
+- `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`: archivo oficial identificado en `Data/Contratos_Kactus/Fuente_Oficial/`.
+- Consultas Power Query internas del consolidador validadas: 9 consultas fuente apuntan a `Data/Contratos_Kactus/Insumos_Vigentes/` en SharePoint corporativo y `Fact_Contrataciones` combina esas fuentes.
+- Refresh del consolidador ejecutado desde Excel Desktop sin excepcion capturada y sin consultas pendientes de actualizacion.
+
 ### Sin cambios
 
-- No se modificaron PBIP, Power Query, TMDL, DAX, relaciones, visuales ni archivos Excel.
-- No se declaro la carpeta `Fuente_Oficial/` como fuente activa de Power BI porque no se encontro evidencia de consumo en consultas o TMDL.
+- No se modificaron PBIP, Power Query del PBIP, TMDL, DAX, relaciones ni visuales.
+- No se declaro `Fuente_Oficial/` como fuente activa de `PBIP/Proyecto7.pbip` porque no se encontro evidencia de consumo en consultas o TMDL versionados.
+- No se versiono `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`; el archivo permanece excluido por la regla `Data/`.
 
 ## [Sin version] - 2026-07-24
 
