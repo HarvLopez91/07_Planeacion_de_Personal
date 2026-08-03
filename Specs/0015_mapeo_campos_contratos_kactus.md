@@ -1,10 +1,10 @@
 # Mapeo de campos Contratos Kactus
 
-Fecha: 2026-07-24
+Fecha: 2026-08-03
 
-Estado: analisis completo, mapeo documentado, reglas funcionales identificadas y clasificadas. Pendiente de aprobacion humana antes de construir el programa Python de transformacion.
+Estado: **borrador tecnico**, pendiente de aprobacion funcional. El analisis y el mapeo de campos estan completos y las reglas funcionales estan identificadas y clasificadas, pero ninguna decision de esta Spec esta aprobada todavia. No autoriza iniciar la construccion del programa Python de transformacion.
 
-Nota de rama: este documento se crea en la rama `docs/roadmap-backlog`. `origin/main` tiene commits mas recientes (`e384746`, `612ddc5`) que documentan gobierno y validacion de rutas de Contratos Kactus en `Docs/DATA_PIPELINE.md`, no presentes todavia en esta rama. Se uso esa documentacion como referencia de contexto (lectura, sin fusionar), y se contrasto contra la estructura real en disco (`Data/` no esta versionado, por lo que no depende de la rama). Se recomienda reconciliar ambas ramas antes de dar este mapeo por definitivo.
+Nota de rama: este documento se elaboro originalmente en la rama `docs/roadmap-backlog`, que diverge de `origin/main` y no debe fusionarse directamente. Los cambios validos (este archivo y la entrada correspondiente de `Docs/CHANGELOG.md`) se trasladaron mediante cherry-pick controlado a la rama limpia `docs/kactus-mapeo-campos`, creada desde `origin/main`. `origin/main` ya incluye la documentacion de gobierno y validacion de rutas de Contratos Kactus en `Docs/DATA_PIPELINE.md` (commits `e384746`, `612ddc5`); este documento es complementario (mapeo de campos) y no la reemplaza.
 
 No incluye datos personales: nombres, identificaciones, salarios ni valores de fila. Todo lo documentado abajo es estructura (hojas, encabezados, tipos inferidos, formulas de columnas calculadas).
 
@@ -21,7 +21,11 @@ No incluye datos personales: nombres, identificaciones, salarios ni valores de f
 
 No se recorrio `Data/Contratos_Kactus/Historico/` ni archivos temporales `~$*.xlsx`, conforme al alcance autorizado.
 
-**Observacion de estructura no solicitada explicitamente pero relevante:** `PptovsReal.xlsx` tiene ademas las hojas `Tbl_Ingresos` y `Tbl_Retiros` (aparecen como pestañas propias, no como tablas dentro de `INGRESOS`/`RETIROS`). No se inspeccionaron porque el alcance autorizado nombra unicamente `INGRESOS` y `RETIROS`. Si son relevantes para el mapeo, requieren autorizacion explicita para revisarlas.
+**Hojas adicionales `Tbl_Ingresos` y `Tbl_Retiros` (inspeccionadas por autorización posterior, solo metadatos y encabezados):**
+
+Ambas hojas son **tablas dinámicas de Excel** construidas sobre `INGRESOS` y `RETIROS`, no tablas planas de datos. Evidencia estructural (sin valores personales): no tienen fila de encabezados en el sentido de `INGRESOS`/`RETIROS`; en su lugar muestran los artefactos típicos de una tabla dinámica — `Etiquetas de fila`, `Etiquetas de columna`, `(Varios elementos)`, `(Todas)`, `Suma de Afecta calidad`, `% Calidad`, `Total 2026`, `Total general`. Los filtros de página detectados son: `Años (Fecha Inicio)`, `Grupo Empresarial`, `Descripción Estado Cargo` en `Tbl_Ingresos`; `Cargo`, `Detalle` en `Tbl_Retiros`. Ninguna de las dos define una Tabla Excel (`ws.tables` vacío).
+
+**Conclusión**: son **salidas derivadas** (paneles/resúmenes de reporte agregados por mes y empresa), no fuentes auxiliares, no tablas de homologación y no están referenciadas por ninguna de las fórmulas de columnas calculadas revisadas en las secciones 3 y 4. No son relevantes para el mapeo de campos ni para la futura automatización de carga; se excluyen del alcance de esta Spec.
 
 ## 2. Inventario de encabezados
 
@@ -226,7 +230,7 @@ V_DEPENDENCIA, V_AREA, Nivel, Periodo
 
 ## 8. Reglas pendientes de aprobación humana
 
-Clasificadas como Propuesta técnica o Pendiente de aprobación humana, ninguna se implementó ni se aprobó en este documento:
+Se documentan **10 reglas pendientes de aprobación humana o propuesta técnica** (Criterio de ingreso, Reingreso, Prórroga, Cambio de contrato, Contrato anulado, Cesión, Retiro sin motivo, Empresa no homologada, Identificación vacía y Clave para evitar duplicados en RETIROS), más 1 fila adicional (Clave para evitar duplicados en INGRESOS) que se incluye en la misma tabla por continuidad temática pero que no es una regla pendiente en sentido estricto: ya tiene precedente confirmado por fórmula existente en el archivo (sección 7). Ninguna de las 11 filas se implementó ni se aprobó en este documento:
 
 | Regla | Clasificación | Propuesta técnica (si aplica) |
 |---|---|---|
