@@ -105,6 +105,26 @@ Contiene versiones anteriores del reporte en formato `.pbix` (binario, previas a
 - `PaletaAzulProfesional.json`: **versionado**. Archivo de texto pequeño, sin datos, sin riesgo.
 - Los 5 archivos `.pbix`: **no versionados**, agregados a `.gitignore`. A diferencia de PBIP (que separa definición de datos), un `.pbix` embebe el modelo de datos completo, incluyendo filas importadas. Dado que este proyecto está clasificado como sensibilidad **ALTA** (`SECURITY_AND_PRIVACY.md`) y estos archivos no se abrieron para confirmar su contenido, aplica la misma cautela ya usada para `Inputs/`: la ausencia de datos personales no se asume, se verifica. Además, la regla de `GIT_GOVERNANCE.md` ("no versionar... binarios o archivos pesados que no sean necesarios para el funcionamiento, reproducción o documentación oficial del repositorio") aplica directamente — son referencia histórica, no necesarios para reproducir `Proyecto7.pbip`. Incluirlos requeriría autorización expresa y específica, idealmente después de confirmar en Power BI Desktop que no contienen datos personales sin enmascarar.
 
+**Nota sobre `Data/Contratos_Kactus/` (estructura organizada manualmente el 2026-08-03):**
+
+El usuario confirmó y la inspección de solo lectura verificó la existencia de la estructura operativa:
+
+```text
+Data/
+└── Contratos_Kactus/
+    ├── Fuente_Oficial/
+    ├── Historico/
+    └── Insumos_Vigentes/
+```
+
+Propósito de cada carpeta:
+
+- `Insumos_Vigentes/`: archivos más recientes descargados de Kactus y utilizados para el proceso operativo vigente.
+- `Historico/`: respaldos mensuales separados del árbol activo de procesamiento.
+- `Fuente_Oficial/`: archivo consolidado estable destinado a convertirse en fuente oficial del proyecto.
+
+Todo `Data/` permanece excluido de Git por `.gitignore`. La estructura está sincronizada mediante el entorno corporativo de Microsoft 365, pero la URL exacta de SharePoint queda `Por confirmar` hasta contar con evidencia verificable. No se debe registrar ninguna ruta absoluta con nombre de usuario. Tampoco debe afirmarse que Power BI ya consume `Fuente_Oficial/` mientras no exista evidencia en Power Query o TMDL.
+
 **Hallazgos relevantes de este análisis (2026-07-03), verificados con `ls -d */` y búsqueda recursiva de carpetas numeradas (`find . -maxdepth 3 -type d -iname "0*_*"` → sin resultados):**
 
 - La estructura raíz de este proyecto es **plana y sin numeración interna**: `Data/`, `Docs/`, `Inputs/`, `Outputs/`, `PBIP/`. No existen subcarpetas del tipo `00_Fuentes`, `01_PBIP`, `02_Modelo_Datos`, `03_Documentacion`, etc. dentro de este proyecto.

@@ -211,6 +211,51 @@ El flujo asociado es:
 
 ---
 
+## Flujo de contratos Kactus
+
+Fecha de organizacion de la estructura: `2026-08-03`.
+
+Ruta relativa gobernada:
+
+```text
+Data/Contratos_Kactus/
+├── Fuente_Oficial/
+├── Historico/
+└── Insumos_Vigentes/
+```
+
+Finalidad de cada carpeta:
+
+| Carpeta | Finalidad | Estado de integracion |
+|---|---|---|
+| `Data/Contratos_Kactus/Insumos_Vigentes/` | Archivos mas recientes descargados de Kactus y utilizados para el proceso operativo vigente. | Estructura fisica verificada; consumidores Power BI pendientes de validar. |
+| `Data/Contratos_Kactus/Historico/` | Respaldos mensuales separados del arbol activo de procesamiento. | Excluida del procesamiento activo por regla documental; no debe entrar en combinaciones de carpeta. |
+| `Data/Contratos_Kactus/Fuente_Oficial/` | Archivo consolidado estable destinado a convertirse en fuente oficial del proyecto. | Nombre del archivo oficial y consumo por Power BI: `Por confirmar`. |
+
+Estado real de integracion con Power BI:
+
+- No se encontro referencia activa a `Data/Contratos_Kactus/`, `CONSOLIDADOR_CONTRATOS`, `Consolidado_Contratos` ni `XL_001_CONSOLIDADOR_CONTRATOS` en los archivos versionados.
+- No se debe declarar esta carpeta como fuente activa del PBIP hasta identificar una consulta Power Query o TMDL que la consuma.
+- Si una consulta futura se conecta a esta estructura, debe manejarse como una iniciativa separada con analisis de impacto, porque el modelo mantiene rutas de fuente hardcodeadas.
+
+Reglas de procesamiento:
+
+- Los procesos activos deben leer exclusivamente `Insumos_Vigentes/` o un archivo explicito de `Fuente_Oficial/`.
+- Ningun proceso debe recorrer desde la raiz de `Data/Contratos_Kactus/`.
+- `Historico/` no debe entrar en combinaciones de carpeta ni en procesos activos.
+- Excluir archivos temporales de Office (`~$*.xlsx`), copias, duplicados y archivos fuera del corte aprobado.
+- Los archivos vigentes deben mantener nombres estables para evitar rupturas de ruta.
+- El historico debe usar una convencion de corte, preferiblemente `AAAA-MM` o `AAAA-MM-DD`.
+
+Pendientes:
+
+- Confirmar URL corporativa exacta de Microsoft 365.
+- Identificar el archivo oficial dentro de `Fuente_Oficial/`, si ya existe.
+- Validar consumidores actuales o futuros antes de cambiar rutas de Power BI.
+- Documentar cualquier migracion de consultas en una Spec propia antes de modificar Power Query.
+
+---
+
 ## Limitaciones y riesgos del pipeline
 
 | # | Riesgo | Impacto |

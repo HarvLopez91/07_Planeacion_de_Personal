@@ -138,7 +138,43 @@ Cada ano, la hoja activa de `REQUISICIONES_CYL.xlsx` cambia de nombre (ej: `"Mat
 
 ---
 
-## 6. Publicar al servicio Power BI
+## 6. Procedimiento mensual para contratos Kactus
+
+Estado actual: el procedimiento ya ejecutado fue la creacion y organizacion de
+la estructura `Data/Contratos_Kactus/` con las carpetas `Fuente_Oficial/`,
+`Historico/` e `Insumos_Vigentes/`. La actualizacion de rutas, conexion de
+Power BI o migracion de consultas es un procedimiento futuro y requiere
+aprobacion y analisis de impacto propios.
+
+Procedimiento operativo mensual recomendado:
+
+1. Validar el corte descargado desde Kactus antes de reemplazar insumos.
+2. Copiar los archivos vigentes anteriores a `Historico/AAAA/AAAA-MM/`.
+3. No modificar las copias historicas despues de archivarlas.
+4. Reemplazar o actualizar los archivos en `Insumos_Vigentes/`, conservando nombres estables.
+5. Actualizar el consolidado ubicado en `Fuente_Oficial/`, cuando exista y este aprobado como fuente oficial.
+6. Validar:
+   - periodo;
+   - empresa;
+   - estructura de columnas;
+   - cantidad de registros;
+   - duplicados;
+   - fechas minimas y maximas.
+7. Confirmar que ningun proceso lea `Historico/`.
+8. Actualizar Power BI unicamente cuando su conexion oficial haya sido previamente aprobada y documentada.
+9. No declarar refresh exitoso sin evidencia en Power BI Desktop.
+10. Conservar temporalmente el origen anterior hasta validar todos los consumidores, si todavia existe.
+
+Controles:
+
+- Los procesos activos deben apuntar a `Insumos_Vigentes/` o a un archivo explicito de `Fuente_Oficial/`.
+- No usar la raiz `Data/Contratos_Kactus/` como origen de combinacion de carpeta.
+- Excluir temporales `~$*.xlsx`, copias y duplicados.
+- No copiar datos individuales, identificaciones, salarios ni registros contractuales en documentacion, commits o pull requests.
+
+---
+
+## 7. Publicar al servicio Power BI
 
 `Pendiente de confirmar` — El proceso de publicacion al Power BI Service (workspace destino, frecuencia de actualizacion programada) no esta documentado en el repositorio.
 
@@ -155,13 +191,13 @@ Para configurar actualizacion programada en el servicio:
 
 ---
 
-## 7. Verificar la fecha de actualizacion
+## 8. Verificar la fecha de actualizacion
 
 Despues de cada actualizacion, navegar a la pagina **Fecha de Actualizacion** en el reporte para confirmar que la tabla `tbl_Refresh` registro correctamente la hora de la actualizacion en zona horaria Bogota (UTC-5).
 
 ---
 
-## 8. Problemas conocidos y soluciones
+## 9. Problemas conocidos y soluciones
 
 | Problema | Causa probable | Solucion |
 |---|---|---|
@@ -174,7 +210,7 @@ Despues de cada actualizacion, navegar a la pagina **Fecha de Actualizacion** en
 
 ---
 
-## 9. Estructura de archivos a mantener actualizados
+## 10. Estructura de archivos a mantener actualizados
 
 Al realizar cambios en el modelo, los archivos que tipicamente se modifican son:
 

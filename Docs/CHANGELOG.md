@@ -6,6 +6,20 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-08-03
+
+### Agregado
+
+- `Data/Contratos_Kactus/`: estructura operativa organizada manualmente con separacion entre `Fuente_Oficial`, `Historico` e `Insumos_Vigentes`.
+- Documentacion del procedimiento mensual para fuentes de contratos Kactus, incluyendo controles para evitar que respaldos historicos entren al proceso activo.
+- Registro de sensibilidad alta para la fuente de contratos Kactus y confirmacion de exclusion total de `Data/` en Git.
+- Roadmap actualizado para dar seguimiento a la validacion de consumidores, archivo oficial y rutas de Power BI asociadas a contratos Kactus.
+
+### Sin cambios
+
+- No se modificaron PBIP, Power Query, TMDL, DAX, relaciones, visuales ni archivos Excel.
+- No se declaro la carpeta `Fuente_Oficial/` como fuente activa de Power BI porque no se encontro evidencia de consumo en consultas o TMDL.
+
 ## [Sin version] - 2026-07-24
 
 ### Agregado
