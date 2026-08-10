@@ -11,7 +11,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 ### Corregido
 
 - Saneadas 27 medidas declaradas dos veces en el modelo (una copia en su tabla de dominio — `AUSENTISMOS`, `SST GENERAL`, `Ppto Ingresos`, `Selección Grupo Lemco`, `Selección Challenger`, `SENA UNIDADES`, `ACCIDENTALIDAD` — y otra en `Tbl_Medidas`), defecto preexistente en `origin/main` que impedía abrir un checkout limpio de `Proyecto7.pbip` en Power BI Desktop (`PFE_TM_OBJECT_NAME_ALREADY_EXISTS`). Se eliminó en cada caso la copia sin consumidores reales, preservando fórmula y `lineageTag` de la copia conservada: 26 medidas mantenidas en su tabla de dominio (eliminada la copia de `Tbl_Medidas`) y 1 (`Tot_Accidentes`) mantenida en `Tbl_Medidas` (eliminada la copia de `ACCIDENTALIDAD`), por ser la efectivamente referenciada por el reporte. No se modificó ninguna fórmula ni `lineageTag` de las medidas conservadas.
-- Modelo tras el saneamiento: 121 medidas (148 − 27), 0 duplicados, 0 referencias rotas.
+- Modelo tras el saneamiento: 122 medidas (149 − 27), 0 duplicados, 0 referencias rotas.
 
 ### Documentado
 

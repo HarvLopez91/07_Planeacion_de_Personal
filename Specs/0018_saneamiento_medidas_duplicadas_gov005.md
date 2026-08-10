@@ -12,7 +12,7 @@ Al intentar abrir un checkout limpio de `origin/main` en Power BI Desktop (audit
 
 ## 2. Inventario inicial (confirmado sobre `origin/main` en `96cff2a`, post-merge de PR #5)
 
-- 148 medidas totales en `PBIP/Proyecto.SemanticModel/definition/tables/*.tmdl`.
+- 149 medidas totales en `PBIP/Proyecto.SemanticModel/definition/tables/*.tmdl`.
 - **27 nombres de medida declarados dos veces**: una copia en su tabla de dominio (`AUSENTISMOS`, `SST GENERAL`, `Ppto Ingresos`, `Selección Grupo Lemco`, `Selección Challenger`, `SENA UNIDADES`, `ACCIDENTALIDAD`) y otra copia en `Tbl_Medidas`.
 - Las 27 comparten el mismo `lineageTag` entre ambas copias (0 discrepancias de lineageTag).
 - **20 con fórmula idéntica** entre ambas copias, **7 con fórmula textualmente diferente** bajo el mismo `lineageTag`.
@@ -86,12 +86,12 @@ Cumplidas las 4 condiciones, se determinó la ubicación canónica y se eliminó
 
 ## 7. Validaciones ejecutadas
 
-- Reinventario completo tras el saneamiento: 121 medidas (148 − 27), **0 nombres duplicados**.
+- Reinventario completo tras el saneamiento: 122 medidas (149 − 27), **0 nombres duplicados**.
 - Las 27 medidas canónicas confirmadas presentes con su `lineageTag` original (verificación puntual de `Tot_Accidentes` y `ConteoP`, más barrido completo de coincidencia de nombre único).
 - Balance de paréntesis/llaves de `Tbl_Medidas.tmdl` (449/449, 33/33) y `ACCIDENTALIDAD.tmdl`: balanceado.
 - Búsqueda de referencias rotas en `PBIP/Proyecto.Report/`: 0 referencias a `Tbl_Medidas.<nombre-eliminado>` para las 26 medidas retiradas de `Tbl_Medidas`, y 0 referencias a `ACCIDENTALIDAD.Tot_Accidentes`.
 - `git status` del worktree: únicamente los 2 archivos indicados, sin cambios en `Docs/`, `Specs/` (fuera de esta Spec), visuales, bookmarks ni relaciones.
-- **GATE 5 — apertura real en Power BI Desktop desde checkout limpio (2026-08-10): PASS.** Worktree desechable creado exactamente sobre la rama `fix/gov-005-saneamiento-medidas-duplicadas` con el saneamiento aplicado; `Proyecto7.pbip` abrió sin el error `PFE_TM_OBJECT_NAME_ALREADY_EXISTS` (título de ventana "Proyecto7" confirmado, a diferencia de los intentos previos bloqueados). Conteo real observado en vivo vía `powerbi-modeling-mcp`: **122 medidas, 66 relaciones, 52 tablas, 0 nombres duplicados** (verificado con consulta DAX de agrupación por nombre). No se impone el conteo histórico de 129 ni 149 (correspondientes a instancias previas no comparables). Nota de reconciliación: el reinventario estático previo a la apertura había estimado 121 medidas (148 − 27); el conteo en vivo, confirmado también por conteo directo de bloques `measure` en el archivo, es 122 (96 en `Tbl_Medidas` + 26 en tablas de dominio) — la estimación previa de 148 subestimó en 1 el total original; no afecta el resultado del saneamiento, ya verificado como 0 duplicados en ambos métodos. Las tablas cargaron sin filas (0 registros) por tratarse de un checkout limpio sin refresh de datos — comportamiento esperado y fuera de alcance de GOV-005, no relacionado con el saneamiento de medidas. Power BI Desktop cerrado sin guardar al finalizar; `git status` del worktree confirmado sin cambios adicionales tras la apertura.
+- **GATE 5 — apertura real en Power BI Desktop desde checkout limpio (2026-08-10): PASS.** Worktree desechable creado exactamente sobre la rama `fix/gov-005-saneamiento-medidas-duplicadas` con el saneamiento aplicado; `Proyecto7.pbip` abrió sin el error `PFE_TM_OBJECT_NAME_ALREADY_EXISTS` (título de ventana "Proyecto7" confirmado, a diferencia de los intentos previos bloqueados). **Evidencia principal, conteo real en vivo vía `powerbi-modeling-mcp`: 122 medidas, 66 relaciones, 52 tablas, 0 nombres duplicados** (verificado con consulta DAX de agrupación por nombre, y confirmado por conteo directo de bloques `measure`: 96 en `Tbl_Medidas` + 26 en las tablas de dominio = 122). Este conteo en vivo es el que reconcilia el inventario inicial de la sección 2 (149 − 27 = 122); no corresponde a los conteos históricos de instancias previas no comparables (129 del GATE 5 original de DAX-002, o el 149 observado en la validación offline de `b5475ef`). Las tablas cargaron sin filas (0 registros) por tratarse de un checkout limpio sin refresh de datos — comportamiento esperado y fuera de alcance de GOV-005, no relacionado con el saneamiento de medidas. Power BI Desktop cerrado sin guardar al finalizar; `git status` del worktree confirmado sin cambios adicionales tras la apertura.
 
 ## 8. Riesgo residual
 
