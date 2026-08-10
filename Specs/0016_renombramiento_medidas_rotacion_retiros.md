@@ -2,7 +2,7 @@
 
 Fecha: 2026-08-06
 
-Estado: implementación técnica completa. GATE 5 (conciliación numérica en vivo con Power BI Desktop) ejecutado y aprobado por el usuario el 2026-08-10. Ver sección 10.
+Estado: implementación técnica completa. GATE 5 (conciliación numérica en vivo con Power BI Desktop) ejecutado y aprobado por el usuario el 2026-08-10 (sección 10). Auditoría remota del PR #5 detectó y corrigió contaminación de alcance en `Tbl_Medidas.tmdl`/`es-ES.tmdl` (commit `b5475ef`); el smoke test post-auditoría quedó **no ejecutable** por un defecto estructural preexistente de `origin/main`, ajeno a DAX-002 — ver sección 14.
 
 Iniciativa independiente de `Specs/0015_mapeo_campos_contratos_kactus.md` y del PR #4 (Contratos Kactus). No comparte alcance, archivos ni rama.
 
@@ -103,6 +103,8 @@ Ubicación en visuales: agregada únicamente en `f04eef32576ba115ab23` (matriz p
 
 ## 9. Pruebas realizadas
 
+**Nota (2026-08-10, post-auditoría):** todos los conteos de "129 medidas" de esta sección corresponden a la instancia de Power BI Desktop usada para el GATE 5 **original** (commit `e914c77`, antes de que la auditoría del PR #5 detectara contaminación de alcance en `Tbl_Medidas.tmdl`). No representan el estado final del checkout limpio (`b5475ef`) ni fueron reconfirmados mediante apertura real de Power BI Desktop sobre ese commit — ver sección 14 para el conteo correcto y el motivo por el que no pudo revalidarse en vivo.
+
 - Recarga completa del modelo vía MCP (`powerbi-modeling-mcp`, conexión offline sobre TMDL) tras cada cambio: 52 tablas, 129 medidas, 66 relaciones, 0 errores de carga.
 - Confirmación individual de las 7 medidas (6 renombradas + `Indice_Rotacion`) vía `measure_operations.Get`: las 7 en estado `Ready`, sin `errorMessage`.
 - Búsqueda exhaustiva de referencias a los 6 nombres anteriores en todo `PBIP/`: 0 referencias funcionales activas restantes tras las correcciones.
@@ -113,7 +115,7 @@ Ubicación en visuales: agregada únicamente en `f04eef32576ba115ab23` (matriz p
 **Ronda final (2026-08-10, tras GATE 5 y desactivación del subtotal de `f702a32db8dfea04babc`):**
 
 - JSON válido del visual modificado (`f702a32db8dfea04babc`), `rowSubtotals: false` confirmado, `columnSubtotals` sin cambio (`false`).
-- Conexión MCP en vivo a `Proyecto7` (Desktop abierto): `INFO.MEASURES()` = 129, `INFO.RELATIONSHIPS()` = 66, `INFO.TABLES()` = 52 — sin cambios respecto a la última recarga, 0 errores.
+- Conexión MCP en vivo a `Proyecto7` (Desktop abierto, instancia del GATE 5 original, commit `e914c77`): `INFO.MEASURES()` = 129, `INFO.RELATIONSHIPS()` = 66, `INFO.TABLES()` = 52 — sin cambios respecto a la última recarga, 0 errores. **Este conteo no corresponde al checkout limpio `b5475ef`** (ver nota al inicio de esta sección y sección 14).
 - Auditoría de duplicados de nombre de medida vía consulta DAX en vivo (`INFO.MEASURES()` agrupado): 0 duplicados.
 - 0 referencias activas a los 6 nombres anteriores en `PBIP/Proyecto.Report/` (excluidas las claves de diccionario cosméticas de `es-ES.tmdl`, ya documentadas).
 - Filtro `Generaciones[Generación] <> null` presente en `30f11733eea2697476d4` (Demográfico Promedio).
@@ -198,3 +200,40 @@ Medida preexistente, no tocada por esta iniciativa: `Índice_Retiros = [Tot_Reti
 Sobre la matriz `f702a32db8dfea04babc` (Retiros): la fila de total general, con el filtro de corte ene-jul 2026 activo, únicamente repite la fila del año 2026 (no aporta información adicional porque solo hay un año en el contexto de filtro). Por instrucción del usuario, se desactivó el subtotal de fila (`rowSubtotals: false`) de este visual — no se creó ninguna medida nueva para este propósito. Detalle de la corrección estructural aplicada y su validación en la sección 9 (actualizada) y en el reporte de cierre.
 
 Nota de transparencia: la evidencia en vivo del GATE 5 (sección 10) no reprodujo el síntoma original de "Colaboradores en blanco" en la fila de total bajo el contexto ene-jul 2026 — `PromediodeTotal-Sena` devolvió un valor válido (2.422,57) en todos los niveles de agregación probados. La desactivación del subtotal se aplica igualmente por instrucción expresa del usuario, dado que la fila resultaba redundante independientemente de ese punto.
+
+## 14. Auditoría remota del PR #5, saneamiento de alcance y smoke test post-auditoría (2026-08-10)
+
+### 14.1 Hallazgo de la auditoría
+
+La auditoría remota del PR #5 en GitHub detectó que el diff de `Tbl_Medidas.tmdl` y `es-ES.tmdl` (commit `e914c77`) incorporaba, además de los 7 cambios de DAX-002, medidas y metadatos lingüísticos de iniciativas concurrentes ajenas: `Cantidad_Retiros_Validos`, 6 medidas `Prod_*_Challenger`/`Prod_*_Otros`, y reordenamiento/whitespace de `Tot_empleados_Promedio_Sin_Aprendices`, `AnioActual_Comparado`, `AnioAnterior_Comparado`, `Titulo_Var_Ppto`, `Titulo_Var_Real` y medidas `GL_*`/Productividad. La causa fue una copia de archivo completo desde un working tree compartido con esas otras iniciativas.
+
+### 14.2 Corrección (commit `b5475ef`)
+
+Se reconstruyeron ambos archivos desde `origin/main`, reaplicando exclusivamente los 6 renombres + `Indice_Rotacion` (`Tbl_Medidas.tmdl`: 48 líneas de diff, antes 398) y las 6 entradas Q&A correspondientes (`es-ES.tmdl`: 12 líneas de diff, antes ~12.293). Verificado: 0 ocurrencias de las 7 medidas ajenas, 0 referencias rotas a los 6 nombres anteriores, 7 `lineageTag` preservados, 0 dependencia DAX entre las medidas de DAX-002 y las medidas retiradas.
+
+### 14.3 Intento de smoke test post-auditoría sobre `b5475ef`
+
+Para revalidar el estado exacto que se fusionaría, se creó un worktree desechable en modo detached exactamente sobre `b5475ef226af306ac0857a8a4b7b4522e53a1dd1` y se abrió `Proyecto7.pbip` desde ahí (dos intentos independientes). **En ambos intentos, Power BI Desktop no pudo cargar el modelo**, mostrando el diálogo "Se encontraron problemas": primero por `Tot_Accidentes` duplicado, y tras retirarlo temporalmente (solo en el worktree desechable, sin staging/commit), por `ConteoP` duplicado.
+
+### 14.4 Inventario de duplicados (causa raíz)
+
+Se auditaron todas las medidas declaradas en `PBIP/Proyecto.SemanticModel/definition/tables/*.tmdl`: **27 nombres de medida están declarados dos veces** — una copia en su tabla de dominio (`AUSENTISMOS`, `SST GENERAL`, `Ppto Ingresos`, `Selección Grupo Lemco`, `Selección Challenger`, `SENA UNIDADES`, `ACCIDENTALIDAD`) y otra copia en `Tbl_Medidas`, **compartiendo el mismo `lineageTag`** en los 27 casos:
+
+- **20 duplicados con fórmula idéntica** entre ambas copias: `%AusM`, `%Cumplimiento`, `Ausentismo`, `CHombres`, `CMujeres`, `ConteoP`, `DIAS_AUSENTISMO`, `Dias Ausentismo Acc.Lab`, `Ind_opor`, `Ingresos_Calidad`, `MSector`, `M_Frecuencia`, `M_Severidad`, `Ret_Calidad`, `Solicitud`, `Solicitudes`, `Solicitudes2024`, `Tasa_Acc`, `Tot_Accidentes`, `Tot_ingresos`.
+- **7 duplicados con fórmula textualmente DIFERENTE** bajo el mismo `lineageTag` (inconsistencia estructural más profunda que un nombre repetido): `Ind_Calidad`, `Ind_Calidad_2025`, `Ing_Calidad_2025`, `Tasa Ausentismo`, `Tasa Ausentismo_EL`, `Tasa_Ausent_Anual`, `ret_Calidad_2025`.
+
+**Confirmado que ninguna de las 27 duplicidades fue introducida por DAX-002**: las 7 tablas de dominio involucradas son byte a byte idénticas a `origin/main` (0 diferencias), y el único cambio de `Tbl_Medidas.tmdl` frente a `origin/main` en toda esta rama son los 7 cambios de DAX-002 ya documentados (sección 5-6) — ninguno de los 27 nombres duplicados. Es un defecto estructural **preexistente del baseline `origin/main`**.
+
+### 14.5 Conclusión — smoke test NO EJECUTABLE (no es FAIL de DAX-002)
+
+Por instrucción expresa del usuario, no se continuó parcheando duplicado por duplicado (la presencia de 7 definiciones textualmente divergentes bajo el mismo `lineageTag` hace ambigua la resolución automática) ni se volvió a intentar abrir Power BI Desktop. El smoke test post-auditoría queda registrado como **NO EJECUTABLE por un defecto preexistente del baseline `origin/main`, ajeno por completo a esta iniciativa** — no como un FAIL de las medidas de DAX-002.
+
+**Evidencia funcional que permanece válida para el cierre de esta Spec:**
+- El GATE 5 original en vivo (sección 10), ejecutado y aprobado por el usuario contra la instancia que reportó 129 medidas / 66 relaciones / 52 tablas (commit `e914c77`, antes del saneamiento de alcance).
+- La equivalencia formal de las 7 medidas de DAX-002 tras el saneamiento (`b5475ef`): DAX idéntico byte a byte al validado en el GATE 5 original, 0 dependencia de cualquier medida ajena o duplicada, 7 `lineageTag` preservados.
+
+No se generó ningún conteo en vivo final para el checkout limpio `b5475ef` porque el modelo no llegó a cargar en Power BI Desktop; no debe inferirse ni afirmarse un conteo de "129" ni "149" medidas como validado en vivo para ese commit.
+
+### 14.6 Saneamiento estructural — fuera de alcance de esta Spec
+
+La resolución de las 27 duplicidades (10 de ellas con fórmulas divergentes) queda registrada como iniciativa independiente `GOV-005` en `Specs/00_roadmap_y_backlog.md` (sección 7). No se resuelve en esta Spec ni bloquea su cierre.
