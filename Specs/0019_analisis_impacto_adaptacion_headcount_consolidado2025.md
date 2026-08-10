@@ -27,7 +27,16 @@ El working tree principal (rama `docs/roadmap-backlog`) contiene, **sin commitea
 https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/...
 ```
 
-**La migración a SharePoint corporativo** (`https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/...`) **existe únicamente dentro del parche local sin publicar** descrito en esta sección — no es el estado actual de `main`. Esa migración queda registrada como cambio potencial a incorporar (parte del parche, si se reconstruye) o como iniciativa separada de migración de fuente, coherente con el trabajo ya en curso documentado en `CLAUDE.md`/`Docs/DATA_PIPELINE.md`, pero **no debe presentarse como el estado actual**.
+**Actualización — migración a SharePoint corporativo APROBADA (decisión del usuario) y validada manualmente:** la migración de las 3 consultas que leen HeadCount (`Consolidado2025`, `PLANTA DE PERSONAL`, `AREAS`) desde OneDrive personal hacia la biblioteca corporativa `https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/{2024,2025}/...` queda **aprobada como parte del alcance de DATA-012** (ya no es una opción potencial). El usuario aplicó esta migración manualmente en Power BI Desktop, sobre un worktree temporal aislado (`.wt/data012-verificacion-fuente`, creado en blanco desde `origin/main` en `4600798`, sin ningún otro cambio), editando el paso `Origen` de las 3 consultas. Verificado por Claude Code vía `powerbi-modeling-mcp` tras el refresh que el propio usuario ejecutó en Desktop:
+
+- Las 52 tablas del modelo, incluidas las 3 migradas, cargaron en estado `Ready`, sin errores de partición.
+- `Consolidado2025` expone **68 columnas** — coincide exactamente con el Excel local (sección 3), incluidas `NIVEL_DE_CARGO` y `TIPO_DE_CARGO`.
+- `PLANTA DE PERSONAL` expone 74 columnas (53 propias de 2024 + columnas aportadas por `Consolidado2025` vía `Table.Combine`), también con `NIVEL_DE_CARGO`/`TIPO_DE_CARGO` presentes.
+- `AREAS` expone su única columna esperada (`AREA`), sin error.
+
+Este cambio de origen **sigue sin estar commiteado** — vive únicamente en el worktree temporal `.wt/data012-verificacion-fuente` (no en `origin/main`, no en el working tree principal salvo lo ya indicado abajo). No se commitea ni se reaplica como parte de esta Spec (ver decisión E, sección 9.6): ese worktree mezcla la edición de rutas válida con el ruido de reserialización habitual de Desktop (bookmarks, `Tbl_Medidas.tmdl`, `diagramLayout.json`, un archivo `.dax`) y no debe tomarse como base de implementación tal cual.
+
+**Nota sobre el working tree principal:** en él, `Consolidado2025.tmdl` y `PLANTA DE PERSONAL.tmdl` ya traían la URL corporativa desde antes (como parte del parche local original descrito en esta sección); `AREAS.tmdl` aparece ahora también modificado con la misma URL corporativa — no se determinó en esta sesión si ese cambio en `AREAS.tmdl` es intencional o un efecto colateral de una edición separada del usuario en esa copia; no se tocó ni se investigó más a fondo por estar fuera del worktree temporal usado para esta verificación.
 
 **Conteo reconciliado de columnas del parche** (comparado contra `origin/main`, no contra el archivo Excel):
 
@@ -68,7 +77,7 @@ No se leyó ni se muestra ninguna identificación, nombre, salario, email, telé
 
 ## 4. Causa del error `NIVEL_DE_CARGO`
 
-`origin/main`, `Consolidado2025.tmdl` (partición propia; ver sección 2.1 para la URL real actual, OneDrive personal):
+`origin/main`, `Consolidado2025.tmdl` (partición propia; URL aún vigente en `origin/main` y en el working tree principal — la migración solo se aplicó, sin commitear, en el worktree temporal de verificación, sección 2.1):
 
 ```
 Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/.../Consolidado%202025.xlsx"), null, true),
@@ -79,11 +88,11 @@ Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/persona
 
 **Confirmado con evidencia local:** el archivo Excel del repositorio (`Data/HeadCount/2025/Consolidado 2025.xlsx`) contiene `NIVEL_DE_CARGO` y `TIPO_DE_CARGO` con nombre exacto, sin caracteres ocultos.
 
-**Hipótesis (no confirmada como causa; no verificable sin refresh, explícitamente fuera de alcance de esta sesión):** el Excel local tiene `NIVEL_DE_CARGO`, pero la fuente remota realmente consumida por `main` (la copia personal de OneDrive referenciada arriba) **podría no estar sincronizada** con esa estructura — por ejemplo, si la copia en OneDrive personal quedó desactualizada frente al archivo local del repositorio tras la reestructuración manual. Si esa copia remota carece de la columna o la tiene con un nombre distinto, el motor de Power Query fallaría exactamente con "No se encontró la columna 'NIVEL_DE_CARGO' de la tabla" al intentar tipificarla. **Esta es una hipótesis, no una causa confirmada** — no se verificó el contenido real de la copia de OneDrive personal en esta sesión, ni se descartan otras causas.
+**Evidencia histórica del error reportado por el usuario (previa a esta Spec):** al refrescar contra la fuente antigua (OneDrive personal), `Consolidado2025` producía el error de Power Query: *"No se encontró la columna 'NIVEL_DE_CARGO' de la tabla."*
 
-**Hallazgo secundario que agrava el problema, independiente de la hipótesis anterior:** el paso `Table.RenameColumns(..., {{"RANGO DE EDAD", "GENERACIÓN"}})` sigue vigente aunque la hoja 2025 ahora tiene una columna real `Generación` (posición 38) **además** de `RANGO DE EDAD` (posición 39). Tras el renombrado, la tabla tendría simultáneamente una columna `Generación` original y una `GENERACIÓN` producida por el renombrado — un choque de nombres (case-insensitive en M) que puede producir un sufijo automático (`Generación.1`) o un comportamiento no determinista. Este hallazgo, a diferencia del anterior, **sí está confirmado por evidencia directa** (sección 3 y sección 4-bis): la falsa equivalencia produce el comportamiento visual incorrecto ya observado por el usuario.
+**Causa CONFIRMADA (ya no es hipótesis):** la fuente remota antigua (OneDrive personal) estaba desincronizada frente a la estructura del Excel local reestructurado. Verificación directa: el usuario migró manualmente el paso `Origen` de `Consolidado2025`, `PLANTA DE PERSONAL` y `AREAS` hacia la biblioteca corporativa (`https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/...`, sección 2.1) en un worktree temporal aislado basado en `origin/main` (`.wt/data012-verificacion-fuente`, SHA `4600798`) y ejecutó el refresh en Power BI Desktop. Claude Code verificó el resultado vía `powerbi-modeling-mcp`: las 52 tablas cargaron en estado `Ready`; `Consolidado2025` expone sus 68 columnas reales, incluidas `NIVEL_DE_CARGO` y `TIPO_DE_CARGO`, sin error. **La migración de fuente por sí sola resuelve el error `NIVEL_DE_CARGO` reportado.**
 
-**No se puede confirmar cuál de las dos causas (o ambas) provoca el error `NIVEL_DE_CARGO` exacto sin abrir Power BI Desktop y observar el paso que falla, o sin verificar el contenido real de la copia de OneDrive personal** — ninguna de las dos acciones se ejecutó en esta sesión (refresh y resolución de Formula Firewall están explícitamente fuera de alcance).
+**Hallazgo independiente que persiste sin cambios (no lo resuelve la migración de fuente):** el paso `Table.RenameColumns(..., {{"RANGO DE EDAD", "GENERACIÓN"}})` sigue vigente aunque la hoja 2025 ahora tiene una columna real `Generación` (posición 38) **además** de `RANGO DE EDAD` (posición 39). Verificado en el mismo refresh: el modelo migrado sigue exponiendo `GENERACIÓN` (poblada por el renombrado histórico, con bandas de edad de 2025) y, por separado, `Generación 2` (alias de la columna real `Generación`, sin usar) — confirma que la falsa equivalencia de la sección 4-bis **sigue presente** y requiere la decisión A (sección 9.1) para resolverse; la migración de fuente no la corrige por sí sola.
 
 ## 4-bis. Evidencia visual de la falsa equivalencia Generación (observada por el usuario)
 
@@ -212,22 +221,29 @@ Las siguientes decisiones (A-E) están **recomendadas para el alcance mínimo de
 
 Cualquier implementación futura de DATA-012 **debe partir de un `main` que ya incluya la corrección de Unión Libre de PR #7** (`Specs/0017`, branch `fix/demografico-union-libre-encoding`, commit `cb6d56a`), o de una base equivalente que preserve explícitamente esa corrección. El parche local analizado en la sección 2 predata esa corrección y la revierte silenciosamente si se reaplica sin ajuste (sección 2.2) — esta Spec no modifica ni mezcla PR #7, solo registra la dependencia de orden para la implementación.
 
+### 9.8 Migración de fuente OneDrive personal → SharePoint corporativo (decisión F — APROBADA y verificada)
+
+- **Aprobada como parte del alcance de DATA-012**: las 3 consultas que leen HeadCount (`Consolidado2025`, `PLANTA DE PERSONAL`, `AREAS`) deben migrar su paso `Origen` de OneDrive personal a la biblioteca corporativa `https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/{2024,2025}/...` — 2025 para `Consolidado2025`, 2024 para `PLANTA DE PERSONAL` y `AREAS`.
+- **Verificada empíricamente** (sección 2.1/4): el usuario aplicó esta migración manualmente en un worktree temporal aislado y el refresh resultante cargó las 3 tablas sin error, con el esquema completo (68/74/1 columnas respectivamente, incluidas `NIVEL_DE_CARGO`/`TIPO_DE_CARGO`).
+- **No implementada de forma reutilizable todavía**: el cambio vive solo en el worktree temporal `.wt/data012-verificacion-fuente`, mezclado con ruido de reserialización de Desktop (sección 2.1) — una futura implementación debe aplicar el cambio de `Origen` limpiamente sobre una base `main` + PR #7, no reutilizar ese worktree tal cual.
+- **No garantiza por sí sola** el resto del alcance de DATA-012 (decisiones A-E siguen aplicando: la falsa equivalencia de Generación, sección 4-bis, persiste sin cambios tras la migración de fuente — requiere la decisión A).
+
 ## 10. Decisiones humanas pendientes
 
-De las 6 decisiones originalmente abiertas, 4 ya tienen una **recomendación concreta para el alcance mínimo** documentada en la sección 9 (decisiones A-E) y dejan de requerir deliberación desde cero — solo requieren aprobación del paquete. Quedan genuinamente abiertas:
+**Estado: APROBADAS.** El usuario aprobó explícitamente las decisiones A-E (sección 9.1-9.6) como base funcional para el alcance mínimo de DATA-012, y adicionalmente aprobó la decisión F (migración de fuente, sección 9.8), verificada empíricamente. Las 6 decisiones originalmente abiertas quedan así:
 
-1. **Aprobación explícita de las decisiones recomendadas A-E (sección 9)** como base para elaborar el plan de implementación: (A) 2025 usa Generación real, normalizada a `GENERACIÓN`, con Rango de Edad independiente; (B) 2024 no se toca, se confirma válida la sustitución histórica; (C) Árbol de Nómina Nivel 2/3 permanece en la fuente sin mapeo; (D) `TIPO_DE_CARGO` crudo permanece en la fuente, la columna calculada `'Tipo de Cargo'` no cambia; (E) el parche local no se reaplica tal cual, se reconstruye selectivamente. Sin esta aprobación no se elabora el plan de implementación.
-2. **Verificación factual (no es una preferencia, es un hecho a comprobar) del estado real de la fuente remota** consumida por `main` (OneDrive personal, sección 2.1/4): ¿tiene ya la estructura reestructurada del Excel local (68 columnas, incluida `NIVEL_DE_CARGO`)? Determina si la causa del error `NIVEL_DE_CARGO` es de sincronización de fuente o hay otra causa. Requiere verificación directa de la fuente remota o un refresh controlado — explícitamente fuera de alcance de esta sesión.
+- **A-E: aprobadas**, sin verificación adicional pendiente — quedan como base para el plan de implementación.
+- **F (migración de fuente): aprobada y verificada empíricamente** (sección 2.1/4) — ya no es una verificación pendiente, es un hecho confirmado: la fuente antigua (OneDrive personal) estaba desincronizada; la fuente corporativa nueva carga el esquema completo sin error `NIVEL_DE_CARGO`.
 
-Decisiones que se retiran de esta lista por tener ya una recomendación (siguen requiriendo la aprobación general del punto 1, pero no una definición adicional): nombre final de `Generación` tras normalizar (resuelto por A: `GENERACIÓN`); existencia de Rango de Edad real en 2024 (resuelto por evidencia, sección 6-bis: no existe, queda nula); destino funcional de `ÁRBOL DE NÓMINA NIVEL 2/3` (resuelto por C: permanece en la fuente); destino funcional de `TIPO_DE_CARGO` crudo (resuelto por D: permanece en la fuente, no reemplaza la lógica calculada).
+No quedan decisiones humanas pendientes de aprobación para el alcance mínimo documentado en esta Spec. Lo que sigue pendiente es de **ejecución**, no de decisión (ver sección 13): aplicar el cambio de `Origen` (F) limpiamente sobre una base `main` + PR #7 (no reutilizar el worktree temporal de verificación) y, sobre esa base, implementar A-E.
 
-## 11. Riesgo de Formula Firewall (asunto separado)
+## 11. Riesgo de Formula Firewall / niveles de privacidad (asunto separado)
 
-`PLANTA DE PERSONAL` está en la lista de fuentes con riesgo documentado de Formula Firewall (`CLAUDE.md`, `Docs/TROUBLESHOOTING.md`). Cualquier implementación futura de esta Spec requerirá una sesión interactiva en Power BI Desktop para resolverlo, gestionada como su propio paso — no se intenta resolver ni diagnosticar en esta Spec.
+`PLANTA DE PERSONAL`, `Selección Grupo Lemco` y `SENA UNIDADES` están en la lista de fuentes con riesgo documentado de Formula Firewall (`CLAUDE.md`, `Docs/TROUBLESHOOTING.md`). El refresh verificado en la sección 2.1/4 (worktree temporal, tras la migración de fuente) completó sin errores de partición para las 52 tablas del modelo — pero el usuario reporta directamente que, en su vista de Power BI Desktop, varias consultas siguen mostrando advertencias de niveles de privacidad bloqueadas. Ambas observaciones se registran sin contradicción: el refresh puntual verificado no encontró el bloqueo, pero el riesgo de Formula Firewall/privacidad **sigue vigente como asunto separado y no resuelto** para el conjunto completo de consultas. Cualquier implementación futura de esta Spec requerirá una sesión interactiva en Power BI Desktop para resolverlo, gestionada como su propio paso — no se intenta resolver ni diagnosticar en esta Spec.
 
 ## 12. Criterio de aceptación (para una futura implementación, no para esta Spec)
 
-- `Proyecto7.pbip` carga sin el error `NIVEL_DE_CARGO`/`TIPO_DE_CARGO`.
+- `Proyecto7.pbip` carga sin el error `NIVEL_DE_CARGO`/`TIPO_DE_CARGO` — **ya verificado empíricamente tras la migración de fuente (decisión F, sección 9.8)**; la implementación real debe reproducir esta misma condición sobre una base limpia (`main` + PR #7), no solo confiar en el worktree temporal de verificación.
 - `Generación` y `Rango de Edad` coexisten como atributos independientes en `PLANTA DE PERSONAL` y `Consolidado2025`.
 - 2024 conserva su Generación histórica (vía Rango de Edad como sustituto, confirmado válido en sección 6-bis) sin inventar Rango de Edad donde no existe.
 - 2025 usa la Generación real de la fuente, normalizada a `GENERACIÓN` antes del `Table.Combine`.
@@ -242,8 +258,9 @@ Decisiones que se retiran de esta lista por tener ya una recomendación (siguen 
 
 ## 13. Siguiente paso
 
-1. Obtener aprobación explícita del usuario a las decisiones recomendadas A-E (sección 9) y al punto 1 de la sección 10.
-2. Verificar (el usuario o en una sesión interactiva futura) el estado real de la fuente remota (OneDrive personal, sección 2.1/4) frente a la estructura del Excel local — punto 2 de la sección 10.
-3. Confirmar que PR #7 (Unión Libre, `Specs/0017`) ya está fusionado a `main`, o partir de una base equivalente que preserve esa corrección (sección 9.7) — condición de entrada obligatoria antes de iniciar la implementación.
-4. Con esas respuestas, elaborar el plan de implementación (`Specs/00XX_plan_implementacion_...md`, consecutivo a determinar en su momento) — no antes.
-5. No reutilizar el parche local de la sección 2 tal cual — reconstruir selectivamente solo las partes válidas (sección 9.6) sobre la base del punto 3.
+Las decisiones A-E y F están aprobadas (sección 10); no queda ninguna decisión humana pendiente para el alcance mínimo. Lo que sigue es ejecución, condicionada a:
+
+1. Confirmar que PR #7 (Unión Libre, `Specs/0017`) ya está fusionado a `main`, o partir de una base equivalente que preserve esa corrección (sección 9.7) — condición de entrada obligatoria antes de iniciar la implementación.
+2. Elaborar el plan de implementación (`Specs/00XX_plan_implementacion_...md`, consecutivo a determinar justo al crearlo, no asignado todavía) que aplique, sobre esa base limpia: la migración de fuente (F, sección 9.8) para las 3 consultas, y las decisiones A-E (sección 9.1-9.6).
+3. No reutilizar tal cual ni el parche local de la sección 2 ni el worktree temporal de verificación de la sección 2.1/9.8 — ambos mezclan cambios válidos con ruido o regresiones; reconstruir selectivamente sobre la base del punto 1.
+4. Resolver el riesgo de Formula Firewall/niveles de privacidad (sección 11) como parte de la sesión interactiva de implementación, no antes.
