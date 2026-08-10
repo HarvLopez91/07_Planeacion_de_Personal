@@ -21,9 +21,21 @@ El working tree principal (rama `docs/roadmap-backlog`) contiene, **sin commitea
 
 ### 2.1 Qué contiene y sigue siendo aplicable
 
-- Migración de la URL de origen de Power Query de `lemcosas-my.sharepoint.com/personal/...` (OneDrive personal) a `lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/...` (SharePoint corporativo), tanto para `Consolidado2025` como para `PLANTA DE PERSONAL` (fuente 2024). Coherente con la migración a SharePoint corporativo ya documentada como en curso en `CLAUDE.md`/`Docs/DATA_PIPELINE.md`.
-- Registro en TMDL de 19 columnas nuevas en `Consolidado2025` y de las mismas columnas en `PLANTA DE PERSONAL` (para que sobrevivan el `Table.Combine`): `IDMESAÑO`, `ID_Jefe_Inmediato`, `'Jefe Inmediato (nombre-apellido)'`, `'Descripción Cargo_Jefe Inmediato'`, `NOMBRE`, `APELLIDO`, `'NOMBRE EMPLEADO (Apellidos-nombres)'`, `'NOMBRE EMPLEADO (nombre-apellido)'`, `'MANO DE OBRA'`, `CLASIFICACION`, `FLEX`, `F_INGRESO`, `'ÁRBOL DE NÓMINA NIVEL 2'`, `'ÁRBOL DE NÓMINA NIVEL 3'`, `'Tipo Identificación'`, `'COD. CARGO'`, `'Tipo Contrato (Kactus)'`, `'Indicador Actividad'`, `'Año Nac'`, `Generación`/`'Generación 2'`, `'Correo Corporativo'`, `PCD`. Todos con `lineageTag` nuevo asignado (no colisionan con columnas existentes).
-- Eliminación de columnas obsoletas del esquema anterior: `'NOMBRE EMPLEADO'` (reemplazada por las 2 variantes nuevas), columna `%` (sin uso identificado).
+**Fuente real actualmente consumida por `origin/main` (verificado, no asumido):** ambas consultas (`Consolidado2025` y `PLANTA DE PERSONAL`) leen hoy, en `origin/main`, desde OneDrive **personal**:
+
+```
+https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/...
+```
+
+**La migración a SharePoint corporativo** (`https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/...`) **existe únicamente dentro del parche local sin publicar** descrito en esta sección — no es el estado actual de `main`. Esa migración queda registrada como cambio potencial a incorporar (parte del parche, si se reconstruye) o como iniciativa separada de migración de fuente, coherente con el trabajo ya en curso documentado en `CLAUDE.md`/`Docs/DATA_PIPELINE.md`, pero **no debe presentarse como el estado actual**.
+
+**Conteo reconciliado de columnas del parche** (comparado contra `origin/main`, no contra el archivo Excel):
+
+- **19 columnas genuinamente nuevas** en `Consolidado2025.tmdl` (nombre y `lineageTag` que no existían en `origin/main`): `IDMESAÑO`, `NOMBRE`, `APELLIDO`, `'NOMBRE EMPLEADO (Apellidos-nombres)'`, `'NOMBRE EMPLEADO (nombre-apellido)'`, `'MANO DE OBRA'`, `CLASIFICACION`, `FLEX`, `F_INGRESO`, `'ÁRBOL DE NÓMINA NIVEL 2'`, `'ÁRBOL DE NÓMINA NIVEL 3'`, `'Tipo Identificación'`, `'COD. CARGO'`, `'Tipo Contrato (Kactus)'`, `'Indicador Actividad'`, `'Año Nac'`, `'Generación 2'` (alias de la columna real `Generación`), `'Correo Corporativo'`, `PCD`.
+- **3 columnas reposicionadas, NO nuevas** (mismo nombre y mismo `lineageTag` en el diff, solo movidas de lugar dentro del archivo): `ID_Jefe_Inmediato` (`2b961dd8-...`), `'Jefe Inmediato (nombre-apellido)'` (`9e1ed1f2-...`), `'Descripción Cargo_Jefe Inmediato'` (`39d439da-...`). Ya existían en `origin/main`; el parche solo las desplaza de posición (efecto colateral habitual de que Desktop reordene columnas según el orden de la fuente).
+- **2 columnas eliminadas** del esquema anterior: `'NOMBRE EMPLEADO'` (reemplazada conceptualmente por las 2 variantes nuevas de nombre) y la columna `%` (sin uso identificado).
+- **0 renombres reales** de columnas existentes en `Consolidado2025.tmdl` (`'Generación 2'` es una columna TMDL nueva que apunta a `sourceColumn: Generación`, no un renombre de una columna TMDL previa).
+- En `PLANTA DE PERSONAL.tmdl` el parche agrega **22 columnas** (las mismas 19 + las 3 "reposicionadas" en `Consolidado2025`, que para esta tabla sí son genuinamente nuevas, porque `PLANTA DE PERSONAL` nunca las tuvo) para que sobrevivan el `Table.Combine`, y elimina 1 (`%`).
 
 ### 2.2 Qué quedó obsoleto o es un regresión que NO debe reaplicarse
 
@@ -56,22 +68,38 @@ No se leyó ni se muestra ninguna identificación, nombre, salario, email, telé
 
 ## 4. Causa del error `NIVEL_DE_CARGO`
 
-`origin/main`, `PLANTA DE PERSONAL.tmdl`, partición `Consolidado2025` (tabla independiente):
+`origin/main`, `Consolidado2025.tmdl` (partición propia; ver sección 2.1 para la URL real actual, OneDrive personal):
 
 ```
-Origen = Excel.Workbook(Web.Contents("https://.../Data/HeadCount/2025/Consolidado%202025.xlsx"), null, true),
+Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/.../Consolidado%202025.xlsx"), null, true),
 ...
 #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"RANGO DE EDAD", "GENERACIÓN"}}),
 #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"MES", type text}, {"NIVEL_DE_CARGO", type text}, {"TIPO_DE_CARGO", type text}})
 ```
 
-**Confirmado con evidencia local:** el archivo Excel del repositorio contiene `NIVEL_DE_CARGO` y `TIPO_DE_CARGO` con nombre exacto, sin caracteres ocultos — el paso `Table.TransformColumnTypes` debería encontrarlas sin problema si Power Query leyera *este* archivo.
+**Confirmado con evidencia local:** el archivo Excel del repositorio (`Data/HeadCount/2025/Consolidado 2025.xlsx`) contiene `NIVEL_DE_CARGO` y `TIPO_DE_CARGO` con nombre exacto, sin caracteres ocultos.
 
-**Hipótesis principal (no verificable sin refresh, explícitamente fuera de alcance de esta sesión):** el paso `Origen` no lee el archivo local del repositorio — lee la copia publicada en SharePoint corporativo vía `Web.Contents(...)`. Si esa copia remota no está sincronizada con la estructura ya restructurada del archivo local (por ejemplo, si la subida a SharePoint quedó pendiente o se hizo desde una versión anterior del archivo), el motor de Power Query fallaría exactamente con "No se encontró la columna 'NIVEL_DE_CARGO' de la tabla" al intentar tipificarla, aunque la columna exista en la copia local. Esto es coherente con el estado ya documentado en `CLAUDE.md`: *"la migración de fuentes hacia SharePoint corporativo no está cerrada funcionalmente"*.
+**Hipótesis (no confirmada como causa; no verificable sin refresh, explícitamente fuera de alcance de esta sesión):** el Excel local tiene `NIVEL_DE_CARGO`, pero la fuente remota realmente consumida por `main` (la copia personal de OneDrive referenciada arriba) **podría no estar sincronizada** con esa estructura — por ejemplo, si la copia en OneDrive personal quedó desactualizada frente al archivo local del repositorio tras la reestructuración manual. Si esa copia remota carece de la columna o la tiene con un nombre distinto, el motor de Power Query fallaría exactamente con "No se encontró la columna 'NIVEL_DE_CARGO' de la tabla" al intentar tipificarla. **Esta es una hipótesis, no una causa confirmada** — no se verificó el contenido real de la copia de OneDrive personal en esta sesión, ni se descartan otras causas.
 
-**Hallazgo secundario que agrava el problema, independiente de la hipótesis anterior:** el paso `Table.RenameColumns(..., {{"RANGO DE EDAD", "GENERACIÓN"}})` sigue vigente aunque la hoja ahora tiene una columna real `Generación` (posición 38) **además** de `RANGO DE EDAD` (posición 39). Tras el renombrado, la tabla tendría simultáneamente una columna `Generación` original y una `GENERACIÓN` producida por el renombrado — un choque de nombres (case-insensitive en M) que puede producir un sufijo automático (`Generación.1`) o un comportamiento no determinista, y que en cualquier caso es conceptualmente incorrecto: ya no hace falta *fingir* Generación a partir de Rango de Edad cuando la fuente ya trae el dato real.
+**Hallazgo secundario que agrava el problema, independiente de la hipótesis anterior:** el paso `Table.RenameColumns(..., {{"RANGO DE EDAD", "GENERACIÓN"}})` sigue vigente aunque la hoja 2025 ahora tiene una columna real `Generación` (posición 38) **además** de `RANGO DE EDAD` (posición 39). Tras el renombrado, la tabla tendría simultáneamente una columna `Generación` original y una `GENERACIÓN` producida por el renombrado — un choque de nombres (case-insensitive en M) que puede producir un sufijo automático (`Generación.1`) o un comportamiento no determinista. Este hallazgo, a diferencia del anterior, **sí está confirmado por evidencia directa** (sección 3 y sección 4-bis): la falsa equivalencia produce el comportamiento visual incorrecto ya observado por el usuario.
 
-**No se puede confirmar cuál de las dos causas (o ambas) provoca el error exacto sin abrir Power BI Desktop y observar el paso que falla o sin verificar el contenido real del archivo publicado en SharePoint** — ninguna de las dos acciones se ejecutó en esta sesión (refresh y resolución de Formula Firewall están explícitamente fuera de alcance).
+**No se puede confirmar cuál de las dos causas (o ambas) provoca el error `NIVEL_DE_CARGO` exacto sin abrir Power BI Desktop y observar el paso que falla, o sin verificar el contenido real de la copia de OneDrive personal** — ninguna de las dos acciones se ejecutó en esta sesión (refresh y resolución de Formula Firewall están explícitamente fuera de alcance).
+
+## 4-bis. Evidencia visual de la falsa equivalencia Generación (observada por el usuario)
+
+En Power BI Desktop, página `Demográfico (Promedio)`, al seleccionar el visual titulado **"Generación"**, este muestra como categorías:
+
+- Entre 18-29 Años
+- Entre 30-39 Años
+- Entre 40-49 Años
+- Entre 50-56 Años
+- Mayor de 57 Años
+
+En vez de categorías generacionales reales (Millennials, Generación X, Centennials, Baby Boomers). La tabla/matriz generacional asociada aparece **vacía**.
+
+**Explicación confirmada con datos (sección 6-bis):** el paso `RANGO DE EDAD → GENERACIÓN` se aplica igual a 2024 y 2025, pero el contenido real de `RANGO DE EDAD` es distinto en cada fuente — en 2024 contiene cohortes generacionales (ver sección 6-bis), en 2025 contiene bandas de edad literales. Al combinarse ambas fuentes bajo el mismo nombre `GENERACIÓN`, los registros 2025 aportan valores tipo "Entre 18-29 Años" a una columna que el resto del modelo trata como generación. La tabla `Generaciones` (dimensión) solo contiene las 4 etiquetas generacionales reales, por lo que la relación no resuelve para los registros 2025 afectados — de ahí que la tabla generacional aparezca vacía para ese contexto.
+
+Esta es la evidencia funcional directa de la falsa equivalencia descrita en la sección 5, independiente de la hipótesis no confirmada de la sincronización con SharePoint/OneDrive (sección 4).
 
 ## 5. Generación vs. Rango de Edad — diferencia conceptual
 
@@ -80,22 +108,36 @@ Son dos atributos demográficos **distintos y complementarios**, no intercambiab
 - **Generación**: cohorte generacional (p. ej. Millennials, Generación X) — hoy poblada al 100 % de las 45.670 filas de `Consolidado2025` mediante la columna real `Generación`.
 - **Rango de Edad**: bandas etarias — poblada solo en 17.674 de 45.670 filas (~39 %) en la fuente 2025 actual; es un atributo independiente, no una fuente para derivar Generación.
 
-La lógica histórica (`Table.RenameColumns(..., {{"RANGO DE EDAD","GENERACIÓN"}})`) fue una aproximación válida **solo cuando la fuente 2024 no tenía una columna real de Generación** — se usaba Rango de Edad como sustituto. Con la columna real disponible en 2025, esa sustitución ya no es necesaria y produce una falsa equivalencia.
+La lógica histórica (`Table.RenameColumns(..., {{"RANGO DE EDAD","GENERACIÓN"}})`) fue, y **sigue siendo, una transformación válida para la fuente 2024** — confirmado empíricamente en la sección 6-bis mediante perfilado de solo lectura, no solo asumido. Con la columna real `Generación` disponible en 2025, esa misma sustitución deja de ser válida para esa fuente y produce la falsa equivalencia documentada en la sección 4-bis.
 
 ## 6. Comportamiento esperado 2024 vs. 2025
 
 | | 2024 (histórico, `PLANTA DE PERSONAL`) | 2025 (`Consolidado2025`) |
 |---|---|---|
-| Generación | Proviene de `RANGO DE EDAD` (sustituto histórico) — **no se debe inventar** un valor real que la fuente 2024 nunca tuvo | Proviene de la columna real `Generación` |
-| Rango de Edad | Puede quedar nulo si la fuente histórica no trae un rango de edad real independiente de la sustitución | Proviene de la columna real `RANGO DE EDAD` (con cobertura parcial, ~39 %) |
+| Generación | Proviene de `RANGO DE EDAD` (sustituto histórico, **confirmado válido para 2024** — sección 6-bis) — no se toca en el alcance mínimo (decisión B) | Proviene de la columna real `Generación`, normalizada a `GENERACIÓN` antes del `Table.Combine` (decisión A) |
+| Rango de Edad | Nula para todo 2024 — la fuente 2024 **no tiene** una columna de rango de edad independiente de la que se usa como sustituto de Generación (confirmado, sección 6-bis); **no se inventa** un valor que la fuente nunca tuvo | Proviene de la columna real `RANGO DE EDAD` (con cobertura parcial, ~39 %), conservada como atributo independiente (decisión A) |
 | `GENERACIÓN` → `GENERACI&#211;N` | Se conserva sin cambios (paso posterior al `Table.Combine`, ADR-007, no se toca en esta iniciativa) | Igual — el `Table.Combine` unifica antes de este paso, por lo que aplica a ambas fuentes por igual |
 | Relación con `Generaciones[Generación]` | Se conserva sin cambios | Igual |
 
-No se verificó en esta sesión (sin abrir Desktop) si la fuente 2024 tiene una columna `Rango de Edad`/`RANGO DE EDAD` real independiente de la que hoy se usa como sustituto de Generación — es una decisión pendiente (sección 10).
+## 6-bis. Evidencia de perfilado 2024 (contenido real de `RANGO DE EDAD`)
+
+Lectura de solo lectura, sin PII, de `Data/HeadCount/2024/Consolidado 2024.xlsx`, hoja `PLANTA DE PERSONAL` (40 encabezados confirmados). Hallazgos:
+
+- **No existe ninguna columna `Generación` en la fuente 2024** — la única columna relacionada con edad/generación es `RANGO DE EDAD` (posición 22).
+- **`RANGO DE EDAD` en 2024 contiene cohortes generacionales reales, no bandas de edad literales**, confirmado sobre las 25.536 filas de datos:
+
+| Valor real de `RANGO DE EDAD` (2024) | Filas |
+|---|---|
+| `Millenials` | 14.450 |
+| `Centennials` | 5.528 |
+| `Generación X` | 5.375 |
+| `Baby Boomers` | 183 |
+
+Esto confirma con evidencia directa (no solo por inferencia) que el renombrado histórico `RANGO DE EDAD → GENERACIÓN` es semánticamente correcto para 2024 — la columna ya contiene generaciones, no bandas etarias — y que 2024 no tiene una fuente real de "Rango de Edad" (bandas de edad) independiente. Por eso el alcance mínimo (decisión B, sección 10) mantiene la lógica 2024 sin cambios y deja `Rango de Edad` nula para 2024 en vez de inventar un valor que la fuente nunca tuvo.
 
 ## 7. ÁRBOL DE NÓMINA NIVEL 2/3 vs. NIVEL_DE_CARGO/TIPO_DE_CARGO
 
-**No existe homologación inequívoca. Me detengo en esta decisión — ver sección 10.**
+**No existe homologación inequívoca.** Para el alcance mínimo de DATA-012, esto ya no es una decisión bloqueante: se resuelve manteniendo estas columnas en la fuente sin mapearlas (decisión C, sección 10) y difiriendo la homologación a una iniciativa futura.
 
 Evidencia (perfilado agregado, sin PII, 45.670 filas):
 
@@ -122,40 +164,62 @@ Ninguna columna se agregó automáticamente al modelo; esta clasificación es un
 
 ## 9. Propuesta técnica mínima (NO implementada)
 
-### 9.1 `Consolidado2025` — Power Query
-- Eliminar `Table.RenameColumns(..., {{"RANGO DE EDAD","GENERACIÓN"}})`.
-- Normalizar el nombre real de `Generación` al que espera el modelo aguas abajo (a definir junto con la decisión de la sección 10).
-- Conservar `Rango de Edad` como columna independiente, sin transformarla.
-- Resolver el contrato de `NIVEL_DE_CARGO`/`TIPO_DE_CARGO` según la decisión de la sección 7/10 (mínimo: no forzar tipo sobre una columna cuya existencia remota no está confirmada sin antes verificar la fuente publicada).
+Las siguientes decisiones (A-E) están **recomendadas para el alcance mínimo de DATA-012**; requieren confirmación humana antes de implementarse (sección 10), pero ya no se presentan como opciones abiertas sin rumbo — cada una tiene una recomendación concreta.
+
+### 9.1 `Consolidado2025` — Power Query (decisión A — 2025)
+
+- Usar la columna real `Generación` de la fuente 2025; **no** derivarla de `RANGO DE EDAD`.
+- Normalizar el nombre `Generación` → `GENERACIÓN` (mayúsculas) **antes** del `Table.Combine`, para que coincida con el nombre que ya produce la rama 2024 y con el que espera `Generaciones[Generación]` aguas abajo.
+- Eliminar `Table.RenameColumns(..., {{"RANGO DE EDAD","GENERACIÓN"}})` **únicamente en la rama 2025** — esta eliminación no aplica a 2024 (ver 9.3).
+- Conservar `RANGO DE EDAD` de 2025 como atributo independiente (`Rango de Edad`), sin transformarla ni fusionarla con Generación.
+- No tocar el contrato de `NIVEL_DE_CARGO`/`TIPO_DE_CARGO` en esta propuesta — la causa del error (sección 4) sigue sin confirmarse y su resolución depende de verificar la fuente remota, fuera de alcance de esta Spec.
 
 ### 9.2 `Consolidado2025` — TMDL
-- Conservar `Generación` (ya presente en el parche local, sección 2).
+
+- Conservar `Generación` (ya presente en el parche local, sección 2) apuntando a la columna real de la fuente, no a un alias.
 - Agregar `Rango de Edad` como columna independiente (pendiente en el parche local).
 - Confirmar cuáles de las 8 columnas de la sección 8 se incorporan (ninguna por defecto, salvo Rango de Edad).
+- `ÁRBOL DE NÓMINA NIVEL 2/3` (decisión C): permanecen disponibles en la fuente si se agregan al TMDL, pero **no se mapean** a `NIVEL_DE_CARGO`, `TIPO_DE_CARGO`, `Área` ni `Dependencia` en este alcance — se tratan como dimensiones organizacionales complementarias para una iniciativa futura.
+- `TIPO_DE_CARGO` crudo (decisión D): permanece en la fuente sin uso en el modelo mientras tenga cobertura parcial (~5,6 %); no reemplaza la columna calculada `'Tipo de Cargo'`.
 
-### 9.3 `PLANTA DE PERSONAL` — Power Query
-- Conservar la lógica histórica de 2024 (Rango de Edad → Generación como sustituto, solo para esa fuente).
+### 9.3 `PLANTA DE PERSONAL` — Power Query (decisión B — 2024, sin cambios)
+
+- **No modificar la lógica 2024.** Conservar `Table.RenameColumns(..., {{"RANGO DE EDAD","GENERACIÓN"}})` tal cual para la rama 2024 — confirmado válido por el perfilado de la sección 6-bis (2024 no tiene columna real de Generación; `RANGO DE EDAD` ya contiene cohortes generacionales).
+- Dejar `Rango de Edad` nula para todo 2024 — no inventar un valor que la fuente nunca tuvo.
 - Conservar `Table.Combine`, **referenciando la consulta `Consolidado2025` como tabla** (sin duplicar sus pasos en línea, corrigiendo el hallazgo de la sección 2.2).
-- Asegurar que el resultado combinado tenga `Generación` y `Rango de Edad` coexistiendo, con la semántica de la sección 6 (histórico puede tener `Rango de Edad` nulo; no inventar valores).
+- Asegurar que el resultado combinado tenga `Generación`/`GENERACIÓN` y `Rango de Edad` coexistiendo, con la semántica de la sección 6 (2024: Generación histórica vía sustituto, Rango de Edad nula; 2025: Generación real, Rango de Edad real parcial).
 
 ### 9.4 `PLANTA DE PERSONAL` — TMDL
+
 - Mantener `GENERACI&#211;N` y su `lineageTag` sin cambios (ADR-007 fuera de alcance).
 - Mantener la relación existente con `Generaciones[Generación]` sin cambios.
 - Agregar `Rango de Edad` como atributo independiente.
 - No corregir ADR-007 ni renombrar `GENERACI&#211;N` en esta iniciativa.
+- `ÁRBOL DE NÓMINA NIVEL 2/3` y `TIPO_DE_CARGO` crudo: mismo tratamiento que en 9.2 (decisión C/D) — permanecen en la fuente, sin mapeo ni reemplazo de lógica existente.
 
 ### 9.5 Visuales
-- La columna calculada `'Tipo de Cargo'` (2 referencias en `Demográfico (Promedio)`) no requiere cambios si `NIVEL_DE_CARGO` se sigue poblando igual que hoy.
-- No se identificó ningún visual que dependa de `Rango de Edad`, `Generación 2` u otras columnas nuevas — no se anticipan cambios de visuales para el alcance mínimo (Rango de Edad). Confirmar en la implementación.
+
+- La columna calculada `'Tipo de Cargo'` (2 referencias en `Demográfico (Promedio)`) **no requiere cambios** — decisión D mantiene su lógica `SWITCH` sobre `NIVEL_DE_CARGO` sin alteración.
+- El visual **"Generación"** (evidencia sección 4-bis) debe volver a mostrar categorías generacionales reales para 2025 una vez aplicada la decisión A; validar visualmente tras implementación (no se puede confirmar sin refresh, fuera de alcance de esta Spec).
+- No se identificó ningún otro visual que dependa de `Rango de Edad`, `Generación 2` u otras columnas nuevas — no se anticipan cambios adicionales de visuales para el alcance mínimo. Confirmar en la implementación.
+
+### 9.6 Parche local (decisión E)
+
+- El parche local descrito en la sección 2 **no debe reaplicarse tal cual**: contiene la regresión de codificación de Unión Libre (sección 2.2) y la duplicación en línea de `Consolidado2025` dentro de `PLANTA DE PERSONAL` (sección 2.2).
+- Una futura implementación debe **reconstruir selectivamente** solo las partes válidas (las 19 columnas genuinamente nuevas relevantes, sección 2.1) sobre una base limpia (`main` + PR #7 ya fusionado — sección 9.7), no partir del parche completo.
+
+### 9.7 Dependencia obligatoria: PR #7 (Unión Libre)
+
+Cualquier implementación futura de DATA-012 **debe partir de un `main` que ya incluya la corrección de Unión Libre de PR #7** (`Specs/0017`, branch `fix/demografico-union-libre-encoding`, commit `cb6d56a`), o de una base equivalente que preserve explícitamente esa corrección. El parche local analizado en la sección 2 predata esa corrección y la revierte silenciosamente si se reaplica sin ajuste (sección 2.2) — esta Spec no modifica ni mezcla PR #7, solo registra la dependencia de orden para la implementación.
 
 ## 10. Decisiones humanas pendientes
 
-1. **¿La copia de `Consolidado 2025.xlsx` en SharePoint corporativo ya tiene la estructura restructurada (68 columnas, incluida `NIVEL_DE_CARGO`)?** Determina si la causa del error es de sincronización de fuente o hay otra causa. Requiere verificación directa en SharePoint o un refresh controlado (fuera de alcance de esta sesión).
-2. **Nombre final de la columna `Generación` en `Consolidado2025`** tras eliminar la falsa equivalencia — ¿se normaliza a `GENERACIÓN` (mayúsculas, como espera el `Table.Combine`) o se ajusta el `Table.Combine` para aceptar `Generación`?
-3. **¿La fuente histórica 2024 tiene una columna real de Rango de Edad**, distinta de la que hoy se usa como sustituto de Generación, o debe quedar nula para todo 2024?
-4. **Destino funcional de `ÁRBOL DE NÓMINA NIVEL 2/3`**: ¿reemplazan a futuro `Dependencia`/`Área` (ya presentes en el modelo), los complementan, o son exclusivos de la iniciativa de Contratos Kactus? Sin esta definición no se puede proponer un mapeo.
-5. **Destino funcional de `TIPO_DE_CARGO` (crudo)** una vez esté completamente poblado: ¿reemplaza la lógica calculada `'Tipo de Cargo'`, o coexisten?
-6. **Confirmación de que el parche local descrito en la sección 2 debe descartarse tal cual** (por la regresión de Unión Libre) y reconstruirse sobre `main` + PR #7 ya fusionado, no reutilizarse directamente.
+De las 6 decisiones originalmente abiertas, 4 ya tienen una **recomendación concreta para el alcance mínimo** documentada en la sección 9 (decisiones A-E) y dejan de requerir deliberación desde cero — solo requieren aprobación del paquete. Quedan genuinamente abiertas:
+
+1. **Aprobación explícita de las decisiones recomendadas A-E (sección 9)** como base para elaborar el plan de implementación: (A) 2025 usa Generación real, normalizada a `GENERACIÓN`, con Rango de Edad independiente; (B) 2024 no se toca, se confirma válida la sustitución histórica; (C) Árbol de Nómina Nivel 2/3 permanece en la fuente sin mapeo; (D) `TIPO_DE_CARGO` crudo permanece en la fuente, la columna calculada `'Tipo de Cargo'` no cambia; (E) el parche local no se reaplica tal cual, se reconstruye selectivamente. Sin esta aprobación no se elabora el plan de implementación.
+2. **Verificación factual (no es una preferencia, es un hecho a comprobar) del estado real de la fuente remota** consumida por `main` (OneDrive personal, sección 2.1/4): ¿tiene ya la estructura reestructurada del Excel local (68 columnas, incluida `NIVEL_DE_CARGO`)? Determina si la causa del error `NIVEL_DE_CARGO` es de sincronización de fuente o hay otra causa. Requiere verificación directa de la fuente remota o un refresh controlado — explícitamente fuera de alcance de esta sesión.
+
+Decisiones que se retiran de esta lista por tener ya una recomendación (siguen requiriendo la aprobación general del punto 1, pero no una definición adicional): nombre final de `Generación` tras normalizar (resuelto por A: `GENERACIÓN`); existencia de Rango de Edad real en 2024 (resuelto por evidencia, sección 6-bis: no existe, queda nula); destino funcional de `ÁRBOL DE NÓMINA NIVEL 2/3` (resuelto por C: permanece en la fuente); destino funcional de `TIPO_DE_CARGO` crudo (resuelto por D: permanece en la fuente, no reemplaza la lógica calculada).
 
 ## 11. Riesgo de Formula Firewall (asunto separado)
 
@@ -165,16 +229,21 @@ Ninguna columna se agregó automáticamente al modelo; esta clasificación es un
 
 - `Proyecto7.pbip` carga sin el error `NIVEL_DE_CARGO`/`TIPO_DE_CARGO`.
 - `Generación` y `Rango de Edad` coexisten como atributos independientes en `PLANTA DE PERSONAL` y `Consolidado2025`.
-- 2024 conserva su Generación histórica (vía Rango de Edad como sustituto) sin inventar Rango de Edad donde no existe.
-- 2025 usa la Generación real de la fuente.
+- 2024 conserva su Generación histórica (vía Rango de Edad como sustituto, confirmado válido en sección 6-bis) sin inventar Rango de Edad donde no existe.
+- 2025 usa la Generación real de la fuente, normalizada a `GENERACIÓN` antes del `Table.Combine`.
 - `GENERACI&#211;N` y su relación con `Generaciones[Generación]` no cambian.
 - 0 duplicidad de lógica `Consolidado2025` (una sola consulta, referenciada, no duplicada en línea).
 - No se reintroduce la regresión de codificación de Unión Libre.
 - Ninguna columna de la sección 8 se incorpora al modelo salvo decisión humana explícita.
+- **El visual "Generación" (evidencia sección 4-bis) muestra categorías generacionales reales** (Millennials, Generación X, Centennials, Baby Boomers), no rangos de edad.
+- **El visual "Generación" nunca muestra intervalos de edad** (p. ej. "Entre 18-29 Años") como si fueran generaciones, para ninguna de las dos fuentes (2024 o 2025).
+- **`Rango de Edad` existe como atributo separado y consultable**, independiente de `Generación`, visible en el modelo aunque no tenga visual dedicado en el alcance mínimo.
+- **La dimensión `Generaciones` vuelve a resolver correctamente** (relación no vacía) para todos los registros con Generación válida, incluidos los de 2025.
 
 ## 13. Siguiente paso
 
-1. Obtener respuesta del usuario a las 6 decisiones de la sección 10.
-2. Verificar (el usuario o en una sesión interactiva futura) el estado real de la copia SharePoint de `Consolidado 2025.xlsx`.
-3. Con esas respuestas, elaborar el plan de implementación (`Specs/00XX_plan_implementacion_...md`, consecutivo a determinar en su momento) — no antes.
-4. No reutilizar el parche local de la sección 2 sin antes reconstruirlo sobre `main` + PR #7 fusionado.
+1. Obtener aprobación explícita del usuario a las decisiones recomendadas A-E (sección 9) y al punto 1 de la sección 10.
+2. Verificar (el usuario o en una sesión interactiva futura) el estado real de la fuente remota (OneDrive personal, sección 2.1/4) frente a la estructura del Excel local — punto 2 de la sección 10.
+3. Confirmar que PR #7 (Unión Libre, `Specs/0017`) ya está fusionado a `main`, o partir de una base equivalente que preserve esa corrección (sección 9.7) — condición de entrada obligatoria antes de iniciar la implementación.
+4. Con esas respuestas, elaborar el plan de implementación (`Specs/00XX_plan_implementacion_...md`, consecutivo a determinar en su momento) — no antes.
+5. No reutilizar el parche local de la sección 2 tal cual — reconstruir selectivamente solo las partes válidas (sección 9.6) sobre la base del punto 3.
