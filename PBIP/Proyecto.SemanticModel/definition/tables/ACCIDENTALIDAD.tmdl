@@ -1,11 +1,6 @@
 table ACCIDENTALIDAD
 	lineageTag: f00f2834-7779-44e7-8f7c-9650ffc193b1
 
-	measure Tot_Accidentes = COUNT(ACCIDENTALIDAD[Empresa])
-		formatString: 0
-		displayFolder: Medidas
-		lineageTag: 98a962f4-1ba9-41b5-9182-ed15b18cc43f
-
 	column 'Grupo Empresa'
 		dataType: string
 		lineageTag: 1a03231c-0a3f-45ba-a5b1-ce8030da7b6f
