@@ -236,4 +236,4 @@ No se generó ningún conteo en vivo final para el checkout limpio `b5475ef` por
 
 ### 14.6 Saneamiento estructural — fuera de alcance de esta Spec
 
-La resolución de las 27 duplicidades (10 de ellas con fórmulas divergentes) queda registrada como iniciativa independiente `GOV-005` en `Specs/00_roadmap_y_backlog.md` (sección 7). No se resuelve en esta Spec ni bloquea su cierre.
+La resolución de las 27 duplicidades (7 de ellas con fórmulas divergentes) queda registrada como iniciativa independiente `GOV-005` en `Specs/00_roadmap_y_backlog.md` (sección 7). No se resuelve en esta Spec ni bloquea su cierre.
