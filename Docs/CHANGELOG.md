@@ -16,7 +16,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 ### Documentado
 
 - `Specs/0018_saneamiento_medidas_duplicadas_gov005.md`: inventario completo, criterio de ubicación canónica, tratamiento de las 7 definiciones con fórmula divergente bajo el mismo `lineageTag`, y validaciones.
-- `GOV-005` actualizada en `Specs/00_roadmap_y_backlog.md` de "próxima implementación" a "en validación".
+- `GOV-005` actualizada en `Specs/00_roadmap_y_backlog.md` de "próxima implementación" a "Finalizada" tras GATE 5 aprobado.
 
 ## [Sin version] - 2026-08-10
 
