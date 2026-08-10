@@ -71,7 +71,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -83,7 +83,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "Ppto Retiros"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_Retiros"
@@ -95,7 +95,7 @@
                   "Operator": 3
                 }
               },
-              "queryRef": "Divide(Ppto Retiros.Tot_Retiros, ScopedEval(Ppto Retiros.Tot_Retiros, []))",
+              "queryRef": "Divide(Tbl_Medidas.Tot_Retiros, ScopedEval(Tbl_Medidas.Tot_Retiros, []))",
               "nativeQueryRef": "%TG Tot_Retiros"
             }
           ]

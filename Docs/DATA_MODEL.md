@@ -138,6 +138,10 @@ La migracion se publico en el commit tecnico `e287657acc948672b274d7907b736a4554
 | `Ppto Gasto Personal` | decimal | Gasto laboral presupuestado |
 | `IndexAnioMes` | col. calculada | `Ano * 12 + Mes Num` (indice ordinal para ordenamiento) |
 
+> **Reglas de origen para `Ingresos` y `Retiros`** (documentado 2026-08-06): ambas columnas se calculan en el archivo fuente `PptovsReal.xlsx`, hoja `Planta Personal`, mediante formulas `CONTAR.SI.CONJUNTO`/`COUNTIFS` sobre las hojas `INGRESOS`/`RETIROS`, no en el modelo semantico. `Retiros` excluye aprendices SENA, practicantes, reingresos, fallecimientos, pension por jubilacion y cesiones de contrato. `Ingresos` excluye aprendices SENA, practicantes y reingresos (las demas categorias de `Retiros` no aplican a un evento de ingreso). Las medidas DAX de rotacion (`Variacion_Neta_Personal`, `Tasa_Mensual_Retiros`, `Tasa_Acumulada_Retiros*`, `Indice_Rotacion`) no duplican estas exclusiones: usan `Planta Ppto[Ingresos]`/`[Retiros]` directamente como cifras ya depuradas.
+>
+> **`Total-Sena`**: total de colaboradores excluyendo aprendices SENA. Es la poblacion base usada por LEMCO para los indicadores de rotacion y retiros, porque los aprendices SENA no forman parte de esa poblacion. Para periodos de un solo mes se usa el valor del mes; para periodos de varios meses, las medidas acumuladas usan el **promedio** de `Total-Sena` de los meses incluidos (`[PromediodeTotal-Sena]`), nunca la suma.
+
 ### Ppto Retiros (antiguedad al retiro)
 
 La tabla `Ppto Retiros` incorpora columnas tecnicas para analizar la antiguedad del personal retirado desde las fechas reales del retiro:

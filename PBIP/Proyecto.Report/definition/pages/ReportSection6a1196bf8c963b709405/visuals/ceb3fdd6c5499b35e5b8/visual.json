@@ -1,10 +1,10 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "ceb3fdd6c5499b35e5b8",
   "position": {
     "x": 727.14285714285722,
     "y": 415.71428571428572,
-    "z": 15000,
+    "z": 16000,
     "height": 291.42857142857144,
     "width": 518.57142857142856,
     "tabOrder": 0
@@ -101,12 +101,12 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Ind_Retiros"
+                  "Property": "Tasa_Mensual_Retiros"
                 }
               },
-              "queryRef": "Tbl_Medidas.Ind_Retiros",
-              "nativeQueryRef": "Índice de Retiros",
-              "displayName": "Índice de Retiros"
+              "queryRef": "Tbl_Medidas.Tasa_Mensual_Retiros",
+              "nativeQueryRef": "Tasa Mensual de Retiros (%)",
+              "displayName": "Tasa Mensual de Retiros (%)"
             }
           ]
         }
@@ -408,7 +408,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         }
       ],
@@ -613,7 +613,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         }
       ],
@@ -730,7 +730,7 @@
                 "Entity": "Tbl_Medidas"
               }
             },
-            "Property": "Ind_Retiros"
+            "Property": "Tasa_Mensual_Retiros"
           }
         },
         "type": "Advanced"

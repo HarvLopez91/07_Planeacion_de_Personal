@@ -6,6 +6,45 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-08-10
+
+### Cambiado
+
+- Desactivado el subtotal de fila (`rowSubtotals: false`) del visual `f702a32db8dfea04babc` (matriz principal de `Retiros`): la fila de "Total general" solo repetia la fila del año 2026 (unico año en el contexto de filtro) y no aportaba informacion adicional. No se creo ninguna medida nueva para este ajuste.
+
+### Agregado
+
+- Cerrado `DAX-002` en `Specs/00_roadmap_y_backlog.md` (movido de "En curso" a "Finalizadas"): GATE 5 ejecutado en vivo via `powerbi-modeling-mcp` conectado a la instancia abierta de `Proyecto7.pbip`, y aprobado por el usuario contra el contexto `Planta Ppto[Ppto/Real] = "Real"`. Cifras acumuladas enero-julio 2026 validadas: 2.423 colaboradores promedio sin SENA, 828 ingresos, 627 retiros, Variacion Neta 1,19 %, Indice de Rotacion 30,03 %, Tasa Mensual de Retiros 3,70 %, Tasa Acumulada de Retiros 25,88 % (mas validacion puntual de Challenger enero y acumulado).
+- Registrada `PBIP-005` en `Specs/00_roadmap_y_backlog.md`: desagregacion de indicadores de retiros/rotacion por Dependencia, Area y Cargo en `Retiros`, iniciativa independiente y pendiente de analisis de impacto propio.
+
+### Documentado (sin corregir, deuda funcional trasladada a PBIP-005)
+
+- Las medidas basadas en `Total-Sena` (`SumadeTotal-Sena`, `PromediodeTotal-Sena`, `Variacion_Neta_Personal`, `Tasa_Mensual_Retiros`, `Indice_Rotacion`, `Tasa_Acumulada_Retiros*`) no filtran `Planta Ppto[Ppto/Real] = "Real"` internamente; hoy son correctas porque cada visual que las usa repite ese filtro a nivel de visual. Riesgo documentado en `Specs/0016` seccion 8 para cualquier visual futuro que las use sin ese filtro.
+- Diagnosticada la medida legado `Índice_Retiros` (no tocada): formula sin proteccion `DIVIDE`, y los valores `Infinito`/inconsistentes reportados por el usuario se deben a filtros de visual obsoletos (`Años[Año] = '2025'` en `8d3d8ab39e15678e422a`, y una unica `Dependencia` fija en `5abcdd8fd1c5a1015723`), no a la formula en si bajo un contexto limpio. Confirmado que **no es equivalente** a `Tasa_Mensual_Retiros` (1,21 % vs. 3,70 % bajo el mismo contexto de control) — no se migra ni se elimina, queda como deuda funcional de `PBIP-005`.
+
+## [Sin version] - 2026-08-06
+
+### Cambiado
+
+- Renombradas 6 medidas de rotacion/retiros en `Tbl_Medidas` para que el nombre tecnico represente la formula que calculan: `Ind_Rot`->`Variacion_Neta_Personal`, `Ind_Retiros`->`Tasa_Mensual_Retiros`, `Rotacion_Anual_Acumulada`->`Tasa_Acumulada_Retiros`, `Rotacion_Voluntaria_Anual_Acumulada`->`Tasa_Acumulada_Retiros_Voluntarios`, `Rotacion_Involuntaria_Anual_Acumulada`->`Tasa_Acumulada_Retiros_Involuntarios`, `Rotacion_Segun_Tipo`->`Tasa_Acumulada_Retiros_Segun_Tipo`. Se conservo el `lineageTag` de cada medida. Se actualizaron todas las referencias dependientes (5 visuales, 4 bookmarks, sinonimos Q&A en `cultures/es-ES.tmdl`, `Docs/METRICS_CATALOG.md`).
+- Corregida en `Docs/METRICS_CATALOG.md` una entrada obsoleta que documentaba una medida `Indice_Rotacion` distinta (contexto `Ppto Retiros`) que ya no existe en el modelo.
+
+### Agregado
+
+- Nueva medida `Indice_Rotacion` en `Tbl_Medidas`: `((Ingresos + Retiros) / 2) / Promedio de Total-Sena`. Agregada a la matriz principal de `Rotación2` junto a Ingresos, Retiros, Variacion Neta Mensual, Tasa Mensual y Tasa Acumulada de Retiros.
+- `Specs/0016_renombramiento_medidas_rotacion_retiros.md`: documenta el problema, la definicion funcional de cada indicador, la formula de origen de `Ingresos`/`Retiros` en el archivo fuente, el uso de `Total-Sena`, las medidas renombradas y la nueva medida, con GATE 5 (conciliacion numerica en Power BI Desktop) pendiente de ejecutar.
+- Iniciativa `DAX-002` registrada en `Specs/00_roadmap_y_backlog.md`, estado "En validacion".
+
+### Corregido
+
+- Restaurado el filtro `Generaciones[Generacion] <> null` en el visual `30f11733eea2697476d4` de la pagina `Demografico (Promedio)`, perdido por un guardado previo de Power BI Desktop (regresion no solicitada).
+- Eliminada la relacion autodetectada `Consolidado2025[Generacion 2] -> Generaciones[Generacion]`, no solicitada. Verificado que su eliminacion no genero errores de referencia (recarga del modelo via MCP: 0 errores).
+
+### Conservado (decisiones explicitas del usuario)
+
+- Eliminacion intencional del filtro `Empresas[Grupo Empresa] = 'Habitel Hotels'` en el visual `a4193576029d03d04cb5` de `Rotacion2`.
+- `"visibility": "HiddenInViewMode"` en el `page.json` de `Rotacion2` (pagina de detalle con navegacion interna "Volver al informe").
+
 ## [Sin version] - 2026-08-03
 
 ### Agregado

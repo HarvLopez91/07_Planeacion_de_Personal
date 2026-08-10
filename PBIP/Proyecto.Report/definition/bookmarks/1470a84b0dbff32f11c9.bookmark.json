@@ -184,10 +184,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Planta Ppto"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
-                      "Property": "Ind_Rot"
+                      "Property": "Variacion_Neta_Personal"
                     }
                   },
                   "howCreated": 0
@@ -341,7 +341,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -391,7 +391,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -521,7 +521,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -541,7 +541,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -578,7 +578,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "Ppto Retiros"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_Retiros"
@@ -590,7 +590,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "Ppto Retiros"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_Retiros"
@@ -1514,10 +1514,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Planta Ppto"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
-                      "Property": "Ind_Retiros"
+                      "Property": "Tasa_Mensual_Retiros"
                     }
                   },
                   "howCreated": 0
@@ -1529,10 +1529,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Planta Ppto"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
-                      "Property": "Ind_Rot"
+                      "Property": "Variacion_Neta_Personal"
                     }
                   },
                   "howCreated": 0
@@ -1821,10 +1821,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Planta Ppto"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
-                      "Property": "Ind_Retiros"
+                      "Property": "Tasa_Mensual_Retiros"
                     }
                   },
                   "howCreated": 0
@@ -1836,10 +1836,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Planta Ppto"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
-                      "Property": "Ind_Rot"
+                      "Property": "Variacion_Neta_Personal"
                     }
                   },
                   "howCreated": 0
@@ -1905,7 +1905,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -2004,7 +2004,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -2024,7 +2024,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -2167,7 +2167,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -2308,7 +2308,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"
@@ -2343,7 +2343,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "Ppto Retiros"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_Retiros"

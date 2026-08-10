@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "d5143e9db1261ce981af",
   "position": {
     "x": 527.14285714285722,
@@ -621,83 +621,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "6d4c7afe67c0a0b9abd5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DimPeriodoYM"
-              }
-            },
-            "Property": "Año"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b700d3b832c975b00480",
-        "field": {
-          "GroupRef": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Ppto Retiros"
-              }
-            },
-            "Property": "Clase de nómina (grupos) 2",
-            "GroupedColumns": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Ppto Retiros"
-                    }
-                  },
-                  "Property": "Clase de nómina"
-                }
-              }
-            ]
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "d0608b7801ae70e11013",
-        "field": {
-          "Arithmetic": {
-            "Left": {
-              "Measure": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Tbl_Medidas"
-                  }
-                },
-                "Property": "Tot_Retiros"
-              }
-            },
-            "Right": {
-              "ScopedEval": {
-                "Expression": {
-                  "Measure": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "Tbl_Medidas"
-                      }
-                    },
-                    "Property": "Tot_Retiros"
-                  }
-                },
-                "Scope": []
-              }
-            },
-            "Operator": 3
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "b72099f821538078c4a0",
   "position": {
     "x": 1248.75,
     "y": 728.75,
-    "z": 14000,
+    "z": 15000,
     "height": 271.25,
     "width": 551.25,
-    "tabOrder": 11000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -87,11 +87,12 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Ind_Retiros"
+                  "Property": "Tasa_Mensual_Retiros"
                 }
               },
-              "queryRef": "Tbl_Medidas.Ind_Retiros",
-              "nativeQueryRef": "Ind_Retiros"
+              "queryRef": "Tbl_Medidas.Tasa_Mensual_Retiros",
+              "nativeQueryRef": "Tasa Mensual de Retiros (%)",
+              "displayName": "Tasa Mensual de Retiros (%)"
             },
             {
               "field": {
@@ -101,11 +102,12 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Rotacion_Segun_Tipo"
+                  "Property": "Tasa_Acumulada_Retiros_Segun_Tipo"
                 }
               },
-              "queryRef": "Tbl_Medidas.Rotacion_Segun_Tipo",
-              "nativeQueryRef": "Rotacion_Anual_Acumulada"
+              "queryRef": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo",
+              "nativeQueryRef": "Tasa Acumulada de Retiros (%)",
+              "displayName": "Tasa Acumulada de Retiros (%)"
             }
           ]
         }
@@ -471,7 +473,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         },
         {
@@ -562,7 +564,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Rotacion_Segun_Tipo"
+            "metadata": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo"
           }
         }
       ],

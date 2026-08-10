@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "a7f9d2c14b8e4f65a901",
   "position": {
     "x": 1443.9024390243903,
     "y": 93.902439024390247,
-    "z": 31000,
+    "z": 33000,
     "height": 262.19512195121951,
     "width": 354.8780487804878,
-    "tabOrder": 31000
+    "tabOrder": 29000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -557,23 +557,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "60e518130f98e91e3296",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Tbl_Medidas"
-              }
-            },
-            "Property": "Tot_Retiros"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "a4193576029d03d04cb5",
+  "name": "7f9c16551d9422019d6e",
   "position": {
-    "x": 920.90032154340838,
-    "y": 21.864951768488748,
-    "z": 4000,
-    "height": 75.884244372990352,
-    "width": 236.65594855305469,
-    "tabOrder": 4000
+    "x": 6.1276389798520938,
+    "y": 819.7743410004507,
+    "z": 1000,
+    "height": 72.41379310344827,
+    "width": 257.4712643678161,
+    "tabOrder": 29003
   },
   "visual": {
     "visualType": "slicer",
@@ -20,15 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Empresas"
+                      "Entity": "PLANTA DE PERSONAL"
                     }
                   },
-                  "Property": "Grupo Empresa"
+                  "Property": "CARGO"
                 }
               },
-              "queryRef": "Empresas.Grupo Empresa",
-              "nativeQueryRef": "Grupo Empresa",
-              "active": true
+              "queryRef": "PLANTA DE PERSONAL.CARGO",
+              "nativeQueryRef": "CARGO",
+              "active": true,
+              "displayName": "Cargo"
             }
           ]
         }
@@ -57,58 +58,11 @@
                   "Value": "0D"
                 }
               }
-            }
-          }
-        }
-      ],
-      "selection": [
-        {
-          "properties": {
-            "selectAllCheckboxEnabled": {
+            },
+            "selfFilterEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            },
-            "strictSingleSelect": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "singleSelect": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "header": [
-        {
-          "properties": {
-            "fontFamily": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Calibri'"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "textSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "13D"
                 }
               }
             }
@@ -118,14 +72,53 @@
       "items": [
         {
           "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "fontFamily": {
               "expr": {
                 "Literal": {
                   "Value": "'Calibri'"
                 }
               }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             },
-            "bold": {
+            "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -134,27 +127,68 @@
             }
           }
         }
+      ],
+      "header": [
+        {
+          "properties": {
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            },
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cargo'"
+                }
+              }
+            }
+          }
+        }
       ]
-    },
-    "syncGroup": {
-      "groupName": "Grupo Empresa",
-      "fieldChanges": true,
-      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [
       {
-        "name": "Filterc0e0255e40572009c3b9",
+        "name": "cargo_not_blank",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Planta Ppto"
+                "Entity": "PLANTA DE PERSONAL"
               }
             },
-            "Property": "Grupo Empresa"
+            "Property": "CARGO"
           }
         },
         "type": "Categorical",
@@ -163,7 +197,7 @@
           "From": [
             {
               "Name": "p",
-              "Entity": "Planta Ppto",
+              "Entity": "PLANTA DE PERSONAL",
               "Type": 0
             }
           ],
@@ -181,7 +215,7 @@
                                 "Source": "p"
                               }
                             },
-                            "Property": "Grupo Empresa"
+                            "Property": "CARGO"
                           }
                         }
                       ],
@@ -190,6 +224,13 @@
                           {
                             "Literal": {
                               "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "''"
                             }
                           }
                         ]
@@ -202,108 +243,6 @@
           ]
         },
         "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "Filter15a32cf29dd83d107b3a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Grupo Empresarial"
-              }
-            },
-            "Property": "Grupo Empresarial"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "g",
-              "Entity": "Grupo Empresarial",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "g"
-                              }
-                            },
-                            "Property": "Grupo Empresarial"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "Filter93e7be243200e076e013",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Empresas"
-              }
-            },
-            "Property": "Grupo Empresa"
-          }
-        },
-        "type": "Categorical",
         "objects": {
           "general": [
             {

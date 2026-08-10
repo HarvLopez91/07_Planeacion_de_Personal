@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "f04eef32576ba115ab23",
   "position": {
     "x": 18.006430868167204,
@@ -28,21 +28,6 @@
               },
               "queryRef": "Empresas.Grupo Empresa",
               "nativeQueryRef": "Grupo Empresa",
-              "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DimPeriodoYM"
-                    }
-                  },
-                  "Property": "Año"
-                }
-              },
-              "queryRef": "DimPeriodoYM.Año",
-              "nativeQueryRef": "Año",
               "active": true
             },
             {
@@ -84,13 +69,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "PromediodeTotal-Sena"
                 }
               },
-              "queryRef": "Planta Ppto.PromediodeTotal-Sena",
+              "queryRef": "Tbl_Medidas.PromediodeTotal-Sena",
               "nativeQueryRef": "Colaboradores*",
               "displayName": "Colaboradores*"
             },
@@ -139,30 +124,60 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Ind_Rot"
+                  "Property": "Variacion_Neta_Personal"
                 }
               },
-              "queryRef": "Planta Ppto.Ind_Rot",
-              "nativeQueryRef": "Índice Rotación",
-              "displayName": "Índice Rotación"
+              "queryRef": "Tbl_Medidas.Variacion_Neta_Personal",
+              "nativeQueryRef": "Variación Neta Mensual (%)",
+              "displayName": "Variación Neta Mensual (%)"
             },
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Ind_Retiros"
+                  "Property": "Indice_Rotacion"
                 }
               },
-              "queryRef": "Planta Ppto.Ind_Retiros",
-              "nativeQueryRef": "Índice Retiros",
-              "displayName": "Índice Retiros"
+              "queryRef": "Tbl_Medidas.Indice_Rotacion",
+              "nativeQueryRef": "Índice de Rotación (%)",
+              "displayName": "Índice de Rotación (%)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Tasa_Mensual_Retiros"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Tasa_Mensual_Retiros",
+              "nativeQueryRef": "Tasa Mensual de Retiros (%)",
+              "displayName": "Tasa Mensual de Retiros (%)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Tasa_Acumulada_Retiros_Segun_Tipo"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo",
+              "nativeQueryRef": "Tasa Acumulada de Retiros (%)",
+              "displayName": "Tasa Acumulada de Retiros (%)"
             }
           ]
         }
@@ -212,25 +227,6 @@
           },
           {
             "queryRefs": [
-              "DimPeriodoYM.Año"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DimPeriodoYM"
-                    }
-                  },
-                  "Property": "Año"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
               "DimPeriodoYM.Meses"
             ],
             "isCollapsed": true,
@@ -254,29 +250,7 @@
                   }
                 }
               ],
-              "isToggled": true,
-              "children": [
-                {
-                  "identityValues": [
-                    {
-                      "Literal": {
-                        "Value": "'2026'"
-                      }
-                    }
-                  ],
-                  "isToggled": true
-                },
-                {
-                  "identityValues": [
-                    {
-                      "Literal": {
-                        "Value": "'2025'"
-                      }
-                    }
-                  ],
-                  "isToggled": true
-                }
-              ]
+              "isToggled": true
             },
             {
               "identityValues": [
@@ -286,19 +260,37 @@
                   }
                 }
               ],
-              "isToggled": true,
-              "children": [
+              "isToggled": true
+            },
+            {
+              "identityValues": [
                 {
-                  "identityValues": [
-                    {
-                      "Literal": {
-                        "Value": "'2026'"
-                      }
-                    }
-                  ],
-                  "isToggled": true
+                  "Literal": {
+                    "Value": "'Fundación Challenger'"
+                  }
                 }
-              ]
+              ],
+              "isToggled": true
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'Grupo Sky'"
+                  }
+                }
+              ],
+              "isToggled": true
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'Lemco'"
+                  }
+                }
+              ],
+              "isToggled": true
             }
           ]
         }
@@ -462,7 +454,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         },
         {
@@ -490,7 +482,35 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Rot"
+            "metadata": "Tbl_Medidas.Variacion_Neta_Personal"
+          }
+        },
+        {
+          "properties": {
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Indice_Rotacion"
           }
         },
         {
@@ -553,7 +573,35 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.PromediodeTotal-Sena"
+            "metadata": "Tbl_Medidas.PromediodeTotal-Sena"
+          }
+        },
+        {
+          "properties": {
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo"
           }
         }
       ],
@@ -569,13 +617,13 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Ind_Rot"
+            "metadata": "Tbl_Medidas.Variacion_Neta_Personal"
           }
         },
         {
           "properties": {},
           "selector": {
-            "metadata": "Planta Ppto.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         },
         {

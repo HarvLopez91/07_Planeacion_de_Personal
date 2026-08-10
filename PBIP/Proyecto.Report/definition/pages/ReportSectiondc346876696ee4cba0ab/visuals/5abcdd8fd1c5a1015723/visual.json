@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Colab-Sena"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_Colab-Sena",
+              "queryRef": "Tbl_Medidas.Tot_Colab-Sena",
               "nativeQueryRef": "Colaboradores*",
               "displayName": "Colaboradores*"
             },
@@ -54,13 +54,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Retiros"
                 }
               },
-              "queryRef": "Ppto Retiros.Tot_Retiros",
+              "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Retiros*",
               "displayName": "Retiros*"
             },
@@ -69,13 +69,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Ppto Retiros"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Índice_Retiros"
                 }
               },
-              "queryRef": "Ppto Retiros.Índice_Retiros",
+              "queryRef": "Tbl_Medidas.Índice_Retiros",
               "nativeQueryRef": "Índice Retiros",
               "displayName": "Índice Retiros"
             }
@@ -89,7 +89,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Ppto Retiros"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Índice_Retiros"
@@ -353,7 +353,7 @@
             }
           },
           "selector": {
-            "metadata": "Ppto Retiros.Índice_Retiros"
+            "metadata": "Tbl_Medidas.Índice_Retiros"
           }
         },
         {
@@ -367,7 +367,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_Colab-Sena"
+            "metadata": "Tbl_Medidas.Tot_Colab-Sena"
           }
         },
         {
@@ -381,7 +381,7 @@
             }
           },
           "selector": {
-            "metadata": "Ppto Retiros.Tot_Retiros"
+            "metadata": "Tbl_Medidas.Tot_Retiros"
           }
         }
       ],
@@ -404,7 +404,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_Colab-Sena"
+            "metadata": "Tbl_Medidas.Tot_Colab-Sena"
           }
         },
         {
@@ -425,7 +425,7 @@
             }
           },
           "selector": {
-            "metadata": "Ppto Retiros.Tot_Retiros"
+            "metadata": "Tbl_Medidas.Tot_Retiros"
           }
         },
         {
@@ -446,7 +446,7 @@
             }
           },
           "selector": {
-            "metadata": "Ppto Retiros.Índice_Retiros"
+            "metadata": "Tbl_Medidas.Índice_Retiros"
           }
         }
       ]
@@ -554,7 +554,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "PLANTA DE PERSONAL"
+                "Entity": "Tbl_Medidas"
               }
             },
             "Property": "Tot_Colab-Sena"
@@ -713,7 +713,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Ppto Retiros"
+                "Entity": "Tbl_Medidas"
               }
             },
             "Property": "Índice_Retiros"
@@ -728,7 +728,7 @@
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Ppto Retiros"
+                "Entity": "Tbl_Medidas"
               }
             },
             "Property": "Tot_Retiros"
