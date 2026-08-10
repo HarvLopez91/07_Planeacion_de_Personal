@@ -423,7 +423,11 @@ table 'PLANTA DE PERSONAL'
 					"Soltero"},
 				"Soltero",
 				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"U",
-					"Unión Libre"},
+					"Unión Libre",
+					"UniÃ³n Libre",
+					"Uniã³N Libre",
+					"Uni�n Libre",
+					"Uni�N Libre"},
 				"Unión Libre",
 				'PLANTA DE PERSONAL'[EST_CIVIL] IN {"V",
 					"Viudo"},
@@ -450,7 +454,7 @@ table 'PLANTA DE PERSONAL'
 				  ]
 				}
 
-		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"PLANTA DE PERSONAL"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Casado","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'C'"}}],[{"Literal":{"Value":"'Casado'"}}]]}}},{"DisplayName":"Divorciado","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'D'"}}],[{"Literal":{"Value":"'Divorciado'"}}]]}}},{"DisplayName":"Otro","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'N/R'"}}],[{"Literal":{"Value":"'O'"}}],[{"Literal":{"Value":"'Otro'"}}]]}}},{"DisplayName":"Soltero","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'S'"}}],[{"Literal":{"Value":"'Soltero'"}}]]}}},{"DisplayName":"Unión Libre","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'U'"}}],[{"Literal":{"Value":"'Unión Libre'"}}]]}}},{"DisplayName":"Viudo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'V'"}}],[{"Literal":{"Value":"'Viudo'"}}]]}}}]}
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"p","Entity":"PLANTA DE PERSONAL"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"GroupItems":[{"DisplayName":"(En blanco)","BlankDefaultPlaceholder":true},{"DisplayName":"Casado","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'C'"}}],[{"Literal":{"Value":"'Casado'"}}]]}}},{"DisplayName":"Divorciado","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'D'"}}],[{"Literal":{"Value":"'Divorciado'"}}]]}}},{"DisplayName":"Otro","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'N/R'"}}],[{"Literal":{"Value":"'O'"}}],[{"Literal":{"Value":"'Otro'"}}]]}}},{"DisplayName":"Soltero","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'S'"}}],[{"Literal":{"Value":"'Soltero'"}}]]}}},{"DisplayName":"Unión Libre","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'U'"}}],[{"Literal":{"Value":"'Unión Libre'"}}],[{"Literal":{"Value":"'UniÃ³n Libre'"}}],[{"Literal":{"Value":"'Uniã³N Libre'"}}],[{"Literal":{"Value":"'Uni�n Libre'"}}],[{"Literal":{"Value":"'Uni�N Libre'"}}]]}}},{"DisplayName":"Viudo","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"p"}},"Property":"EST_CIVIL"}}],"Values":[[{"Literal":{"Value":"'V'"}}],[{"Literal":{"Value":"'Viudo'"}}]]}}}]}
 
 		annotation SummarizationSetBy = Automatic
 
