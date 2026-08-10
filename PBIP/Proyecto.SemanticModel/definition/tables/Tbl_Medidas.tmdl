@@ -208,53 +208,6 @@ table Tbl_Medidas
 		displayFolder: 05 SST
 		lineageTag: 98a962f4-1ba9-41b5-9182-ed15b18cc43f
 
-	measure ConteoP = DISTINCTCOUNT(AUSENTISMOS[Identificación])
-		formatString: #,0
-		displayFolder: 04 Ausentismos
-		lineageTag: eab70eb0-5fb4-4436-ab11-545488f74f52
-
-	measure CMujeres = CALCULATE([ConteoP],AUSENTISMOS[Genero]="Femenino") /[ConteoP]
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: 04 Ausentismos
-		lineageTag: 37ce37c7-5e29-4609-a2ba-cc8b3d3b490f
-
-	measure CHombres = CALCULATE([ConteoP],AUSENTISMOS[Genero]="Masculino") /[ConteoP]
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: 04 Ausentismos
-		lineageTag: da41866a-0da4-4db0-8402-705d2cd6f7bc
-
-	measure %AusM = ```
-			[ConteoP]/[Prom_Colaboradores] 
-			```
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: 04 Ausentismos
-		lineageTag: 87599fdb-0d20-4473-b1d7-ae6fe6eb0098
-
-	measure DIAS_AUSENTISMO = SUM(AUSENTISMOS[Cantidad Real])
-		formatString: 0
-		displayFolder: 04 Ausentismos
-		lineageTag: ae071dfa-605b-4963-aad7-920dc941cb75
-
-	measure 'Tasa Ausentismo' = [Ausentismo]/(Tbl_Medidas[Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: 04 Ausentismos
-		lineageTag: 4183ab2e-709b-4ffa-b4bb-fe03c15169da
-
-	measure Ausentismo = IF(ISBLANK(SUM(AUSENTISMOS[Cantidad Real])),0,(SUM(AUSENTISMOS[Cantidad Real])))
-		formatString: #,0
-		displayFolder: 04 Ausentismos
-		lineageTag: aebad52b-682c-4f73-b745-28c2518a9e07
-
-	measure 'Tasa Ausentismo_EL' = [Ausentismo]/([Tot_Colab-Directos]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: 04 Ausentismos
-		lineageTag: 06678ef6-6f2e-43c1-b0e6-ff44ac28669b
-
-	measure Tasa_Ausent_Anual = [Ausentismo]/(([Prom_Colab])*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: 04 Ausentismos
-		lineageTag: f4a052c4-b861-4e0e-9c9e-a8a7e2340bb3
-
 	measure Variacion_Neta_Personal =
 			DIVIDE (
 			    SUM ( 'Planta Ppto'[Ingresos] ) - SUM ( 'Planta Ppto'[Retiros] ),
@@ -855,47 +808,6 @@ table Tbl_Medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure Ingresos_Calidad = ```
-			
-			CALCULATE(
-			    COUNT('Ppto Ingresos'[Empresa]),
-			    'Ppto Ingresos'[Descripción Estado Cargo] IN {"Contrato Fijo", "Contrato Indefinido", "INDEFINIDO EN PROPIEDAD", "INDEFINIDO", "FIJO"}	
-			)
-			```
-		formatString: #,0
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: 78006e0f-3147-4412-83d9-d197fcc57a81
-
-	measure Ret_Calidad = CALCULATE(COUNT('Ppto Ingresos'[Empresa]), 'Ppto Ingresos'[Retiros_Calidad]=1,'Ppto Ingresos'[Descripción Estado Cargo]<>"TEMPORAL")
-		formatString: #,0
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: 770cba31-3345-471c-9f04-b0fa5eb8783d
-
-	measure Ind_Calidad = ([Ingresos_Calidad]-[Ret_Calidad])/[Ingresos_Calidad]
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: 941fe65b-f763-4977-88c4-cdcbca701908
-
-	measure Tot_ingresos = COUNTA('Ppto Ingresos'[Grupo Empresarial])
-		formatString: #,0
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: c9f1fd59-233c-4060-8b80-94c88588022b
-
-	measure Ing_Calidad_2025 = (CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="09.Septiembre",Mes[Meses]="10.Octubre"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="11.Noviembre",Mes[Meses]="12.Diciembre"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="01.Enero",Mes[Meses]="02.Febrero"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="03.Marzo",Mes[Meses]="04.Abril"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="05.Mayo",Mes[Meses]="06.Junio"))+CALCULATE([Ingresos_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="07.Julio",Mes[Meses]="08.Agosto")))
-		formatString: 0
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: 3d8a8c28-8040-4a50-a142-cc2e794204c8
-
-	measure ret_Calidad_2025 = (CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="09.Septiembre",Mes[Meses]="10.Octubre"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2024",or(Mes[Meses]="11.Noviembre",Mes[Meses]="12.Diciembre"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="01.Enero",Mes[Meses]="02.Febrero"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="03.Marzo",Mes[Meses]="04.Abril"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="05.Mayo",Mes[Meses]="06.Junio"))+CALCULATE([Ret_Calidad],'Ppto Ingresos'[Año]="2025",or(Mes[Meses]="07.Julio",Mes[Meses]="08.Agosto")))
-		formatString: 0
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: 845040ac-39d0-4fd4-b9cc-cd798bc32e86
-
-	measure Ind_Calidad_2025 = ([Ing_Calidad_2025]-[ret_Calidad_2025])/[Ing_Calidad_2025]
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: 03 Ingresos y Retiros
-		lineageTag: bf26566b-bf15-4526-8e88-01323d1d1102
-
 	measure Tot_Retiros = COUNT('Ppto Retiros'[Mes])
 		formatString: #,0
 		displayFolder: 03 Ingresos y Retiros
@@ -910,62 +822,6 @@ table Tbl_Medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: 03 Ingresos y Retiros
 		lineageTag: d7064b38-6c9b-46f9-b269-4757284bd27f
-
-	measure Solicitudes = COUNT('Selección Challenger'[Empresa])
-		formatString: 0
-		isHidden
-		displayFolder: 06 Seleccion
-		lineageTag: e33e5468-7cb0-4bc3-8393-36bc24436637
-
-		changedProperty = IsHidden
-
-	measure Solicitudes2024 = CALCULATE([Solicitudes],'Selección Challenger'[Año_Met]=2024)
-		formatString: 0
-		isHidden
-		displayFolder: 06 Seleccion
-		lineageTag: 9caa1a39-13b4-4a92-b76c-2aedda91c951
-
-		changedProperty = IsHidden
-
-	measure Solicitud = COUNT('Selección Grupo Lemco'[Empresa])
-		formatString: #,0
-		displayFolder: 06 Seleccion
-		lineageTag: 48d57ea4-82b4-41b7-a873-e50bc46b1219
-
-	measure Ind_opor = IF([Solicitud]=0,"N/A",IF((CALCULATE([Solicitud],'Selección Grupo Lemco'[¿Se cierra sobre los tiempos?]="SI")/[Solicitud])=0,0,CALCULATE([Solicitud],'Selección Grupo Lemco'[¿Se cierra sobre los tiempos?]="SI")/[Solicitud]))
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: 06 Seleccion
-		lineageTag: d523d3f8-4d18-4087-9819-1705ac00d439
-
-	measure %Cumplimiento = IF(SUM('SENA UNIDADES'[Días Cotizados])/SUM('SENA UNIDADES'[Días Meta])>=1,1,0)
-		formatString: 0\ %;-0\ %;0\ %
-		displayFolder: 07 SENA
-		lineageTag: 69b56781-a804-4487-9127-b5bda0c02882
-
-	measure M_Frecuencia = (SUM('SST GENERAL'[#Accidentes])/SUM('SST GENERAL'[Empleados]))*100
-		formatString: 0.00
-		displayFolder: 05 SST
-		lineageTag: cc62cece-8ca0-4518-9aa3-336c5934655f
-
-	measure M_Severidad = ((SUM('SST GENERAL'[Dias de Ausentismo])+SUM('SST GENERAL'[Días Cargados]))/SUM('SST GENERAL'[Empleados]))*100
-		formatString: 0.00
-		displayFolder: 05 SST
-		lineageTag: f33a3b4a-dead-4583-9c62-07edc69141a6
-
-	measure MSector = AVERAGE('SST GENERAL'[Indice Accidentalidad del Sector])
-		formatString: 0.00
-		displayFolder: 05 SST
-		lineageTag: 9b7e9e03-2a2c-4d83-8ca4-87d324a0125d
-
-	measure Tasa_Acc = (SUM('SST GENERAL'[#Accidentes])/CALCULATE([tot_Año_prom],'Planta Ppto'[Ppto/Real]="Real"))*100
-		formatString: 0.00
-		displayFolder: 05 SST
-		lineageTag: f7c3f9b9-b65f-4f2c-a484-5746fa241616
-
-	measure 'Dias Ausentismo Acc.Lab' = SUM('SST GENERAL'[Dias de Ausentismo])+SUM('SST GENERAL'[Días Cargados])
-		formatString: 0
-		displayFolder: 05 SST
-		lineageTag: 279e8b21-15e4-486e-99ab-21631b93c2f1
 
 	measure 'HTML Demografico Promedio Shell' =
 			VAR _colab = IF(ISBLANK([Tot_empleados_Promedio]), "-", FORMAT([Tot_empleados_Promedio], "#,##0"))
