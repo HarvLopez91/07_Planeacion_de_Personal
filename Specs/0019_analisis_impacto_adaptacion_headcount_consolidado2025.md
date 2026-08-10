@@ -181,13 +181,14 @@ Las siguientes decisiones (A-E) están **recomendadas para el alcance mínimo de
 - Normalizar el nombre `Generación` → `GENERACIÓN` (mayúsculas) **antes** del `Table.Combine`, para que coincida con el nombre que ya produce la rama 2024 y con el que espera `Generaciones[Generación]` aguas abajo.
 - Eliminar `Table.RenameColumns(..., {{"RANGO DE EDAD","GENERACIÓN"}})` **únicamente en la rama 2025** — esta eliminación no aplica a 2024 (ver 9.3).
 - Conservar `RANGO DE EDAD` de 2025 como atributo independiente (`Rango de Edad`), sin transformarla ni fusionarla con Generación.
-- No tocar el contrato de `NIVEL_DE_CARGO`/`TIPO_DE_CARGO` en esta propuesta — la causa del error (sección 4) sigue sin confirmarse y su resolución depende de verificar la fuente remota, fuera de alcance de esta Spec.
+- **Generación no se agrega como columna paralela**: se usa la columna real `Generación` de 2025 para alimentar directamente el atributo generacional ya existente (`GENERACIÓN`/`Generaciones[Generación]`). No se crea una segunda columna tipo `Generación 2` (el parche local sí la agrega como alias sin uso, sección 2.1 — esa columna del parche específicamente **no se reconstruye**, ver 9.6).
+- No tocar el contrato de `NIVEL_DE_CARGO`/`TIPO_DE_CARGO` en esta propuesta — la causa del error `NIVEL_DE_CARGO` (sección 4) ya está **confirmada** y se resuelve mediante la migración de fuente (decisión F, sección 9.8), no mediante un cambio adicional de código en estos dos pasos.
 
 ### 9.2 `Consolidado2025` — TMDL
 
 - Conservar `Generación` (ya presente en el parche local, sección 2) apuntando a la columna real de la fuente, no a un alias.
-- Agregar `Rango de Edad` como columna independiente (pendiente en el parche local).
-- Confirmar cuáles de las 8 columnas de la sección 8 se incorporan (ninguna por defecto, salvo Rango de Edad).
+- Agregar `Rango de Edad` como columna independiente — **no forma parte de las 19 columnas nuevas del parche local** (sección 2.1/2.2, confirmado: el parche nunca la agregó), debe crearse de cero, no reconstruirse desde el parche.
+- **Alcance mínimo explícito — que el parche tenga 19 columnas genuinamente nuevas NO autoriza incorporarlas todas al modelo.** Para DATA-012, `Rango de Edad` es la **única** columna nueva obligatoria por requerimiento funcional (clasificación A, sección 8). Las 7 columnas clasificadas C en la sección 8 (`ÁRBOL DE NÓMINA NIVEL 2`, `ÁRBOL DE NÓMINA NIVEL 3`, `Tipo Identificación`, `COD. CARGO`, `Tipo Contrato (Kactus)`, `Indicador Actividad`, `Año Nac`) **permanecen en la fuente** — no se agregan al TMDL en esta iniciativa. Cualquier otra columna del parche (p. ej. `IDMESAÑO`, `NOMBRE`, `APELLIDO`, las variantes de nombre de empleado, `MANO DE OBRA`, `CLASIFICACION`, `FLEX`, `F_INGRESO`, `Correo Corporativo`, `PCD`) solo se incorpora si es **estrictamente necesaria para preservar un contrato ya existente del modelo** (p. ej. si `Table.Combine` o una relación ya vigente dejara de resolver sin ella) y debe **justificarse individualmente** en el futuro plan de implementación — nunca por el solo hecho de venir incluida en el parche.
 - `ÁRBOL DE NÓMINA NIVEL 2/3` (decisión C): permanecen disponibles en la fuente si se agregan al TMDL, pero **no se mapean** a `NIVEL_DE_CARGO`, `TIPO_DE_CARGO`, `Área` ni `Dependencia` en este alcance — se tratan como dimensiones organizacionales complementarias para una iniciativa futura.
 - `TIPO_DE_CARGO` crudo (decisión D): permanece en la fuente sin uso en el modelo mientras tenga cobertura parcial (~5,6 %); no reemplaza la columna calculada `'Tipo de Cargo'`.
 
@@ -215,7 +216,8 @@ Las siguientes decisiones (A-E) están **recomendadas para el alcance mínimo de
 ### 9.6 Parche local (decisión E)
 
 - El parche local descrito en la sección 2 **no debe reaplicarse tal cual**: contiene la regresión de codificación de Unión Libre (sección 2.2) y la duplicación en línea de `Consolidado2025` dentro de `PLANTA DE PERSONAL` (sección 2.2).
-- Una futura implementación debe **reconstruir selectivamente** solo las partes válidas (las 19 columnas genuinamente nuevas relevantes, sección 2.1) sobre una base limpia (`main` + PR #7 ya fusionado — sección 9.7), no partir del parche completo.
+- Una futura implementación debe **reconstruir selectivamente** sobre una base limpia (`main` + PR #7 ya fusionado — sección 9.7), no partir del parche completo.
+- **Aclaración explícita de alcance:** que el parche contenga 19 columnas genuinamente nuevas (sección 2.1) es una constatación sobre el diff, **no una autorización para incorporarlas todas al modelo**. La reconstrucción selectiva para el alcance mínimo de DATA-012 se limita a: (1) el cambio de `Origen` de las 3 consultas (decisión F, sección 9.8); (2) la columna `Rango de Edad`, que de hecho **no** forma parte de las 19 columnas del parche y debe crearse de cero (sección 9.2); (3) la lógica de Generación de la decisión A (sección 9.1), que reutiliza la columna real `Generación` ya existente en la fuente — no la columna `Generación 2` (alias) que sí trae el parche, la cual **no se reconstruye**. Ninguna de las otras 18 columnas genuinamente nuevas del parche (sección 2.1) se incorpora por el solo hecho de estar en el parche — solo bajo el criterio de excepción individual de la sección 9.2.
 
 ### 9.7 Dependencia obligatoria: PR #7 (Unión Libre)
 
