@@ -2,7 +2,7 @@
 
 Fecha: 2026-08-10
 
-Estado: implementado y validado estáticamente.
+Estado: implementado, validado estáticamente y validado visualmente en vivo (sección 7).
 
 ## 1. Solicitud
 
@@ -53,11 +53,11 @@ Validación estática sobre el PBIP versionado:
 - Las otras visuales que reutilizan el mismo grupo semántico mantienen sus referencias; el único efecto esperado es que las variantes dañadas equivalentes a Unión Libre se agrupen bajo la etiqueta correcta `Unión Libre`.
 - No se introduce ninguna modificación en archivos ajenos al alcance.
 
-## 5. Limitación de validación en vivo
+## 5. Limitación de validación en vivo (histórica, superada — ver sección 7)
 
-No se usa la apertura de un checkout limpio de `main` como criterio de aceptación porque el repositorio mantiene el defecto estructural preexistente documentado en `GOV-005` (medidas duplicadas que impiden cargar un checkout limpio en Power BI Desktop). Esta limitación es ajena a la presente corrección.
+Al momento de la implementación (sección 3-4) no se usó la apertura de un checkout limpio de `main` como criterio de aceptación porque el repositorio mantenía el defecto estructural preexistente documentado en `GOV-005` (medidas duplicadas que impedían cargar un checkout limpio en Power BI Desktop). Esa limitación era ajena a la presente corrección.
 
-La aceptación de este ajuste se basa en la inspección estructural del grupo semántico, la conservación de referencias y la revisión del diff exclusivo.
+La aceptación de ese momento se basó en la inspección estructural del grupo semántico, la conservación de referencias y la revisión del diff exclusivo. **`GOV-005` ya está resuelta y fusionada en `main`** (`Specs/0018`) — la validación visual en vivo de la sección 7 confirma que esta limitación ya no aplica.
 
 ## 6. Criterio de aceptación
 
@@ -65,3 +65,28 @@ La aceptación de este ajuste se basa en la inspección estructural del grupo se
 - Los demás valores de Estado Civil conservan su lógica previa.
 - No se modifican visuales ni medidas.
 - El cambio queda versionado en un commit exclusivo y publicado en una rama aislada.
+
+## 7. Validación visual en vivo (2026-08-10)
+
+Cierre de la validación final de PR #7, exclusivamente sobre este alcance (no se implementó DATA-012, no se incorporó la migración HeadCount a SharePoint corporativo de forma permanente, no se tocó `Specs/0019` ni DATA-005/DATA-012, no se mezclaron cambios de Kactus, Retiros ni Rotación2).
+
+**Estado de `GOV-005`:** ya estaba resuelta y fusionada en `main` antes de esta validación (`Specs/0018`, merge `4600798`) — confirmado nuevamente en vivo en este GATE: el modelo abrió sin `PFE_TM_OBJECT_NAME_ALREADY_EXISTS`.
+
+**Apertura de `Proyecto7.pbip`:** se abrió correctamente desde un worktree temporal aislado (`.wt/union-libre-validacion-datos`, creado en blanco desde `origin/fix/demografico-union-libre-encoding`, HEAD `cb6d56aa1290b5d4fd95373e0f0c5d1e275bf174` — el HEAD exacto del PR #7). Verificado vía `powerbi-modeling-mcp`: 52 tablas, 66 relaciones, 122 medidas, 0 duplicados.
+
+**Uso temporal de rutas corporativas (SOLO para disponer de datos de validación, NO forman parte del PR #7):** dentro de ese worktree temporal se sustituyeron, sin commitear, las 3 rutas HeadCount que apuntaban a OneDrive personal (`Consolidado2025.tmdl`, `PLANTA DE PERSONAL.tmdl`, `AREAS.tmdl`) por la biblioteca corporativa (`lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/...`), únicamente para poder ejecutar un refresh y disponer de datos con los que validar visualmente Estado Civil. Esta sustitución **no se commiteó ni se incorpora al PR #7** — corresponde al alcance aprobado de DATA-012 (`Specs/0019`, decisión F), no a esta corrección. Tras la validación visual, se descartaron íntegramente con `git checkout --` sobre los 3 archivos; el worktree quedó exactamente en el HEAD del PR #7, confirmado con `git diff origin/main` (solo 2 archivos: `PLANTA DE PERSONAL.tmdl` y este Spec — los mismos que ya formaban parte del PR).
+
+**Refresh:** ejecutado manualmente por el usuario en Power BI Desktop (el servidor `powerbi-modeling-mcp` estaba en modo solo lectura y no pudo ejecutarlo). Completó sin errores de Formula Firewall, autenticación ni privacidad.
+
+**Resultado visual (confirmado por el usuario mediante inspección directa de la página `Demográfico (Promedio)`, visual `Estado Civil`, captura de pantalla, 2026-08-10):**
+
+- **Unión Libre**: se muestra exactamente `Unión Libre` (30 %). **No aparece ninguna variante mojibake** (`UniÃ³n Libre`, `Uniã³N Libre`, `Uni�n Libre`, `Uni�N Libre`).
+- **Soltero**: correcto (57 %).
+- **Casado**: correcto (12 %).
+- **Divorciado**: correcto (1 %).
+- **Otro**: correcto (confirmado por el usuario).
+- **Viudo**: correcto (0 %).
+
+**Confirmación de alcance funcional:** no se modificaron visuales, medidas, filtros, relaciones ni Power Query como parte funcional de esta validación. El único archivo funcional que integra el PR #7 sigue siendo `PBIP/Proyecto.SemanticModel/definition/tables/PLANTA DE PERSONAL.tmdl` (`EST_CIVIL (grupos)`), sin cambios adicionales — confirmado por `git diff origin/main` (sección anterior).
+
+Con esta validación visual en vivo, el criterio de aceptación de la sección 6 queda completamente satisfecho, incluyendo la parte que antes solo se validaba estáticamente.
