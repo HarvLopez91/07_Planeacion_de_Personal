@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "5fdb6e4b1935aa669c66",
   "position": {
-    "x": 938.022777326405,
-    "y": 125,
+    "x": 937.80487804878055,
+    "y": 125.60975609756099,
     "z": 2000,
-    "height": 272.5,
-    "width": 842.5,
-    "tabOrder": 13000
+    "height": 271.95121951219517,
+    "width": 479.26829268292687,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -806,63 +806,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "a028361e3c0721ca6d8b",
-        "field": {
-          "GroupRef": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Ppto Retiros"
-              }
-            },
-            "Property": "Detalle (grupos)",
-            "GroupedColumns": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Ppto Retiros"
-                    }
-                  },
-                  "Property": "Detalle"
-                }
-              }
-            ]
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "587e25e6785825907bae",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DimPeriodoYM"
-              }
-            },
-            "Property": "Año"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "a506432eb91036d002b0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Tbl_Medidas"
-              }
-            },
-            "Property": "Tot_Retiros"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

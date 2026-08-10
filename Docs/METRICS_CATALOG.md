@@ -142,10 +142,13 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 
 ### Rotacion e Indice de Retiros
 
-| Medida | Formato | Descripcion |
-|---|---|---|
-| `Ind_Rot` | `0 %` | `(Ingresos - Retiros) / Total-Sena` |
-| `Ind_Retiros` | `0.00 %` | `SUM(Retiros) / SUM(Total-Sena)` |
+Renombradas el 2026-08-06 para que el nombre tecnico represente la formula que calculan (ver `Specs/0016_renombramiento_medidas_rotacion_retiros.md`). Los retiros ya vienen depurados desde el archivo fuente (`PptovsReal.xlsx`, hoja `Planta Personal`, columna `Retiros`); las medidas DAX no duplican esas exclusiones.
+
+| Medida | Nombre anterior | Formato | Descripcion |
+|---|---|---|---|
+| `Variacion_Neta_Personal` | `Ind_Rot` | `0 %` | `DIVIDE(SUM(Ingresos) - SUM(Retiros), SUM(Total-Sena), 0)`. Variacion neta de planta (crecimiento o disminucion), no es un indice de rotacion. |
+| `Tasa_Mensual_Retiros` | `Ind_Retiros` | `0.00 %` | `DIVIDE(SUM(Retiros), SUM(Total-Sena), 0)` |
+| `Indice_Rotacion` | *(medida nueva)* | `0.00 %` | `DIVIDE(DIVIDE(SUM(Ingresos) + SUM(Retiros), 2), [PromediodeTotal-Sena], 0)`. Indice de rotacion (movimiento de personal); para periodos de varios meses el denominador usa el promedio de `Total-Sena`, no la suma. |
 
 ### Medidas de periodo con `DimPeriodoYM`
 
@@ -160,8 +163,9 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | Medida | Formato | Descripcion |
 |---|---|---|
 | `Tot_Retiros` | `#,0` | Conteo de registros de retiros en el contexto (`COUNT([Mes])`) |
-| `Indice_Rotacion` | `0.00 %` | `([Tot_ingresos] - [Tot_Retiros]) / [Tot_Colab-Sena]` (referencia cruzada con `Ppto Ingresos` y `PLANTA DE PERSONAL`) |
 | `Indice_Retiros` | `0.00 %` | `[Tot_Retiros] / [Tot_Colab-Sena]` |
+
+> Nota de correccion documental (2026-08-06): esta seccion citaba una medida `Indice_Rotacion` con formula `([Tot_ingresos] - [Tot_Retiros]) / [Tot_Colab-Sena]` en el contexto de `Ppto Retiros`. Esa medida no existe en el modelo actual (no se encontro en ningun archivo `.tmdl` ni `Tot_ingresos` como medida real); se trataba de documentacion desactualizada. La medida `Indice_Rotacion` vigente vive en `Tbl_Medidas` (ver seccion "Rotacion e Indice de Retiros" arriba) con una formula distinta, basada en `Planta Ppto[Ingresos]`/`[Retiros]`/`[Total-Sena]`.
 
 ---
 
@@ -219,7 +223,12 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | Medida | Formato | Descripcion |
 |---|---|---|
 | `Cantidad_Retiros` | `0` | `SUM('Planta Ppto'[Retiros])` — Retiros desde tabla `Planta Ppto` |
-| `Rotacion_Anual_Acumulada` | `0.00 %` | `DIVIDE([Cantidad_Retiros], [PromediodeTotal-Sena], 0)` |
+| `Cantidad_Retiros_Voluntarios` | `0` | `SUM('Planta Ppto'[Retiros Voluntarios])` |
+| `Cantidad_Retiros_Involuntarios` | `0` | `[Cantidad_Retiros] - [Cantidad_Retiros_Voluntarios]` |
+| `Tasa_Acumulada_Retiros` | `0.00 %` | `DIVIDE([Cantidad_Retiros], [PromediodeTotal-Sena], 0)`. Antes `Rotacion_Anual_Acumulada`. |
+| `Tasa_Acumulada_Retiros_Voluntarios` | `0.00 %` | `DIVIDE([Cantidad_Retiros_Voluntarios], [PromediodeTotal-Sena], 0)`. Antes `Rotacion_Voluntaria_Anual_Acumulada`. |
+| `Tasa_Acumulada_Retiros_Involuntarios` | `0.00 %` | `DIVIDE([Cantidad_Retiros_Involuntarios], [PromediodeTotal-Sena], 0)`. Antes `Rotacion_Involuntaria_Anual_Acumulada`. |
+| `Tasa_Acumulada_Retiros_Segun_Tipo` | `0.00 %` | Conmuta entre `[Tasa_Acumulada_Retiros_Voluntarios]`, `[Tasa_Acumulada_Retiros_Involuntarios]` o `[Tasa_Acumulada_Retiros]` segun `'Ppto Retiros'[Tipo de retiro]`. Antes `Rotacion_Segun_Tipo`. |
 | `Filtro Trimestre Slicer` | `0` | Medida booleana (0/1) que filtra segun la seleccion del slicer "Trimestre actual" o "Trimestre anterior" usando `DimPeriodoYM`. Retorna 1 si el periodo esta dentro del rango seleccionado, 1 si no hay seleccion (no filtra). |
 
 ---
@@ -232,8 +241,9 @@ Algunas medidas referencian tablas distintas a la que las contiene:
 |---|---|---|
 | `Tasa Ausentismo` | `AUSENTISMOS` | `PLANTA DE PERSONAL[Tot_empleados]`, `Dias Laborales[Dias Lab solo fds Domingos]` |
 | `Tasa_Acc` | `SST GENERAL` | `Planta Ppto` via `[tot_Ano_prom]` |
-| `Indice_Rotacion` | `Ppto Retiros` | `PLANTA DE PERSONAL[Tot_Colab-Sena]` |
-| `Rotacion_Anual_Acumulada` | `Tbl_Medidas` | `Planta Ppto[Retiros]`, `Planta Ppto[PromediodeTotal-Sena]` |
+| `Indice_Retiros` | `Ppto Retiros` | `PLANTA DE PERSONAL[Tot_Colab-Sena]` |
+| `Indice_Rotacion` | `Tbl_Medidas` | `Planta Ppto[Ingresos]`, `Planta Ppto[Retiros]`, `[PromediodeTotal-Sena]` |
+| `Tasa_Acumulada_Retiros` | `Tbl_Medidas` | `Planta Ppto[Retiros]` via `[Cantidad_Retiros]`, `[PromediodeTotal-Sena]` |
 | `%AusM` | `AUSENTISMOS` | `PLANTA DE PERSONAL[Prom_Colaboradores]` |
 
 > Las dependencias cruzadas son funcionales pero aumentan el acoplamiento entre tablas y deben tenerse en cuenta al hacer cambios en los modelos de datos de origen.

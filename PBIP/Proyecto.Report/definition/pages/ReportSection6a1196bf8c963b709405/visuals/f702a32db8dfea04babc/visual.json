@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "f702a32db8dfea04babc",
   "position": {
-    "x": 706.94441877229622,
-    "y": 730.367276020776,
-    "z": 18000,
-    "height": 270.42753368699283,
-    "width": 517.432210125506,
+    "x": 706.89655172413791,
+    "y": 709.19540229885058,
+    "z": 19000,
+    "height": 221.83908045977012,
+    "width": 517.24137931034488,
     "tabOrder": 1000
   },
   "visual": {
@@ -117,12 +117,12 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Ind_Retiros"
+                  "Property": "Tasa_Mensual_Retiros"
                 }
               },
-              "queryRef": "Tbl_Medidas.Ind_Retiros",
-              "nativeQueryRef": "Prom. Mensual",
-              "displayName": "Prom. Mensual"
+              "queryRef": "Tbl_Medidas.Tasa_Mensual_Retiros",
+              "nativeQueryRef": "Tasa Mensual de Retiros (%)",
+              "displayName": "Tasa Mensual de Retiros (%)"
             },
             {
               "field": {
@@ -132,12 +132,12 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Rotacion_Segun_Tipo"
+                  "Property": "Tasa_Acumulada_Retiros_Segun_Tipo"
                 }
               },
-              "queryRef": "Tbl_Medidas.Rotacion_Segun_Tipo",
-              "nativeQueryRef": "Retiros_Anual_Acumulado",
-              "displayName": "Retiros_Anual_Acumulado"
+              "queryRef": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo",
+              "nativeQueryRef": "Tasa Acumulada de Retiros (%)",
+              "displayName": "Tasa Acumulada de Retiros (%)"
             }
           ]
         }
@@ -146,16 +146,42 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Tbl_Medidas"
+                    "Entity": "DimPeriodoYM"
                   }
                 },
-                "Property": "Retiros_Segun_Tipo"
+                "Property": "Año"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Planta Ppto"
+                  }
+                },
+                "Property": "Grupo Empresa"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Planta Ppto"
+                  }
+                },
+                "Property": "Empresa"
+              }
+            },
+            "direction": "Ascending"
           }
         ]
       }
@@ -239,13 +265,52 @@
                   }
                 }
               ],
-              "isToggled": true,
               "children": [
                 {
                   "identityValues": [
                     {
                       "Literal": {
                         "Value": "'Challenger'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Habitel Hotels'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Grupo Sky'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Lemco'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Fundación Challenger'"
                       }
                     }
                   ],
@@ -266,7 +331,7 @@
                   "identityValues": [
                     {
                       "Literal": {
-                        "Value": "'Challenger'"
+                        "Value": "'Habitel Hotels'"
                       }
                     }
                   ],
@@ -276,7 +341,92 @@
                   "identityValues": [
                     {
                       "Literal": {
+                        "Value": "'Challenger'"
+                      }
+                    }
+                  ],
+                  "isToggled": true,
+                  "children": [
+                    {
+                      "identityValues": [
+                        {
+                          "Literal": {
+                            "Value": "'Challenger'"
+                          }
+                        }
+                      ],
+                      "isToggled": true
+                    }
+                  ]
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Fundación Challenger'"
+                      }
+                    }
+                  ],
+                  "isToggled": true,
+                  "children": [
+                    {
+                      "identityValues": [
+                        {
+                          "Literal": {
+                            "Value": "'Fundación Challenger'"
+                          }
+                        }
+                      ],
+                      "isToggled": true
+                    }
+                  ]
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Grupo Sky'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Lemco'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                }
+              ]
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'2024'"
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
                         "Value": "'Habitel Hotels'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                },
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Challenger'"
                       }
                     }
                   ],
@@ -332,7 +482,7 @@
             "rowSubtotals": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -677,7 +827,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         },
         {
@@ -740,37 +890,21 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Rotacion_Segun_Tipo"
+            "metadata": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo"
           }
         }
       ],
       "columnWidth": [
         {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "105.49999702321298D"
-                }
-              }
-            }
-          },
+          "properties": {},
           "selector": {
-            "metadata": "Tbl_Medidas.Rotacion_Segun_Tipo"
+            "metadata": "Tbl_Medidas.Tasa_Acumulada_Retiros_Segun_Tipo"
           }
         },
         {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "71.7500092589712D"
-                }
-              }
-            }
-          },
+          "properties": {},
           "selector": {
-            "metadata": "Tbl_Medidas.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         }
       ]
@@ -982,7 +1116,7 @@
                 "Entity": "Tbl_Medidas"
               }
             },
-            "Property": "Ind_Retiros"
+            "Property": "Tasa_Mensual_Retiros"
           }
         },
         "type": "Advanced"

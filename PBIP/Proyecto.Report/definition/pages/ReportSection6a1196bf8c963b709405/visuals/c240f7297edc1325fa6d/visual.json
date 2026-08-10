@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "c240f7297edc1325fa6d",
   "position": {
     "x": 290.2439024390244,
@@ -86,7 +86,7 @@
                     "Entity": "Tbl_Medidas"
                   }
                 },
-                "Property": "Tot_Retiros"
+                "Property": "Retiros_Voluntarios"
               }
             },
             "direction": "Descending"
@@ -151,7 +151,7 @@
             "autoSizeColumnWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
@@ -273,7 +273,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Ind_Retiros"
+            "metadata": "Tbl_Medidas.Tasa_Mensual_Retiros"
           }
         },
         {

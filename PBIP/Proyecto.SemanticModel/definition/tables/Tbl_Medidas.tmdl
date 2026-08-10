@@ -25,7 +25,7 @@ table Tbl_Medidas
 		displayFolder: 03 Ingresos y Retiros
 		lineageTag: bb62b9dd-c0c5-4a90-8442-4cd341dc6035
 
-	measure Rotacion_Anual_Acumulada =
+	measure Tasa_Acumulada_Retiros =
 			
 			DIVIDE (
 			    [Cantidad_Retiros],
@@ -255,7 +255,12 @@ table Tbl_Medidas
 		displayFolder: 04 Ausentismos
 		lineageTag: f4a052c4-b861-4e0e-9c9e-a8a7e2340bb3
 
-	measure Ind_Rot = (SUM('Planta Ppto'[Ingresos])-SUM('Planta Ppto'[Retiros]))/sum('Planta Ppto'[Total-Sena])
+	measure Variacion_Neta_Personal =
+			DIVIDE (
+			    SUM ( 'Planta Ppto'[Ingresos] ) - SUM ( 'Planta Ppto'[Retiros] ),
+			    SUM ( 'Planta Ppto'[Total-Sena] ),
+			    0
+			)
 		formatString: 0\ %;-0\ %;0\ %
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 19650ba2-b55d-4486-b176-fac7bc1c9a97
@@ -489,7 +494,12 @@ table Tbl_Medidas
 		displayFolder: 02 Ppto vs Real
 		lineageTag: c6b06e10-5a17-4c58-bfba-dd8fbe9c0daa
 
-	measure Ind_Retiros = SUM('Planta Ppto'[Retiros])/SUM('Planta Ppto'[Total-Sena])
+	measure Tasa_Mensual_Retiros =
+			DIVIDE (
+			    SUM ( 'Planta Ppto'[Retiros] ),
+			    SUM ( 'Planta Ppto'[Total-Sena] ),
+			    0
+			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 725f6b0b-d70f-4ace-8f20-6772c3ab0771
@@ -1058,7 +1068,7 @@ table Tbl_Medidas
 		displayFolder: 03 Ingresos y Retiros
 		lineageTag: 226d107a-042f-452d-a3c5-fb6280f728a7
 
-	measure Rotacion_Voluntaria_Anual_Acumulada =
+	measure Tasa_Acumulada_Retiros_Voluntarios =
 			DIVIDE (
 			    [Cantidad_Retiros_Voluntarios],
 			    [PromediodeTotal-Sena],
@@ -1068,7 +1078,7 @@ table Tbl_Medidas
 		displayFolder: 03 Ingresos y Retiros
 		lineageTag: b00930f2-cbe1-4463-82fb-c621b9e2448e
 
-	measure Rotacion_Involuntaria_Anual_Acumulada =
+	measure Tasa_Acumulada_Retiros_Involuntarios =
 			DIVIDE (
 			    [Cantidad_Retiros_Involuntarios],
 			    [PromediodeTotal-Sena],
@@ -1091,14 +1101,14 @@ table Tbl_Medidas
 		displayFolder: 03 Ingresos y Retiros
 		lineageTag: f1a2b3c4-d5e6-7f8a-9b0c-d1e2f3a4b5c6
 
-	measure Rotacion_Segun_Tipo =
+	measure Tasa_Acumulada_Retiros_Segun_Tipo =
 			VAR TipoSeleccionado = SELECTEDVALUE ( 'Ppto Retiros'[Tipo de retiro], "Total" )
 			RETURN
 			SWITCH (
 			    TipoSeleccionado,
-			    "Voluntario", [Rotacion_Voluntaria_Anual_Acumulada],
-			    "Involuntario", [Rotacion_Involuntaria_Anual_Acumulada],
-			    [Rotacion_Anual_Acumulada]
+			    "Voluntario", [Tasa_Acumulada_Retiros_Voluntarios],
+			    "Involuntario", [Tasa_Acumulada_Retiros_Involuntarios],
+			    [Tasa_Acumulada_Retiros]
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: 03 Ingresos y Retiros
@@ -1427,6 +1437,26 @@ table Tbl_Medidas
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: 05 Productividad
 		lineageTag: 8c3e1e4c-6a0d-4b2c-9e3a-4b9f5c7d8e0f
+
+	measure Indice_Rotacion =
+			VAR IngresosPeriodo =
+			    SUM ( 'Planta Ppto'[Ingresos] )
+			VAR RetirosPeriodo =
+			    SUM ( 'Planta Ppto'[Retiros] )
+			VAR PromedioColaboradoresSinSena =
+			    [PromediodeTotal-Sena]
+			RETURN
+			    DIVIDE (
+			        DIVIDE (
+			            IngresosPeriodo + RetirosPeriodo,
+			            2
+			        ),
+			        PromedioColaboradoresSinSena,
+			        0
+			    )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: 02 Ppto vs Real
+		lineageTag: c4a1f2e3-7b9d-4a5f-8c6e-1d2b3e4f5a6c
 
 	partition Tbl_Medidas = m
 		mode: import

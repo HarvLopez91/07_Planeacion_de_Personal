@@ -2049,7 +2049,7 @@ cultureInfo es-ES
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Planta Ppto",
-			          "ConceptualProperty": "Ind_Rot"
+			          "ConceptualProperty": "Variacion_Neta_Personal"
 			        }
 			      },
 			      "State": "Generated",
@@ -2060,7 +2060,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Ind_Rot": {
+			          "Variacion_Neta_Personal": {
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
@@ -3049,7 +3049,7 @@ cultureInfo es-ES
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Planta Ppto",
-			          "ConceptualProperty": "Ind_Retiros"
+			          "ConceptualProperty": "Tasa_Mensual_Retiros"
 			        }
 			      },
 			      "State": "Generated",
@@ -3060,7 +3060,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Ind_Retiros": {
+			          "Tasa_Mensual_Retiros": {
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
@@ -19771,7 +19771,7 @@ cultureInfo es-ES
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Tbl_Medidas",
-			          "ConceptualProperty": "Rotacion_Anual_Acumulada"
+			          "ConceptualProperty": "Tasa_Acumulada_Retiros"
 			        }
 			      },
 			      "State": "Generated",
@@ -19782,7 +19782,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Rotacion_Anual_Acumulada": {
+			          "Tasa_Acumulada_Retiros": {
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
