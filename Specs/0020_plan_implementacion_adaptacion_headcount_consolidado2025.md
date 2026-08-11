@@ -322,26 +322,27 @@ Después del merge del PR #8 se confirmó un gap de presentación en la página 
 
 La corrección se limita a filtros de visual y estado persistido del bookmark; no elimina filas ni modifica Power Query, TMDL, relaciones, medidas DAX o archivos Excel:
 
-- Se conserva sin duplicar `PLANTA DE PERSONAL[GENERACIÓN] != null` en el funnel `b07ca4a549be0e60b2c6`, junto con su orden descendente por `Tbl_Medidas[Tot_empleados_Promedio]`.
+- El funnel `b07ca4a549be0e60b2c6` excluye conjuntamente `null` y el texto literal `"false"` de `PLANTA DE PERSONAL[GENERACIÓN]`, conservando su orden descendente por `Tbl_Medidas[Tot_empleados_Promedio]`.
 - Se conserva sin duplicar `Generaciones[Generación] != null` en la tabla `30f11733eea2697476d4`.
 - Se amplía el filtro del funnel Estado Civil `1da9f64d870519b6bffa` para excluir conjuntamente `"Sin Información En Kactus"` y `null`; el rótulo visual `(En blanco)` no se trata como texto literal.
 - En el bookmark `98c9f8d36c940a908787` (`Generación`) se persisten el filtro `Generaciones[Generación] != null` de la tabla y la exclusión de `null` en Estado Civil, porque este bookmark no usa `suppressData` y puede restaurar el estado de datos de los visuales objetivo.
 - El bookmark `9470280b116096d60ab0` (`Estado Civil`) y el bookmark Hijos `092fbe75ecb89d30748c` conservan `suppressData: true`; se auditaron y no requieren cambios para mantener los filtros.
-- La deuda `DATA-013` (`#N/A`, `false` y demás valores de origen) permanece fuera de alcance y sin cambios.
+- La deuda de origen `DATA-013` (`#N/A`, `false` y demás valores no válidos) permanece sin saneamiento; esta corrección únicamente oculta el literal `"false"` en el funnel Generación.
 
 Archivos PBIR modificados por esta corrección:
 
+- `PBIP/Proyecto.Report/definition/pages/ReportSectionf46593dd92bf9359ceef/visuals/b07ca4a549be0e60b2c6/visual.json`
 - `PBIP/Proyecto.Report/definition/pages/ReportSectionf46593dd92bf9359ceef/visuals/1da9f64d870519b6bffa/visual.json`
 - `PBIP/Proyecto.Report/definition/bookmarks/98c9f8d36c940a908787.bookmark.json`
 
-Los visuales `b07ca4a549be0e60b2c6` y `30f11733eea2697476d4` se validan como parte del resultado, pero no se reescriben porque `origin/main` ya contiene sus predicados correctos.
+La tabla `30f11733eea2697476d4` se valida como parte del resultado, pero no se reescribe porque ya contiene su predicado correcto para `null`.
 
 Validación ejecutada el 2026-08-11 desde `.wt/demografico-ocultar-blancos`:
 
 - Power BI Desktop abrió el PBIP aislado y mostró datos en la página objetivo.
 - Flujo `Estado Civil → Hijos → Generación → Estado Civil → Generación`: PASS en capturas consecutivas.
 - Estado Civil: sin `(En blanco)` y sin `Sin Información En Kactus`; `Unión Libre` visible y correcta.
-- Generación: sin `(En blanco)`, orden descendente preservado y tabla poblada con las cuatro generaciones, año de nacimiento y edades.
-- El valor `false` asociado a DATA-013 permaneció sin saneamiento, conforme al alcance aprobado.
+- Generación: sin `(En blanco)` ni `false`, orden descendente preservado y tabla poblada con las cuatro generaciones, año de nacimiento y edades.
+- El origen de `false` asociado a DATA-013 permanece sin saneamiento; solo se excluye en la presentación del funnel y en el estado persistido del bookmark Generación.
 - `powerbi-report-author validate` conservó exactamente la línea base preexistente de `origin/main` (74 errores y 157 advertencias ajenos a esta corrección), sin aumento tras el parche.
 - Las capturas se conservaron únicamente como evidencia local ignorada en `Outputs/`; no forman parte del commit.
