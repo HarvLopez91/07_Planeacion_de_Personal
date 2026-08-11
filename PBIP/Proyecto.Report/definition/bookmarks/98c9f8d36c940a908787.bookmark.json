@@ -599,7 +599,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -611,7 +611,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados_Promedio"
@@ -639,7 +639,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -651,7 +651,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados_Promedio"
@@ -763,7 +763,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -775,7 +775,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados_Promedio"
@@ -803,7 +803,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -815,7 +815,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados_Promedio"
@@ -887,7 +887,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -899,7 +899,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados_Promedio"
@@ -927,7 +927,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados_Promedio"
@@ -939,7 +939,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados_Promedio"
@@ -1027,7 +1027,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados"
@@ -1044,7 +1044,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados"
@@ -1056,7 +1056,7 @@
                             "Measure": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
+                                  "Entity": "Tbl_Medidas"
                                 }
                               },
                               "Property": "Tot_empleados"
@@ -1082,7 +1082,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados"

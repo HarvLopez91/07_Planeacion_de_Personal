@@ -275,6 +275,14 @@ table 'PLANTA DE PERSONAL'
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Rango de Edad'
+		dataType: string
+		lineageTag: b6e4c9f2-7d3a-4e58-8b1f-9a2d5c7e3f04
+		summarizeBy: none
+		sourceColumn: RANGO DE EDAD
+
+		annotation SummarizationSetBy = Automatic
+
 	column CM
 		dataType: string
 		lineageTag: 0707d973-42ea-46b6-920e-3424c9a7765a
@@ -570,7 +578,7 @@ table 'PLANTA DE PERSONAL'
 		queryGroup: HeadCount
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/2024/Consolidado%202024.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/2024/Consolidado%202024.xlsx"), null, true),
 				    #"PLANTA DE PERSONAL_Sheet" = Origen{[Item="PLANTA DE PERSONAL",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"PLANTA DE PERSONAL_Sheet", [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"MES", type text}, {"AÑO", type text}, {"Rango Antigüedad", type text}, {"Antigüedad", type text}, {"SUELDO_B", Currency.Type}, {"F_INICIO", type date}, {"F_CENCIM", type date}}),
