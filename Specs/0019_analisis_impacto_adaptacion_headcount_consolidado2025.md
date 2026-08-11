@@ -260,9 +260,13 @@ No quedan decisiones humanas pendientes de aprobación para el alcance mínimo d
 
 ## 13. Siguiente paso
 
-Las decisiones A-E y F están aprobadas (sección 10); no queda ninguna decisión humana pendiente para el alcance mínimo. Lo que sigue es ejecución, condicionada a:
+**Actualización — implementación completada:** las decisiones A-E y F, aprobadas en la sección 10, fueron implementadas y validadas técnicamente en `Specs/0020_plan_implementacion_adaptacion_headcount_consolidado2025.md` (sección 15), rama `fix/data-012-headcount-generacion-rango-edad`. El PR #7 (punto 1 original) ya estaba fusionado a `main` (`f9e15a7`) antes de iniciar. El parche local y el worktree temporal de verificación (punto 3 original) no se reutilizaron — se reconstruyó selectivamente sobre `main` + PR #7, confirmado en `Specs/0020` sección 15.2. El riesgo de Formula Firewall/privacidad (punto 4, sección 11) **no se resolvió** — sigue vigente sin cambios, no bloqueó el cierre porque las 3 fuentes migradas cargaron sin ese bloqueo en esta sesión.
 
-1. Confirmar que PR #7 (Unión Libre, `Specs/0017`) ya está fusionado a `main`, o partir de una base equivalente que preserve esa corrección (sección 9.7) — condición de entrada obligatoria antes de iniciar la implementación.
-2. Elaborar el plan de implementación (`Specs/00XX_plan_implementacion_...md`, consecutivo a determinar justo al crearlo, no asignado todavía) que aplique, sobre esa base limpia: la migración de fuente (F, sección 9.8) para las 3 consultas, y las decisiones A-E (sección 9.1-9.6).
-3. No reutilizar tal cual ni el parche local de la sección 2 ni el worktree temporal de verificación de la sección 2.1/9.8 — ambos mezclan cambios válidos con ruido o regresiones; reconstruir selectivamente sobre la base del punto 1.
-4. Resolver el riesgo de Formula Firewall/niveles de privacidad (sección 11) como parte de la sesión interactiva de implementación, no antes.
+## 14. Deuda de calidad de datos detectada durante la implementación (post-análisis)
+
+Durante la validación de la implementación (`Specs/0020` sección 15.4) se detectó, con perfilado de solo lectura del Excel y conteo exacto verificado contra los errores reportados por Power BI Desktop, que **8 columnas de la fuente 2025 contienen valores de error nativos de Excel (`#N/A`)** para un subconjunto pequeño de filas: `DEPENDENCIA_PATRON` (hasta 226 filas), `AREA_PATRON` (hasta 88), `FECHA NACIMIENTO` (hasta 42), `EDAD` (hasta 42), `Generación` (hasta 42), `RANGO DE EDAD` (hasta 42), `EST_CIVIL` (hasta 32), `AGRUPADOR` (hasta 4).
+
+- **6 de las 8 columnas nunca son tocadas por el código de DATA-012** — prueba directa de que es un problema de calidad de la fuente (fórmulas tipo BUSCARV/XLOOKUP sin coincidencia para ciertos empleados), no un defecto introducido por esta iniciativa.
+- Las 2 columnas restantes (`Generación`, `RANGO DE EDAD`) sí están en el alcance de DATA-012 — para esas ~42 filas (99,9 % de las filas quedan correctas), el motor de Analysis Services sustituye el texto literal `"false"` en lugar de dejar la celda en blanco, por no poder convertir un valor de error de Excel al tipo `string` declarado. El efecto visual es una fila sin coincidencia en `Generaciones` (blanco), no una generación incorrecta.
+- **DATA-012 no corrige estos `#N/A` de origen** — decisión de alcance confirmada explícitamente por el usuario. No se aplicó ningún tipo de manipulación de datos (sin `ReplaceErrorValues`, sin `try...otherwise`, sin eliminar filas). Las 45.670/71.206 filas se preservan íntegras.
+- Queda registrado como **deuda de calidad de datos** en `Specs/00_roadmap_y_backlog.md`, pendiente de una iniciativa futura de saneamiento de fuente — no bloquea el cierre técnico de DATA-012.
