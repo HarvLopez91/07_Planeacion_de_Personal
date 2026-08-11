@@ -244,6 +244,14 @@ table Consolidado2025
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Rango de Edad'
+		dataType: string
+		lineageTag: a3f5d8e1-6c2b-4f19-9a7d-1e8c4b0f2d6a
+		summarizeBy: none
+		sourceColumn: RANGO DE EDAD
+
+		annotation SummarizationSetBy = Automatic
+
 	column AFC
 		dataType: string
 		isHidden
@@ -539,13 +547,14 @@ table Consolidado2025
 		queryGroup: HeadCount
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/edwin_clavijo_challenger_co/Documents/Documentos/Anal%C3%ADtica%20del%20Grupo%20Empresarial%20Lemco/03_Fuentes_Datos/01_Talento_Humano/02_HeadCount/2025/Consolidado%202025.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/2025/Consolidado%202025.xlsx"), null, true),
 				    Consolidado2025_Sheet = Origen{[Item="Consolidado2025",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Consolidado2025_Sheet, [PromoteAllScalars=true]),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"RANGO DE EDAD", "GENERACIÓN"}}),
-				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"MES", type text}, {"NIVEL_DE_CARGO", type text}, {"TIPO_DE_CARGO", type text}})
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"Generación", "GENERACIÓN"}}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"MES", type text}, {"NIVEL_DE_CARGO", type text}, {"TIPO_DE_CARGO", type text}, {"GENERACIÓN", type text}, {"RANGO DE EDAD", type text}}),
+				    #"Columnas fuera de alcance eliminadas" = Table.RemoveColumns(#"Tipo cambiado1", {"IDMESAÑO", "NOMBRE", "APELLIDO", "NOMBRE EMPLEADO (Apellidos-nombres)", "NOMBRE EMPLEADO (nombre-apellido)", "MANO DE OBRA", "CLASIFICACION", "FLEX", "F_INGRESO", "ÁRBOL DE NÓMINA NIVEL 2", "ÁRBOL DE NÓMINA NIVEL 3", "Tipo Identificación", "COD. CARGO", "Tipo Contrato (Kactus)", "Indicador Actividad", "Año Nac", "Correo Corporativo", "PCD"}, MissingField.Ignore)
 				in
-				    #"Tipo cambiado1"
+				    #"Columnas fuera de alcance eliminadas"
 
 	changedProperty = IsHidden
 
