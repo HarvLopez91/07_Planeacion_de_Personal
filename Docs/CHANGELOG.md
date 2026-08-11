@@ -6,6 +6,22 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-08-11 (DATA-012)
+
+### Cambiado
+
+- Migradas las 3 consultas que leen HeadCount (`Consolidado2025`, `PLANTA DE PERSONAL`, `AREAS`) de OneDrive personal a la biblioteca corporativa SharePoint (`lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/...`), resolviendo el error `NIVEL_DE_CARGO` reportado por el usuario (causa: la fuente antigua estaba desincronizada frente a la reestructuración manual del Excel).
+- Corregida la falsa equivalencia `RANGO DE EDAD → GENERACIÓN` únicamente para la fuente 2025: ahora `GENERACIÓN` se alimenta de la columna real `Generación` del Excel, y `RANGO DE EDAD` queda como atributo `Rango de Edad` independiente en `Consolidado2025` y `PLANTA DE PERSONAL`. La lógica histórica 2024 (`RANGO DE EDAD → GENERACIÓN` como sustituto) se conserva sin cambios, confirmada válida mediante perfilado de solo lectura.
+- Agregado un paso explícito de exclusión de columnas (`Table.RemoveColumns`) en `Consolidado2025` para las 18 columnas del Excel restructurado que quedan fuera del alcance mínimo (Árbol de Nómina Nivel 2/3, Tipo Identificación, COD. CARGO, Tipo Contrato (Kactus), Indicador Actividad, Año Nac, variantes de nombre, etc.) — evita que Power BI Desktop las reincorpore automáticamente al modelo en cada refresh completo.
+- Corregidas 16 referencias obsoletas a medidas (`PLANTA DE PERSONAL[Tot_empleados_Promedio/Tot_empleados]` → `Tbl_Medidas[...]`) en el bookmark "Generación", que impedían el orden descendente correcto del funnel tras el saneamiento de medidas de GOV-005.
+- Alineados los colores del visual "Generación por Antigüedad en la compañía" con el Manual de Marca Grupo LEMCO: Baby Boomers `#000032`, Generación X `#1A3059`, Millennials `#1B487F`, Centennials `#F7931E` (antes usaba `#B3B3B3` y `#00A5E2`, fuera de marca).
+
+### Documentado
+
+- `Specs/0019_analisis_impacto_adaptacion_headcount_consolidado2025.md` y `Specs/0020_plan_implementacion_adaptacion_headcount_consolidado2025.md`: análisis de impacto, decisiones A-F aprobadas, plan de implementación y resultado de validación técnica completa (52 tablas / 66 relaciones / 122 medidas, 0 duplicadas; verificación en vivo de `GENERACIÓN`, tabla generacional, orden del funnel, colores y que Unión Libre permanece intacta).
+- Registrada `DATA-013` en `Specs/00_roadmap_y_backlog.md`: deuda de calidad de datos preexistente en la fuente (valores de error `#N/A` de Excel en 8 columnas — `DEPENDENCIA_PATRON`, `AREA_PATRON`, `FECHA NACIMIENTO`, `EDAD`, `Generación`, `RANGO DE EDAD`, `EST_CIVIL`, `AGRUPADOR`), confirmada como ajena al código de `DATA-012` (6 de 8 columnas nunca son tocadas por esta iniciativa) y no corregida, per decisión explícita de alcance del usuario.
+- `DATA-012` y `DATA-005` (absorbida en `DATA-012`) actualizadas en `Specs/00_roadmap_y_backlog.md` de "próxima implementación" a "Finalizadas".
+
 ## [Sin version] - 2026-08-10 (GOV-005)
 
 ### Corregido
