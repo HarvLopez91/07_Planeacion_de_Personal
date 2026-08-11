@@ -315,3 +315,33 @@ Durante la validación se detectaron errores de refresco (`DataFormat.Error: Val
 - `Docs/CHANGELOG.md`
 
 0 churn adicional (bookmarks ajenos, `diagramLayout.json`, otras tablas) en el commit final.
+
+### 15.7 Corrección post-merge de presentación — ocultar blancos en Demográfico (Promedio)
+
+Después del merge del PR #8 se confirmó un gap de presentación en la página `Demográfico (Promedio)` (`ReportSectionf46593dd92bf9359ceef`): Power BI podía volver a mostrar el miembro `(En blanco)` al aplicar el bookmark `Generación`, aunque los filtros correctos ya existieran en los archivos base de los visuales.
+
+La corrección se limita a filtros de visual y estado persistido del bookmark; no elimina filas ni modifica Power Query, TMDL, relaciones, medidas DAX o archivos Excel:
+
+- Se conserva sin duplicar `PLANTA DE PERSONAL[GENERACIÓN] != null` en el funnel `b07ca4a549be0e60b2c6`, junto con su orden descendente por `Tbl_Medidas[Tot_empleados_Promedio]`.
+- Se conserva sin duplicar `Generaciones[Generación] != null` en la tabla `30f11733eea2697476d4`.
+- Se amplía el filtro del funnel Estado Civil `1da9f64d870519b6bffa` para excluir conjuntamente `"Sin Información En Kactus"` y `null`; el rótulo visual `(En blanco)` no se trata como texto literal.
+- En el bookmark `98c9f8d36c940a908787` (`Generación`) se persisten el filtro `Generaciones[Generación] != null` de la tabla y la exclusión de `null` en Estado Civil, porque este bookmark no usa `suppressData` y puede restaurar el estado de datos de los visuales objetivo.
+- El bookmark `9470280b116096d60ab0` (`Estado Civil`) y el bookmark Hijos `092fbe75ecb89d30748c` conservan `suppressData: true`; se auditaron y no requieren cambios para mantener los filtros.
+- La deuda `DATA-013` (`#N/A`, `false` y demás valores de origen) permanece fuera de alcance y sin cambios.
+
+Archivos PBIR modificados por esta corrección:
+
+- `PBIP/Proyecto.Report/definition/pages/ReportSectionf46593dd92bf9359ceef/visuals/1da9f64d870519b6bffa/visual.json`
+- `PBIP/Proyecto.Report/definition/bookmarks/98c9f8d36c940a908787.bookmark.json`
+
+Los visuales `b07ca4a549be0e60b2c6` y `30f11733eea2697476d4` se validan como parte del resultado, pero no se reescriben porque `origin/main` ya contiene sus predicados correctos.
+
+Validación ejecutada el 2026-08-11 desde `.wt/demografico-ocultar-blancos`:
+
+- Power BI Desktop abrió el PBIP aislado y mostró datos en la página objetivo.
+- Flujo `Estado Civil → Hijos → Generación → Estado Civil → Generación`: PASS en capturas consecutivas.
+- Estado Civil: sin `(En blanco)` y sin `Sin Información En Kactus`; `Unión Libre` visible y correcta.
+- Generación: sin `(En blanco)`, orden descendente preservado y tabla poblada con las cuatro generaciones, año de nacimiento y edades.
+- El valor `false` asociado a DATA-013 permaneció sin saneamiento, conforme al alcance aprobado.
+- `powerbi-report-author validate` conservó exactamente la línea base preexistente de `origin/main` (74 errores y 157 advertencias ajenos a esta corrección), sin aumento tras el parche.
+- Las capturas se conservaron únicamente como evidencia local ignorada en `Outputs/`; no forman parte del commit.
