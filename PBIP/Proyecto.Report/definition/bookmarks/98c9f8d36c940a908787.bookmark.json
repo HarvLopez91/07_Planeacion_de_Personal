@@ -569,6 +569,13 @@
                                         "Value": "null"
                                       }
                                     }
+                                  ],
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "'false'"
+                                      }
+                                    }
                                   ]
                                 ]
                               }
@@ -719,6 +726,13 @@
                                     {
                                       "Literal": {
                                         "Value": "'Sin Información En Kactus'"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
                                       }
                                     }
                                   ]
@@ -978,6 +992,49 @@
                 {
                   "name": "0c98d33bd2a7ad394a88",
                   "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "g",
+                        "Entity": "Generaciones",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "g"
+                                        }
+                                      },
+                                      "Property": "Generación"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
                   "expression": {
                     "Column": {
                       "Expression": {
@@ -1481,6 +1538,56 @@
                 {
                   "name": "3fb5506f4ed64654b4e0",
                   "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "p",
+                        "Entity": "PLANTA DE PERSONAL",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "p"
+                                        }
+                                      },
+                                      "Property": "GENERACI&#211;N"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "'false'"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
                   "expression": {
                     "Column": {
                       "Expression": {
@@ -1491,7 +1598,7 @@
                       "Property": "GENERACI&#211;N"
                     }
                   },
-                  "howCreated": 0
+                  "howCreated": 1
                 },
                 {
                   "name": "da9720141c0c08b13c57",
@@ -1500,7 +1607,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados_Promedio"
