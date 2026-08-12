@@ -463,7 +463,72 @@
                               "Value": "'Sin Información En Kactus'"
                             }
                           }
-                        ],
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "d74a815cdf981fe5642b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "PLANTA DE PERSONAL"
+              }
+            },
+            "Property": "EST_CIVIL"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "PLANTA DE PERSONAL",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "p"
+                              }
+                            },
+                            "Property": "EST_CIVIL"
+                          }
+                        }
+                      ],
+                      "Values": [
                         [
                           {
                             "Literal": {
@@ -479,6 +544,7 @@
             }
           ]
         },
+        "howCreated": "User",
         "objects": {
           "general": [
             {
