@@ -349,3 +349,11 @@ Validación ejecutada el 2026-08-11 desde `.wt/demografico-ocultar-blancos`:
 - El origen de `false` asociado a DATA-013 permanece sin saneamiento; solo se excluye en la presentación de los dos visuales gerenciales y en el estado persistido del bookmark Generación.
 - `powerbi-report-author validate` conservó exactamente la línea base preexistente de `origin/main` (74 errores y 157 advertencias ajenos a esta corrección), sin aumento tras el parche.
 - Las capturas se conservaron únicamente como evidencia local ignorada en `Outputs/`; no forman parte del commit.
+
+### 15.8 Corrección definitiva del blanco de Estado Civil por columna fuente
+
+La validación posterior al PR #9 demostró mediante `powerbi-modeling-mcp` que el miembro visual `(En blanco)` no era un valor `null` de `PLANTA DE PERSONAL[EST_CIVIL (grupos)]`. Las 37 filas afectadas tenían `PLANTA DE PERSONAL[EST_CIVIL] = null`; al evaluarlas por el campo agrupado, Power BI las exponía como una única categoría `(En blanco)` con `Tot_empleados_Promedio = 12,3333`.
+
+Por tanto, el filtro anterior sobre `EST_CIVIL (grupos) != null` era sintácticamente válido pero insuficiente: operaba sobre el miembro agrupado y no sobre la columna que originaba el blanco. La solución definitiva conserva la regla de negocio `EST_CIVIL (grupos) != "Sin Información En Kactus"` y agrega un filtro independiente `EST_CIVIL != null` sobre la columna fuente.
+
+El ajuste se limita a presentación. No usa `(En blanco)` como literal, no elimina ni transforma registros y no modifica Excel, Power Query, TMDL, relaciones o DAX. El visual `1da9f64d870519b6bffa` y el estado persistido del mismo visual en el bookmark `98c9f8d36c940a908787` (`Generación`) contienen ambas reglas. Los bookmarks `9470280b116096d60ab0` (`Estado Civil`) y `092fbe75ecb89d30748c` (`Hijos`) conservan `suppressData: true` y no se modifican porque no restauran filtros de datos.
