@@ -136,7 +136,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "86.35252337916292D"
+                  "Value": "107.14285714285714D"
                 }
               }
             }
@@ -157,20 +157,6 @@
           },
           "selector": {
             "metadata": "Generaciones.Edades"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "128.56081302733273D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Generaciones.Generación"
           }
         }
       ],
@@ -290,6 +276,62 @@
           "selector": {
             "metadata": "Tbl_Medidas.Tot_empleados_Promedio"
           }
+        },
+        {
+          "properties": {
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Generaciones.Rango Años de Nacimiento"
+          }
+        },
+        {
+          "properties": {
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Generaciones.Edades"
+          }
         }
       ],
       "values": [
@@ -397,7 +439,7 @@
         }
       },
       {
-        "name": "c3236afc024940400ec4",
+        "name": "c122a8614b44429b9039",
         "field": {
           "Column": {
             "Expression": {
@@ -411,7 +453,7 @@
         "type": "Categorical"
       },
       {
-        "name": "a1aa50c1c78ad42abb06",
+        "name": "baf2752c0dd89059036e",
         "field": {
           "Column": {
             "Expression": {
@@ -425,7 +467,7 @@
         "type": "Categorical"
       },
       {
-        "name": "4d21365a45e319c03058",
+        "name": "ed92ebec946a3180043c",
         "field": {
           "Measure": {
             "Expression": {
@@ -439,7 +481,7 @@
         "type": "Advanced"
       },
       {
-        "name": "48c521e68229d9c7e120",
+        "name": "685ce30025780604d055",
         "field": {
           "Arithmetic": {
             "Left": {
