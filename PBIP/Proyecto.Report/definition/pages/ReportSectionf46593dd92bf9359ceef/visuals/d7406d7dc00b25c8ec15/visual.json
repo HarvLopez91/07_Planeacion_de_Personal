@@ -39,12 +39,27 @@
                       "Entity": "PLANTA DE PERSONAL"
                     }
                   },
+                  "Property": "CCO"
+                }
+              },
+              "queryRef": "PLANTA DE PERSONAL.CCO",
+              "nativeQueryRef": "CCO",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
                   "Property": "CARGO"
                 }
               },
               "queryRef": "PLANTA DE PERSONAL.CARGO",
               "nativeQueryRef": "CARGO",
-              "active": false
+              "active": true
             }
           ]
         },
@@ -149,13 +164,88 @@
           },
           {
             "queryRefs": [
+              "PLANTA DE PERSONAL.CCO"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
+                  "Property": "CCO"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
               "PLANTA DE PERSONAL.CARGO"
             ],
             "isCollapsed": true,
             "isPinned": true
           }
         ],
-        "root": {}
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'COORDINACIÓN DE GESTIÓN HUMANA'"
+                  }
+                }
+              ],
+              "isToggled": true
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'GERENCIA GENERAL'"
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'A10010 GERENCIA GENERAL'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                }
+              ]
+            },
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'JEFATURA SISTEMAS INTEGRADOS DE GESTION'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'L20040 SIG'"
+                      }
+                    }
+                  ],
+                  "isToggled": true
+                }
+              ]
+            }
+          ]
+        }
       }
     ],
     "objects": {
