@@ -373,6 +373,6 @@ La afirmación de la sección 15.8 ("`9470280b116096d60ab0` no se modifica porqu
 
 No se incorporó el ajuste cosmético de centrado/estilo de encabezado (commit `af10d92`, `docs/roadmap-backlog`) — permanece fuera de esta rama, pendiente de revisión aparte según lo indicado explícitamente.
 
-Archivo modificado: `PBIP/Proyecto.Report/definition/bookmarks/9470280b116096d60ab0.bookmark.json` (155 inserciones / 17 eliminaciones, `git diff --check` limpio). Ningún otro bookmark, visual, tabla TMDL, relación ni medida fue tocado.
+Archivo modificado: `PBIP/Proyecto.Report/definition/bookmarks/9470280b116096d60ab0.bookmark.json` (140 cambios: 124 inserciones / 16 eliminaciones, `git diff --check` limpio). Ningún otro bookmark, visual, tabla TMDL, relación ni medida fue tocado.
 
 Validación ejecutada desde `.wt/demografico-estado-civil-null-origen` (rama `fix/demografico-bookmark-estado-civil-canonico`, base `origin/main` en `520b9ab1ba9ad855f6a5d15e5d7633961d3499e0`): ver resultado de los 3 ciclos de navegación y las validaciones MCP en el informe final de esta corrección.
