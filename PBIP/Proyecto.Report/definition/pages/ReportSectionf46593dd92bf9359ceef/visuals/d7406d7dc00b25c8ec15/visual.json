@@ -39,6 +39,21 @@
                       "Entity": "PLANTA DE PERSONAL"
                     }
                   },
+                  "Property": "CCO"
+                }
+              },
+              "queryRef": "PLANTA DE PERSONAL.CCO",
+              "nativeQueryRef": "CCO",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
                   "Property": "CARGO"
                 }
               },
@@ -142,6 +157,25 @@
                     }
                   },
                   "Property": "DEPENDENCIA"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "PLANTA DE PERSONAL.CCO"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "PLANTA DE PERSONAL"
+                    }
+                  },
+                  "Property": "CCO"
                 }
               }
             ],
