@@ -376,3 +376,23 @@ No se incorporó el ajuste cosmético de centrado/estilo de encabezado (commit `
 Archivo modificado: `PBIP/Proyecto.Report/definition/bookmarks/9470280b116096d60ab0.bookmark.json` (140 cambios: 124 inserciones / 16 eliminaciones, `git diff --check` limpio). Ningún otro bookmark, visual, tabla TMDL, relación ni medida fue tocado.
 
 Validación ejecutada desde `.wt/demografico-estado-civil-null-origen` (rama `fix/demografico-bookmark-estado-civil-canonico`, base `origin/main` en `520b9ab1ba9ad855f6a5d15e5d7633961d3499e0`): ver resultado de los 3 ciclos de navegación y las validaciones MCP en el informe final de esta corrección.
+
+### 15.10 Corrección definitiva de restauración de datos del bookmark Estado Civil
+
+El PR #11 dejó correctos tanto el visual base de Estado Civil como el `explorationState` del bookmark `9470280b116096d60ab0`. La carga inicial del PBIP principal fue PASS: no aparecieron `(En blanco)` ni `Sin Información En Kactus`, y `Unión Libre` permaneció visible y correctamente homologada.
+
+Sin embargo, el fallo seguía siendo reproducible después de navegar `Estado Civil → Hijos → Generación → Estado Civil`: al regresar desde Generación, Estado Civil volvía a mostrar `(En blanco)`. El bookmark Estado Civil conservaba `suppressData: true`; por ello, aunque su snapshot ya contenía los filtros canónicos, dicho estado de datos no se reaplicaba consistentemente durante el retorno desde Generación.
+
+La corrección definitiva elimina exclusivamente `suppressData: true` del bookmark Estado Civil. Data queda ON, mientras que Selected visuals (`applyOnlyToTargetVisuals: true` y sus cuatro `targetVisualNames`) y Display permanecen ON. No se modifican `explorationState`, filtros, campos, medidas, visuales ni los bookmarks Hijos y Generación.
+
+Validación ejecutada desde `.wt/demografico-estado-civil-null-origen`, rama `fix/demografico-bookmark-estado-civil-data`, con base directa en `origin/main` (`e91f231b31aec325d9ac98abc1844709a49a6ce0`):
+
+- Ciclo 1 `Estado Civil → Hijos → Generación → Estado Civil → Generación → Estado Civil`: PASS.
+- Ciclo 2 con la misma secuencia: PASS.
+- Ciclo 3 con la misma secuencia: PASS.
+- Estado Civil: sin `(En blanco)` y sin `Sin Información En Kactus`; `Unión Libre` correcta y categorías válidas preservadas.
+- Generación: cuatro categorías válidas, sin `(En blanco)` ni `false`, con orden descendente.
+- Tabla Generacional: cuatro generaciones, Año Nacimiento y Edades.
+- Generación por Antigüedad: cuatro series, sin blanco ni `false`, con colores LEMCO preservados.
+
+Este ajuste no modifica el modelo semántico, medidas DAX, relaciones, Power Query, archivos fuente ni registros. `false` continúa como deuda de calidad de fuente de DATA-013 y solo permanece excluido de la presentación gerencial mediante los filtros ya versionados.
