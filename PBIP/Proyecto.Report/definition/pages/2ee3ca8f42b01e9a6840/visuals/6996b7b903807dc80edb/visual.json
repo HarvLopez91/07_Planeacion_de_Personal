@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "bb8fdf3117578ada1101",
+  "name": "6996b7b903807dc80edb",
   "position": {
     "x": 10.344827586206897,
-    "y": 493.44827586206895,
-    "z": 3000,
+    "y": 224.48275862068965,
+    "z": 9001,
     "height": 76,
-    "width": 256.55172413793105,
-    "tabOrder": 1000
+    "width": 257.58620689655174,
+    "tabOrder": 9001
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Empresas"
+                      "Entity": "Mes"
                     }
                   },
-                  "Property": "Empresas"
+                  "Property": "Meses"
                 }
               },
-              "queryRef": "Empresas.Empresas",
-              "nativeQueryRef": "Empresas",
+              "queryRef": "Mes.Meses",
+              "nativeQueryRef": "Meses",
               "active": true
             }
           ]
@@ -51,11 +51,80 @@
       "general": [
         {
           "properties": {
-            "orientation": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "m",
+                    "Entity": "Mes",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "m"
+                                }
+                              },
+                              "Property": "Meses"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'01.Enero'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'02.Febrero'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'03.Marzo'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'04.Abril'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'05.Mayo'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'06.Junio'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
             }
           }
@@ -64,17 +133,17 @@
       "selection": [
         {
           "properties": {
-            "strictSingleSelect": {
+            "singleSelect": {
               "expr": {
                 "Literal": {
                   "Value": "false"
                 }
               }
             },
-            "singleSelect": {
+            "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -84,17 +153,17 @@
       "header": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "fontFamily": {
               "expr": {
                 "Literal": {
                   "Value": "'Calibri'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
@@ -104,57 +173,25 @@
                   "Value": "13D"
                 }
               }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "items": [
-        {
-          "properties": {
-            "fontFamily": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Calibri'"
-                }
-              }
-            },
-            "bold": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
             }
           }
         }
       ]
-    },
-    "syncGroup": {
-      "groupName": "Empresa",
-      "fieldChanges": true,
-      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [
       {
-        "name": "Filterbd2eb816e4cb0f5652a6",
+        "name": "Filter0519748e1e5b43367ce239",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Empresas"
+                "Entity": "Mes"
               }
             },
-            "Property": "Empresas"
+            "Property": "Meses"
           }
         },
         "type": "Categorical",
@@ -162,8 +199,8 @@
           "Version": 2,
           "From": [
             {
-              "Name": "e",
-              "Entity": "Empresas",
+              "Name": "m",
+              "Entity": "Mes",
               "Type": 0
             }
           ],
@@ -178,10 +215,10 @@
                           "Column": {
                             "Expression": {
                               "SourceRef": {
-                                "Source": "e"
+                                "Source": "m"
                               }
                             },
-                            "Property": "Empresas"
+                            "Property": "Meses"
                           }
                         }
                       ],
@@ -201,6 +238,7 @@
             }
           ]
         },
+        "howCreated": "User",
         "objects": {
           "general": [
             {

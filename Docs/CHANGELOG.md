@@ -6,6 +6,23 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-08-14
+
+### Agregado
+
+- Nuevo slicer de `Mes[Meses]` en la página `Gasto Laboral` (visual `6996b7b903807dc80edb`, modo Dropdown, alto `76px`): permite filtrar la página por mes. El slicer queda restringido al corte de datos actualmente habilitado y validado — `01.Enero` a `06.Junio` — mediante un prefiltro explícito (`In {01.Enero..06.Junio}`); no lista `Julio`–`Diciembre` ni `(En blanco)`. Este rango deberá ampliarse manualmente cuando se actualice y valide `PptovsReal.xlsx`, hoja `Planta Personal`, con los meses siguientes. No es una lista dinámica: no se basa en la fecha actual ni infiere automáticamente el último mes cerrado. Filtro adicional conservado: exclusión de `Meses = null` (`Filter0519748e1e5b43367ce239`, identificador único, sin colisión con otros filtros del reporte).
+
+### Cambiado
+
+- Slicer `Empresas` (visual `bb8fdf3117578ada1101`) de la página `Gasto Laboral`: modo cambiado de `Basic` a `Dropdown` y redimensionado (alto `398.75→76px`) para hacer espacio al nuevo slicer de Mes.
+- Reposicionado el visual contiguo `60ceb14b900b312c82be` (sin cambios de campos/medidas) como consecuencia del reacomodo de layout anterior.
+
+### Corregido
+
+- Retirada del nuevo slicer de Mes una referencia inerte a la medida `Tbl_Medidas[Filtro Trimestre Dinamico]` (no existe como medida vigente en el modelo — la medida real es `Filtro Trimestre Slicer`). La referencia no tenía cláusula de filtro activa ni participaba en `query`/`projections`/`objects`; su eliminación no altera el comportamiento del slicer. No se creó la medida `Filtro Trimestre Dinamico` ni se sustituyó por `Filtro Trimestre Slicer`.
+
+Sin cambios en modelo semántico, DAX, Power Query, bookmarks ni otras páginas.
+
 ## [Sin version] - 2026-08-11 (DATA-012)
 
 ### Cambiado
