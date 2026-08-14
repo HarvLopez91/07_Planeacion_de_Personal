@@ -357,3 +357,22 @@ La validación posterior al PR #9 demostró mediante `powerbi-modeling-mcp` que 
 Por tanto, el filtro anterior sobre `EST_CIVIL (grupos) != null` era sintácticamente válido pero insuficiente: operaba sobre el miembro agrupado y no sobre la columna que originaba el blanco. La solución definitiva conserva la regla de negocio `EST_CIVIL (grupos) != "Sin Información En Kactus"` y agrega un filtro independiente `EST_CIVIL != null` sobre la columna fuente.
 
 El ajuste se limita a presentación. No usa `(En blanco)` como literal, no elimina ni transforma registros y no modifica Excel, Power Query, TMDL, relaciones o DAX. El visual `1da9f64d870519b6bffa` y el estado persistido del mismo visual en el bookmark `98c9f8d36c940a908787` (`Generación`) contienen ambas reglas. Los bookmarks `9470280b116096d60ab0` (`Estado Civil`) y `092fbe75ecb89d30748c` (`Hijos`) conservan `suppressData: true` y no se modifican porque no restauran filtros de datos.
+
+### 15.9 Canonicalización del bookmark Estado Civil
+
+La afirmación de la sección 15.8 ("`9470280b116096d60ab0` no se modifica porque no restaura filtros de datos") resultó incorrecta en la práctica: la navegación real (`Estado Civil → Hijos → Generación → Estado Civil`) demostró que `explorationState` del bookmark **sí** restaura el estado persistido de sus cuatro visuales objetivo — incluidos filtros y referencias de medida — a pesar de `suppressData: true`. Esa bandera solo suprime el *refresh* de datos en el momento de aplicar el bookmark; no impide que Power BI reaplique los filtros/campos guardados en `explorationState.sections.*.visualContainers`.
+
+`targetVisualNames` de `9470280b116096d60ab0`: `b07ca4a549be0e60b2c6`, `1da9f64d870519b6bffa`, `fc0959d64256b90f63f4`, `30f11733eea2697476d4`. Se auditó el snapshot persistido de cada uno contra el `visual.json` canónico vigente en `origin/main` (`520b9ab1ba9ad855f6a5d15e5d7633961d3499e0`) y se corrigieron **únicamente** las divergencias encontradas — sin tocar Power Query, DAX, relaciones ni el modelo:
+
+| Target | Estado obsoleto encontrado | Corrección aplicada |
+|---|---|---|
+| `b07ca4a549be0e60b2c6` (Funnel Generación) | Filtro `GENERACIÓN NOT IN {null}` — le faltaba excluir `'false'`; referencias de medida a `PLANTA DE PERSONAL[Tot_empleados_Promedio]` (previas a GOV-005) | Filtro ampliado a `NOT IN {null, 'false'}`; 4 referencias de medida corregidas a `Tbl_Medidas` |
+| `1da9f64d870519b6bffa` (Estado Civil) | Solo tenía el filtro `EST_CIVIL (grupos) != 'Sin Información En Kactus'`; faltaba por completo el segundo filtro `EST_CIVIL != null` (la corrección definitiva de la sección 15.8 nunca se propagó a este bookmark); referencias de medida a `PLANTA DE PERSONAL[Tot_empleados_Promedio]` | Se agregó el filtro faltante `EST_CIVIL != null` (mismo criterio que el `visual.json` actual); 4 referencias de medida corregidas a `Tbl_Medidas` |
+| `fc0959d64256b90f63f4` (Funnel Hijos) | Sin filtros activos (coincide con el `visual.json` actual, que tampoco los tiene); referencias de medida a `PLANTA DE PERSONAL[Tot_empleados_Promedio]` | 4 referencias de medida corregidas a `Tbl_Medidas`; sin cambios de filtro (no correspondía ninguno) |
+| `30f11733eea2697476d4` (Tabla Generacional) | El filtro `Generaciones[Generación] != null` estaba presente en el panel pero **inerte** (sin cláusula `filter`), a diferencia del `visual.json` actual donde sí está activo; referencias de medida a `PLANTA DE PERSONAL[Tot_empleados]`/`[Tot_empleados_Promedio]` | Filtro activado con la misma cláusula `Not/In/null` que el `visual.json` actual; 4 referencias de medida corregidas a `Tbl_Medidas` |
+
+No se incorporó el ajuste cosmético de centrado/estilo de encabezado (commit `af10d92`, `docs/roadmap-backlog`) — permanece fuera de esta rama, pendiente de revisión aparte según lo indicado explícitamente.
+
+Archivo modificado: `PBIP/Proyecto.Report/definition/bookmarks/9470280b116096d60ab0.bookmark.json` (140 cambios: 124 inserciones / 16 eliminaciones, `git diff --check` limpio). Ningún otro bookmark, visual, tabla TMDL, relación ni medida fue tocado.
+
+Validación ejecutada desde `.wt/demografico-estado-civil-null-origen` (rama `fix/demografico-bookmark-estado-civil-canonico`, base `origin/main` en `520b9ab1ba9ad855f6a5d15e5d7633961d3499e0`): ver resultado de los 3 ciclos de navegación y las validaciones MCP en el informe final de esta corrección.
