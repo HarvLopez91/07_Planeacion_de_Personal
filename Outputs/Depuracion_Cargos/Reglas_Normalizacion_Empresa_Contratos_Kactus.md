@@ -312,11 +312,15 @@ Lo siguiente quedó implementado y validado en esta tarea:
 - Archivos redundantes (`-Mexico`, Excel intermedios) auditados y eliminados
   de `Outputs/Depuracion_Cargos/`.
 
-**Entorno de ejecución usado para generar el Excel vigente:** Python 3.11
-(entorno temporal fuera del repositorio, ver Spec de cierre). El `.venv`
-propio del proyecto (destinado a Python 3.14.3, pandas 3.0.5, openpyxl
-3.1.5, kernel local) existe pero **no está operativo en todas las máquinas
-del equipo** — ver advertencia en la Spec de cierre sobre el kernel.
+**Entorno de ejecución usado para generar el Excel vigente (histórico):**
+Python 3.11 (entorno temporal fuera del repositorio). **Estado actual del
+entorno preparado para retomar la tarea:** el `.venv` propio del proyecto
+quedó preparado con Python 3.14.3, pandas 3.0.5, openpyxl 3.1.5, ipykernel
+7.3.0 y el kernel `planeacion_personal` ("Python 3.14 - Planeacion
+Personal") registrado. Un kernel registrado con `--user` es local al
+perfil/máquina donde se registró — al retomar desde otro equipo o perfil de
+Windows, puede requerir registrarlo nuevamente. Ver detalle completo en
+`Specs/0022_cierre_temporal_depuracion_cargos.md` sección 15.
 
 ## 14. Estado funcional — QA conocido (validado contra el Excel vigente, 2026-08-25)
 

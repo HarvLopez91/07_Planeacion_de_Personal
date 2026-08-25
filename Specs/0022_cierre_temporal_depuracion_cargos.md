@@ -208,13 +208,16 @@ ambos módulos.
   mitigó pausando OneDrive manualmente durante las operaciones de limpieza;
   el riesgo reaparece si se opera sobre `Outputs/Depuracion_Cargos/` con
   OneDrive activo y sincronización concurrente desde otra máquina/perfil.
-- **`.venv` del proyecto no operativo en todas las máquinas**: apunta a un
-  intérprete Python 3.14.3 de un perfil de Windows específico
-  (`edwin.clavijo`) y carece de `ipykernel` — un intento de ejecución con ese
-  kernel falló en la primera celda durante esta tarea (ver sección 15). El
-  Excel y el notebook con outputs completos que se generaron en esta tarea
-  se ejecutaron con un entorno temporal (Python 3.11, fuera del repositorio),
-  no con el `.venv` del proyecto.
+- **Entorno histórico de generación distinto del entorno actual preparado.**
+  El Excel `Tabla_Depuracion_Cargos.xlsx` vigente (con las cifras de la
+  sección 10) se generó originalmente con un entorno temporal Python 3.11
+  fuera del repositorio, no con el `.venv` del proyecto — ver sección 15
+  para el detalle histórico completo. Posteriormente se dejó preparado el
+  `.venv` del proyecto (Python 3.14.3, `ipykernel` 7.3.0, kernel
+  `planeacion_personal` registrado) como entorno para retomar la tarea. Un
+  kernel registrado con `--user` es local al perfil/máquina donde se
+  registró — si se retoma desde otra máquina o perfil de Windows, puede
+  requerir registrarlo nuevamente (ver sección 15).
 
 ## 14. Reglas no automatizables
 
@@ -230,31 +233,55 @@ ambos módulos.
 
 ## 15. Kernel / entorno necesario
 
-El notebook fue construido y ejecutado con éxito en esta tarea usando un
-entorno **temporal fuera del repositorio** (`C:\tmp\dcvenv`, Python 3.11.0,
-`pandas==3.0.5`, `openpyxl==3.1.5`, `nbformat`, `nbclient`), no con el
-`.venv` propio del proyecto. El `.venv` del proyecto (declarado en
-`requirements.txt`: `pandas==3.0.5`, `pywin32==312`, `openpyxl==3.1.5`,
-`pytest==9.1.1`) apunta, según su `pyvenv.cfg`, a un intérprete Python 3.14.3
-del perfil de Windows `edwin.clavijo` — inexistente en otras máquinas/perfiles
-del equipo, y sin `ipykernel` instalado (confirmado por un error real de
-ejecución durante esta tarea).
+Dos hechos distintos, que no deben mezclarse:
 
-**Antes de retomar la tarea, verificar en la máquina de trabajo:**
+### A. Histórico — entorno con el que se generó el Excel vigente
+
+El Excel `Tabla_Depuracion_Cargos.xlsx` y las cifras QA de la sección 10 de
+esta Spec se generaron y validaron con un entorno **temporal fuera del
+repositorio** (`C:\tmp\dcvenv`, Python 3.11.0, `pandas==3.0.5`,
+`openpyxl==3.1.5`, `nbformat`, `nbclient`), **no con el `.venv` del
+proyecto**. Este es un hecho histórico de cómo se produjo la entrega
+vigente — no describe el estado actual del `.venv`.
+
+### B. Estado actual — entorno preparado para retomar la tarea
+
+Posteriormente se dejó preparado el `.venv` del proyecto
+(`.venv\Scripts\python.exe`) con:
+
+- Python **3.14.3**
+- `pandas` **3.0.5**
+- `openpyxl` **3.1.5**
+- `ipykernel` **7.3.0**
+- Kernel Jupyter registrado: name `planeacion_personal`, display name
+  `Python 3.14 - Planeacion Personal`
+
+Esta es la configuración que debe seleccionarse para **retomar** la
+ejecución del notebook (metadata `kernelspec`/`language_info` del notebook
+ya está alineada con este entorno). **El Excel vigente no fue regenerado
+bajo este entorno** — quien retome la tarea deberá ejecutar el notebook
+completo con este kernel para producir una nueva entrega verificada bajo
+Python 3.14.3, y solo entonces las cifras de la sección 10 quedarán
+confirmadas también bajo este entorno.
+
+Un kernel registrado con `--user` (como se hizo con `planeacion_personal`)
+es **local al perfil de Windows y a la máquina donde se registró**. Si se
+retoma esta tarea desde otra máquina o perfil distinto, verificar primero:
+
+```powershell
+jupyter kernelspec list
+```
+
+Si `planeacion_personal` no aparece, registrarlo de nuevo desde ese
+perfil/máquina:
 
 ```powershell
 .venv\Scripts\python.exe -m pip show ipykernel
-```
-
-Si falla o no está instalado:
-
-```powershell
-.venv\Scripts\python.exe -m pip install ipykernel
 .venv\Scripts\python.exe -m ipykernel install --user --name planeacion_personal --display-name "Python 3.14 - Planeacion Personal"
 ```
 
 Si el `.venv` no existe o apunta a una ruta inválida en la máquina actual,
-recrearlo con el Python 3.x disponible localmente e instalar
+recrearlo con el Python 3.14.x disponible localmente e instalar
 `requirements.txt` antes de intentar ejecutar el notebook.
 
 ## 16. Advertencia OneDrive
@@ -308,8 +335,10 @@ mezclarse con su deuda acumulada.
    `Data/Maestro_Cargos-Roles_Kactus/Insumos_Vigentes/` siguen siendo 8
    archivos con la misma estructura.
 5. Actualizar/confirmar `Data/HeadCount/2025/Consolidado 2025.xlsx`.
-6. Preparar un entorno Python funcional (ver sección 15) — verificar
-   `ipykernel` antes de intentar ejecutar en Jupyter/VS Code.
+6. Seleccionar el kernel `planeacion_personal` ("Python 3.14 - Planeacion
+   Personal") en Jupyter/VS Code (ver sección 15-B); si no aparece
+   registrado en la máquina actual, registrarlo de nuevo siguiendo esa
+   misma sección.
 7. Ejecutar el notebook completo de principio a fin.
 8. Revisar la hoja `QA_Conciliacion` y contrastarla contra la tabla de la
    sección 10 de esta Spec.
