@@ -77,7 +77,15 @@ Fuentes efectivamente utilizadas para este corte:
 
 Homologacion de Dependencia/Area para julio 2026: se completo mediante cruce por `CARGO_CCO` contra `Consolidado 2025.xlsx` (julio, con respaldo en junio) y, solo para los casos sin cruce, una regla manual por prefijo de centro de costo. Esa regla de prefijo es especifica de este corte y **no queda aprobada como regla automatica permanente**.
 
-Validacion: reconciliacion exacta contra enero-junio 2026 en 13 de 14 areas (unica excepcion: una discrepancia historica preexistente en Mantenimiento Refrigeracion de junio, no corregida por estar fuera de alcance); archivo reabierto sin errores; formato, formulas y estructura preservados; validacion visual y funcional final del usuario: PASS.
+Validacion en el momento del cierre de julio: reconciliacion exacta contra enero-junio 2026 en 13 de 14 areas (unica excepcion en ese momento: Mantenimiento Refrigeracion de junio, ver correccion posterior); archivo reabierto sin errores; formato, formulas y estructura preservados; validacion visual y funcional final del usuario: PASS.
+
+## Correccion historica posterior - agosto 26 de 2026
+
+Despues del cierre de julio, el usuario completo en `PptovsReal.xlsx` los campos `Dependencia` y `Area` que aun estaban vacios en registros de meses anteriores de 2026 (no solo julio). Esto hizo necesario recalcular el historico enero-julio de las 14 areas que forman parte de este reporte.
+
+El reporte considera unicamente las Dependencias/Areas que ya estan definidas en su estructura (las mismas 14 de siempre). Se encontraron retiros validos adicionales en otras sub-areas de Gerencia Cadena Muebles Laminados (Almacen, Centro de Distribucion, Constructores Instalacion, I+D Muebles) que quedan fuera del alcance funcional de este reporte por decision del usuario; no son un error ni un pendiente de incorporar.
+
+Resultado de la revision: se recalcularon 98 combinaciones (14 areas x 7 meses); se corrigieron 18 diferencias historicas concentradas en marzo-junio 2026 (enero, febrero y julio no cambiaron); la conciliacion final quedo en 0 diferencias frente a `PptovsReal.xlsx` para las 14 areas del reporte. La discrepancia de Mantenimiento Refrigeracion / junio 2026 quedo corregida de 0 a 1.
 
 La version vigente sigue en `Current/Retiros_y_Rotacion_Manufactura.xlsx`.
 
