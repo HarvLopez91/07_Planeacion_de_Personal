@@ -12,10 +12,11 @@ todavía).
 
 - Actualización puntual de un único corte mensual (julio 2026).
 - No se modificó `PBIP/`, el modelo semántico, medidas ni visuales.
-- No se modificaron los archivos fuente (`Consolidado 2025.xlsx`,
-  `PptovsReal.xlsx`), salvo la completitud de `Dependencia`/`Área` en
-  `PptovsReal.xlsx` realizada manualmente por el usuario fuera de esta sesión
-  (ver sección "Homologación").
+- Claude no modificó `Consolidado 2025.xlsx` ni `PptovsReal.xlsx` como parte
+  de este cierre documental. `PptovsReal.xlsx` sí fue actualizado, pero por el
+  usuario, de forma manual y directamente en el archivo fuente, para
+  completar `Dependencia`/`Área` en la hoja `RETIROS` (ver sección
+  "Homologación").
 - No se creó notebook (`.ipynb`) ni script (`.py`) de automatización.
 
 ## Fuentes utilizadas
@@ -66,7 +67,10 @@ tenían `Dependencia` y `Área` vacías en todo el archivo (no solo en
 Manufactura/Muebles Laminados), lo que impedía calcular Retiros por área para
 ese corte.
 
-El usuario completó manualmente esos campos fuera de esta sesión, mediante:
+El usuario actualizó manualmente `PptovsReal.xlsx`, completando esos campos
+directamente en el archivo fuente. Esa modificación no fue realizada por
+Claude ni forma parte de este cierre documental; el procedimiento reportado
+por el usuario fue:
 
 1. Cruce por `CARGO_CCO` (`BUSCARX`) contra `Consolidado 2025.xlsx`, filtrado
    primero a julio 2026 y, si no había coincidencia, a junio 2026.

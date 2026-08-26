@@ -68,7 +68,7 @@ El repositorio mantiene la estructura, documentacion y reglas de exclusion, pero
 
 ## Actualizacion manual validada - julio 2026
 
-Como excepcion puntual al procedimiento estandar (seccion "Procedimiento de actualizacion"), el corte de julio de 2026 se actualizo manualmente en lugar de exportarse desde Power BI, porque la exportacion controlada no estaba disponible en ese momento para este corte especifico.
+Como excepcion puntual al procedimiento estandar (seccion "Procedimiento de actualizacion"), para el corte de julio de 2026 se realizo una actualizacion manual controlada utilizando las fuentes operativas validadas.
 
 Fuentes efectivamente utilizadas para este corte:
 
