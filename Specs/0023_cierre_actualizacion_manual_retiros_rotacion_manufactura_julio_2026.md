@@ -163,19 +163,26 @@ Hoja `Retiros (2026)`:
   pre-construidas para los 12 meses y recalculan automáticamente al abrir el
   archivo en Excel (`fullCalcOnLoad = True`).
 - Hoja `Retiros (2025)` y columnas enero-junio de `Retiros (2026)`: sin
-  cambios.
+  cambios **al momento de este cierre de julio**. Este estado fue temporal:
+  ver "Corrección histórica posterior — agosto 26 de 2026" para el estado
+  vigente de enero-junio.
 
 Se creó y luego se eliminó (tras validación funcional del usuario) un
 respaldo temporal previo a la escritura:
 `Retiros_y_Rotacion_Manufactura_backup_2026-08-26_pre-julio.xlsx`.
 
-## Hallazgo histórico fuera de alcance
+## Hallazgo histórico fuera de alcance (al cierre de julio)
 
-`MANTENIMIENTO REFRIGERACIÓN`, junio 2026: el reporte tiene 0 retiros; la
-regla de exclusión aprobada, aplicada sobre `RETIROS`, produce 1. No se
-corrigió porque está fuera del alcance de la actualización de julio y porque
-corregir un periodo histórico requiere autorización y validación
-independientes. Queda registrado aquí como hallazgo, sin acción.
+`MANTENIMIENTO REFRIGERACIÓN`, junio 2026: el reporte tenía 0 retiros; la
+regla de exclusión aprobada, aplicada sobre `RETIROS`, producía 1. En este
+cierre de julio no se corrigió porque estaba fuera de alcance y porque
+corregir un periodo histórico requería autorización y validación
+independientes.
+
+**Estado vigente**: esta discrepancia quedó resuelta el 26 de agosto de 2026
+(ver "Corrección histórica posterior — agosto 26 de 2026"). Esta sección se
+conserva sin reescribir para preservar el registro de lo que se sabía y se
+decidió en el momento del cierre de julio.
 
 ## Validaciones ejecutadas
 
@@ -183,8 +190,8 @@ independientes. Queda registrado aquí como hallazgo, sin acción.
   confirmada.
 - Verificación de que `Retiros (2025)` no cambió (spot-check de 6 celdas).
 - Verificación de que enero-junio de `Retiros (2026)` no cambió (spot-check
-  de 6 celdas, incluida la discrepancia histórica de junio, que permanece
-  intacta).
+  de 6 celdas, incluida la discrepancia histórica de junio, intacta **en ese
+  momento** — corregida posteriormente, ver sección de corrección histórica).
 - Verificación de dimensiones de hoja y celdas combinadas sin cambios
   (`A1:AO19` / `A1:AO38`, 0 merges en ambas hojas, antes y después).
 - Comparación de formato (formato numérico, fuente, borde, relleno) entre
@@ -228,8 +235,14 @@ Cuando se retome, deberá incluir al menos:
 - `PptovsReal.xlsx` sigue dependiendo de completitud manual de
   `Dependencia`/`Área` en la hoja `RETIROS`; no hay garantía de que meses
   futuros lleguen ya completos.
-- La discrepancia histórica de junio en `MANTENIMIENTO REFRIGERACIÓN` sigue
-  sin resolver (fuera de alcance).
+- ~~La discrepancia histórica de junio en `MANTENIMIENTO REFRIGERACIÓN` sigue
+  sin resolver (fuera de alcance).~~ Resuelta el 26 de agosto de 2026 (ver
+  "Corrección histórica posterior").
+- Los 9 retiros válidos identificados en la corrección histórica de agosto,
+  en áreas de Gerencia Cadena Muebles Laminados fuera de las 4 áreas que
+  rastrea este reporte (Almacén, Centro de Distribución, Constructores
+  Instalación, I+D Muebles), quedan fuera del alcance funcional del reporte
+  por decisión del usuario — no son un error ni un pendiente de incorporar.
 - Riesgo general de Formula Firewall y migración de fuentes ya documentado en
   `CLAUDE.md` y `Docs/TROUBLESHOOTING.md` no se vio afectado por este cierre
   (no se tocó `PBIP/`).
@@ -260,3 +273,106 @@ para no mezclar los 254 cambios ajenos pendientes en `docs/roadmap-backlog`.
 
 No se hizo merge a `main` en esta iniciativa; el cierre queda sujeto a
 revisión (PR) antes de integrarse.
+
+## Corrección histórica posterior — agosto 26 de 2026
+
+### Motivo
+
+Después del cierre de julio se completaron en `PptovsReal.xlsx` los campos
+`Dependencia` y `Área` que estaban vacíos en registros de meses anteriores de
+2026 (no solo en julio). Esto hizo necesario recalcular el histórico
+enero-julio de las 14 áreas que forman parte de
+`Retiros_y_Rotacion_Manufactura.xlsx`.
+
+### Regla funcional confirmada
+
+Solo se consideran las Dependencias/Áreas que ya existen en
+`Retiros_y_Rotacion_Manufactura.xlsx` (las mismas 14 áreas de siempre: 10 de
+Dirección de Manufactura, 4 de Gerencia Cadena Muebles Laminados). No se
+agregan nuevas áreas aunque existan retiros válidos en `PptovsReal.xlsx`
+correspondientes a otras subáreas.
+
+En esta revisión se encontraron 9 retiros válidos en áreas fuera del alcance
+del reporte, todas dentro de Gerencia Cadena Muebles Laminados:
+
+- Almacén Muebles Laminados
+- Centro de Distribución / Centro de Distribución Muebles
+- Constructores Instalación
+- I+D Muebles
+
+Estos registros **no son errores ni quedan pendientes de incorporar**: quedan
+fuera del alcance funcional de este reporte por decisión del usuario, porque
+el reporte rastrea únicamente el subconjunto de áreas de manufactura de esa
+dependencia, no la Gerencia Cadena Muebles Laminados completa.
+
+### Reconciliación
+
+- 846 registros de 2026 revisados en `RETIROS`.
+- 0 registros con `Dependencia`/`Área` vacías después de la actualización del
+  usuario.
+- 98 combinaciones revisadas (14 áreas × 7 meses, enero-julio 2026).
+- 18 diferencias históricas encontradas y corregidas.
+- Enero, febrero y julio: sin diferencias.
+- Diferencias concentradas en marzo-junio.
+- Reconciliación posterior a la corrección: **0 diferencias residuales** en
+  las 98 combinaciones.
+
+### Correcciones aplicadas
+
+Se modificaron únicamente **18 celdas** de `Retiros` en la hoja
+`Retiros (2026)`, columnas `Q` (marzo) a `T` (junio). No se modificó
+`Colaboradores`, no se modificó la hoja `Retiros (2025)`, y enero, febrero y
+julio permanecieron sin cambios.
+
+Subtotales corregidos (Actual → Recalculado):
+
+#### Dirección de Manufactura
+
+- Marzo: 18 → 22
+- Abril: 28 → 34
+- Mayo: 16 → 23
+- Junio: 21 → 36
+
+#### Gerencia Cadena Muebles Laminados
+
+- Marzo: 4 → 5
+- Abril: 5 → 8
+- Mayo: 1 → 2
+- Junio: 4 → 5
+
+Caso puntual: `MANTENIMIENTO REFRIGERACIÓN` / junio 2026: **0 → 1**. La
+discrepancia histórica documentada en el cierre de julio queda **resuelta**.
+
+Se creó y luego se eliminó (tras validación funcional del usuario) un
+respaldo temporal previo a esta corrección:
+`Retiros_y_Rotacion_Manufactura_backup_2026-08-26_pre-correccion-historica.xlsx`.
+
+Las fórmulas de subtotal de las columnas corregidas (`Q4:T4`, `Q15:T15`) ya
+existían con el patrón `SUM` desde el diseño original del workbook; no se
+modificaron, solo recalcularon al abrir el archivo con los nuevos valores de
+las celdas base.
+
+### Validación final
+
+- Integridad del `.xlsx`: **PASS**.
+- Formato y estructura (dimensiones de hoja, celdas combinadas, formato
+  numérico/fuente/borde/relleno de cada celda corregida frente a sus celdas
+  vecinas): preservados.
+- Fórmulas existentes (`N`, `AA`, `AB:AM`, `AN:AO`, subtotales `Q4:T4` y
+  `Q15:T15`): preservadas, sin modificar.
+- `Colaboradores`: sin cambios (spot-check).
+- Hoja `Retiros (2025)`: sin cambios (spot-check).
+- Archivo abierto manualmente en Excel por el usuario: **PASS**, sin mensajes
+  de reparación.
+- 0 diferencias residuales frente a `PptovsReal.xlsx` para las 14 áreas del
+  reporte, en los 7 meses consolidados.
+
+### Estado de versionamiento de esta corrección
+
+Rama de trabajo: `docs/correccion-historica-retiros-manufactura-2026`, creada
+desde `origin/main` en un worktree aislado
+(`.wt/correccion-historica-retiros-manufactura-2026`) para no mezclar los
+cambios ajenos preexistentes en `docs/roadmap-backlog`.
+
+No se implementó `DATA-014` como parte de esta corrección. No se hizo merge a
+`main`; queda sujeto a revisión (PR) antes de integrarse.
