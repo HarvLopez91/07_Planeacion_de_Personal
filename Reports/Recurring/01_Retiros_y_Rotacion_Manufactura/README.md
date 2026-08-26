@@ -66,6 +66,25 @@ El repositorio mantiene la estructura, documentacion y reglas de exclusion, pero
 - No versionar archivos `.xlsx` en Git.
 - Revisar periodicamente si los historicos siguen siendo necesarios.
 
+## Actualizacion manual validada - julio 2026
+
+Como excepcion puntual al procedimiento estandar (seccion "Procedimiento de actualizacion"), para el corte de julio de 2026 se realizo una actualizacion manual controlada utilizando las fuentes operativas validadas.
+
+Fuentes efectivamente utilizadas para este corte:
+
+- Colaboradores: `Data/HeadCount/2025/Consolidado 2025.xlsx`, hoja `Consolidado2025` (conteo por Dependencia + Area, Año 2026, Mes 07.Julio).
+- Retiros: `Data/HeadCount/PptovsReal.xlsx`, hoja `RETIROS` (conteo por Dependencia + Area, Año 2026, Mes 07.Julio), aplicando la regla de exclusion ya documentada en `Specs/0016_renombramiento_medidas_rotacion_retiros.md` (excluye aprendices SENA, practicantes, reingresos, fallecimientos, pension por jubilacion y cesiones de contrato).
+
+Homologacion de Dependencia/Area para julio 2026: se completo mediante cruce por `CARGO_CCO` contra `Consolidado 2025.xlsx` (julio, con respaldo en junio) y, solo para los casos sin cruce, una regla manual por prefijo de centro de costo. Esa regla de prefijo es especifica de este corte y **no queda aprobada como regla automatica permanente**.
+
+Validacion: reconciliacion exacta contra enero-junio 2026 en 13 de 14 areas (unica excepcion: una discrepancia historica preexistente en Mantenimiento Refrigeracion de junio, no corregida por estar fuera de alcance); archivo reabierto sin errores; formato, formulas y estructura preservados; validacion visual y funcional final del usuario: PASS.
+
+La version vigente sigue en `Current/Retiros_y_Rotacion_Manufactura.xlsx`.
+
+Automatizacion futura: se considera conveniente pero queda diferida (otros frentes del PBIP tienen prioridad). Registrada como iniciativa `DATA-014` en `Specs/00_roadmap_y_backlog.md` (sin autorizacion de implementacion).
+
+Detalle completo, sin datos personales: `Specs/0023_cierre_actualizacion_manual_retiros_rotacion_manufactura_julio_2026.md`.
+
 ## Privacidad y seguridad
 
 Aunque la revision local no evidencio encabezados directos de identificacion personal en el archivo actual, el informe pertenece al dominio de Talento Humano y puede contener informacion sensible o potencialmente sensible.
