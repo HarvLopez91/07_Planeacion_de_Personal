@@ -1,9 +1,10 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
   "pageOrder": [
     "ReportSection",
     "f0fd1eb45022c4c0718e",
     "ReportSectionf46593dd92bf9359ceef",
+    "1daffd26f7de1c038e95",
     "8bac02805d716481a924",
     "ReportSection65569958420c423d90b1",
     "ReportSection10f83a2531afc6f0ce74",
@@ -17,5 +18,5 @@
     "ReportSection7b0e40b552d4038186ba",
     "3ade8360a92289e7b288"
   ],
-  "activePageName": "ReportSection65569958420c423d90b1"
+  "activePageName": "1daffd26f7de1c038e95"
 }

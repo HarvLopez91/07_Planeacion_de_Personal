@@ -1,0 +1,68 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "0a8a648f75b317d98a3f",
+  "position": {
+    "x": 24,
+    "y": 95,
+    "z": 20000,
+    "height": 78,
+    "width": 740,
+    "tabOrder": 20000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Perfil Sociodemográfico por Empresa",
+                    "textStyle": {
+                      "fontFamily": "Outfit",
+                      "fontSize": "20pt",
+                      "fontWeight": "bold",
+                      "color": "#0B1C35"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Comparativo de composición y características de la población del Grupo LEMCO",
+                    "textStyle": {
+                      "fontFamily": "Outfit",
+                      "fontSize": "11pt",
+                      "color": "#5A6472"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
