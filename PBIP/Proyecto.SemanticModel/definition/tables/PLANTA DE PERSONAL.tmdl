@@ -573,6 +573,22 @@ table 'PLANTA DE PERSONAL'
 
 		annotation SummarizationSetBy = Automatic
 
+	column Key_Dependencia
+		dataType: string
+		lineageTag: 47e43060-f760-45de-8776-66dd2d0a762f
+		summarizeBy: none
+		sourceColumn: Key_Dependencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key_Area
+		dataType: string
+		lineageTag: a0f007bb-cf1e-4a23-909f-12a2cd159fb8
+		summarizeBy: none
+		sourceColumn: Key_Area
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'PLANTA DE PERSONAL' = m
 		mode: import
 		queryGroup: HeadCount
@@ -605,9 +621,11 @@ table 'PLANTA DE PERSONAL'
 				        type text
 				    ),
 				    #"Quitar Rango Original" = Table.RemoveColumns(#"Rango Antigüedad Recalculado", {"Rango Antigüedad"}),
-				    #"Renombrar Rango Antigüedad" = Table.RenameColumns(#"Quitar Rango Original", {{"Rango Antigüedad Nuevo", "Rango Antigüedad"}})
+				    #"Renombrar Rango Antigüedad" = Table.RenameColumns(#"Quitar Rango Original", {{"Rango Antigüedad Nuevo", "Rango Antigüedad"}}),
+				    #"Key_Dependencia agregada" = Table.AddColumn(#"Renombrar Rango Antigüedad", "Key_Dependencia", each if [GRUPO EMPRESA] = null or [GRUPO EMPRESA] = "" or [DEPENDENCIA] = null or [DEPENDENCIA] = "" then null else Text.Upper(Text.Trim([GRUPO EMPRESA]) & "|" & Text.Trim([DEPENDENCIA])), type text),
+				    #"Key_Area agregada" = Table.AddColumn(#"Key_Dependencia agregada", "Key_Area", each if [GRUPO EMPRESA] = null or [GRUPO EMPRESA] = "" or [DEPENDENCIA] = null or [DEPENDENCIA] = "" or [AREA] = null or [AREA] = "" then null else Text.Upper(Text.Trim([GRUPO EMPRESA]) & "|" & Text.Trim([DEPENDENCIA]) & "|" & Text.Trim([AREA])), type text)
 				in
-				    #"Renombrar Rango Antigüedad"
+				    #"Key_Area agregada"
 
 	annotation PBI_ResultType = Exception
 

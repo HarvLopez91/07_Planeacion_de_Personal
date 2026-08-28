@@ -1,0 +1,44 @@
+table Dim_Dependencia
+	lineageTag: 9e2d079c-0d93-4ab0-bfcc-de12ce86791f
+
+	column Key_Dependencia
+		dataType: string
+		lineageTag: 63812a24-ba78-4e8a-8d62-64aa0c4a5309
+		summarizeBy: none
+		sourceColumn: Key_Dependencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'GRUPO EMPRESA'
+		dataType: string
+		lineageTag: e4b1895b-8b76-4608-bf02-e462ffd62061
+		summarizeBy: none
+		sourceColumn: GRUPO EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: a6ff51d0-d835-43ae-94d1-9571b56c12a6
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Dependencia = m
+		mode: import
+		queryGroup: HeadCount
+		source =
+				let
+				    Origen = #"PLANTA DE PERSONAL",
+				    #"Columnas seleccionadas" = Table.SelectColumns(Origen, {"GRUPO EMPRESA", "DEPENDENCIA"}),
+				    #"Filas sin blancos" = Table.SelectRows(#"Columnas seleccionadas", each [GRUPO EMPRESA] <> null and [GRUPO EMPRESA] <> "" and [DEPENDENCIA] <> null and [DEPENDENCIA] <> ""),
+				    #"Clave agregada" = Table.AddColumn(#"Filas sin blancos", "Key_Dependencia", each Text.Upper(Text.Trim([GRUPO EMPRESA]) & "|" & Text.Trim([DEPENDENCIA])), type text),
+				    #"Valores distintos" = Table.Distinct(#"Clave agregada", {"Key_Dependencia"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Valores distintos", {"Key_Dependencia", "GRUPO EMPRESA", "DEPENDENCIA"})
+				in
+				    #"Columnas reordenadas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación

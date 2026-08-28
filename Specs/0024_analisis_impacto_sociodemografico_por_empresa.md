@@ -80,6 +80,118 @@ Cargo · Dependencia · Área · Cargo.
 > El desarrollo se detiene en este punto como checkpoint recuperable antes
 > de una corrección posterior solicitada por el usuario.
 
+## Corrección estructural priorizada — Dim_Dependencia / Dim_Area (2026-08-28)
+
+La corrección posterior anunciada arriba resultó ser **estructural, no
+visual**. Se priorizó sobre la continuación de `Sociodemográfico por
+Empresa`: la página queda detenida en el checkpoint `d154b71` hasta cerrar
+esta corrección, porque sus visuales de `Dependencia` y `Área` dependen de
+un modelado correcto de esas dos entidades.
+
+### Fuente efectiva de `PLANTA DE PERSONAL`
+
+Contrario a lo que sugiere el nombre de la tabla, su partición M **no** lee
+una hoja homónima única. Combina dos orígenes de SharePoint corporativo
+mediante `Table.Combine`:
+
+| Origen | Archivo (SharePoint) | Hoja | Filas |
+|---|---|---|---|
+| Histórico | `Data/HeadCount/2024/Consolidado 2024.xlsx` | `PLANTA DE PERSONAL` | 25.536 |
+| Vigente | `Data/HeadCount/2025/Consolidado 2025.xlsx` (vía consulta `Consolidado2025`) | `Consolidado2025` | 45.670 |
+| **Total combinado** | | | **71.206** |
+
+Pese al nombre `Consolidado 2025`, el segundo archivo contiene tanto 2025
+(27.996 filas) como 2026 (17.674 filas).
+
+### Grano de las dimensiones
+
+Ambas dimensiones se derivan de `PLANTA DE PERSONAL` (no de una fuente
+externa), filtrando filas con `GRUPO EMPRESA`, `DEPENDENCIA` o `AREA`
+vacíos, y normalizando con `Text.Upper(Text.Trim(...))`:
+
+| Dimensión | Grano | Clave | Cardinalidad |
+|---|---|---|---|
+| `Dim_Dependencia` | `GRUPO EMPRESA` × `DEPENDENCIA` | `Key_Dependencia` = `GRUPO EMPRESA\|DEPENDENCIA` | **67 combinaciones no nulas `GRUPO EMPRESA + DEPENDENCIA`** |
+| `Dim_Area` | `GRUPO EMPRESA` × `DEPENDENCIA` × `AREA` | `Key_Area` = `GRUPO EMPRESA\|DEPENDENCIA\|AREA` | **372 combinaciones no nulas `GRUPO EMPRESA + DEPENDENCIA + AREA`** |
+
+La lectura correcta de estas cifras es **combinatoria, no de catálogo**: 67
+no es "el número de dependencias" ni 372 "el número de áreas". Son
+combinaciones distintas y no nulas de los campos indicados — una misma
+`DEPENDENCIA` puede aparecer bajo varios `GRUPO EMPRESA`, y una misma `AREA`
+bajo varias dependencias; cada ocurrencia cuenta como una combinación
+propia. Interpretarlas como conteos de entidades sobreestimaría el catálogo
+real de dependencias y áreas del Grupo.
+
+Ambas cifras fueron confirmadas por dos vías independientes: carga real en
+sesión interactiva de Power BI Desktop (`Dim_Dependencia`: 67 filas;
+`Dim_Area`: 372 filas) y derivación directa desde los archivos fuente.
+
+`PLANTA DE PERSONAL` expone `Key_Dependencia` y `Key_Area` como columnas
+calculadas en M, relacionadas N:1 con sus dimensiones. **No se introdujo
+ninguna relación many-to-many.**
+
+### Defecto corregido: orden de `Table.Distinct`
+
+La primera implementación aplicaba `Table.Distinct` sobre el texto **crudo**
+(sensible a mayúsculas y espacios) y **después** construía la clave
+normalizada. Dos filas que difieren solo en espacios sobreviven al
+`Distinct` pero colapsan en la misma clave, rompiendo la unicidad exigida
+por el lado "uno" de una relación.
+
+Power BI Desktop lo detectó con el error:
+
+> La columna `'Key_Area'` de la tabla `'Dim_Area'` contiene un valor
+> duplicado `'HABITEL HOTELS|DIRECCIÓN OYS|RECEPCIÓN'`
+
+Causa raíz: una única fila de `Consolidado 2024.xlsx` con `AREA` =
+`'RECEPCIÓN '` (espacio final) frente a `'RECEPCIÓN'`. La corrección invierte
+el orden — construir la clave normalizada primero, luego
+`Table.Distinct(..., {"Key_Area"})` sobre la clave final. `Dim_Dependencia`
+no presentaba duplicados, pero tenía el mismo defecto estructural y se
+corrigió preventivamente.
+
+### Calidad de datos observada — 1.399 registros sin clave dimensional
+
+De las 71.206 filas combinadas, **1.399 tienen `DEPENDENCIA` o `AREA` en
+blanco, todas correspondientes a 2026** (0 en 2024 y 0 en 2025).
+
+Estas filas **no fueron inventadas ni eliminadas**. Permanecen íntegras en
+`PLANTA DE PERSONAL`: siguen siendo registros válidos del hecho y se cuentan
+en cualquier medida que no dependa de estas dimensiones. Lo único que ocurre
+es que el filtro de blancos las deja **sin clave dimensional** — su
+`Key_Dependencia` y/o `Key_Area` es `null`, por lo que no generan entrada en
+`Dim_Dependencia` ni en `Dim_Area` y **no inflan** las cifras de 67 y 372.
+Tampoco se les asignó una clave sustituta ni una categoría inventada.
+
+No se corrigen aquí: es una brecha de completitud de la fuente, no un
+defecto del modelo. Implica que cualquier visual que cruce hechos de 2026
+contra estas dimensiones dejará esos 1.399 registros sin clasificar —
+comportamiento esperado y documentado, no una pérdida silenciosa. Pendiente
+de decisión del usuario sobre su tratamiento (homologación en origen, o
+categoría explícita "Sin asignar" en el modelo).
+
+### Alcance deliberadamente acotado
+
+- **`Estructura` y `AREAS` NO se retiran todavía.** Ambas siguen en el
+  modelo y en uso. Su eventual reemplazo por `Dim_Dependencia`/`Dim_Area`
+  requiere análisis de impacto propio sobre medidas y visuales
+  dependientes, y no forma parte de esta corrección.
+- **La migración del resto de tablas de hechos queda para una fase
+  posterior.** Esta corrección solo conecta `PLANTA DE PERSONAL` con las
+  dos dimensiones nuevas. Ningún otro hecho se repunta.
+- La corrección se aísla al mínimo funcional: se excluyen del checkpoint
+  las columnas `ID_Jefe_Inmediato` / `Jefe Inmediato (nombre-apellido)` /
+  `Descripción Cargo_Jefe Inmediato`, la eliminación de la columna huérfana
+  `%`, y todo el ruido de reserialización de bookmarks, visuales, cultures,
+  `diagramLayout` y `Tbl_Medidas`.
+
+### Pendiente no resuelto
+
+El refresh completo sigue reportando **6 consultas con errores** (incluida
+`Ppto Retiros`), sin relación con esta corrección. `PLANTA DE PERSONAL`
+conserva `annotation PBI_ResultType = Exception` desde antes del checkpoint
+`d154b71`. Ese frente se revisa por separado y no se mezcla con esta fase.
+
 ## Alcance
 
 - Analiza únicamente la creación de la página y el MVP de 4 visuales

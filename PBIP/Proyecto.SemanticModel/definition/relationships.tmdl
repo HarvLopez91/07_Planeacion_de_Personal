@@ -284,3 +284,11 @@ relationship c2b7d343-cae7-356d-fdde-483914d0dd0e
 	fromColumn: 'Planta Ppto'.IndexAnioMes
 	toColumn: DimPeriodoYM.IndexAnioMes
 
+relationship ae2dff8a-0649-43ed-9b6c-252ed9ee87b1
+	fromColumn: 'PLANTA DE PERSONAL'.Key_Dependencia
+	toColumn: Dim_Dependencia.Key_Dependencia
+
+relationship 03756377-f562-4046-9c37-e716b87ede89
+	fromColumn: 'PLANTA DE PERSONAL'.Key_Area
+	toColumn: Dim_Area.Key_Area
+
