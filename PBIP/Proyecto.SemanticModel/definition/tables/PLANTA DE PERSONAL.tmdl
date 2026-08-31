@@ -573,6 +573,31 @@ table 'PLANTA DE PERSONAL'
 
 		annotation SummarizationSetBy = Automatic
 
+	column Key_Dependencia
+		dataType: string
+		lineageTag: 47e43060-f760-45de-8776-66dd2d0a762f
+		summarizeBy: none
+		sourceColumn: Key_Dependencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key_Area
+		dataType: string
+		lineageTag: a0f007bb-cf1e-4a23-909f-12a2cd159fb8
+		summarizeBy: none
+		sourceColumn: Key_Area
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Clave técnica normalizada hacia la estructura organizacional observada. Conserva vacíos en los niveles aún no conocidos.
+	column Key_Estructura
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 35a30d2a-115c-45ca-96f7-50778cfd219c
+		summarizeBy: none
+		sourceColumn: Key_Estructura
+
 	partition 'PLANTA DE PERSONAL' = m
 		mode: import
 		queryGroup: HeadCount
@@ -605,9 +630,38 @@ table 'PLANTA DE PERSONAL'
 				        type text
 				    ),
 				    #"Quitar Rango Original" = Table.RemoveColumns(#"Rango Antigüedad Recalculado", {"Rango Antigüedad"}),
-				    #"Renombrar Rango Antigüedad" = Table.RenameColumns(#"Quitar Rango Original", {{"Rango Antigüedad Nuevo", "Rango Antigüedad"}})
+				    #"Renombrar Rango Antigüedad" = Table.RenameColumns(#"Quitar Rango Original", {{"Rango Antigüedad Nuevo", "Rango Antigüedad"}}),
+				    #"Key_Dependencia agregada" = Table.AddColumn(#"Renombrar Rango Antigüedad", "Key_Dependencia", each if [GRUPO EMPRESA] = null or [GRUPO EMPRESA] = "" or [DEPENDENCIA] = null or [DEPENDENCIA] = "" then null else Text.Upper(Text.Trim([GRUPO EMPRESA]) & "|" & Text.Trim([DEPENDENCIA])), type text),
+				    #"Key_Area agregada" = Table.AddColumn(#"Key_Dependencia agregada", "Key_Area", each if [GRUPO EMPRESA] = null or [GRUPO EMPRESA] = "" or [DEPENDENCIA] = null or [DEPENDENCIA] = "" or [AREA] = null or [AREA] = "" then null else Text.Upper(Text.Trim([GRUPO EMPRESA]) & "|" & Text.Trim([DEPENDENCIA]) & "|" & Text.Trim([AREA])), type text),
+				    #"Key_Estructura agregada" = Table.AddColumn(
+				        #"Key_Area agregada",
+				        "Key_Estructura",
+				        each
+				            let
+				                Normalizar = (valor as any) as nullable text =>
+				                    let
+				                        Texto = if valor = null then null else Text.Trim(Text.From(valor))
+				                    in
+				                        if Texto = null or Texto = "" then null else Text.Upper(Texto),
+				                Grupo = Normalizar([GRUPO EMPRESA]),
+				                Empresa = Normalizar([Nombre Empresa]),
+				                Dependencia = Normalizar([DEPENDENCIA]),
+				                Area = Normalizar([AREA])
+				            in
+				                if Grupo = null or Empresa = null then null
+				                else Text.Combine(
+				                    {
+				                        Grupo,
+				                        Empresa,
+				                        if Dependencia = null then "" else Dependencia,
+				                        if Area = null then "" else Area
+				                    },
+				                    "|"
+				                ),
+				        type text
+				    )
 				in
-				    #"Renombrar Rango Antigüedad"
+				    #"Key_Estructura agregada"
 
 	annotation PBI_ResultType = Exception
 

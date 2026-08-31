@@ -32,12 +32,14 @@ queryGroup Incapacidades
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["PLANTA DE PERSONAL","Consolidado2025","Planta Ppto","Ppto Retiros","AUSENTISMOS","SST_CHA","SST-HABITELH","SST-GSKY","ACCIDENTALIDAD","SST GENERAL","Mes","Grupo Empresarial","Empresas","Años","Selección Challenger","Selección Habitel Hotels","Selección Grupo Sky","Selección Grupo Lemco","Ppto Ingresos","Trimestres","Incapacidades","CIE-10","Estructura","General_Ausentismos","Generaciones","AREAS","Maestro","Días Laborales","SENA_CYL","SENA UNIDADES","tbl_Refresh","Tbl_Medidas"]
+annotation PBI_QueryOrder = ["PLANTA DE PERSONAL","Consolidado2025","Dim_Dependencia","Dim_Area","Planta Ppto","Ppto Retiros","AUSENTISMOS","SST_CHA","SST-HABITELH","SST-GSKY","ACCIDENTALIDAD","SST GENERAL","Mes","Grupo Empresarial","Empresas","Años","Selección Challenger","Selección Habitel Hotels","Selección Grupo Sky","Selección Grupo Lemco","Ppto Ingresos","Trimestres","Incapacidades","CIE-10","Estructura","General_Ausentismos","Generaciones","AREAS","Maestro","Días Laborales","SENA_CYL","SENA UNIDADES","tbl_Refresh","Tbl_Medidas"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table DateTableTemplate_d3e11962-53a7-46e1-b41d-2ea22b1edd6d
 ref table 'PLANTA DE PERSONAL'
+ref table Dim_Dependencia
+ref table Dim_Area
 ref table LocalDateTable_5705d477-cdc8-4387-8f36-573ee525d8fa
 ref table 'Planta Ppto'
 ref table 'Ppto Retiros'
@@ -88,6 +90,7 @@ ref table tbl_Refresh
 ref table LocalDateTable_3858921f-461c-46df-9a03-b7f45c5848b7
 ref table Tbl_Medidas
 ref table DimPeriodoYM
+ref table Dim_Estructura_Organizacional
 
 ref cultureInfo es-ES
 

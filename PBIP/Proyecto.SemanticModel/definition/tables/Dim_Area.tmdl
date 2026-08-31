@@ -1,0 +1,52 @@
+table Dim_Area
+	lineageTag: bf46634f-0ea0-4870-a808-9b2170cfc62a
+
+	column Key_Area
+		dataType: string
+		lineageTag: 61ba9c7c-1d44-4c09-9ecc-ff44420ec0d6
+		summarizeBy: none
+		sourceColumn: Key_Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'GRUPO EMPRESA'
+		dataType: string
+		lineageTag: c6975f24-26c9-4b57-9215-7f28750bb9ba
+		summarizeBy: none
+		sourceColumn: GRUPO EMPRESA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: c714d01b-3fa4-4a8d-be0c-9fc8adbfcbbb
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+		annotation SummarizationSetBy = Automatic
+
+	column AREA
+		dataType: string
+		lineageTag: e8f41551-1def-459e-a7b3-f7362263be60
+		summarizeBy: none
+		sourceColumn: AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Area = m
+		mode: import
+		queryGroup: HeadCount
+		source =
+				let
+				    Origen = #"PLANTA DE PERSONAL",
+				    #"Columnas seleccionadas" = Table.SelectColumns(Origen, {"GRUPO EMPRESA", "DEPENDENCIA", "AREA"}),
+				    #"Filas sin blancos" = Table.SelectRows(#"Columnas seleccionadas", each [GRUPO EMPRESA] <> null and [GRUPO EMPRESA] <> "" and [DEPENDENCIA] <> null and [DEPENDENCIA] <> "" and [AREA] <> null and [AREA] <> ""),
+				    #"Clave agregada" = Table.AddColumn(#"Filas sin blancos", "Key_Area", each Text.Upper(Text.Trim([GRUPO EMPRESA]) & "|" & Text.Trim([DEPENDENCIA]) & "|" & Text.Trim([AREA])), type text),
+				    #"Valores distintos" = Table.Distinct(#"Clave agregada", {"Key_Area"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Valores distintos", {"Key_Area", "GRUPO EMPRESA", "DEPENDENCIA", "AREA"})
+				in
+				    #"Columnas reordenadas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación

@@ -1,0 +1,121 @@
+/// Dimensión de estructura organizacional observada en las fuentes históricas de PLANTA DE PERSONAL. Su grano es Grupo Empresa, Nombre Empresa, Dependencia y Área, conservando null en los niveles aún no conocidos; no representa un organigrama maestro oficial.
+table Dim_Estructura_Organizacional
+	lineageTag: 76191af9-40da-48d8-975c-e9c82b32f9a6
+
+	/// Clave técnica normalizada de la ruta organizacional observada.
+	column Key_Estructura
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 5cc5c5eb-656c-4053-ba41-6905d7ee165f
+		summarizeBy: none
+		sourceColumn: Key_Estructura
+
+	/// Grupo empresarial observado en la fuente histórica.
+	column 'GRUPO EMPRESA'
+		dataType: string
+		lineageTag: 3731c7ca-3356-46f0-acb4-6178cf2edcc2
+		summarizeBy: none
+		sourceColumn: GRUPO EMPRESA
+
+	/// Empresa observada dentro del grupo empresarial.
+	column 'Nombre Empresa'
+		dataType: string
+		lineageTag: fac02b5b-c1e6-42ea-adc4-4b6c299996ea
+		summarizeBy: none
+		sourceColumn: Nombre Empresa
+
+	/// Dependencia observada; permanece vacía cuando la fuente aún no la clasifica.
+	column DEPENDENCIA
+		dataType: string
+		lineageTag: 3d8c4fa4-df5d-4cd8-b439-8845b4c5a118
+		summarizeBy: none
+		sourceColumn: DEPENDENCIA
+
+	/// Área observada; permanece vacía cuando la fuente aún no la clasifica.
+	column AREA
+		dataType: string
+		lineageTag: 498343a4-aa52-4bd3-ab1e-51948cab1ac4
+		summarizeBy: none
+		sourceColumn: AREA
+
+	/// Primer periodo (AAAAMM) en que la ruta organizacional fue observada en PLANTA DE PERSONAL. VIGENCIA OBSERVADA: no representa la vigencia oficial del organigrama.
+	column Periodo_Min
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 18bb8a30-b2fc-4da3-92a1-0292e6fab4e1
+		summarizeBy: none
+		sourceColumn: Periodo_Min
+
+	/// Último periodo (AAAAMM) en que la ruta organizacional fue observada en PLANTA DE PERSONAL. VIGENCIA OBSERVADA: los huecos intermedios entre Periodo_Min y Periodo_Max no implican cierre de la estructura.
+	column Periodo_Max
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: db37d6d1-66ab-4865-b1f3-fdc349299faa
+		summarizeBy: none
+		sourceColumn: Periodo_Max
+
+	partition Dim_Estructura_Organizacional = m
+		mode: import
+		source =
+				let
+				    Origen = #"PLANTA DE PERSONAL",
+				    Normalizar = (valor as any) as nullable text =>
+				        let
+				            Texto = if valor = null then null else Text.Trim(Text.From(valor))
+				        in
+				            if Texto = null or Texto = "" then null else Text.Upper(Texto),
+				    #"Columnas seleccionadas" = Table.SelectColumns(Origen, {"GRUPO EMPRESA", "Nombre Empresa", "DEPENDENCIA", "AREA", "AÑO", "MES"}),
+				    #"Componentes normalizados" = Table.TransformColumns(
+				        #"Columnas seleccionadas",
+				        {
+				            {"GRUPO EMPRESA", each Normalizar(_), type nullable text},
+				            {"Nombre Empresa", each Normalizar(_), type nullable text},
+				            {"DEPENDENCIA", each Normalizar(_), type nullable text},
+				            {"AREA", each Normalizar(_), type nullable text}
+				        }
+				    ),
+				    #"Afiliación conocida" = Table.SelectRows(#"Componentes normalizados", each [GRUPO EMPRESA] <> null and [Nombre Empresa] <> null),
+				    #"Clave construida" = Table.AddColumn(
+				        #"Afiliación conocida",
+				        "Key_Estructura",
+				        each Text.Combine(
+				            {
+				                [GRUPO EMPRESA],
+				                [Nombre Empresa],
+				                if [DEPENDENCIA] = null then "" else [DEPENDENCIA],
+				                if [AREA] = null then "" else [AREA]
+				            },
+				            "|"
+				        ),
+				        type text
+				    ),
+				    #"Periodo observado" = Table.AddColumn(
+				        #"Clave construida",
+				        "Periodo",
+				        each
+				            let
+				                Anio = try Number.From(Text.Trim(Text.From([AÑO]))) otherwise null,
+				                MesTexto = if [MES] = null then null else Text.Trim(Text.From([MES])),
+				                MesNum = if MesTexto = null then null else (try Number.From(Text.Start(MesTexto, 2)) otherwise null)
+				            in
+				                if Anio = null or MesNum = null then null else Anio * 100 + MesNum,
+				        Int64.Type
+				    ),
+				    #"Vigencia observada" = Table.Group(
+				        Table.SelectRows(#"Periodo observado", each [Periodo] <> null),
+				        {"Key_Estructura"},
+				        {
+				            {"Periodo_Min", each List.Min([Periodo]), Int64.Type},
+				            {"Periodo_Max", each List.Max([Periodo]), Int64.Type}
+				        }
+				    ),
+				    #"Base sin periodo" = Table.RemoveColumns(#"Periodo observado", {"AÑO", "MES", "Periodo"}),
+				    #"Claves distintas" = Table.Distinct(#"Base sin periodo", {"Key_Estructura"}),
+				    #"Vigencia agregada" = Table.NestedJoin(#"Claves distintas", {"Key_Estructura"}, #"Vigencia observada", {"Key_Estructura"}, "Vigencia", JoinKind.LeftOuter),
+				    #"Vigencia expandida" = Table.ExpandTableColumn(#"Vigencia agregada", "Vigencia", {"Periodo_Min", "Periodo_Max"}, {"Periodo_Min", "Periodo_Max"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Vigencia expandida", {"Key_Estructura", "GRUPO EMPRESA", "Nombre Empresa", "DEPENDENCIA", "AREA", "Periodo_Min", "Periodo_Max"})
+				in
+				    #"Columnas reordenadas"

@@ -1314,6 +1314,36 @@ table Tbl_Medidas
 		displayFolder: 02 Ppto vs Real
 		lineageTag: c4a1f2e3-7b9d-4a5f-8c6e-1d2b3e4f5a6c
 
+	/// Devuelve 1 si el elemento organizacional evaluado tiene al menos una Key_Estructura cuyo intervalo de VIGENCIA OBSERVADA (Periodo_Min..Periodo_Max) cubre el periodo seleccionado en los slicers Año y Mes. Uso exclusivo: filtro de visual en los slicers organizacionales de "Sociodemográfico por Empresa". No altera el contexto temporal de KPIs, gráficos, comparativos ni matriz.
+	measure 'Estructura Visible Periodo' =
+
+			VAR PeriodosSeleccionados =
+			    SELECTCOLUMNS (
+			        GENERATE (
+			            ALLSELECTED ( 'PLANTA DE PERSONAL'[AÑO] ),
+			            ALLSELECTED ( 'PLANTA DE PERSONAL'[MES] )
+			        ),
+			        "@Periodo",
+			            VAR Anio = VALUE ( 'PLANTA DE PERSONAL'[AÑO] )
+			            VAR MesNum = VALUE ( LEFT ( 'PLANTA DE PERSONAL'[MES], 2 ) )
+			            RETURN Anio * 100 + MesNum
+			    )
+			VAR PeriodoDesde = MINX ( PeriodosSeleccionados, [@Periodo] )
+			VAR PeriodoHasta = MAXX ( PeriodosSeleccionados, [@Periodo] )
+			VAR EstructurasVigentes =
+			    COUNTROWS (
+			        FILTER (
+			            Dim_Estructura_Organizacional,
+			            Dim_Estructura_Organizacional[Periodo_Min] <= PeriodoHasta
+			                && Dim_Estructura_Organizacional[Periodo_Max] >= PeriodoDesde
+			        )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( PeriodoDesde ) && EstructurasVigentes > 0, 1, 0 )
+		formatString: 0
+		displayFolder: 00 Utilidades
+		lineageTag: 7760a622-f732-4fab-b2f8-7d860c522e54
+
 	partition Tbl_Medidas = m
 		mode: import
 		source =
