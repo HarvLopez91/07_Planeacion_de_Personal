@@ -90,6 +90,7 @@ ref table tbl_Refresh
 ref table LocalDateTable_3858921f-461c-46df-9a03-b7f45c5848b7
 ref table Tbl_Medidas
 ref table DimPeriodoYM
+ref table Dim_Estructura_Organizacional
 
 ref cultureInfo es-ES
 

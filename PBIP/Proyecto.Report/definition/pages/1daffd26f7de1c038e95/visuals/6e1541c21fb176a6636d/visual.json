@@ -298,7 +298,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#DCE5F0'"
+                      "Value": "'#E8EDF2'"
                     }
                   }
                 }
@@ -374,6 +374,30 @@
       ]
     },
     "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
       "title": [
         {
           "properties": {

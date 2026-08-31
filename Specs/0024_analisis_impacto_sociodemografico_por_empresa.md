@@ -392,3 +392,191 @@ crea el primer checkpoint: staging selectivo, commit y push de la página,
 implementación avanzó más allá del MVP original de 4 visuales (7
 comparativos implementados) y **no está cerrada**: el usuario detiene el
 desarrollo aquí para aplicar una corrección posterior.
+
+## Cierre técnico PBIP-006 — solución final validada (2026-08-31)
+
+> Esta sección describe el **estado final vigente** de la iniciativa y
+> reemplaza funcionalmente a las secciones anteriores, que se conservan por
+> trazabilidad histórica.
+
+### Estado
+
+| Dimensión de validación | Estado |
+|---|---|
+| Funcional | `PASS FUNCIONAL` |
+| Visual | `PASS VISUAL` |
+
+Página: `Sociodemográfico por Empresa`
+(`PBIP/Proyecto.Report/definition/pages/1daffd26f7de1c038e95`).
+
+### Modelo organizacional
+
+`Dim_Estructura_Organizacional`, catálogo **dinámico** derivado de
+`PLANTA DE PERSONAL` mediante Power Query (`Origen = #"PLANTA DE PERSONAL"`
+más `Table.Distinct`). No existe catálogo hardcodeado: empresas, dependencias
+y áreas nuevas se incorporan automáticamente en el siguiente refresh.
+
+- Grano: `GRUPO EMPRESA + Nombre Empresa + DEPENDENCIA + AREA`.
+- Clave técnica: `Key_Estructura`, construida como
+  `GRUPO|EMPRESA|DEPENDENCIA|AREA` con normalización `Text.Trim` y `Text.Upper`
+  sobre cada componente.
+- Se descartan únicamente las filas sin `GRUPO EMPRESA` o sin `Nombre Empresa`.
+- Rutas parciales soportadas de forma intencional (`GRUPO|EMPRESA||` y
+  `GRUPO|EMPRESA|DEPENDENCIA|`) para admitir registros futuros pendientes de
+  clasificación. Su exclusión es **visual** (slicers), nunca del modelo.
+
+Integridad verificada contra el modelo vivo: **0 duplicados**, **0 huérfanos**,
+**cobertura 100 %**, **0 claves nulas**.
+
+### Fotografía validada (2026-08-31)
+
+| Métrica | Valor |
+|---|---|
+| `PLANTA DE PERSONAL` | 71.206 filas |
+| Registros pendientes de Dependencia/Área | 0 |
+| `Dim_Estructura_Organizacional` | 568 claves |
+| `DISTINCTCOUNT(Key_Estructura)` en `PLANTA DE PERSONAL` | 568 |
+| `Dim_Dependencia` | 64 |
+| `Dim_Area` | 369 |
+| Relaciones del modelo | 69 |
+
+Fuente de la fotografía: `Consolidado 2024.xlsx` y `Consolidado 2025.xlsx`
+(SharePoint corporativo). Las cifras son **fotografías temporales** de una
+versión concreta de la fuente, no constantes del modelo: se documentó el caso
+`SOURCE_CHANGED` en el que 585, luego 580 y finalmente 568 claves respondieron
+a reclasificaciones manuales del archivo fuente, sin defecto de código.
+
+### Vigencia observada
+
+`Dim_Estructura_Organizacional[Periodo_Min]` y `[Periodo_Max]`, tipo `int64`,
+formato **`YYYYMM`**, ocultas, derivadas por `Table.Group` sobre
+`Key_Estructura` (`List.Min` y `List.Max`). Sin fechas hardcodeadas.
+
+Representan **VIGENCIA OBSERVADA**, **no** la vigencia oficial del organigrama.
+No existe fuente maestra corporativa con `Fecha Desde` y `Fecha Hasta` de
+dependencias y áreas; se auditaron `Estructura`, `AREAS`, `Planta Ppto`,
+`Ppto Ingresos`, los proyectos hermanos 04 y 10, y el maestro Kactus
+`QryBiCargo` (que sí tiene `Fecha de Creación` e `Ind. Actividad`, pero
+**solo a nivel de Cargo**, sin Dependencia ni Área).
+
+Regla de visibilidad:
+
+`Periodo_Min <= Periodo seleccionado <= Periodo_Max`
+
+Si una Dependencia o Área aparece **al menos una vez** en `Consolidado
+2024.xlsx` o `Consolidado 2025.xlsx`, se considera que existió históricamente.
+
+**Los huecos internos NO implican cierre.** Decisión deliberada: el 29,9 % de
+las 568 estructuras (170) presentan huecos intermedios y reaparecen, con un
+hueco máximo de 16 meses; 102 desaparecen 3 meses o más y vuelven. La ausencia
+temporal de colaboradores no equivale a cierre de la estructura, por lo que
+**no se usa `Tot_empleados_Promedio > 0` como criterio de vigencia**.
+
+#### Caso de control — `COORDINACIÓN DE GESTIÓN HUMANA`
+
+`GRUPO SKY`, presente en SKY FORWARDER, SKY INDUSTRIAL y SKY LOGÍSTICA
+INTEGRAL. `Periodo_Min` igual a `202401`, `Periodo_Max` igual a `202503`.
+
+| Periodo | Resultado esperado | Verificado |
+|---|---|---|
+| 2024-06 (hueco interno) | visible | Sí |
+| 2025-03 (`Periodo_Max`) | visible | Sí |
+| 2026-07 | **no visible** | Sí |
+| 2023-12 (antes de `Periodo_Min`) | no visible | Sí |
+
+### Periodo de análisis
+
+Regla funcional de la página: **1 Año más 1 Mes es igual a 1 periodo**.
+
+- `Año` (`'PLANTA DE PERSONAL'[AÑO]`): selección única mediante
+  `strictSingleSelect: true` (con `singleSelect: false` y
+  `selectAllCheckboxEnabled: false`). **`singleSelect` por sí sola no produce
+  selección única en Power BI Desktop**: corresponde a "Selección múltiple con
+  CTRL". La propiedad que gobierna "Selección única" es `strictSingleSelect`,
+  patrón validado contra el slicer `Años[Año]` de la página `Gasto Laboral`.
+- `Mes` (`'PLANTA DE PERSONAL'[MES]`): selección única.
+- Ambos **desacoplados** de los `syncGroup` heredados `AÑO` y `MES`: se retiró
+  el bloque `syncGroup` de los slicers de esta página, sin modificar los
+  miembros de `Demográfico` ni `Demográfico (Promedio)`, que conservan su
+  sincronización entre sí.
+
+Todos los KPIs, gráficos, comparativos y matriz calculan **exclusivamente** el
+Año-Mes seleccionado. `Periodo_Min` y `Periodo_Max` **no amplían** el periodo
+de cálculo: su única función es determinar la disponibilidad de opciones en los
+slicers organizacionales.
+
+### Slicers organizacionales
+
+Los cuatro leen de `Dim_Estructura_Organizacional` y aplican el filtro de
+visual `Estructura Visible Periodo = 1`:
+
+| Slicer | Visual | Campo |
+|---|---|---|
+| Grupo Empresa | `a19d9473fbf6256b473b` | `[GRUPO EMPRESA]` |
+| Nombre Empresa | `c3b9416c6f44bc63690a` | `[Nombre Empresa]` |
+| Dependencia | `5a7168a7f509acada7d2` | `[DEPENDENCIA]` |
+| Área | `716620875f71ee0ad121` | `[AREA]` |
+
+Dependencia y Área excluyen visualmente `null` y cadena vacía, conservando esas
+rutas parciales en el modelo.
+
+Medida `Estructura Visible Periodo` (`Tbl_Medidas`, carpeta `00 Utilidades`):
+lee el periodo seleccionado con `ALLSELECTED` sobre `[AÑO]` y `[MES]` —
+necesario porque la relación fluye de la dimensión al hecho y, sin
+`ALLSELECTED`, la medida degeneraría en presencia exacta y ocultaría las 170
+estructuras con huecos. Devuelve 1 si existe al menos una `Key_Estructura` del
+elemento evaluado cuyo intervalo cubre el periodo, por lo que funciona sin
+variantes en los cuatro niveles de la cascada
+`Grupo → Empresa → Dependencia → Área`.
+
+### Relaciones
+
+Relación nueva:
+`'PLANTA DE PERSONAL'[Key_Estructura] → Dim_Estructura_Organizacional[Key_Estructura]`
+
+- Cardinalidad **Many→One**
+- **Active**
+- **OneDirection**
+- **SingleColumn**
+
+**0 relaciones many-to-many nuevas** y **0 bidireccionales nuevas**. Las dos
+relaciones especiales preexistentes (`Trimestres` con `Mes`, bidireccional 1:1,
+y `AUSENTISMOS` con `Incapacidades`, bidireccional M:M) **no se modifican**.
+Total del modelo: 69 relaciones, sin variación.
+
+### Diseño
+
+`PASS VISUAL`. Tipografía **Outfit** en toda la página, incluido el navegador
+(se eliminó el remanente de Calibri). Paleta corporativa LEMCO según
+`Assets/Brand/Manual Marca Grupo LEMCO.pdf`:
+
+`#1B487F` · `#1A3059` · `#000032` · `#0B1C35` · `#F7931E`
+
+Se eliminaron los colores fuera de identidad que existían (`#17406C`,
+`#12294A`, `#094780`, `#2B455E`, `#5A6472`, `#DCE5F0`). Donde una rampa ordinal
+exigía más pasos de los que ofrece la paleta principal — `Antigüedad por
+Empresa`, 7 categorías — se emplearon secundarios ya validados del proyecto 04
+(`#4A7FC0`, `#7EB3E8`), sin introducir variantes nuevas.
+
+Títulos homogéneos: los seis gráficos en Outfit 14D negrita centrada; la
+matriz en 13D por densidad. La matriz recibió fondo propio para integrarse con
+los demás contenedores. Navegación preservada sin cambios funcionales.
+
+### Fuera de alcance (no bloquea el cierre)
+
+- Tema LEMCO global del reporte y cambio de `report.json` (afectaría a las 16
+  páginas; requiere iniciativa propia con validación página por página).
+- Dimensión calendario futura.
+- Corrección global de `Tot_empleados_Promedio` para escenarios multiaño: la
+  medida promedia sobre `[MES]` (nombre del mes, no año-mes), por lo que con
+  varios años seleccionados **suma** en vez de promediar. En esta página queda
+  acotada por la regla de periodo único; el defecto persiste en `Demográfico`
+  y `Demográfico (Promedio)`.
+- Refactor del lienzo (banda y grupo declarados a 2300 px sobre una página de
+  2100 por 900).
+- Retícula, alturas de fila y normalización de anchos de slicers.
+- Errores `#N/A` conocidos de Power Query (36 en esta ejecución, variables
+  entre refrescos; documentados en `Specs/0020` sección 15.4). No afectan a
+  ninguna de las cuatro columnas que construyen `Key_Estructura`.
+- Retiro de tablas legacy (`Estructura`, `AREAS`) que todavía tienen
+  consumidores en otras páginas.

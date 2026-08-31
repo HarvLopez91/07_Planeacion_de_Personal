@@ -202,11 +202,6 @@
         }
       ]
     },
-    "syncGroup": {
-      "groupName": "MES",
-      "fieldChanges": true,
-      "filterChanges": true
-    },
     "drillFilterOtherVisuals": true
   },
   "parentGroupName": "89f626bb1de245191d62"

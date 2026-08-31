@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Dim_Estructura_Organizacional"
                     }
                   },
                   "Property": "AREA"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.AREA",
+              "queryRef": "Dim_Estructura_Organizacional.AREA",
               "nativeQueryRef": "AREA",
               "active": true,
               "displayName": "Área"
@@ -181,12 +181,61 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "estructura_visible_periodo",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Estructura Visible Periodo"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "Tbl_Medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "t"
+                        }
+                      },
+                      "Property": "Estructura Visible Periodo"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
         "name": "area_not_blank",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "PLANTA DE PERSONAL"
+                "Entity": "Dim_Estructura_Organizacional"
               }
             },
             "Property": "AREA"
@@ -198,7 +247,7 @@
           "From": [
             {
               "Name": "p",
-              "Entity": "PLANTA DE PERSONAL",
+              "Entity": "Dim_Estructura_Organizacional",
               "Type": 0
             }
           ],

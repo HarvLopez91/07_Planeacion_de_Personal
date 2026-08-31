@@ -269,7 +269,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#094780'"
+                      "Value": "'#1B487F'"
                     }
                   }
                 }
@@ -505,7 +505,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "16D"
+                  "Value": "14D"
                 }
               }
             },

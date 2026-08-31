@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Estructura"
+                      "Entity": "Dim_Estructura_Organizacional"
                     }
                   },
                   "Property": "DEPENDENCIA"
                 }
               },
-              "queryRef": "Estructura.DEPENDENCIA",
+              "queryRef": "Dim_Estructura_Organizacional.DEPENDENCIA",
               "nativeQueryRef": "Dependencia",
               "active": true,
               "displayName": "Dependencia"
@@ -181,12 +181,61 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "estructura_visible_periodo",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Estructura Visible Periodo"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "Tbl_Medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "t"
+                        }
+                      },
+                      "Property": "Estructura Visible Periodo"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
         "name": "6ebfd57692dc14d233ff",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Estructura"
+                "Entity": "Dim_Estructura_Organizacional"
               }
             },
             "Property": "DEPENDENCIA"
@@ -198,7 +247,7 @@
           "From": [
             {
               "Name": "e",
-              "Entity": "Estructura",
+              "Entity": "Dim_Estructura_Organizacional",
               "Type": 0
             }
           ],
@@ -225,6 +274,13 @@
                           {
                             "Literal": {
                               "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "''"
                             }
                           }
                         ]
