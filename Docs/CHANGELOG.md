@@ -6,6 +6,14 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-08-31
+
+### Corregido
+
+- Medida `AUSENTISMOS[Tasa Ausentismo]`: corregida referencia obsoleta a `'PLANTA DE PERSONAL'[Tot_empleados]` — verificado que esa medida ya no existe en la tabla `PLANTA DE PERSONAL` (fue migrada a `Tbl_Medidas`, donde sí existe de forma única: `Tot_empleados = COUNT('PLANTA DE PERSONAL'[ID])`). La referencia calificada por tabla quedaba apuntando a una medida inexistente. Se reemplaza por `[Tot_empleados]` (sin calificador de tabla), que resuelve correctamente a la medida vigente en `Tbl_Medidas`. Fórmula resultante: `'Tasa Ausentismo' = AUSENTISMOS[Ausentismo]/([Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))`. Sin cambios en `displayFolder`, `formatString` ni `lineageTag`. Validación estática (sin abrir Power BI Desktop): confirmado que `Tot_empleados` no existe en ninguna otra tabla del modelo, por lo que la referencia sin calificador es inequívoca.
+
+  Corrección independiente de los Bloques A/B/C de `Specs/0025`/`Specs/0026` (PBIP-007, referencias obsoletas en visuales) — no comparte alcance, archivo ni commit con esa iniciativa, que permanece sin commitear en este mismo worktree a la espera de decisiones pendientes.
+
 ## [Sin version] - 2026-08-14
 
 ### Agregado
