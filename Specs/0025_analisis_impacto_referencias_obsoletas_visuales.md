@@ -1,7 +1,8 @@
 # 0025 - Análisis de impacto: referencias obsoletas en visuales del reporte (PBIP-007)
 
-> **Fase:** análisis de impacto. **No autoriza implementación.**
-> Estado de la iniciativa: `En evaluación`.
+> Documento de análisis inicialmente no autorizante; la ejecución fue
+> autorizada posteriormente por el usuario.
+> Estado de la iniciativa: `Pendiente validación manual Gate B`.
 > Fecha: 2026-08-31. Base auditada: `main` = `origin/main` =
 > `5b65661f6af201640f9ccba2079664cebb8f21a0`.
 
@@ -215,3 +216,74 @@ edición, validación visual página por página, y staging explícito por bloqu
 - Copia de páginas o TMDL desde `rescue/gov-001-working-tree-20260831`.
 - Tema LEMCO global y demás pendientes visuales heredados de PBIP-006.
 - Saneamiento del working tree acumulado, que pertenece a GOV-001.
+
+## Revalidación técnica inicial de ejecución — 2026-08-31
+
+La ejecución integral solicitada reconfirmó el inventario contra el TMDL y los
+`visual.json` vigentes de la rama `fix/pbip-007-referencias-obsoletas`:
+
+- 16 páginas y 295 visuales.
+- Bloque A: 31 visuales en 6 páginas; las 26 medidas involucradas existen de
+  forma única y su propietaria vigente es `Tbl_Medidas`.
+- Bloque B: 2 visuales continúan referenciando la medida inexistente
+  `Filtro Trimestre Dinamico`; `Filtro Trimestre Slicer` existe de forma única
+  en `Tbl_Medidas` y su DAX conserva los tres estados documentados.
+- Bloque C: 10 referencias a `Planta Presupuestada`, exclusivamente en
+  selectores cosméticos `dataPoint[*].selector.data[*].scopeId`.
+
+Se detectó un worktree previo con 93 entradas tracked modificadas (92 con diff
+textual): 69 visuales, 10 bookmarks, `pages.json` y múltiples archivos del
+modelo semántico. El triage byte-exacto posterior confirmó 409/409 archivos
+PBIP sin cambios durante esta ejecución. Para no mezclar ese trabajo manual y
+churn de Desktop, el Bloque A se preparó en un worktree limpio separado.
+
+El Gate A estático quedó satisfecho para el alcance: 31 `visual.json`, 0
+bindings de medida con propietaria incorrecta, 0 errores JSON/UTF-8/BOM, 0
+cambios en `Proyecto.SemanticModel`, `git diff --check` limpio y diff semántico
+limitado a `SourceRef.Entity`, `queryRef` y metadatos asociados. El validador
+PBIR oficial mantuvo exactamente el baseline heredado de 90 errores y 168
+advertencias antes y después; no agregó diagnósticos.
+
+En el primer intento la ejecución quedó bloqueada antes del Bloque B porque el host no tiene
+`PBIDesktop.exe` instalado ni instancia local de Analysis Services. El MCP
+disponible solo permite modelado semántico offline y no expone páginas,
+interacciones ni capturas. Por tanto, no existe evidencia válida de render del
+Gate A, de los tres estados del Gate B ni para decidir el Bloque C. No se hizo
+staging, commit, push ni PR del parche preparado.
+
+## Continuación desde Gate A y cierre técnico estático — 2026-08-31
+
+El usuario validó manualmente el Gate A en Power BI Desktop y aportó evidencia
+visual. Los 31 visuales corregidos se revisaron en `Demográfico`,
+`Comportamiento HC Anual`, `Comportamiento HC Mensual`, `Indicadores`,
+`Product. (Colaboradores)` y `Ausentismos`: todos renderizaron, mostraron cifras,
+no presentaron `Hubo un problema con uno o más campos` y no evidenciaron
+regresiones relacionadas con PBIP-007. Power BI Desktop se cerró al finalizar y
+la continuación comenzó con `PBIDesktop.exe` y `msmdsrv.exe` ausentes. Los
+resultados `NaN`/`Infinito` de ausentismo permanecen fuera de alcance.
+
+Tras ese PASS se ejecutó el Bloque B exclusivamente en los visuales
+`8257c3fc27f928312499` de `Product. (Colaboradores)` y
+`37ed01c30df4dafce226` de `Retiros`. En cada archivo solo cambió la propiedad de
+medida `Filtro Trimestre Dinamico` por `Filtro Trimestre Slicer`; no se modificó
+DAX ni el modelo. El MCP de modelado reconfirmó que la medida anterior no existe,
+que la sustituta existe de forma única en `Tbl_Medidas` y que su DAX conserva las
+ramas de trimestre actual, trimestre anterior y ausencia de selección.
+
+La auditoría final estática cubrió 16 páginas y 295 visuales: 334 JSON
+parseables como UTF-8 sin BOM, 0 medidas inexistentes, 0 bindings con tabla
+propietaria incorrecta, 0 referencias a `Filtro Trimestre Dinamico`, 0 cambios
+en `PBIP/Proyecto.SemanticModel/` y `git diff --check` limpio. El validador PBIR
+mantiene el baseline heredado (90 errores y 168 advertencias en la validación
+completa), sin categorías nuevas atribuibles a PBIP-007.
+
+El Bloque C no se ejecutó. Sus 10 visuales contienen las referencias a `Planta
+Presupuestada` únicamente dentro de selectores de color
+`visual.objects.dataPoint[*].selector.data[*].scopeId`; no aparecen en consultas.
+Como el Gate A manual confirmó render, formato y colores correctos, se clasifican
+como deuda técnica cosmética conocida y no bloqueante.
+
+No había instancia local de Power BI disponible para que MCP validara las
+interacciones del Bloque B (`ListLocalInstances`: 0; Desktop Bridge:
+`not_connected`). La única condición funcional pendiente es comprobar
+manualmente los tres estados de ambos slicers en Power BI Desktop.

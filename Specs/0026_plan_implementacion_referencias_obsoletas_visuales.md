@@ -1,7 +1,7 @@
 # 0026 - Plan de implementación: referencias obsoletas en visuales (PBIP-007)
 
-> **Fase:** plan de implementación. **Esta fase sigue siendo documentación:
-> no se modifica ningún archivo de `PBIP/` todavía.**
+> Plan aprobado y ejecutado hasta el Gate B estático.
+> Estado actual: `Pendiente validación manual Gate B`.
 > Análisis de impacto: `Specs/0025_analisis_impacto_referencias_obsoletas_visuales.md`.
 > Fecha: 2026-08-31.
 
@@ -258,3 +258,61 @@ a `Demográfico (Promedio)` y `Gasto Laboral`, que usan medidas de
 
 Cada paso requiere autorización expresa. Este plan **no autoriza** por sí mismo
 ninguna modificación de `PBIP/`.
+
+## Registro de ejecución controlada — 2026-08-31
+
+El usuario autorizó posteriormente la ejecución integral de PBIP-007. Se
+completaron el diagnóstico inicial, el inventario TMDL/PBIR y la preparación
+del Bloque A en un worktree limpio basado en `7856256`.
+
+Resultado del Gate A estático:
+
+- 31 visuales en 6 páginas intervenidos.
+- 64 nodos `Measure.SourceRef.Entity`, 32 `queryRef` y 17 metadatos asociados
+  reapuntados individualmente a `Tbl_Medidas`.
+- 312 JSON de páginas parseables como UTF-8 sin BOM.
+- 0 bindings de medida con tabla propietaria incorrecta.
+- 0 cambios en `PBIP/Proyecto.SemanticModel/`.
+- `git diff --check` limpio.
+- Validador PBIR: mismo baseline antes/después (90 errores, 168 advertencias
+  heredadas); 0 diagnósticos nuevos.
+
+En el primer intento el Gate A funcional no pudo ejecutarse: Power BI Desktop no está instalado en
+el host (`DESKTOP_EXE_NOT_FOUND`) y el MCP de modelado disponible no permite
+renderizar páginas ni capturar visuales. Conforme al carácter bloqueante del
+gate, no se implementó el Bloque B, no se tomó una decisión sobre el Bloque C y
+no se prepararon commits. Para reanudar: disponer de Power BI Desktop con el
+bridge seguro habilitado, abrir el PBIP del worktree limpio, validar las páginas
+del Bloque A sin guardar, y solo entonces continuar con B y C.
+
+## Continuación y resultado de ejecución — 2026-08-31
+
+- **Gate A funcional: PASS manual.** El usuario verificó los 31 visuales en las
+  6 páginas afectadas. Hubo render y cálculo de cifras, no apareció el error de
+  campos y no se detectaron regresiones de PBIP-007. Power BI quedó cerrado sin
+  incorporar churn adicional.
+- **Bloque B: implementado.** Los visuales `8257c3fc27f928312499` y
+  `37ed01c30df4dafce226` cambiaron únicamente la propiedad
+  `Filtro Trimestre Dinamico` por `Filtro Trimestre Slicer`. MCP confirmó la
+  inexistencia de la medida anterior, la existencia única de la sustituta en
+  `Tbl_Medidas` y la permanencia de su DAX; no hubo cambios al modelo.
+- **Gate B estático: PASS.** Auditoría de 16 páginas / 295 visuales, 334 JSON
+  válidos UTF-8 sin BOM, 0 medidas inexistentes, 0 bindings incorrectos, 0
+  referencias al nombre sustituido, 0 cambios en SemanticModel y
+  `git diff --check` limpio. El baseline heredado del validador PBIR permanece
+  clasificado fuera del alcance de la iniciativa.
+- **Gate B funcional: pendiente manual.** MCP encontró 0 instancias locales y
+  Desktop Bridge quedó `not_connected`; no se declara PASS sin probar trimestre
+  actual, trimestre anterior y ausencia de selección en ambas páginas.
+- **Bloque C: no necesario.** Las referencias de 10 visuales están restringidas
+  a selectores `scopeId` de color y no participan en consultas. El PASS manual
+  del Gate A confirmó que `Comportamiento HC Anual` y `Comportamiento HC Mensual`
+  conservan render, colores y formato. Quedan como deuda cosmética no bloqueante.
+- **Preservación:** el worktree manual con 93 entradas tracked, sin staging ni
+  untracked, no fue usado para implementar ni preparar commits. La integración
+  se realizó en el worktree limpio basado en `7856256`.
+
+Estado resultante: PBIP-007 queda preparado para revisión mediante Draft PR y
+pendiente únicamente de la validación funcional manual del Gate B antes del
+cierre y merge. Los Specs `0025`/`0026` deben revalidar su consecutivo en el
+momento de integración si otro trabajo paralelo genera una colisión real.
