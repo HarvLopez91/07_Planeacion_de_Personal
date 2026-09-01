@@ -2,7 +2,7 @@
 
 > Documento de análisis inicialmente no autorizante; la ejecución fue
 > autorizada posteriormente por el usuario.
-> Estado de la iniciativa: `Pendiente validación manual Gate B`.
+> Estado de la iniciativa: `Lista para cierre; pendiente aprobación de merge`.
 > Fecha: 2026-08-31. Base auditada: `main` = `origin/main` =
 > `5b65661f6af201640f9ccba2079664cebb8f21a0`.
 
@@ -283,7 +283,17 @@ Presupuestada` únicamente dentro de selectores de color
 Como el Gate A manual confirmó render, formato y colores correctos, se clasifican
 como deuda técnica cosmética conocida y no bloqueante.
 
-No había instancia local de Power BI disponible para que MCP validara las
-interacciones del Bloque B (`ListLocalInstances`: 0; Desktop Bridge:
-`not_connected`). La única condición funcional pendiente es comprobar
-manualmente los tres estados de ambos slicers en Power BI Desktop.
+MCP no dispuso de una instancia local para comprobar las interacciones del
+Bloque B (`ListLocalInstances`: 0; Desktop Bridge: `not_connected`), por lo que
+la validación se completó manualmente en Power BI Desktop con resultado PASS.
+En `Product. (Colaboradores)`, `8257c3fc27f928312499` es el slicer de
+`Mes[Meses]`; no existe ni se requiere un slicer visible de Trimestre y
+`Filtro Trimestre Slicer` actúa únicamente como filtro interno del visual. La
+página renderizó, respondió a filtros y no mostró errores de campos. En
+`Retiros` pasaron trimestre actual, trimestre anterior y ausencia de selección,
+con respuesta correcta de los visuales dependientes y sin errores de campos.
+
+Con Gate A y Gate B en PASS manual, Bloque C descartado por no ser necesario y
+la auditoría estática limpia para el alcance, PBIP-007 queda lista para cierre y
+pendiente únicamente de aprobación del merge. La corrección independiente de
+`AUSENTISMOS[Tasa Ausentismo]` no forma parte del diff neto de la iniciativa.

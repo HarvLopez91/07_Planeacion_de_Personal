@@ -1,7 +1,7 @@
 # 0026 - Plan de implementación: referencias obsoletas en visuales (PBIP-007)
 
-> Plan aprobado y ejecutado hasta el Gate B estático.
-> Estado actual: `Pendiente validación manual Gate B`.
+> Plan aprobado y ejecutado hasta el Gate B funcional.
+> Estado actual: `Listo para cierre; pendiente aprobación de merge`.
 > Análisis de impacto: `Specs/0025_analisis_impacto_referencias_obsoletas_visuales.md`.
 > Fecha: 2026-08-31.
 
@@ -301,9 +301,13 @@ del Bloque A sin guardar, y solo entonces continuar con B y C.
   referencias al nombre sustituido, 0 cambios en SemanticModel y
   `git diff --check` limpio. El baseline heredado del validador PBIR permanece
   clasificado fuera del alcance de la iniciativa.
-- **Gate B funcional: pendiente manual.** MCP encontró 0 instancias locales y
-  Desktop Bridge quedó `not_connected`; no se declara PASS sin probar trimestre
-  actual, trimestre anterior y ausencia de selección en ambas páginas.
+- **Gate B funcional: PASS manual.** En `Product. (Colaboradores)`, el visual
+  `8257c3fc27f928312499` es el slicer de `Mes[Meses]`; no existe ni se requiere
+  un slicer visible de Trimestre y la medida funciona solo como filtro interno.
+  La página renderizó, respondió a filtros y no mostró errores de campos. En
+  `Retiros` se validaron trimestre actual, trimestre anterior y sin selección;
+  los visuales dependientes respondieron correctamente y no hubo errores de
+  campos.
 - **Bloque C: no necesario.** Las referencias de 10 visuales están restringidas
   a selectores `scopeId` de color y no participan en consultas. El PASS manual
   del Gate A confirmó que `Comportamiento HC Anual` y `Comportamiento HC Mensual`
@@ -312,7 +316,8 @@ del Bloque A sin guardar, y solo entonces continuar con B y C.
   untracked, no fue usado para implementar ni preparar commits. La integración
   se realizó en el worktree limpio basado en `7856256`.
 
-Estado resultante: PBIP-007 queda preparado para revisión mediante Draft PR y
-pendiente únicamente de la validación funcional manual del Gate B antes del
-cierre y merge. Los Specs `0025`/`0026` deben revalidar su consecutivo en el
+Estado resultante: PBIP-007 queda listo para cierre y pendiente únicamente de
+la aprobación del merge del Draft PR. La corrección independiente de
+`AUSENTISMOS[Tasa Ausentismo]` fue retirada del diff neto. Los Specs
+`0025`/`0026` deben revalidar su consecutivo en el
 momento de integración si otro trabajo paralelo genera una colisión real.

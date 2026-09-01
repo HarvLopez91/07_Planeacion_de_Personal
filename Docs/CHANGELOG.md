@@ -18,17 +18,14 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
   0 bindings incorrectos, 0 JSON inválidos, 0 cambios en SemanticModel y
   `git diff --check` limpio. Bloque C no ejecutado: 10 visuales conservan deuda
   cosmética `scopeId` no bloqueante porque el Gate A confirmó colores y formato.
-  MCP no encontró instancia local para probar interacciones, por lo que el Gate
-  B funcional queda pendiente de validación manual. El worktree previo con 93
-  cambios tracked permaneció aislado y sin staging.
-
-### Corregido
-
-- Medida `AUSENTISMOS[Tasa Ausentismo]`: corregida referencia obsoleta a `'PLANTA DE PERSONAL'[Tot_empleados]` — verificado que esa medida ya no existe en la tabla `PLANTA DE PERSONAL` (fue migrada a `Tbl_Medidas`, donde sí existe de forma única: `Tot_empleados = COUNT('PLANTA DE PERSONAL'[ID])`). La referencia calificada por tabla quedaba apuntando a una medida inexistente. Se reemplaza por `[Tot_empleados]` (sin calificador de tabla), que resuelve correctamente a la medida vigente en `Tbl_Medidas`. Fórmula resultante: `'Tasa Ausentismo' = AUSENTISMOS[Ausentismo]/([Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))`. Sin cambios en `displayFolder`, `formatString` ni `lineageTag`. Validación estática (sin abrir Power BI Desktop): confirmado que `Tot_empleados` no existe en ninguna otra tabla del modelo, por lo que la referencia sin calificador es inequívoca.
-
-  Corrección independiente de los Bloques A/B/C de `Specs/0025`/`Specs/0026`
-  (PBIP-007, referencias obsoletas en visuales): no comparte alcance, archivos
-  ni commit con la iniciativa y conserva trazabilidad histórica separada.
+  Gate B funcional validado manualmente con PASS: en `Product.
+  (Colaboradores)` el visual `8257c3fc27f928312499` es el slicer de
+  `Mes[Meses]` y usa la medida solo como filtro interno, sin requerir un slicer
+  visible de Trimestre; en `Retiros` pasaron trimestre actual, trimestre
+  anterior y sin selección. El worktree previo con 93 cambios tracked
+  permaneció aislado y sin staging. La corrección independiente de
+  `AUSENTISMOS[Tasa Ausentismo]` se excluyó íntegramente del alcance y del diff
+  neto de PBIP-007.
 
 ## [Sin version] - 2026-08-14
 
