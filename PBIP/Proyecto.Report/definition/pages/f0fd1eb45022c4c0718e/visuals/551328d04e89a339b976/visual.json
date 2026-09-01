@@ -5,8 +5,8 @@
     "x": 216.66666666666669,
     "y": 473.33333333333337,
     "z": 4000,
-    "height": 426.66666666666669,
-    "width": 573.33333333333337,
+    "height": 426.6666666666667,
+    "width": 573.3333333333334,
     "tabOrder": 9000
   },
   "visual": {
@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados",
+              "queryRef": "Tbl_Medidas.Tot_empleados",
               "nativeQueryRef": "Tot_empleados"
             }
           ]

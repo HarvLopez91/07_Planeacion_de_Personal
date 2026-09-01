@@ -5,7 +5,7 @@
     "x": 1349.7424061327947,
     "y": 112.63240324774347,
     "z": 10000,
-    "height": 266.63042472793188,
+    "height": 266.6304247279319,
     "width": 399.9101593513812,
     "tabOrder": 3000
   },
@@ -53,7 +53,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados"
@@ -65,7 +65,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados"
@@ -77,7 +77,7 @@
                   "Operator": 3
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados",
+              "queryRef": "Tbl_Medidas.Tot_empleados",
               "nativeQueryRef": "%TG Tot_empleados",
               "displayName": "Empleados"
             }
@@ -93,7 +93,7 @@
                   "Measure": {
                     "Expression": {
                       "SourceRef": {
-                        "Entity": "PLANTA DE PERSONAL"
+                        "Entity": "Tbl_Medidas"
                       }
                     },
                     "Property": "Tot_empleados"
@@ -105,7 +105,7 @@
                       "Measure": {
                         "Expression": {
                           "SourceRef": {
-                            "Entity": "PLANTA DE PERSONAL"
+                            "Entity": "Tbl_Medidas"
                           }
                         },
                         "Property": "Tot_empleados"

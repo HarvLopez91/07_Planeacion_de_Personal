@@ -57,13 +57,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "tot_Año_prom"
                 }
               },
-              "queryRef": "Planta Ppto.tot_Año_prom",
+              "queryRef": "Tbl_Medidas.tot_Año_prom",
               "nativeQueryRef": "tot_Año"
             }
           ]
@@ -75,13 +75,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Anual_Real"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Anual_Real",
+              "queryRef": "Tbl_Medidas.Prom_Anual_Real",
               "nativeQueryRef": "Prom. Anual Real",
               "displayName": "Prom. Anual Real"
             }
@@ -1338,7 +1338,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Indef"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Indef"
           }
         },
         {
@@ -1352,7 +1352,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real"
           }
         }
       ],

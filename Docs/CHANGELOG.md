@@ -6,6 +6,27 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-08-31
+
+### Documentado
+
+- `PBIP-007`: Gate A funcional validado manualmente en Power BI Desktop sobre
+  31 visuales / 6 páginas (render y cifras correctos, sin error de campos ni
+  regresiones relacionadas). Bloque B aplicado en 2 visuales sustituyendo la
+  medida inexistente `Filtro Trimestre Dinamico` por `Filtro Trimestre Slicer`;
+  Gate B estático PASS sobre 16 páginas / 295 visuales, con 0 referencias rotas,
+  0 bindings incorrectos, 0 JSON inválidos, 0 cambios en SemanticModel y
+  `git diff --check` limpio. Bloque C no ejecutado: 10 visuales conservan deuda
+  cosmética `scopeId` no bloqueante porque el Gate A confirmó colores y formato.
+  Gate B funcional validado manualmente con PASS: en `Product.
+  (Colaboradores)` el visual `8257c3fc27f928312499` es el slicer de
+  `Mes[Meses]` y usa la medida solo como filtro interno, sin requerir un slicer
+  visible de Trimestre; en `Retiros` pasaron trimestre actual, trimestre
+  anterior y sin selección. El worktree previo con 93 cambios tracked
+  permaneció aislado y sin staging. La corrección independiente de
+  `AUSENTISMOS[Tasa Ausentismo]` se excluyó íntegramente del alcance y del diff
+  neto de PBIP-007.
+
 ## [Sin version] - 2026-08-14
 
 ### Agregado

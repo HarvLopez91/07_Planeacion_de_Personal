@@ -3,7 +3,7 @@
   "name": "59e531d9e70d300e050d",
   "position": {
     "x": 503.98979971221235,
-    "y": 75.942205987227339,
+    "y": 75.94220598722734,
     "z": 12000,
     "height": 100.97560975609757,
     "width": 105.30015492607541,
@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "KPI_REAL"
                 }
               },
-              "queryRef": "Planta Ppto.KPI_REAL",
+              "queryRef": "Tbl_Medidas.KPI_REAL",
               "nativeQueryRef": "KPI_REAL"
             }
           ]
@@ -64,7 +64,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Real"
@@ -93,7 +93,7 @@
                                     "Measure": {
                                       "Expression": {
                                         "SourceRef": {
-                                          "Entity": "Planta Ppto"
+                                          "Entity": "Tbl_Medidas"
                                         }
                                       },
                                       "Property": "Var_Real"
@@ -113,7 +113,7 @@
                                     "Measure": {
                                       "Expression": {
                                         "SourceRef": {
-                                          "Entity": "Planta Ppto"
+                                          "Entity": "Tbl_Medidas"
                                         }
                                       },
                                       "Property": "Var_Real"

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "e15523e0dbde839edb94",
   "position": {
-    "x": 900.67159622820714,
+    "x": 900.6715962282071,
     "y": 425.91411708839297,
     "z": 12000,
-    "height": 72.288175836103392,
-    "width": 582.21287565294085,
+    "height": 72.28817583610339,
+    "width": 582.2128756529409,
     "tabOrder": 12000
   },
   "visual": {
@@ -34,13 +34,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Colab_Directo"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Colab_Directo",
+              "queryRef": "Tbl_Medidas.Prom_Colab_Directo",
               "nativeQueryRef": "Prom_Colab_Directo"
             },
             {

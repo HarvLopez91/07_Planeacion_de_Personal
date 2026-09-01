@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "c6834ffedf76013f8949",
   "position": {
-    "x": 958.53658536585408,
+    "x": 958.5365853658541,
     "y": 367.19512195121956,
     "z": 5000,
-    "height": 237.07317073170731,
+    "height": 237.0731707317073,
     "width": 305.1219512195122,
     "tabOrder": 5000
   },
@@ -54,13 +54,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Sena"
                 }
               },
-              "queryRef": "Planta Ppto.Tot_Sena",
+              "queryRef": "Tbl_Medidas.Tot_Sena",
               "nativeQueryRef": "Tot_Sena"
             }
           ]

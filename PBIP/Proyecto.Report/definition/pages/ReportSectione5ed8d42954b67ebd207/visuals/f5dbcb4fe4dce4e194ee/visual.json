@@ -3,10 +3,10 @@
   "name": "f5dbcb4fe4dce4e194ee",
   "position": {
     "x": 567.439024390244,
-    "y": 510.36585365853659,
+    "y": 510.3658536585366,
     "z": 5000,
-    "height": 362.19512195121951,
-    "width": 546.58536585365857,
+    "height": 362.1951219512195,
+    "width": 546.5853658536586,
     "tabOrder": 4000
   },
   "visual": {
@@ -74,13 +74,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Efic_Emp"
                 }
               },
-              "queryRef": "Planta Ppto.Efic_Emp",
+              "queryRef": "Tbl_Medidas.Efic_Emp",
               "nativeQueryRef": "Ventas por Colaborador $COP",
               "displayName": "Ventas por Colaborador $COP"
             }
@@ -282,7 +282,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic_Emp"
+            "metadata": "Tbl_Medidas.Efic_Emp"
           }
         },
         {
@@ -352,7 +352,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic_Emp"
+            "metadata": "Tbl_Medidas.Efic_Emp"
           }
         }
       ],

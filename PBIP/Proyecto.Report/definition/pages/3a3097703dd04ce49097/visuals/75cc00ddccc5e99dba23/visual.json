@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "75cc00ddccc5e99dba23",
   "position": {
-    "x": 293.06017230852729,
+    "x": 293.0601723085273,
     "y": 146.53008615426364,
     "z": 8000,
-    "height": 339.94979987789162,
-    "width": 568.53673427854289,
+    "height": 339.9497998778916,
+    "width": 568.5367342785429,
     "tabOrder": 8000
   },
   "visual": {
@@ -48,13 +48,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados",
+              "queryRef": "Tbl_Medidas.Tot_empleados",
               "nativeQueryRef": "Colaboradores",
               "displayName": "Colaboradores"
             },

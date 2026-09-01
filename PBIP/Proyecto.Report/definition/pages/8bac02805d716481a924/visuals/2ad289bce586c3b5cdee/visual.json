@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "2ad289bce586c3b5cdee",
   "position": {
-    "x": 774.76101503404107,
+    "x": 774.7610150340411,
     "y": 219.45847812424915,
     "z": 8000,
     "height": 216,
@@ -57,7 +57,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "tot_Año_Fijo_PromEmpresas_FIX"
@@ -75,13 +75,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Anual_Real_Fijo"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Anual_Real_Fijo",
+              "queryRef": "Tbl_Medidas.Prom_Anual_Real_Fijo",
               "nativeQueryRef": "Prom_Anual_Real_Fijo"
             }
           ]
@@ -1337,7 +1337,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Indef"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Indef"
           }
         },
         {
@@ -1351,7 +1351,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Fijo"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Fijo"
           }
         }
       ],

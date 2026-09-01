@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "7fd150df6e2cb4ba6d08",
   "position": {
-    "x": 679.99684766333041,
+    "x": 679.9968476633304,
     "y": 127.10221451651036,
     "z": 3000,
     "height": 237.257467097486,
@@ -51,13 +51,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados",
+              "queryRef": "Tbl_Medidas.Tot_empleados",
               "nativeQueryRef": "Tot_empleados"
             }
           ]
@@ -70,7 +70,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "PLANTA DE PERSONAL"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_empleados"

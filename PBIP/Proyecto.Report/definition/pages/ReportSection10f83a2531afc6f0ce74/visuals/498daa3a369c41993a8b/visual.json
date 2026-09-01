@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "498daa3a369c41993a8b",
   "position": {
-    "x": 610.60975609756144,
+    "x": 610.6097560975614,
     "y": 119.14634146341469,
     "z": 3000,
-    "height": 238.17073170731709,
+    "height": 238.1707317073171,
     "width": 306.219512195122,
     "tabOrder": 1000
   },
@@ -54,13 +54,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Indef"
                 }
               },
-              "queryRef": "Planta Ppto.Tot_Indef",
+              "queryRef": "Tbl_Medidas.Tot_Indef",
               "nativeQueryRef": "Tot_Indef"
             }
           ]

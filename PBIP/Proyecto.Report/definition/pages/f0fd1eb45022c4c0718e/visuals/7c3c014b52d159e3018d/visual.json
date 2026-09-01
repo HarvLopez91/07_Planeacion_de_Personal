@@ -63,13 +63,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados",
+              "queryRef": "Tbl_Medidas.Tot_empleados",
               "nativeQueryRef": "Colaboradores",
               "displayName": "Colaboradores"
             },
@@ -80,7 +80,7 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
+                          "Entity": "Tbl_Medidas"
                         }
                       },
                       "Property": "Tot_empleados"
@@ -92,7 +92,7 @@
                         "Measure": {
                           "Expression": {
                             "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
+                              "Entity": "Tbl_Medidas"
                             }
                           },
                           "Property": "Tot_empleados"
@@ -118,7 +118,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "PLANTA DE PERSONAL"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_empleados"
@@ -246,7 +246,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_empleados"
+            "metadata": "Tbl_Medidas.Tot_empleados"
           }
         },
         {

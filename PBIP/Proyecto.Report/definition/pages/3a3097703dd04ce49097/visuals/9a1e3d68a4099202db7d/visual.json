@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "9a1e3d68a4099202db7d",
   "position": {
-    "x": 908.48653415643446,
+    "x": 908.4865341564345,
     "y": 175.83610338511636,
     "z": 10000,
     "height": 310.6437826470389,
-    "width": 574.39793772471342,
+    "width": 574.3979377247134,
     "tabOrder": 10000
   },
   "visual": {
@@ -48,13 +48,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Colab-Directos"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_Colab-Directos",
+              "queryRef": "Tbl_Medidas.Tot_Colab-Directos",
               "nativeQueryRef": "Colaboradores Directos",
               "displayName": "Colaboradores Directos"
             },
@@ -138,7 +138,7 @@
             }
           },
           "selector": {
-            "metadata": "PLANTA DE PERSONAL.Tot_Colab-Directos"
+            "metadata": "Tbl_Medidas.Tot_Colab-Directos"
           }
         },
         {

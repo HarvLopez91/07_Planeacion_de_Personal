@@ -3,10 +3,10 @@
   "name": "280cda9443d65c3d3612",
   "position": {
     "x": 291.85619955979456,
-    "y": 520.10271460014678,
+    "y": 520.1027146001468,
     "z": 11000,
     "height": 315.55392516507703,
-    "width": 567.49816581071173,
+    "width": 567.4981658107117,
     "tabOrder": 11000
   },
   "visual": {
@@ -34,13 +34,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Colab"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Colab",
+              "queryRef": "Tbl_Medidas.Prom_Colab",
               "nativeQueryRef": "Colaborador Promedio",
               "displayName": "Colaborador Promedio"
             },
