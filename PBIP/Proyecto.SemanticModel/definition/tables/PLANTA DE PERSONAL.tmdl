@@ -482,14 +482,6 @@ table 'PLANTA DE PERSONAL'
 
 		annotation SummarizationSetBy = Automatic
 
-	column %
-		dataType: string
-		lineageTag: 9ae46c91-c2da-46fd-a21b-90f0c21e2959
-		summarizeBy: none
-		sourceColumn: %
-
-		annotation SummarizationSetBy = Automatic
-
 	column NOVEDAD
 		dataType: string
 		lineageTag: b11e8bde-1770-458b-b22e-baab00cace25
@@ -513,7 +505,6 @@ table 'PLANTA DE PERSONAL'
 		sourceColumn: CARGO_CCO
 
 		annotation SummarizationSetBy = Automatic
-
 
 	column 'Tipo de Cargo' =
 			SWITCH(
@@ -598,6 +589,30 @@ table 'PLANTA DE PERSONAL'
 		summarizeBy: none
 		sourceColumn: Key_Estructura
 
+	column ID_Jefe_Inmediato
+		dataType: string
+		lineageTag: d2712c3d-d637-4dda-9c0f-7ff00e8d1101
+		summarizeBy: none
+		sourceColumn: ID_Jefe_Inmediato
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Jefe Inmediato (nombre-apellido)'
+		dataType: string
+		lineageTag: 071cb9c3-696d-4620-b58c-f8a6fe51afca
+		summarizeBy: none
+		sourceColumn: Jefe Inmediato (nombre-apellido)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descripción Cargo_Jefe Inmediato'
+		dataType: string
+		lineageTag: 1d59a976-9654-4b68-b092-56bf032e742b
+		summarizeBy: none
+		sourceColumn: Descripción Cargo_Jefe Inmediato
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'PLANTA DE PERSONAL' = m
 		mode: import
 		queryGroup: HeadCount
@@ -663,7 +678,7 @@ table 'PLANTA DE PERSONAL'
 				in
 				    #"Key_Estructura agregada"
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 	annotation PBI_NavigationStepName = Navegación
 
