@@ -40,6 +40,9 @@ Planta Personal
 5. Confirmar que la fila del periodo ya existe y que la llave es única.
 6. No ejecutar la actualización si cambiaron hojas, encabezados, empresas o
    reglas de escala.
+7. La automatización está validada exclusivamente para la estructura 2026. Si
+   se procesa otro año, primero debe comprobarse el nombre y la estructura real
+   de las hojas fuente; no se debe inferir una convención anual.
 
 ## Estructura fuente
 
@@ -123,7 +126,10 @@ La estrategia demostrada es `UPDATE_COLUMNS`:
 
 La herramienta [actualizar_planta_personal.ps1](../Scripts/actualizar_planta_personal.ps1)
 implementa `-DryRun`, valida el esquema y la unicidad y escribe siempre sobre
-un `OutputPath` nuevo. Nunca reconstruye el workbook con pandas.
+un `OutputPath` nuevo. Nunca reconstruye el workbook con pandas. El script
+rechaza defensivamente cualquier `-Year` distinto de `2026`, porque el nombre
+`Gasto Laboral Ppto 2026` y su estructura son literales demostrados para ese
+año, no una convención generalizable.
 
 Ejemplo de análisis:
 
@@ -143,6 +149,30 @@ Ejemplo de generación de candidato:
   -OutputPath '<ruta temporal nueva>' `
   -Year 2026 -Month 7 -ExpectedChanges 21
 ```
+
+Si el `-DryRun` detecta una celda no vacía y diferente, el script se detiene
+por defecto. El reemplazo solo puede autorizarse después de:
+
+1. ejecutar `-DryRun`;
+2. revisar y aprobar cada diferencia reportada;
+3. fijar `-ExpectedChanges` al conteo aprobado;
+4. generar el candidato con `-AllowReplaceExisting`.
+
+Ejemplo para diferencias existentes previamente validadas:
+
+```powershell
+./Scripts/actualizar_planta_personal.ps1 `
+  -SourcePath '<ruta fuente>' `
+  -TargetPath '<ruta PptovsReal.xlsx>' `
+  -OutputPath '<ruta temporal nueva>' `
+  -Year 2026 -Month 7 `
+  -ExpectedChanges 21 `
+  -AllowReplaceExisting
+```
+
+`-AllowReplaceExisting` no sustituye el dry-run ni la revisión: solamente
+habilita la escritura de diferencias ya aprobadas. `-ExpectedChanges` sigue
+siendo un control obligatorio recomendado para abortar si cambia el alcance.
 
 ## Procedimiento manual sin scripts
 

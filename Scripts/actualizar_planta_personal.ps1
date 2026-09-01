@@ -71,6 +71,7 @@ function Find-SourceRow($Worksheet, [int] $CompanyColumn, [string] $Company, [in
 
 if (-not (Test-Path -LiteralPath $SourcePath -PathType Leaf)) { throw "No existe la fuente: $SourcePath" }
 if (-not (Test-Path -LiteralPath $TargetPath -PathType Leaf)) { throw "No existe el destino: $TargetPath" }
+if ($Year -ne 2026) { throw 'La automatizacion actual solo esta validada para la estructura fuente 2026.' }
 if (-not $DryRun -and [string]::IsNullOrWhiteSpace($OutputPath)) { throw 'OutputPath es obligatorio fuera de DryRun.' }
 if (-not $DryRun -and (Test-Path -LiteralPath $OutputPath)) { throw "OutputPath ya existe: $OutputPath" }
 
