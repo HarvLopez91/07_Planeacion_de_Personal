@@ -68,17 +68,6 @@ table Consolidado2025
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'NOMBRE EMPLEADO'
-		dataType: string
-		isHidden
-		lineageTag: 279ad010-9d28-413a-8653-83febe461ebe
-		summarizeBy: none
-		sourceColumn: NOMBRE EMPLEADO
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = Automatic
-
 	column CARGO
 		dataType: string
 		isHidden
@@ -498,14 +487,6 @@ table Consolidado2025
 
 		annotation SummarizationSetBy = Automatic
 
-	column %
-		dataType: string
-		lineageTag: ab8c8263-8582-4cd2-8621-021869afc476
-		summarizeBy: none
-		sourceColumn: %
-
-		annotation SummarizationSetBy = Automatic
-
 	column NOVEDAD
 		dataType: string
 		lineageTag: 57bda151-7ad6-4722-b179-cb783ba025b5
@@ -529,7 +510,6 @@ table Consolidado2025
 		sourceColumn: CARGO_CCO
 
 		annotation SummarizationSetBy = Automatic
-
 
 	column TIPO_DE_CARGO
 		dataType: string
