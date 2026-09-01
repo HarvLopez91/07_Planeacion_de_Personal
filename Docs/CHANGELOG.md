@@ -136,6 +136,12 @@ Sin cambios en modelo semántico, DAX, Power Query, bookmarks ni otras páginas.
 
 ### Agregado
 
+- `Specs/0015_mapeo_campos_contratos_kactus.md`: completa el mapeo de campos entre los 9 archivos vigentes de Contratos Kactus (138 encabezados identicos), la tabla `Fact_Contrataciones` del consolidador oficial (146 campos, deducidos de metadatos del Data Model) y las hojas `INGRESOS`/`RETIROS` de `PptovsReal.xlsx`. Documenta transformaciones, campos sin correspondencia, reglas confirmadas por formula existente (incluida la regla de "retiro real" con exclusiones de motivo), reglas pendientes de aprobacion humana, claves candidatas para duplicados, riesgos (año hardcodeado en dos formulas, posible inconsistencia en `Ind_Calidad`, divergencia con documentacion mas reciente de `origin/main`) y el proximo paso para construir el programa Python de transformacion. No incluye datos personales ni modifica ningun archivo Excel.
+
+- Analisis local de la matriz organizacional de `Retiros`: se agrega la medida
+  `Cantidad_Retiros_Validos` para reproducir la regla aprobada de exclusiones
+  sobre `Ppto Retiros`, y se documenta que la matriz queda detenida por nodos
+  completos sin homologacion inequivoca.
 - Medida `Tot_empleados_Promedio_Sin_Aprendices`: promedio mensual de colaboradores excluyendo los tipos de contrato auditados como aprendizaje o SENA, sin modificar la medida base `Tot_empleados_Promedio`.
 - Consulta DAX `Demografico (Promedio)`: se limita a 2026, agrega un resultado total anual y prepara el detalle Dependencia-Area-Cargo para copiar a Excel con coma decimal mediante `FORMAT(..., "es-CO")`.
 - Consulta DAX `Demografico (Promedio)`: se documenta la validacion cruzada contra `Retiros`, confirmando `2524,8571428571427` para 2026, `2423,714285714286` sin aprendices y `2572` / `2465` para junio y julio de 2026 bajo filtros equivalentes.
