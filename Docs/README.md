@@ -2,7 +2,7 @@
 
 Índice de documentación oficial del proyecto Power BI/PBIP `07_Planeación_de_Personal`.
 
-Fecha de revisión documental: `2026-07-17`.
+Fecha de revisión documental: `2026-09-01`.
 
 ## Propósito
 
@@ -23,6 +23,7 @@ Los diagnósticos temporales, evidencias de fases y capturas de trabajo pertenec
 | [BI_GUIDELINES.md](BI_GUIDELINES.md) | Inventario de páginas, bookmarks, recursos visuales y convenciones | Vigente | 2026-07-03 |
 | [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) | Datos personales, accesos, privacidad y riesgos | Vigente | 2026-07-17 |
 | [RUNBOOK.md](RUNBOOK.md) | Procedimientos operativos de apertura, refresh y publicación | Vigente | 2026-07-17 |
+| [ACTUALIZACION_PLANTA_PERSONAL_PPTOVSREAL.md](ACTUALIZACION_PLANTA_PERSONAL_PPTOVSREAL.md) | Procedimiento mensual para conciliar gasto y ventas en `Planta Personal` | Vigente | 2026-09-01 |
 | [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md) | Reglas de staging, commit y push | Vigente | 2026-07-17 |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Formula Firewall, errores Power Query y ruido PBIP | Vigente | 2026-07-17 |
 | [CHANGELOG.md](CHANGELOG.md) | Registro de cambios significativos | Vigente | 2026-07-17 |

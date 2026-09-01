@@ -6,6 +6,29 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-09-01
+
+### Actualizado
+
+- Actualizado localmente `Data/HeadCount/PptovsReal.xlsx`, hoja `Planta
+  Personal`, con el corte julio de 2026 proveniente de `Data/Gasto
+  Laboral/2026/07_Julio/Gasto Laboral 2026.xlsx`: 21 celdas en 8 filas, sin
+  agregar ni eliminar registros. Se conciliaron `Gasto Personal`, `Ventas
+  (MM)` y `Ppto Ventas (MM)`; `Ppto Gasto Personal` permaneció intacto.
+- QA PASS: 22 valores fuente no nulos coinciden después de la actualización,
+  se preservaron los 3 nulos de Challenger, 0 diferencias lógicas en hojas no
+  objetivo y sin cambios en fórmulas, conexiones ni pivots.
+
+### Agregado
+
+- `Docs/ACTUALIZACION_PLANTA_PERSONAL_PPTOVSREAL.md`: runbook reproducible,
+  matriz de mapeo, procedimiento manual, controles y rollback.
+- `Scripts/actualizar_planta_personal.ps1`: herramienta parametrizada con
+  `-DryRun`, validación de esquema/llave y escritura sobre copia de salida.
+
+Los Excel, backups y evidencia operativa permanecen excluidos de Git. Sin
+cambios en PBIP, Power Query, DAX, modelo semántico ni visuales.
+
 ## [Sin version] - 2026-08-31
 
 ### Documentado
