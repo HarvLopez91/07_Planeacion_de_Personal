@@ -106,6 +106,34 @@
                                 "Value": "'03.Marzo'"
                               }
                             }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'04.Abril'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'05.Mayo'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'06.Junio'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'07.Julio'"
+                              }
+                            }
                           ]
                         ]
                       }
