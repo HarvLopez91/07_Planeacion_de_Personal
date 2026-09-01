@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "fc3a8c760e438054eee1",
   "position": {
-    "x": 610.60975609756144,
-    "y": 367.19512195121951,
+    "x": 610.6097560975614,
+    "y": 367.1951219512195,
     "z": 9000,
     "height": 238,
     "width": 306.219512195122,
@@ -54,13 +54,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Temp"
                 }
               },
-              "queryRef": "Planta Ppto.Tot_Temp",
+              "queryRef": "Tbl_Medidas.Tot_Temp",
               "nativeQueryRef": "Tot_Temp"
             }
           ]

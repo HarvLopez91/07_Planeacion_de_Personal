@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "52ccfb1f1040cc363caa",
   "position": {
-    "x": 774.76101503404107,
+    "x": 774.7610150340411,
     "y": 0,
     "z": 7000,
     "height": 216,
@@ -57,7 +57,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "tot_Año_Sena_PromEmpresas_FIX"
@@ -75,13 +75,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Anual_Real_Sena"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Anual_Real_Sena",
+              "queryRef": "Tbl_Medidas.Prom_Anual_Real_Sena",
               "nativeQueryRef": "Prom_Anual_Real_Sena"
             }
           ]
@@ -1337,7 +1337,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Indef"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Indef"
           }
         },
         {
@@ -1388,7 +1388,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Sena"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Sena"
           }
         }
       ],

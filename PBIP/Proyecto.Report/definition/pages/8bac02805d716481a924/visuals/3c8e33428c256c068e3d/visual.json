@@ -3,7 +3,7 @@
   "name": "3c8e33428c256c068e3d",
   "position": {
     "x": 731.25,
-    "y": 428.85736657506118,
+    "y": 428.8573665750612,
     "z": 6000,
     "height": 216.25,
     "width": 352,
@@ -57,7 +57,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "tot_Año_Temp_PromEmpresas_FIX"
@@ -75,13 +75,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Anual_Real_Temp"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Anual_Real_Temp",
+              "queryRef": "Tbl_Medidas.Prom_Anual_Real_Temp",
               "nativeQueryRef": "Prom_Anual_Real_Temp"
             }
           ]
@@ -1337,7 +1337,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Temp"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Temp"
           }
         }
       ],

@@ -3,7 +3,7 @@
   "name": "2b8ff66b61b9b9e07e42",
   "position": {
     "x": 0,
-    "y": 62.186588921282791,
+    "y": 62.18658892128279,
     "z": 10000,
     "height": 147.14285714285714,
     "width": 287.14285714285717,
@@ -38,13 +38,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "PLANTA DE PERSONAL"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_empleados"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.Tot_empleados",
+              "queryRef": "Tbl_Medidas.Tot_empleados",
               "nativeQueryRef": "Tot_empleados"
             }
           ]
@@ -57,7 +57,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "PLANTA DE PERSONAL"
+                    "Entity": "Tbl_Medidas"
                   }
                 },
                 "Property": "Tot_empleados"

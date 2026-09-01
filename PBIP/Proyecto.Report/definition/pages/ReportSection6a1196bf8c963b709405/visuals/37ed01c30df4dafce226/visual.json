@@ -271,7 +271,7 @@
                 "Entity": "Tbl_Medidas"
               }
             },
-            "Property": "Filtro Trimestre Dinamico"
+            "Property": "Filtro Trimestre Slicer"
           }
         },
         "type": "Advanced",

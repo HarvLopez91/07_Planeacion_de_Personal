@@ -57,7 +57,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "tot_Año_Indef_PromEmpresas_FIX"
@@ -75,13 +75,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Prom_Anual_Real_Indef"
                 }
               },
-              "queryRef": "Planta Ppto.Prom_Anual_Real_Indef",
+              "queryRef": "Tbl_Medidas.Prom_Anual_Real_Indef",
               "nativeQueryRef": "Prom_Anual_Real_Indef"
             }
           ]
@@ -1337,7 +1337,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Prom_Anual_Real_Indef"
+            "metadata": "Tbl_Medidas.Prom_Anual_Real_Indef"
           }
         }
       ],

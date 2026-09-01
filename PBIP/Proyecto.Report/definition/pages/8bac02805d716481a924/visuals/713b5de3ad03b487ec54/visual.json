@@ -3,10 +3,10 @@
   "name": "713b5de3ad03b487ec54",
   "position": {
     "x": 280.22697049430207,
-    "y": 81.430010865276131,
+    "y": 81.43001086527613,
     "z": 11000,
     "height": 90,
-    "width": 91.040758946502677,
+    "width": 91.04075894650268,
     "tabOrder": 7000
   },
   "visual": {
@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "KPI_PPTO"
                 }
               },
-              "queryRef": "Planta Ppto.KPI_PPTO",
+              "queryRef": "Tbl_Medidas.KPI_PPTO",
               "nativeQueryRef": "KPI_PPTO"
             }
           ]
@@ -64,7 +64,7 @@
                                 "Measure": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "Planta Ppto"
+                                      "Entity": "Tbl_Medidas"
                                     }
                                   },
                                   "Property": "Var_Ppto"
@@ -93,7 +93,7 @@
                                     "Measure": {
                                       "Expression": {
                                         "SourceRef": {
-                                          "Entity": "Planta Ppto"
+                                          "Entity": "Tbl_Medidas"
                                         }
                                       },
                                       "Property": "Var_Ppto"
@@ -113,7 +113,7 @@
                                     "Measure": {
                                       "Expression": {
                                         "SourceRef": {
-                                          "Entity": "Planta Ppto"
+                                          "Entity": "Tbl_Medidas"
                                         }
                                       },
                                       "Property": "Var_Ppto"

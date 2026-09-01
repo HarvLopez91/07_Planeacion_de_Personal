@@ -39,13 +39,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Efic_Emp"
                 }
               },
-              "queryRef": "Planta Ppto.Efic_Emp",
+              "queryRef": "Tbl_Medidas.Efic_Emp",
               "nativeQueryRef": "Efic_Emp"
             }
           ]
@@ -454,7 +454,7 @@
             }
           },
           "selector": {
-            "metadata": "Planta Ppto.Efic_Emp"
+            "metadata": "Tbl_Medidas.Efic_Emp"
           }
         }
       ]

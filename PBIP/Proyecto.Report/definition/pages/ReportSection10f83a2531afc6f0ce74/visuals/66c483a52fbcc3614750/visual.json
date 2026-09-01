@@ -6,7 +6,7 @@
     "y": 121.34146341463422,
     "z": 7000,
     "height": 364.390243902439,
-    "width": 372.07317073170731,
+    "width": 372.0731707317073,
     "tabOrder": 2000
   },
   "visual": {
@@ -54,13 +54,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Planta Ppto"
+                      "Entity": "Tbl_Medidas"
                     }
                   },
                   "Property": "Tot_Año"
                 }
               },
-              "queryRef": "Planta Ppto.Tot_Año",
+              "queryRef": "Tbl_Medidas.Tot_Año",
               "nativeQueryRef": "Tot_Año"
             }
           ]
