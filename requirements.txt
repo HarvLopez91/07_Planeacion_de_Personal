@@ -1,0 +1,17 @@
+# PBIP-008 — entorno analítico reproducible
+# Python recomendado: CPython 3.11.9 de 64 bits (Windows).
+# Cada equipo debe crear su propio entorno local; no copiarlo ni sincronizarlo.
+
+# Cálculo y lectura de la fuente Excel
+numpy==2.4.6
+pandas==3.0.5
+openpyxl==3.1.5
+
+# Visualización del notebook
+matplotlib==3.11.1
+
+# Ejecución y validación reproducible del notebook
+ipykernel==7.3.0
+nbformat==5.11.1
+nbclient==0.11.0
+nbconvert==7.17.1
