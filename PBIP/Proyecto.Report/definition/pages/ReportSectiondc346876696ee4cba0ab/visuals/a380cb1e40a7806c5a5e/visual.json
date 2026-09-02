@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "a380cb1e40a7806c5a5e",
   "position": {
     "x": 1188.4244372990354,
@@ -346,53 +346,50 @@
           }
         },
         "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
+        "howCreated": "User",
+        "objects": {
+          "general": [
             {
-              "Name": "p",
-              "Entity": "Ppto Retiros",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "p"
-                          }
-                        },
-                        "Property": "Año"
-                      }
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
                     }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'2024'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'2025'"
-                        }
-                      }
-                    ]
-                  ]
+                  }
                 }
               }
             }
           ]
+        }
+      },
+      {
+        "name": "09cb3906bb227130989b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Cargo"
+          }
         },
-        "howCreated": "User"
+        "type": "Categorical"
+      },
+      {
+        "name": "08615863e38572957899",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_Retiros"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

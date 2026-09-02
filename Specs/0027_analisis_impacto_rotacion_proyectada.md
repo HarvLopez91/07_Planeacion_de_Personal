@@ -75,16 +75,23 @@ bookmarks y navegación, más validación en vivo vía MCP contra el modelo
   distintos (148,0 % / 5,44 % / no evaluada) — confirma la deuda funcional ya
   señalada en `Specs/0016` sección 12.
 
-## Decisión funcional PBIP-008 (aprobada por el usuario, 2026-09-01)
+## Decisión funcional PBIP-008 (aprobada por el usuario, 2026-09-01) — SUPERADA
+
+> **Superada el 2026-09-02.** El usuario decidió conservar `Rotación2` como
+> vista de seguimiento y detalle, y crear más adelante una página adicional
+> `Rotación` de carácter ejecutivo. Ver
+> ["Decisión funcional vigente (2026-09-02)"](#decisión-funcional-vigente-2026-09-02).
+> Lo siguiente se conserva como registro histórico; el tercer viñeta ("no se
+> crea una tercera página") **ya no aplica**.
 
 - **`Retiros` = diagnóstico**: quién, dónde, por qué, antigüedad, motivo,
   cargo, dependencia, área. Sin cambios de fondo.
 - **`Rotación2` = comportamiento y proyección**: histórico real,
   `Tasa_Mensual_Retiros`, tendencia, forecast agosto–diciembre 2026 y,
   posteriormente, meta/plan y escenario ajustado.
-- **No se crea una tercera página.** El Compromiso 2 se construye
+- ~~**No se crea una tercera página.** El Compromiso 2 se construye
   evolucionando `Rotación2` (visibilidad, navegación y contenido), no
-  `Retiros` ni una página nueva.
+  `Retiros` ni una página nueva.~~
 - Ningún visual ni medida se elimina todavía; ninguna visibilidad ni
   navegación cambia todavía. Esta decisión es de alcance, no de
   implementación.
@@ -644,3 +651,273 @@ junto con cada banda: Challenger 66,7–73,3 %, Grupo Sky 73,3–80,0 % y Habite
 reproducible y apta para decisión de diseño, pero Habitel debe mostrarse como
 baseline, Lemco como referencia descriptiva y Fundación sin forecast. La Fase 3
 requiere aprobación explícita separada.
+
+---
+
+## Decisión funcional vigente (2026-09-02)
+
+Supersede la decisión del 2026-09-01 en su tercer punto.
+
+### `Rotación2` se conserva
+
+La página **se mantiene** como vista de **seguimiento y detalle**. El usuario
+la considera especialmente valiosa por su tabla de indicadores (visual
+`f04eef32576ba115ab23`, ver inventario abajo). **No se reemplaza** por la
+página ejecutiva proyectada y **no se elimina ninguno de sus visuales**.
+
+### Se creará una página adicional `Rotación`
+
+De carácter **analítico, comparativo y ejecutivo**. Debe **complementar** a
+`Rotación2`, no duplicarla. **No se crea en esta entrega** — su alcance queda
+documentado más abajo y requiere el gate metodológico de la sección siguiente.
+
+## Hallazgo metodológico — la Fase 2 no proyectó el índice de rotación
+
+Este es el hallazgo que bloquea la publicación del forecast como "rotación".
+
+El catálogo oficial (`Docs/METRICS_CATALOG.md`) distingue tres medidas que
+**no son intercambiables**:
+
+| Medida | Fórmula (DAX vigente en `Tbl_Medidas`) | Qué representa |
+|---|---|---|
+| `Tasa_Mensual_Retiros` | `DIVIDE(SUM('Planta Ppto'[Retiros]), SUM('Planta Ppto'[Total-Sena]), 0)` | **Salidas**: proporción de retiros sobre la planta |
+| `Indice_Rotacion` | `DIVIDE(DIVIDE(SUM(Ingresos) + SUM(Retiros), 2), [PromediodeTotal-Sena], 0)` | **Movimiento de personal**: entradas y salidas promediadas |
+| `Variacion_Neta_Personal` | `DIVIDE(SUM(Ingresos) − SUM(Retiros), SUM(Total-Sena), 0)` | Crecimiento/disminución neta. **No es rotación** (el propio catálogo lo aclara) |
+
+Diferencias estructurales entre las dos primeras: el **numerador**
+(`Retiros` vs. `(Ingresos + Retiros) / 2`) y el **denominador**
+(`SUM(Total-Sena)` vs. `[PromediodeTotal-Sena]`, que promedia por
+`DimPeriodoYM[IndexAnioMes]` en vez de sumar). En periodos multi-mes las dos
+diferencias se acumulan.
+
+### Consecuencia sobre los resultados de Fase 2
+
+La Fase 2 modeló, con backtesting y holdout, la variable objetivo
+`Tasa_Mensual_Retiros` — así consta en la tabla "Definición vigente de
+rotación" de esta misma Spec, que ya clasificaba `Indice_Rotacion` como
+*"Fuera de alcance como objetivo"*.
+
+Por tanto los valores productivos agosto–diciembre 2026 (Challenger
+2,814 % → 2,666 %; Grupo Sky 3,570 %; Habitel Hotels 6,625 %; Lemco 1,623 %)
+son **proyecciones y referencias de la TASA DE RETIROS**, y **no pueden
+presentarse como forecast de `Indice_Rotacion`**.
+
+Restricciones que se derivan y quedan en firme:
+
+- **No renombrar** las medidas para hacerlas parecer rotación.
+- **No sustituir** simplemente una medida por otra en los visuales: cambiar
+  `Tasa_Mensual_Retiros` por `Indice_Rotacion` en un visual de forecast
+  produciría un número sin respaldo metodológico.
+- **No reinterpretar** los valores existentes como rotación.
+- Proyectar `Indice_Rotacion` **requiere una nueva validación metodológica**
+  (backtesting, holdout y clasificación de fiabilidad propios) antes de
+  publicarse. El trabajo de Fase 2 no es transferible: cambia numerador y
+  denominador, luego cambian estacionalidad, varianza y comparabilidad frente
+  a los baselines.
+
+La tasa de retiros podrá conservarse como **indicador explicativo o
+complementario**, nunca como sustituto del índice oficial de rotación.
+
+## Estado estructural de `Rotación2` (documentación del estado preservado)
+
+**Propósito.** Seguimiento y detalle del comportamiento de retiros y rotación
+por periodo, empresa, dependencia, área y cargo.
+
+**Identificación.** `ReportSectiondc346876696ee4cba0ab`, 1600×900, **19
+visuales**, **visible** (ver "Cambios manuales preservados").
+
+**Fuente de datos.** `Planta Ppto` (desde `Planta Personal` de
+`PptovsReal.xlsx`) y `Ppto Retiros` (desde la hoja `RETIROS`), más las
+dimensiones `DimPeriodoYM`, `Empresas`, `Estructura` y `AREAS`. Las medidas
+viven en `Tbl_Medidas`.
+
+**Filtros de página (3).** `Ppto Retiros[Cargo]` (categórico),
+`Ppto Retiros[Detalle]` (categórico) y `Ppto Retiros[Detalle]` (avanzado).
+Todos `howCreated: User`.
+
+### Inventario de visuales
+
+| Visual | Tipo | Contenido |
+|---|---|---|
+| `f04eef32576ba115ab23` | `pivotTable` | **Indicadores de Rotación** — tabla principal (detalle abajo) |
+| `5abcdd8fd1c5a1015723` | `pivotTable` | Rotación por Dependencia — `Estructura[DEPENDENCIA]`, `Tot_Colab-Sena`, `Tot_Retiros`, `Índice_Retiros` |
+| `8d3d8ab39e15678e422a` | `pivotTable` | Rotación por Área — `AREAS[AREA]`, `Tot_Colab-Sena`, `Tot_Retiros`, `Índice_Retiros` |
+| `172920b6976d1cd47b92` | `pivotTable` | Retiros por año — `DimPeriodoYM[Año]`, `Tot_Retiros` |
+| `a380cb1e40a7806c5a5e` | `clusteredBarChart` | Retiros por cargo — `Ppto Retiros[Cargo]`, `Tot_Retiros` |
+| `126df9a253d67ad12ad0` | `hundredPercentStackedColumnChart` | Retiros por tipo de contrato — `Ppto Retiros[TC]`, `Tot_Retiros` |
+| `4d9cf0b713184989d8d5` | `hundredPercentStackedColumnChart` | Retiros por clase de nómina — `Ppto Retiros[Clase de nómina]` (y grupos), `Tot_Retiros` |
+| `a4193576029d03d04cb5` | `slicer` | `Empresas[Grupo Empresa]` |
+| `aa15d7f81d0d56286d04` | `slicer` | `Estructura[DEPENDENCIA]` |
+| `eaddcfb2c7a678354280` | `slicer` | `DimPeriodoYM[Año]` |
+| `b855e2c1dc88207b021d` | `slicer` | `DimPeriodoYM[Meses]` |
+| `5bcd7dc40410dd5d77c9` | `slicer` | `DimPeriodoYM[Trimestre actual]` |
+| `34921556c2a032901604` | `slicer` | `DimPeriodoYM[Trimestre anterior]` |
+| `1245d1b8089ddb136783` | `textbox` | Título "Retiros" |
+| `f4f3122dee609a558696` | `textbox` | Título "Retiros por Tipo de Contrato" |
+| `bc4c2f83a8002303d32e` | `actionButton` | Navegación interna ("Volver al informe") |
+| `8afe56be6a80b0ed0b5d` | `shape` | Elemento de diseño |
+| `79fec56357a0d05241c9`, `a266c4a073606ad97006` | (sin `visualType`) | Elementos de diseño/contenedor |
+
+### `Indicadores de Rotación` — tabla que se preserva
+
+Visual `f04eef32576ba115ab23`, `pivotTable`, 13 filtros. Es la tabla que el
+usuario señaló como especialmente valiosa. **No se elimina ni se transforma.**
+
+| Rol | Campo / medida | Tabla |
+|---|---|---|
+| Eje | `Grupo Empresa` | `Empresas` |
+| Eje | `Meses`, `MesAnio` | `DimPeriodoYM` |
+| Valor | `Ingresos` (agregado) | `Planta Ppto` |
+| Valor | `Retiros` (agregado) | `Planta Ppto` |
+| Valor | `PromediodeTotal-Sena` | `Tbl_Medidas` |
+| Valor | `Variacion_Neta_Personal` | `Tbl_Medidas` |
+| Valor | **`Indice_Rotacion`** | `Tbl_Medidas` |
+| Valor | `Tasa_Mensual_Retiros` | `Tbl_Medidas` |
+| Valor | `Tasa_Acumulada_Retiros_Segun_Tipo` | `Tbl_Medidas` |
+
+Que esta tabla ya exponga **`Indice_Rotacion` y `Tasa_Mensual_Retiros` lado a
+lado** es justamente lo que hace visible la diferencia metodológica de la
+sección anterior, y es una razón adicional para conservarla.
+
+### Medidas auxiliares usadas en la página
+
+| Medida | Definición | Nota |
+|---|---|---|
+| `Tot_Retiros` | `COUNT('Ppto Retiros'[Mes])` | Conteo de registros de retiro |
+| `Tot_Colab-Sena` | `CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]), 'PLANTA DE PERSONAL'[TIPO_CONTR] <> "CONTRATO APRENDIZAJE")` | Excluye aprendices |
+| `Índice_Retiros` | `[Tot_Retiros] / [Tot_Colab-Sena]` | **Distinta** de `Tasa_Mensual_Retiros`: se calcula sobre `Ppto Retiros`/`PLANTA DE PERSONAL`, no sobre `Planta Ppto` |
+
+`Índice_Retiros` es una cuarta medida a no confundir con las tres del catálogo:
+comparte el concepto de "retiros sobre planta" con `Tasa_Mensual_Retiros`, pero
+usa tablas y granularidad distintas.
+
+### Relación conceptual con `Retiros` y con la futura `Rotación`
+
+- **`Retiros`** (`ReportSection6a1196bf8c963b709405`) = diagnóstico individual:
+  quién, por qué, motivo, antigüedad. Sin cambios.
+- **`Rotación2`** = seguimiento y detalle agregado por periodo y estructura.
+  **Se conserva.**
+- **`Rotación`** (futura) = lectura ejecutiva y comparativa. Complementa, no
+  duplica: no debe reproducir el detalle por dependencia/área/cargo que ya
+  entrega `Rotación2`.
+
+## Cambios manuales preservados en esta entrega
+
+Edición manual del usuario en Power BI Desktop, verificada archivo por archivo
+comparando HEAD contra el estado guardado. El criterio fue **semántico**: se
+descartaron los archivos cuyo diff, ignorando espacios y el bump de `$schema`,
+no altera ningún campo, medida, literal ni propiedad.
+
+| Archivo | Cambio manual |
+|---|---|
+| `.../ReportSectiondc346876696ee4cba0ab/page.json` | **Se elimina `"visibility": "HiddenInViewMode"`** → la página pasa a ser visible en modo lectura |
+| `.../visuals/5abcdd8fd1c5a1015723/visual.json` | Título `'Rotación por Dependencia 2025'` → `'Rotación por Dependencia'` |
+| `.../visuals/8d3d8ab39e15678e422a/visual.json` | Se retira el filtro fijo del literal `'2025'` |
+| `.../visuals/a380cb1e40a7806c5a5e/visual.json` | Se retiran los filtros fijos `'2024'` y `'2025'`; el slicer pasa a `isInvertedSelectionMode` |
+
+**Patrón de la edición:** desacoplar la página de los años fijos 2024/2025 para
+que responda a los segmentadores, y hacerla visible como vista de seguimiento.
+Es coherente con la decisión de conservarla.
+
+La visibilidad recupera además la consistencia con
+`Docs/BI_GUIDELINES.md`, que ya describía `Rotacion2` como **Visible** mientras
+`Docs/CHANGELOG.md` registraba la adición posterior de `HiddenInViewMode`.
+
+### Churn de Desktop excluido — no atribuible al usuario
+
+| Archivo | Por qué se excluye |
+|---|---|
+| `.../visuals/f04eef32576ba115ab23/visual.json` | 150 líneas de diff pero **cero cambio semántico**: mismas tablas, campos, medidas y literales. Solo reserialización `$schema` 2.4.0 → 2.10.0. **La tabla `Indicadores de Rotación` no fue modificada por el usuario** |
+| `cultures/es-ES.tmdl` (1.166 líneas) | Metadata lingüística autogenerada |
+| `model.tmdl` | `PBI_QueryOrder` incorpora `Dim_Estructura_Organizacional` (registro automático) |
+| `Tbl_Medidas.tmdl`, `Dim_Estructura_Organizacional.tmdl` | Solo espacios / `formatString` idéntico |
+| `Dim_Area.tmdl`, `Dim_Dependencia.tmdl` | Línea en blanco final regenerada por Desktop |
+| `diagramLayout.json` | Ruido decimal de coordenadas |
+| `pages/pages.json` | `activePageName` — estado de UI al guardar |
+| 20 archivos con diff nulo tras normalizar | Solo fin de línea o bump de `$schema` |
+| ~48 visuales de otras páginas | Churn ajeno a `Rotación2` |
+
+## Página provisional `Rotación proyectada` — problemas abiertos, sin corregir
+
+La página provisional **no existe en `main`**; vive en la rama de trabajo
+`feat/pbip-008-rotacion-proyectada-powerbi`. El usuario reportó estas
+inconsistencias, que **no se declaran resueltas ni se corrigen todavía**:
+
+1. `Grupo Empresa` muestra Challenger pero la clasificación aparece como TODOS.
+2. La síntesis futura sigue mostrando el consolidado.
+3. El horizonte dice agosto–diciembre pero el eje termina en julio.
+4. No aparecen las series futuras.
+5. `Estado de la proyección` está vacío.
+6. `Referencia futura` / síntesis es poco interpretable.
+7. Los colores no corresponden correctamente a la marca LEMCO.
+
+**Orden de resolución:** primero se cierra el problema metodológico (qué se
+proyecta y con qué respaldo); solo después tiene sentido corregir la
+presentación. Arreglar los visuales sobre una base metodológica equivocada
+consolidaría el error.
+
+## Alcance previsto de la futura página `Rotación` (documentado, no implementado)
+
+### Comparación
+
+- Índice de rotación año actual vs. año anterior.
+- Variación interanual.
+
+### Evolución
+
+- Comportamiento mensual, tendencia e identificación de cambios relevantes.
+
+### Contratación
+
+- Análisis por tipo de contrato y clase de contrato.
+
+### Diagnóstico organizacional
+
+- Detalle por Dependencia, Área y Cargo.
+
+### Proyección — condicionada al gate metodológico
+
+Solo cuando exista una metodología validada para `Indice_Rotacion`:
+
+- `REAL`, `FORECAST`, `BASELINE`.
+- Bandas de incertidumbre.
+- Comparación real vs. esperado.
+- Exposición por empresa.
+
+### Identidad visual — marca LEMCO
+
+Fuente principal: `Assets/Brand/Manual Marca Grupo LEMCO.pdf`.
+
+| Color | Uso previsto |
+|---|---|
+| `#1B487F` | Azul principal |
+| `#1A3059` | Azul profundo |
+| `#000032` | Azul casi negro |
+| `#0B1C35` | Fondo oscuro |
+| `#F7931E` | Naranja — **reservado para énfasis** |
+
+Tipografía `Outfit` cuando Power BI Desktop/Service sea compatible; fallback
+`Segoe UI`. La página debe sentirse ejecutiva, moderna, sobria y coherente con
+el resto del dashboard.
+
+## Gate para construir `Rotación`
+
+Antes de crear la página deben resolverse, en este orden:
+
+1. **Definir la variable objetivo.** Decidir si la página proyecta
+   `Indice_Rotacion`, `Tasa_Mensual_Retiros` o ambas con etiquetas separadas.
+   Sin esta decisión no se puede diseñar el visual de forecast.
+2. **Validar metodológicamente `Indice_Rotacion`** si se elige como objetivo:
+   backtesting, holdout y clasificación de fiabilidad propios, con el mismo
+   rigor aplicado en Fase 2 a `Tasa_Mensual_Retiros`. No se hereda el
+   resultado anterior.
+3. **Confirmar el reparto de contenido** entre `Rotación2` y `Rotación` para
+   que complementen sin duplicar.
+4. **Aprobar la maqueta visual** con la paleta LEMCO antes de crear visuales.
+5. **Decidir el destino de la página provisional** de la rama
+   `feat/pbip-008-rotacion-proyectada-powerbi`: descartarla o reconstruirla
+   sobre la metodología validada.
+
+Mientras el punto 2 siga abierto, cualquier número presentado como "rotación
+proyectada" carece de respaldo. La Fase 3 sigue requiriendo aprobación
+explícita separada.

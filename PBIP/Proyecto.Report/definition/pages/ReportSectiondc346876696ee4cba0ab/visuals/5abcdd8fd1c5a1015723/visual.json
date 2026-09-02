@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "5abcdd8fd1c5a1015723",
   "position": {
     "x": 589.390243902439,
@@ -491,7 +491,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Rotación por Dependencia 2025'"
+                  "Value": "'Rotación por Dependencia'"
                 }
               }
             },
