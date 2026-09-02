@@ -381,3 +381,283 @@ quede completa: análisis de impacto (`Specs/0027`) → plan de implementación
 (este documento) → ejecución por fases.
 
 Ninguna fase ha sido ejecutada al momento de registrar este plan.
+
+---
+
+## Registro de ejecución — Fase 1 (Gate A) — 2026-09-02
+
+Diagnóstico de solo lectura sobre `Data/HeadCount/PptovsReal.xlsx`. No se
+modificó PBIP, modelo semántico, DAX, Power Query, visuales ni la fuente Excel.
+
+### Fuente oficial confirmada
+
+| Concepto | Valor |
+|---|---|
+| Archivo | `Data/HeadCount/PptovsReal.xlsx` (espejo local del origen SharePoint) |
+| Hoja de detalle | `INGRESOS` — es exactamente la tabla `Ppto Ingresos` del modelo |
+| Serie para modelamiento | `Planta Personal[Ingresos]` (columna M) |
+
+### Regla de negocio confirmada
+
+La columna `Planta Personal[Ingresos]` **no es un conteo bruto**. Aplica
+exclusiones mediante `COUNTIFS`:
+
+```excel
+=COUNTIFS(INGRESOS!B:B, Empresa, INGRESOS!F:F, Año, INGRESOS!H:H, Mes,
+          INGRESOS!L:L, "<>APRENDIZ SENA",
+          INGRESOS!L:L, "<>PRACTICANTE",
+          INGRESOS!P:P, "<>*REINGRESO*")
+```
+
+| Exclusión | Ingresos | Retiros | Justificación |
+|---|---|---|---|
+| `APRENDIZ SENA` | Sí | Sí | Fuera de la población de rotación |
+| `PRACTICANTE` | Sí | Sí | Fuera de la población de rotación |
+| `*REINGRESO*` | Sí | Sí | No es un ingreso neto |
+| `*FALLECIMIENTO*` | No | Sí | Causal de salida; **0 ocurrencias** en `INGRESOS` |
+| `PENSION POR JUBILACION` | No | Sí | Causal de salida; **0 ocurrencias** |
+| `CESION DE CONTRATO` / `CESION CONTRATO` | No | Sí | Causal de salida; **0 ocurrencias** |
+
+Las cuatro exclusiones ausentes en ingresos son **correctas por diseño**: son
+eventos de salida. Verificado empíricamente que no existe ni un solo registro
+de esos motivos en la hoja `INGRESOS`.
+
+### Hallazgo de calidad — la fórmula no fue homogénea
+
+La columna `Ingresos` contiene **cuatro variantes de fórmula**:
+
+| Periodo | Meses | Exclusiones |
+|---|---:|---|
+| 2023-01 → 2024-12 | 24 | **Ausentes** |
+| 2025-01 → 2025-04 | 4 | Aplicadas |
+| 2025-05 → 2025-10 | 6 | **Ausentes** (regresión) |
+| 2025-11 → 2026-07 | 9 | Aplicadas |
+
+### Conciliación (2024-01 → 2026-07, 31 meses)
+
+| Escenario | \|diferencia\| | Combinaciones que concilian |
+|---|---:|---|
+| Ingresos brutos vs. `Planta Personal` | **258** | 28/31 periodos |
+| Ingresos con exclusiones aplicadas | **26** | 353/361 periodo × empresa (97,8 %) |
+| Replicando la variante real de cada periodo | **0** | **31/31 periodos** |
+
+El residuo de 26 son exactamente **19 `APRENDIZ SENA` + 7 `PRACTICANTE`** en
+2025-06, 2025-09 y 2025-10 — meses cuya fórmula no aplicaba exclusiones.
+
+**Conclusión:** la diferencia estaba explicada por cambios históricos de
+fórmula, **no por inconsistencia del origen**. La hipótesis de negocio del
+usuario queda confirmada.
+
+### Decisión metodológica registrada
+
+La serie de ingresos para modelamiento **debe construirse de forma homogénea**,
+aplicando las tres exclusiones en todos los periodos.
+
+- Impacto: **26 registros / 0,78 %** sobre 3.338, en 3 de 31 meses.
+- Elimina el sesgo introducido por mantenimiento manual del Excel.
+- Evita que el modelo aprenda discontinuidades artificiales que no
+  corresponden a comportamiento real de la contratación.
+
+### Hallazgo colateral sobre `Retiros`
+
+`Planta Personal[Retiros]` presenta el mismo defecto, con corte más limpio:
+exclusiones ausentes hasta 2024-12, completas desde 2025-01. **El impacto es
+despreciable: 3 registros en 43 meses (0,1 %)**, porque en 2023-2024 casi no
+hubo registros excluibles. **La Fase 2 no queda invalidada**; es una precisión,
+no una corrección.
+
+### Alcance de proyección autorizado
+
+| Nivel | Estado | Motivo |
+|---|---|---|
+| Grupo Empresa | **Habilitado** | 43 meses en el agregado; conciliación exacta |
+| Empresa | **Habilitado con observaciones** | 353/361 combinaciones concilian; residuo explicado |
+| Dependencia | Solo descriptivo | Cobertura 79,3 % en el detalle; sin denominador propio (Gate B) |
+| Área | Solo descriptivo | Ídem |
+| Cargo | **No recomendable para proyección** | Granularidad excesiva y riesgo de interpretación y reidentificación |
+
+### Clasificación
+
+**Gate A: `CERRADO CON OBSERVACIONES`.**
+
+Observaciones abiertas:
+
+1. La serie histórica no es homogénea; debe reconstruirse en Fase 3.
+2. La regresión 2025-05→10 evidencia mantenimiento manual frágil, susceptible
+   de repetirse en cierres futuros.
+3. `Índice_Retiros` mide una población distinta (bruta) a las demás medidas de
+   la misma página — se traslada al Gate C.
+
+## Registro de ejecución — Fase 1B (Gate E) — 2026-09-02
+
+### Campo canónico
+
+`Clase de nómina` (hoja `RETIROS`) es el **campo maestro** para clasificación
+contractual.
+
+| Campo | Rol | Motivo |
+|---|---|---|
+| `Clase de nómina` | **Canónico** | Mayor granularidad y trazabilidad a la nómina real |
+| `TIPO_CONTR` | Auxiliar de validación histórica | Vive en `PLANTA DE PERSONAL`, no en la fuente de retiros |
+| `TC` | **No usar como canónico** | Mezcla histórica demostrada |
+
+### Evidencia contra `TC` como fuente canónica
+
+`TC = I` no corresponde a una sola categoría contractual:
+
+| Clase de nómina real dentro de `TC = I` | Registros |
+|---|---:|
+| INDEFINIDO EN PROPIEDAD | 186 |
+| TEMPORAL EN PROPIEDAD | 63 |
+| TEMPORAL | 37 |
+| INDEFINIDO | 31 |
+| CONTRATO FIJO | 1 |
+
+**100 de 318 registros (31,4 %) de `TC = I` son en realidad temporales.**
+Homologar por `TC` clasificaría mal a casi un tercio de esa categoría.
+
+Adicionalmente `TC` cambia de codificación: `Directos`/`Temporales` en
+2023-2025, y `F`/`I`/`S` conviviendo con las anteriores en 2026.
+
+### Catálogo canónico propuesto
+
+Regla oficial del usuario: `Fijo` e `Indefinido` → **Directos**;
+`Temporal` → **Temporal**. Se extiende al vocabulario completo observado
+(11 valores en 2 eras: 2023-2025 en minúsculas, 2025-2026 en mayúsculas).
+
+| Valor original | Canónica | Registros | Años | Justificación | Confianza |
+|---|---|---:|---|---|---|
+| `Fijo` | Directos | 903 | 2023-2025 | Regla oficial | Alta |
+| `CONTRATO FIJO` | Directos | 456 | 2025-2026 | Equivalente en mayúsculas de `Fijo` | Alta |
+| `Indefinido` | Directos | 544 | 2023-2025 | Regla oficial | Alta |
+| `INDEFINIDO` | Directos | 77 | 2025-2026 | Equivalente en mayúsculas | Alta |
+| `INDEFINIDO EN PROPIEDAD` | Directos | 300 | 2025-2026 | Indefinido de planta | Alta |
+| `Temporal` | Temporal | 1.299 | 2023-2025 | Regla oficial | Alta |
+| `TEMPORAL` | Temporal | 95 | 2025-2026 | Equivalente en mayúsculas | Alta |
+| `TEMPORAL EN PROPIEDAD` | Temporal | 201 | 2025-2026 | Temporal de planta | **Media** — ver decisión pendiente |
+| `CONTRATO APRENDIZAJE` | *(excluido)* | 64 | 2025-2026 | Fuera de la población de rotación | Alta |
+| `PRACTICANTES UNIVERSITARIOS` | *(excluido)* | 19 | 2025-2026 | Fuera de la población de rotación | Alta |
+| `EN PROPIEDAD` | Directos | 2 | 2026 | Ambos con `TC = F` (fijo) | **Baja** — ver decisión pendiente |
+
+**Coherencia verificada con Gate A:** los 83 registros de
+`CONTRATO APRENDIZAJE` + `PRACTICANTES UNIVERSITARIOS` son **exactamente** los
+83 que la regla de `Cargo` ya excluye (`APRENDIZ SENA` / `PRACTICANTE`).
+Correspondencia 1:1, sin fugas ni doble conteo.
+
+### Decisiones pendientes del usuario
+
+1. **`TEMPORAL EN PROPIEDAD` (201 registros).** Se propone Temporal por
+   nomenclatura. Requiere confirmación: "en propiedad" sugiere planta, lo que
+   parecería contradictorio con temporal.
+2. **`EN PROPIEDAD` (2 registros, 2026).** Valor ambiguo. Ambos tienen
+   `TC = F`, lo que apunta a Directos, pero el volumen no permite inferir con
+   confianza.
+
+### Impacto sobre visuales existentes (se traslada al Gate C)
+
+Coexisten agrupaciones distintas del mismo campo: la página `Retiros` tiene dos
+visuales de Clase de nómina que usan `Clase de nómina (grupos)` y
+`Clase de nómina (grupos) 2`. **No se modifica ningún visual en esta fase.**
+Antes de la implementación visual debe existir un **catálogo contractual
+único** derivado de la tabla anterior.
+
+### Clasificación
+
+**Gate E: `CERRADO CON OBSERVACIONES`.** El campo canónico y la regla de
+homologación quedan definidos y sustentados con evidencia; restan dos
+decisiones de negocio de bajo impacto (203 registros, 5,1 % del total).
+
+## Estado de fases tras este cierre
+
+| Fase | Estado |
+|---|---|
+| 0 — Gobierno y baseline | `PASS con observaciones` (2026-09-02) |
+| 1 — Calidad de INGRESOS | **`CERRADO CON OBSERVACIONES`** (2026-09-02) |
+| 1B — Homologación contractual | **`CERRADO CON OBSERVACIONES`** (2026-09-02) |
+| 2 — Retiros Proyectados | Metodología integrada en `main` vía `61a0386`; extensión a Empresa no iniciada |
+| 3 en adelante | No iniciadas |
+
+Ninguna fase de modelamiento o implementación se ha iniciado.
+
+## Precisiones incorporadas antes de Fase 2 / Fase 3 — 2026-09-02
+
+Confirmadas por el usuario y validadas empíricamente. No alteran los cierres de
+Fase 1 ni 1B; los precisan.
+
+### 1. Arquitectura de fuentes
+
+| Artefacto | Rol |
+|---|---|
+| `PptovsReal.xlsx` → `INGRESOS` | **Fuente de eventos** (un registro por ingreso) |
+| `PptovsReal.xlsx` → `RETIROS` | **Fuente de eventos** (un registro por retiro) |
+| `PptovsReal.xlsx` → `Planta Personal` | **Capa calculada**: aplica exclusiones y construye `Ingresos`, `Retiros` y `Total-Sena` |
+| `Consolidado 2025.xlsx` → `Consolidado2025` | **Fotografía de cierre mensual** de planta activa. No contiene movimientos |
+
+`Planta Personal` **no es fuente primaria**. Cualquier reconstrucción de series
+debe partir de las hojas de eventos aplicando las reglas documentadas, no de
+copiar la capa calculada. Detalle en `Docs/DATA_PIPELINE.md`, sección
+"Arquitectura de fuentes de HeadCount".
+
+### 2. Denominador de rotación confirmado
+
+El denominador es **`Total-Sena`**: activos del cierre mensual **excluyendo la
+población de aprendizaje SENA** — mismo criterio que el slicer de
+`Contrato de Aprendizaje` en la página `Sociodemográfico`.
+
+Validación contra `Consolidado 2025.xlsx` (19 meses, 2025-01 a 2026-07):
+
+| Criterio aplicado | Diferencia acumulada |
+|---|---:|
+| Excluir solo `*APRENDIZ*` | 1.092 |
+| **Excluir `*APRENDIZ*` y `SENA`** | **18** (16/19 meses exactos) |
+
+⚠️ **La etiqueta cambia en el tiempo**: `CONTRATO DE APRENDIZAJE`
+(2025-01→04, 08), `CONTRATO APRENDIZAJE` (2025-05→07) y `SENA` (desde 2025-09).
+Un filtro que solo busque "APRENDIZ" deja ~90-110 personas dentro del
+denominador desde 2025-09. La Fase 3 debe cubrir las tres etiquetas.
+
+⚠️ **Trazabilidad de proceso, no automática**: `Total-Sena` = `Total` − `Sena`
+dentro del propio Excel, con los componentes transcritos manualmente. **No
+existe vínculo de fórmula hacia `Consolidado 2025.xlsx`.**
+
+### 3. Homologación contractual — precisión
+
+| Campo | Rol | Estado |
+|---|---|---|
+| `Clase de nómina` | **Canónico** para retiros | Catálogo de 11 valores homologado |
+| `TIPO_CONTR` | **Canónico** para planta activa (Consolidado) | **Requiere homologación propia** |
+| `TC` | **Atributo histórico auxiliar** | No usar como canónico |
+
+`TC` queda descartado como canónico —`TC = I` mezcla 217 indefinidos con 100
+temporales (31,4 %)— pero **se conserva como atributo histórico auxiliar**, no
+se elimina.
+
+**Hallazgo nuevo:** `TIPO_CONTR` también sufre deriva de vocabulario en el
+mismo corte de 2025-09: `CONTRATO INDEFINIDO` → `INDEFINIDO`,
+`CONTRATO FIJO` → `FIJO`, aprendices → `SENA`. Es el **tercer campo** afectado
+por deriva temporal, junto con `TC` y `Clase de nómina`. El catálogo canónico
+debe cubrir los tres, no solo `Clase de nómina`.
+
+`TEMPORAL EN PROPIEDAD` (201 registros) queda formalmente registrado como
+**pendiente de validación funcional**. Propuesta: categoría Temporal. No se
+aplica hasta confirmación del usuario.
+
+### 4. Gate C — apertura formal
+
+Se abre **antes de cualquier construcción de visuales**, con este alcance:
+
+1. **Revisar las medidas actuales de rotación** — `Indice_Rotacion`,
+   `Tasa_Mensual_Retiros`, `Índice_Retiros`, `Índice_Rotación`,
+   `Variacion_Neta_Personal`, `Tasa_Acumulada_Retiros_Segun_Tipo`.
+2. **Identificar población bruta vs. depurada.** Evidencia ya disponible:
+   `Índice_Retiros` usa `COUNT('Ppto Retiros'[Mes])` — población **bruta**,
+   mientras las demás consumen `Planta Ppto` — población **depurada**. En
+   2025-2026 la brecha es **1.875 vs 1.550 = 21 %**.
+3. **Proponer un catálogo único de población** aplicable a todos los
+   indicadores, declarando para cada medida qué población usa y por qué.
+
+**Criterio de cierre:** ninguna medida de rotación puede quedar sin declarar su
+población de origen, y no pueden convivir en un mismo visual dos medidas con
+poblaciones distintas sin advertencia explícita.
+
+Gate C queda **ABIERTO**. Bloquea Fase 7A, 7B y 8.

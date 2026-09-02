@@ -196,6 +196,62 @@ Consultas asociadas:
 
 La ruta personal anterior dejo de ser el origen activo de estas tres consultas. La migracion fue validada mediante refresh y revision funcional del usuario, y quedo publicada en el commit tecnico `e287657acc948672b274d7907b736a455428a258`.
 
+### Arquitectura de fuentes de HeadCount (documentada 2026-09-02)
+
+Precision registrada al cerrar el Gate A de `PBIP-008`. Las tres hojas no
+tienen el mismo rol: **dos son fuentes de eventos y una es una capa calculada**.
+
+| Artefacto | Rol | Contenido |
+|---|---|---|
+| `PptovsReal.xlsx` → `INGRESOS` | **Fuente de eventos** | Un registro por ingreso de colaborador |
+| `PptovsReal.xlsx` → `RETIROS` | **Fuente de eventos** | Un registro por retiro de colaborador |
+| `PptovsReal.xlsx` → `Planta Personal` | **Capa calculada** | Agrega los eventos aplicando exclusiones y construye `Ingresos`, `Retiros` y `Total-Sena` |
+| `Consolidado 2025.xlsx` → `Consolidado2025` | **Fotografia de cierre mensual** | Planta activa por mes. **No contiene movimientos** de ingreso ni retiro |
+
+Flujo conceptual:
+
+```text
+INGRESOS (eventos) ─┐
+                    ├─> Planta Personal (capa calculada) ─> Planta Ppto (Power BI)
+RETIROS  (eventos) ─┘         ^
+                              │
+Consolidado 2025 (foto de cierre) ──┘  aporta la planta activa que sustenta Total-Sena
+```
+
+`Planta Personal` **no es una fuente primaria**: es el resultado de aplicar
+reglas de negocio sobre las hojas de eventos. Las exclusiones concretas estan
+documentadas en [METRICS_CATALOG.md](METRICS_CATALOG.md), seccion "Poblacion de
+origen de `Ingresos` y `Retiros`".
+
+#### Definicion de `Total-Sena`
+
+`Total-Sena` = **colaboradores activos del cierre mensual, excluyendo la
+poblacion de aprendizaje SENA**. Es el mismo criterio que aplica la pagina
+`Sociodemografico` al excluir `Contrato de Aprendizaje` en su slicer de tipo de
+contrato.
+
+Mecanica real en el Excel: `Total-Sena` (col. L) = `Total` (col. K) − `Sena`
+(col. I), donde `Total` = `SUM(Fijos:Temporales)` y los componentes se capturan
+como **valores fijos**, transcritos manualmente desde el cierre mensual. **No
+existe vinculo de formula hacia `Consolidado 2025.xlsx`**: la trazabilidad es
+de proceso, no automatica.
+
+Validacion empirica (19 meses, 2025-01 a 2026-07):
+
+| Criterio de exclusion aplicado al Consolidado | Diferencia acumulada vs `Total-Sena` |
+|---|---:|
+| Excluir solo `*APRENDIZ*` | 1.092 |
+| **Excluir `*APRENDIZ*` y `SENA`** | **18** (16 de 19 meses exactos) |
+| `Total` vs total del Consolidado | 10 |
+
+> **Deriva de vocabulario en `TIPO_CONTR`.** La poblacion de aprendices cambia
+> de etiqueta en el tiempo: `CONTRATO DE APRENDIZAJE` (2025-01 a 04 y 08),
+> `CONTRATO APRENDIZAJE` (2025-05 a 07) y `SENA` (desde 2025-09). En el mismo
+> corte de 2025-09 el resto del vocabulario tambien cambia
+> (`CONTRATO INDEFINIDO` → `INDEFINIDO`, `CONTRATO FIJO` → `FIJO`). Cualquier
+> filtro de exclusion debe cubrir las tres etiquetas de aprendizaje, o dejara
+> ~90-110 personas dentro del denominador desde 2025-09.
+
 ### Insumo manual de gasto laboral 2026
 
 El archivo local `Data/Gasto Laboral/2026/06_Junio/Gasto Laboral 2026.xlsx` contiene informacion actualizada a junio de 2026 y se conserva como insumo operativo para actualizar manualmente la hoja `Planta Personal` de `PptovsReal.xlsx`.

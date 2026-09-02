@@ -150,6 +150,59 @@ Renombradas el 2026-08-06 para que el nombre tecnico represente la formula que c
 | `Tasa_Mensual_Retiros` | `Ind_Retiros` | `0.00 %` | `DIVIDE(SUM(Retiros), SUM(Total-Sena), 0)` |
 | `Indice_Rotacion` | *(medida nueva)* | `0.00 %` | `DIVIDE(DIVIDE(SUM(Ingresos) + SUM(Retiros), 2), [PromediodeTotal-Sena], 0)`. Indice de rotacion (movimiento de personal); para periodos de varios meses el denominador usa el promedio de `Total-Sena`, no la suma. |
 
+### Poblacion de origen de `Ingresos` y `Retiros` (reglas de exclusion)
+
+Documentado el 2026-09-02 al cerrar el Gate A de `PBIP-008`. Ver
+`Specs/0028_plan_implementacion_rotacion_proyectada.md`.
+
+`Planta Ppto[Ingresos]` y `[Retiros]` **no son conteos brutos**: provienen de
+formulas `COUNTIFS` en la hoja `Planta Personal` de `PptovsReal.xlsx` que
+excluyen poblacion. Toda medida que los consuma
+(`Tasa_Mensual_Retiros`, `Indice_Rotacion`, `Variacion_Neta_Personal`) hereda
+esas exclusiones.
+
+| Exclusion | Campo | `Ingresos` | `Retiros` |
+|---|---|---|---|
+| `APRENDIZ SENA` | `Cargo` / `Descripcion Cargo` | Si | Si |
+| `PRACTICANTE` | `Cargo` / `Descripcion Cargo` | Si | Si |
+| `*REINGRESO*` | `Detalle` / `Motivo Movimiento` | Si | Si |
+| `*FALLECIMIENTO*` | `Detalle` | No | Si |
+| `PENSION POR JUBILACION` | `Detalle` | No | Si |
+| `CESION DE CONTRATO` / `CESION CONTRATO` | `Detalle` | No | Si |
+
+Las cuatro exclusiones que no aplican a ingresos son **causales de salida**;
+su ausencia es correcta y verificada (0 ocurrencias en la hoja `INGRESOS`).
+
+> **Advertencia de comparabilidad.** `Indice_Retiros` (seccion 3, sobre
+> `Ppto Retiros`) usa el conteo **bruto** de registros, sin estas exclusiones.
+> No es comparable con `Tasa_Mensual_Retiros` pese a la similitud de nombre:
+> en 2025-2026 la poblacion bruta supera a la depurada en ~21 %.
+
+> **Deuda conocida.** Las formulas no fueron homogeneas historicamente. En
+> `Ingresos` las exclusiones estan ausentes en 2023-01 a 2024-12 y en
+> 2025-05 a 2025-10; en `Retiros`, ausentes hasta 2024-12. El impacto medido
+> es 26 registros en ingresos (0,78 %) y 3 en retiros (0,1 %). Cualquier serie
+> destinada a modelamiento debe reconstruirse aplicando las exclusiones de
+> forma uniforme en todos los periodos.
+
+### Denominador de rotacion — `Total-Sena`
+
+`Total-Sena` es el **denominador oficial** de `Tasa_Mensual_Retiros` e
+`Indice_Rotacion` (este ultimo via `[PromediodeTotal-Sena]`).
+
+Corresponde a los **colaboradores activos del cierre mensual excluyendo la
+poblacion de aprendizaje SENA** — el mismo criterio que aplica la pagina
+`Sociodemografico` al excluir `Contrato de Aprendizaje` en su slicer.
+
+Validado contra `Consolidado 2025.xlsx` en 19 meses (2025-01 a 2026-07):
+excluyendo aprendices **y** el valor `SENA` la diferencia acumulada es 18
+registros, con 16 de 19 meses exactos. Excluyendo solo `*APRENDIZ*` la
+diferencia sube a 1.092, porque desde 2025-09 esa poblacion se etiqueta como
+`SENA`. Ver [DATA_PIPELINE.md](DATA_PIPELINE.md), seccion "Arquitectura de
+fuentes de HeadCount".
+
+No se debe usar `Total` como denominador de rotacion: incluye aprendices.
+
 ### Medidas de periodo con `DimPeriodoYM`
 
 | Medida | Descripcion |
