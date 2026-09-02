@@ -19,6 +19,15 @@ desktop.ini
 ~$*.xlsx
 ~$*.docx
 
+# Python — entornos locales reconstruibles y bytecode
+# Entornos virtuales Python
+.venv/
+.venv*/
+
+# Cache de Python
+__pycache__/
+*.py[cod]
+
 # Inputs sin evaluar por datos personales — no versionar contenido (agregado 2026-07-03)
 # Excepciones: permitir README.md o .gitkeep si se necesita documentar/preservar la carpeta vacía
 Inputs/*
