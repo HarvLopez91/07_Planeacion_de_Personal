@@ -66,7 +66,14 @@ table Tbl_Medidas
 		displayFolder: 01 HeadCount HC
 		lineageTag: eb863c24-1dd7-4be6-8d59-c383be197778
 
-	measure Tot_Colab-Sena = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]<>"CONTRATO APRENDIZAJE")
+	measure Tot_Colab-Sena =
+			CALCULATE(
+			    COUNT('PLANTA DE PERSONAL'[ID]),
+			    KEEPFILTERS(
+			        'PLANTA DE PERSONAL'[TIPO_CONTR (grupos)]
+			            <> "Contrato De Aprendizaje"
+			    )
+			)
 		formatString: #,0
 		displayFolder: 01 HeadCount HC
 		lineageTag: 2ae49392-771e-430f-b059-cbecdf65b571
@@ -75,7 +82,14 @@ table Tbl_Medidas
 		displayFolder: 01 HeadCount HC
 		lineageTag: c642fb03-a4c6-430e-b946-4ab950a1d9c4
 
-	measure Tot_Colab-Directos = CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO FIJO")+CALCULATE(COUNT('PLANTA DE PERSONAL'[ID]),'PLANTA DE PERSONAL'[TIPO_CONTR]="CONTRATO INDEFINIDO")
+	measure Tot_Colab-Directos =
+			CALCULATE(
+			    COUNT('PLANTA DE PERSONAL'[ID]),
+			    KEEPFILTERS(
+			        'PLANTA DE PERSONAL'[TIPO_CONTR (grupos)]
+			            IN { "Contrato Fijo", "Contrato Indefinido" }
+			    )
+			)
 		formatString: #,0
 		displayFolder: 01 HeadCount HC
 		lineageTag: 834eafb9-1b26-421d-90ac-707ccff9a8d4

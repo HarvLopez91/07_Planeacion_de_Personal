@@ -35,14 +35,32 @@ Las medidas del modelo estan centralizadas en la tabla contenedora `Tbl_Medidas`
 | `Tot_Mas` | `#,0` | Colaboradores de sexo masculino | `CALCULATE([Tot_empleados], [SEXO]="MASCULINO")` |
 | `%FEM` | `0 %` | Participacion femenina sobre el total | `[Tot_Fem]/[Tot_empleados]` |
 | `%MASC` | `0 %` | Participacion masculina sobre el total | `[Tot_Mas]/[Tot_empleados]` |
-| `Tot_Colab-Sena` | `#,0` | Total excluyendo contratos de aprendizaje SENA | `CALCULATE(COUNT([ID]), [TIPO_CONTR]<>"CONTRATO APRENDIZAJE")` |
-| `Tot_Colab-Directos` | `#,0` | Total con contrato fijo o indefinido | `CALCULATE(..., TIPO_CONTR="CONTRATO FIJO") + CALCULATE(..., TIPO_CONTR="CONTRATO INDEFINIDO")` |
+| `Tot_Colab-Sena` | `#,0` | Total excluyendo contratos de aprendizaje/SENA homologados | `CALCULATE(COUNT([ID]), KEEPFILTERS([TIPO_CONTR (grupos)] <> "Contrato De Aprendizaje"))` |
+| `Tot_Colab-Directos` | `#,0` | Total con contrato fijo o indefinido homologado | `CALCULATE(COUNT([ID]), KEEPFILTERS([TIPO_CONTR (grupos)] IN {"Contrato Fijo", "Contrato Indefinido"}))` |
 | `Tot_empleados_Promedio` | general | Promedio de colaboradores iterando por valores de mes | `AVERAGEX(VALUES([Mes]), CALCULATE(COUNT([ID])))` |
 | `Tot_empleados_Promedio_Sin_Aprendices` | `0.00` | Promedio mensual de colaboradores excluyendo tipos de contrato de aprendizaje y SENA normalizados en la medida | `AVERAGEX(VALUES([MES]), CALCULATE(COUNT([ID]), KEEPFILTERS(...)))` |
 | `Prom_Colaboradores` | `0` | Promedio hardcodeado de Enero a Julio (7 meses fijos) | Suma de 7 meses / 7 — **ADVERTENCIA: valor hardcodeado, no dinamico** |
 | `orden` | — | Medida vacia sin expresion DAX. Placeholder sin uso confirmado | — |
 
 > **Atencion:** La medida `Prom_Colaboradores` divide siempre entre 7 independientemente del contexto. Es incorrecta para cualquier periodo fuera de enero-julio. Ver [DATA_MODEL.md — Riesgos](DATA_MODEL.md#riesgos-del-modelo).
+
+### Corrección DAX-003 — denominadores contractuales
+
+Desde 2026-09-03, `Tot_Colab-Sena` y `Tot_Colab-Directos` filtran la columna
+homologada `TIPO_CONTR (grupos)` y usan `KEEPFILTERS` para intersectar la regla
+de negocio con cualquier filtro externo sobre esa misma columna. La corrección
+no cambia el conteo base (`COUNT(ID)`), no crea medidas nuevas y no modifica
+relaciones, Power Query ni visuales.
+
+Validación contra 73.803 filas del modelo vivo:
+
+- `Tot_Colab-Sena`: 72.750 antes; 71.065 después; diferencia −1.685.
+- `Tot_Colab-Directos`: 36.191 antes; 63.094 después; diferencia +26.903.
+- `Tot_Colab-Directos` no cambia antes de 2025-09 y recupera 12 periodos entre
+  2025-09 y 2026-08; el mínimo del periodo corregido es 2.090.
+- Sin `KEEPFILTERS`, `CALCULATE` reemplazaba el contexto de
+  `TIPO_CONTR (grupos)`; con `KEEPFILTERS`, Fijo, Indefinido, Temporal y
+  Aprendizaje conservan correctamente su intersección.
 
 ---
 

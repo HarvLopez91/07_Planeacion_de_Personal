@@ -181,9 +181,11 @@ comunicación del cambio de valores históricos.
 
 ## Estado
 
-Análisis de impacto **abierto**. **No se autoriza corrección** de medidas,
-visuales ni Power Query. Este documento es diagnóstico; la ejecución requiere
-autorización expresa del usuario conforme a `AGENTS.md`.
+Implementación DAX-003 aplicada localmente el 2026-09-03 con autorización
+expresa del usuario. Se modificaron únicamente `Tot_Colab-Sena` y
+`Tot_Colab-Directos`; ambas filtran `TIPO_CONTR (grupos)` mediante
+`KEEPFILTERS`. No se modificaron visuales, Power Query, relaciones ni otras
+medidas. Pendiente de push; no autorizado en esta etapa.
 
 ## Validaciones ejecutadas
 
@@ -196,3 +198,20 @@ autorización expresa del usuario conforme a `AGENTS.md`.
   `Data/HeadCount/2025/Consolidado 2025.xlsx` hoja `Consolidado2025`).
 - Sin datos personales versionados; las copias temporales de trabajo se
   eliminaron.
+
+## Evidencia de implementación DAX-003 — 2026-09-03
+
+- La columna calculada `PLANTA DE PERSONAL[TIPO_CONTR (grupos)]` fue consultada
+  en el modelo vivo y se encontraba en estado `Ready`.
+- Las expresiones con `KEEPFILTERS` se validaron mediante consultas DAX de solo
+  lectura antes de aplicarlas.
+- Resultado agregado: `Tot_Colab-Sena` 72.750 → 71.065 y
+  `Tot_Colab-Directos` 36.191 → 63.094.
+- Validación temporal: 0 diferencias de `Tot_Colab-Directos` antes de 2025-09;
+  12 periodos recuperados entre 2025-09 y 2026-08.
+- Validación de contexto: sin `KEEPFILTERS`, el filtro de `CALCULATE` reemplaza
+  la selección externa de `TIPO_CONTR (grupos)`; con `KEEPFILTERS`, cada
+  categoría conserva la intersección esperada.
+- El modelo TMDL aislado cargó con 55 tablas, 123 medidas y 69 relaciones; las
+  dos medidas modificadas quedaron en estado `Ready` y conservaron formato,
+  carpeta, visibilidad y lineage tags.
