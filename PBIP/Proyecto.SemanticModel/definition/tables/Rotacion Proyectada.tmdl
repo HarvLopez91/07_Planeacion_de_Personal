@@ -1,0 +1,152 @@
+/// PBIP-008. Contrato agregado Periodo x Grupo Empresa. Generado por Scripts/rotacion_proyectada; no contiene datos individuales. REAL conserva numerador y denominador; el futuro mantiene FORECAST, BASELINE, REFERENCIA_DESCRIPTIVA o SIN_FORECAST sin agregación organizacional.
+table 'Rotacion Proyectada'
+	lineageTag: c5191ea4-c878-4625-8a0e-ab923099a732
+
+	/// Periodo en formato AAAAMM.
+	column Periodo
+		dataType: int64
+		lineageTag: 846882de-6105-4c1c-bbed-eb8be1864d0e
+		summarizeBy: sum
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Grupo Empresa'
+		dataType: string
+		lineageTag: 9ef8c096-b2d0-4e6c-850e-2b5e4ac54eb0
+		summarizeBy: none
+		sourceColumn: Grupo Empresa
+
+	/// Tasa mensual real o valor futuro según TipoRegistro. Nulo para SIN_FORECAST.
+	column Valor
+		dataType: double
+		formatString: 0.00 %
+		lineageTag: cdb9dd03-064d-4e2a-8c78-3cdad24471ae
+		summarizeBy: sum
+		sourceColumn: Valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoRegistro
+		dataType: string
+		lineageTag: 7e1cd304-0e77-4760-b2f6-ac30ed320d39
+		summarizeBy: none
+		sourceColumn: TipoRegistro
+
+	column Clasificacion
+		dataType: string
+		lineageTag: 62a141c4-990c-4873-9052-c3a6c959f139
+		summarizeBy: none
+		sourceColumn: Clasificacion
+
+	column Modelo
+		dataType: string
+		lineageTag: d9c8b0c6-3f63-4a76-9cf4-08bed2a5b064
+		summarizeBy: none
+		sourceColumn: Modelo
+
+	column FechaCorte
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 3cffcc8e-62e1-4d51-892e-a61936e63728
+		summarizeBy: none
+		sourceColumn: FechaCorte
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column BandaInferior
+		dataType: double
+		formatString: 0.00 %
+		lineageTag: 16783404-63f7-42e9-ba45-ab4c02156dfe
+		summarizeBy: sum
+		sourceColumn: BandaInferior
+
+		annotation SummarizationSetBy = Automatic
+
+	column BandaSuperior
+		dataType: double
+		formatString: 0.00 %
+		lineageTag: d290e1e2-a020-4f32-8fd6-a847160bd491
+		summarizeBy: sum
+		sourceColumn: BandaSuperior
+
+		annotation SummarizationSetBy = Automatic
+
+	column Retiros
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4d036731-1050-4e40-8bbb-654203574d9c
+		summarizeBy: sum
+		sourceColumn: Retiros
+
+		annotation SummarizationSetBy = Automatic
+
+	column Total-Sena
+		dataType: int64
+		formatString: #,0
+		lineageTag: 94698c64-33a1-4c6f-8c2c-671f245d942b
+		summarizeBy: sum
+		sourceColumn: Total-Sena
+
+		annotation SummarizationSetBy = Automatic
+
+	column CoberturaHistorica
+		dataType: double
+		formatString: 0.0 %
+		lineageTag: 3a880ee3-5fdf-4ef7-90c8-a64846df2353
+		summarizeBy: sum
+		sourceColumn: CoberturaHistorica
+
+		annotation SummarizationSetBy = Automatic
+
+	column VersionDataset
+		dataType: string
+		lineageTag: 9454c2e6-0925-4f87-9ff1-c422d3f7ad5d
+		summarizeBy: none
+		sourceColumn: VersionDataset
+
+	/// Clave técnica compatible con DimPeriodoYM: Año x 12 + Mes.
+	column IndexAnioMes
+		dataType: int64
+		isHidden
+		lineageTag: 675e37b7-471b-429d-a698-8cc33968f9fe
+		summarizeBy: none
+		sourceColumn: IndexAnioMes
+
+	partition 'Rotacion Proyectada' = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/rotacion_proyectada/PBIP-008_Rotacion_Proyectada.csv"),
+				        [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				    #"Tipos definidos" = Table.TransformColumnTypes(
+				        #"Encabezados promovidos",
+				        {
+				            {"Periodo", Int64.Type},
+				            {"Grupo Empresa", type text},
+				            {"Valor", type number},
+				            {"TipoRegistro", type text},
+				            {"Clasificacion", type text},
+				            {"Modelo", type text},
+				            {"FechaCorte", type date},
+				            {"BandaInferior", type number},
+				            {"BandaSuperior", type number},
+				            {"Retiros", Int64.Type},
+				            {"Total-Sena", Int64.Type},
+				            {"CoberturaHistorica", type number},
+				            {"VersionDataset", type text}
+				        },
+				        "en-US"
+				    ),
+				    #"Clave de periodo" = Table.AddColumn(
+				        #"Tipos definidos",
+				        "IndexAnioMes",
+				        each Number.IntegerDivide([Periodo], 100) * 12 + Number.Mod([Periodo], 100),
+				        Int64.Type
+				    )
+				in
+				    #"Clave de periodo"
+

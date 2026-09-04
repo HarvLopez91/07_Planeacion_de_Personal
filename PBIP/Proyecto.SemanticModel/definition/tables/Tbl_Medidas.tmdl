@@ -1044,7 +1044,7 @@ table Tbl_Medidas
 		changedProperty = IsHidden
 
 	measure GL_Ppto_Visual_Challenger =
-
+			
 			IF ( [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
@@ -1055,7 +1055,7 @@ table Tbl_Medidas
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure GL_Real_Visual_Challenger =
-
+			
 			IF ( [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
@@ -1066,7 +1066,7 @@ table Tbl_Medidas
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure GL_Ppto_Visual_Otros =
-
+			
 			IF ( NOT [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
@@ -1077,7 +1077,7 @@ table Tbl_Medidas
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure GL_Real_Visual_Otros =
-
+			
 			IF ( NOT [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
 		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
 		displayFolder: 02 Ppto vs Real
@@ -1160,7 +1160,7 @@ table Tbl_Medidas
 		lineageTag: 67605bb2-4d98-4551-bde2-89beabc41b3e
 
 	measure Subtitulo_Productividad_Comparativo_Acumulado =
-
+			
 			VAR HayFiltroMes =
 			    ISFILTERED ( Mes[Meses] )
 			VAR MesesSeleccionados =
@@ -1216,7 +1216,7 @@ table Tbl_Medidas
 		lineageTag: 3654e8f2-0237-4a6d-b435-876a19ad2891
 
 	measure Titulo_Productividad_Gasto_Laboral =
-
+			
 			VAR AnioSeleccionado =
 			    SELECTEDVALUE ( 'Años'[Año] )
 			RETURN
@@ -1244,7 +1244,7 @@ table Tbl_Medidas
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
 	measure Prod_Usar_Millones =
-
+			
 			VAR HayFiltroGrupo =
 			    ISFILTERED ( Empresas[Grupo Empresa] )
 			VAR HayFiltroEmpresa =
@@ -1330,7 +1330,7 @@ table Tbl_Medidas
 
 	/// Devuelve 1 si el elemento organizacional evaluado tiene al menos una Key_Estructura cuyo intervalo de VIGENCIA OBSERVADA (Periodo_Min..Periodo_Max) cubre el periodo seleccionado en los slicers Año y Mes. Uso exclusivo: filtro de visual en los slicers organizacionales de "Sociodemográfico por Empresa". No altera el contexto temporal de KPIs, gráficos, comparativos ni matriz.
 	measure 'Estructura Visible Periodo' =
-
+			
 			VAR PeriodosSeleccionados =
 			    SELECTCOLUMNS (
 			        GENERATE (
@@ -1358,6 +1358,296 @@ table Tbl_Medidas
 		displayFolder: 00 Utilidades
 		lineageTag: 7760a622-f732-4fab-b2f8-7d860c522e54
 
+	/// Ultimo cierre real gobernado por el contrato PBIP-008; ignora filtros de periodo y grupo.
+	measure 'PBIP008 Fecha Corte' =
+			CALCULATE (
+			    MAX ( 'Rotacion Proyectada'[FechaCorte] ),
+			    REMOVEFILTERS ( 'DimPeriodoYM' ),
+			    REMOVEFILTERS ( 'Grupo Empresarial' ),
+			    REMOVEFILTERS ( 'Rotacion Proyectada' )
+			)
+		formatString: dd/MM/yyyy
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 8690ca10-5de6-49a4-83b8-36a6fd71410f
+
+	/// Tasa_Mensual_Retiros real hasta Fecha Corte. En Todos conserva la razon de sumas: Σ Retiros / Σ Total-Sena.
+	measure 'PBIP008 Tasa Real' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
+			RETURN
+			    CALCULATE (
+			        [Tasa_Mensual_Retiros],
+			        KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" ),
+			        KEEPFILTERS ( 'DimPeriodoYM'[IndexAnioMes] <= _IndiceCorte )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 99b8b038-4d2a-4ef3-96f7-a33b097d7b05
+
+	/// Valor futuro solo cuando hay exactamente un Grupo Empresa. Devuelve BLANK en Todos y para SIN_FORECAST.
+	measure 'PBIP008 Tasa Futura' =
+			VAR _GrupoUnico = HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] )
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        NOT _GrupoUnico,
+			        BLANK (),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Valor] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA" }
+			            )
+			        )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 6da6b73c-ae34-4bb9-a94e-22e9d2a7dd5d
+
+	/// Limite inferior de la banda de incertidumbre aproximada (80 %); solo grupo único y cuando el contrato la publica.
+	measure 'PBIP008 Banda Inferior' =
+			IF (
+			    HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Rotacion Proyectada'[BandaInferior] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] IN { "FORECAST", "BASELINE" } )
+			    )
+			)
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 91e36f5f-52e2-4884-a478-b188d731b116
+
+	/// Limite superior de la banda de incertidumbre aproximada (80 %); solo grupo único y cuando el contrato la publica.
+	measure 'PBIP008 Banda Superior' =
+			IF (
+			    HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Rotacion Proyectada'[BandaSuperior] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] IN { "FORECAST", "BASELINE" } )
+			    )
+			)
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: b918424e-fdef-4830-86d9-d918271407a4
+
+	/// Clasificación futura del grupo seleccionado. No convierte SIN_FORECAST en cero.
+	measure 'PBIP008 Clasificacion' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Clasificacion] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] <> "REAL" )
+			        )
+			    )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: e04914eb-c54b-40ba-93a0-96b33450dc43
+
+	/// Método productivo documentado para el grupo seleccionado; vacío en Todos y SIN_FORECAST.
+	measure 'PBIP008 Modelo' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Modelo] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte )
+			        )
+			    )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 977b85b5-c222-4713-a2f6-ac0b9dd361e2
+
+	/// Síntesis dinámica para el estado Todos; cuenta grupos por clasificación sin agregar sus tasas.
+	measure 'PBIP008 Resumen Clasificacion' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			VAR _Forecast =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "FORECAST"
+			    )
+			VAR _Baseline =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "BASELINE"
+			    )
+			VAR _Referencia =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "REFERENCIA_DESCRIPTIVA"
+			    )
+			VAR _SinForecast =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "SIN_FORECAST"
+			    )
+			RETURN
+			    IF (
+			        NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        FORMAT ( _Forecast, "0" ) & " Forecast | "
+			            & FORMAT ( _Baseline, "0" ) & " Baseline | "
+			            & FORMAT ( _Referencia, "0" ) & " Referencia | "
+			            & FORMAT ( _SinForecast, "0" ) & " Sin forecast",
+			        [PBIP008 Clasificacion]
+			    )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: c6925dde-e9fc-4873-903e-2b1e5dc60bb4
+
+	/// Mensaje funcional para Todos o para un grupo clasificado SIN_FORECAST.
+	measure 'PBIP008 Mensaje Proyeccion' =
+			IF (
+			    NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			    "Selecciona un Grupo Empresa para consultar su proyección",
+			    IF (
+			        [PBIP008 Clasificacion] = "SIN_FORECAST",
+			        "Sin forecast publicable para el grupo seleccionado",
+			        BLANK ()
+			    )
+			)
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: b936fb86-d7f3-48ed-9d95-0af294858def
+
+	/// Control técnico: diferencia entre PBIP008 Tasa Real y la razón de sumas del contrato agregado. Debe ser 0.
+	measure 'PBIP008 Control Desviacion Real' =
+			VAR _TasaContrato =
+			    CALCULATE (
+			        DIVIDE (
+			            SUM ( 'Rotacion Proyectada'[Retiros] ),
+			            SUM ( 'Rotacion Proyectada'[Total-Sena] )
+			        ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] = "REAL" )
+			    )
+			RETURN
+			    [PBIP008 Tasa Real] - _TasaContrato
+		formatString: 0.0000 %
+		isHidden
+		displayFolder: PBIP-008 Rotacion Proyectada\Controles
+		lineageTag: 608b814a-81a1-404b-ae74-cac73b6f6f25
+
+	/// Tasa mensual real del último cierre aprobado. Respeta el Grupo Empresa seleccionado y usa la razón agregada cuando el estado es Todos.
+	measure 'PBIP008 Tasa Ultimo Cierre' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
+			RETURN
+			    CALCULATE (
+			        [PBIP008 Tasa Real],
+			        REMOVEFILTERS ( 'DimPeriodoYM' ),
+			        TREATAS ( { _IndiceCorte }, 'DimPeriodoYM'[IndexAnioMes] )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 32f1421c-77c5-46da-81a2-1bc41f5ded82
+
+	/// Variación en puntos porcentuales entre el último cierre aprobado y el mes inmediatamente anterior. Respeta el Grupo Empresa seleccionado.
+	measure 'PBIP008 Variacion Mensual' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
+			VAR _TasaActual =
+			    CALCULATE (
+			        [PBIP008 Tasa Real],
+			        REMOVEFILTERS ( 'DimPeriodoYM' ),
+			        TREATAS ( { _IndiceCorte }, 'DimPeriodoYM'[IndexAnioMes] )
+			    )
+			VAR _TasaAnterior =
+			    CALCULATE (
+			        [PBIP008 Tasa Real],
+			        REMOVEFILTERS ( 'DimPeriodoYM' ),
+			        TREATAS ( { _IndiceCorte - 1 }, 'DimPeriodoYM'[IndexAnioMes] )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( _TasaActual ) && NOT ISBLANK ( _TasaAnterior ), _TasaActual - _TasaAnterior )
+		formatString: +0.00 %;-0.00 %;0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 5b7b0f9f-15ca-43ce-a13f-57f057b2fc65
+
+	/// Valor autorizado para el primer mes del horizonte futuro del grupo seleccionado. Devuelve BLANK en Todos y en SIN_FORECAST.
+	measure 'PBIP008 Referencia Futura' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceSiguiente = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte ) + 1
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            [PBIP008 Tasa Futura],
+			            REMOVEFILTERS ( 'DimPeriodoYM' ),
+			            TREATAS ( { _IndiceSiguiente }, 'DimPeriodoYM'[IndexAnioMes] )
+			        )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 666ef9ff-f691-431c-a843-e6a0671feb98
+
+	/// Texto ejecutivo: síntesis de clasificaciones en Todos o valor del primer mes futuro para un único Grupo Empresa.
+	measure 'PBIP008 Referencia o Sintesis' =
+			IF (
+			    NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			    [PBIP008 Resumen Clasificacion],
+			    IF (
+			        [PBIP008 Clasificacion] = "SIN_FORECAST",
+			        "Sin valor futuro",
+			        FORMAT ( [PBIP008 Referencia Futura], "0.000 %" )
+			    )
+			)
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: f6dd947d-a796-447e-b2f2-e4ba5aef97d5
+
+	/// Serie futura publicada únicamente para grupos clasificados como FORECAST; permite identificarla y formatearla sin mezclarla con baseline o referencia.
+	measure 'PBIP008 Tasa Forecast' = IF ( [PBIP008 Clasificacion] = "FORECAST", [PBIP008 Tasa Futura] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: c5dafd9b-2e21-420b-9d8d-8b0a697fd81b
+
+	/// Serie futura publicada únicamente como BASELINE; no implica mejora predictiva frente al método naive.
+	measure 'PBIP008 Tasa Baseline' = IF ( [PBIP008 Clasificacion] = "BASELINE", [PBIP008 Tasa Futura] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 4a83756d-7646-4ceb-9dfd-bb6916252d86
+
+	/// Serie futura autorizada exclusivamente como referencia descriptiva. Nunca debe presentarse como forecast.
+	measure 'PBIP008 Referencia Descriptiva' = IF ( [PBIP008 Clasificacion] = "REFERENCIA_DESCRIPTIVA", [PBIP008 Tasa Futura] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 355e25d3-1210-481d-ae8a-64717f0720dd
+
+	/// Estado ejecutivo del selector: TODOS cuando no hay un único grupo y clasificación autorizada cuando hay uno.
+	measure 'PBIP008 Estado Seleccion' = IF ( HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ), [PBIP008 Clasificacion], "TODOS" )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: e8d3841d-0608-4df9-897b-7ee4d90dabc2
+
+	/// Explicación dinámica del método, la clasificación y el uso autorizado de la banda de incertidumbre.
+	measure 'PBIP008 Detalle Metodologico' =
+			VAR _Clasificacion = [PBIP008 Clasificacion]
+			VAR _Modelo = [PBIP008 Modelo]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			            "Cinco grupos evaluados con tratamiento diferenciado. Selecciona uno para consultar método y confiabilidad.",
+			        _Clasificacion IN { "FORECAST", "BASELINE" },
+			            "Método: " & _Modelo & " | Banda de incertidumbre aproximada (80 %)",
+			        _Clasificacion = "REFERENCIA_DESCRIPTIVA",
+			            "Método de referencia: " & _Modelo & " | Referencia descriptiva sin banda de incertidumbre",
+			        _Clasificacion = "SIN_FORECAST",
+			            "Sin forecast publicable | Señal insuficiente para una proyección responsable",
+			        BLANK ()
+			    )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 9f472c3c-42bf-4cc0-822a-60a9bb2e739d
+
 	partition Tbl_Medidas = m
 		mode: import
 		source =
@@ -1369,4 +1659,6 @@ table Tbl_Medidas
 				    #"Columnas quitadas"
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
 
