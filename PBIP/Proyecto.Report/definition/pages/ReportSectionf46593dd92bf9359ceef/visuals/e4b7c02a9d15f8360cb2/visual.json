@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "93a75cd669ac8ee824fd",
+  "name": "e4b7c02a9d15f8360cb2",
   "position": {
-    "x": 18.47220145248815,
-    "y": 325.00374899782832,
-    "z": 5000,
-    "height": 72,
-    "width": 238.97233824572464,
-    "tabOrder": 3000
+    "x": 16.9811320754717,
+    "y": 811.25568009916833,
+    "z": 15002,
+    "height": 72.169811320754718,
+    "width": 239.15094339622641,
+    "tabOrder": 15002
   },
   "visual": {
     "visualType": "slicer",
@@ -23,13 +23,13 @@
                       "Entity": "PLANTA DE PERSONAL"
                     }
                   },
-                  "Property": "GRUPO EMPRESA"
+                  "Property": "CCO"
                 }
               },
-              "queryRef": "PLANTA DE PERSONAL.GRUPO EMPRESA",
-              "nativeQueryRef": "Grupo Empresa",
+              "queryRef": "PLANTA DE PERSONAL.CCO",
+              "nativeQueryRef": "CCO",
               "active": true,
-              "displayName": "Grupo Empresa"
+              "displayName": "Centro de costos"
             }
           ]
         }
@@ -42,7 +42,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Dropdown'"
                 }
               }
             }
@@ -51,7 +51,22 @@
       ],
       "general": [
         {
-          "properties": {}
+          "properties": {
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "selfFilterEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
         }
       ],
       "items": [
@@ -61,6 +76,18 @@
               "expr": {
                 "Literal": {
                   "Value": "10D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             },
@@ -90,6 +117,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
           }
         }
@@ -97,17 +131,24 @@
       "header": [
         {
           "properties": {
-            "textSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "12D"
-                }
-              }
-            },
             "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            },
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
                 }
               }
             },
@@ -123,21 +164,16 @@
                 }
               }
             },
-            "fontFamily": {
+            "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Calibri'"
+                  "Value": "'CCO'"
                 }
               }
             }
           }
         }
       ]
-    },
-    "syncGroup": {
-      "groupName": "GRUPO EMPRESA",
-      "fieldChanges": true,
-      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   },
