@@ -31,11 +31,65 @@ Estado documentado:
 | SST / Accidentalidad | Ruta corporativa documentada para `Accidentalidad_Consolidado.xlsx` |
 | Incapacidades / CIE-10 | Ruta corporativa reportada para `Incapacidades_GL.xlsx`, pendiente de validación final |
 | Días Laborales | Ruta corporativa reportada para `Feriados.xlsx`, pendiente de validación final |
-| `AUSENTISMOS` y `Estructura` | Persisten como fuentes personales o pendientes de análisis |
+| `AUSENTISMOS` y `Estructura` | **Migradas a ruta corporativa el 2026-09-07** (ver seccion "Migracion forzada por bloqueo del buzon compartido") |
 | `AREAS` | Sigue ligada a `Consolidado 2024.xlsx`; requiere análisis posterior antes de cambiar origen |
 | `REQUISICIONES HABITEL 2026.xlsx` | Fuente nueva fuera de alcance; requiere Spec propia |
 
 Para `PptovsReal.xlsx`, el refresh y las paginas dependientes fueron validados funcionalmente por el usuario antes del commit tecnico `e287657`. Para las demas familias, el refresh local completo no debe declararse exitoso hasta validar `Aplicar cambios` y refresh sin errores en Power BI Desktop. Ver [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
+
+## Migracion forzada por bloqueo del buzon compartido (2026-09-07)
+
+El buzon compartido `Maria Alejandra Bohorquez Castellanos` dejo de ser accesible:
+Power BI Desktop devolvia error de autenticacion sobre
+`lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co` y OneDrive
+reportaba que el propietario o administrador bloqueo, archivo, elimino o cambio
+el acceso a la biblioteca. Once tablas dependian de esa ruta y quedaron sin poder
+refrescar.
+
+El usuario reapunto esas consultas y valido en Power BI Desktop la carga del
+modelo y el refresh con el cierre de agosto de 2026. La migracion quedo comiteada
+en `d1f880c` sobre la rama `feat/pbip-008-sync-main`.
+
+**Verificacion:** 0 referencias a `lemcosas-my.sharepoint.com` y 0 a
+`personal/maria_bohorquez` en `PBIP/Proyecto.SemanticModel/definition/`.
+
+### Destino A — rutas corporativas gobernadas
+
+| Tabla | Destino |
+|---|---|
+| `AUSENTISMOS` | `07_Planeacion_de_Personal/Data/Ausentismos Power BI.xlsx` |
+| `Dias Laborales` | `07_Planeacion_de_Personal/Data/Feriados.xlsx` |
+| `Estructura` | `07_Planeacion_de_Personal/Data/Estructura.xlsx` |
+| `Maestro` | `07_Planeacion_de_Personal/Data/Maestro.xlsx` |
+| `SENA UNIDADES` | `05_Atraccion_y_Seleccion/Data/SENA.xlsx` |
+
+En `SENA UNIDADES` el archivo corporativo **no es identico** al del buzon: la hoja
+cambio de `SENA 2025` a `SENA` y aparecieron dos columnas sin nombrar,
+`Column9` y `Column10`, que Power Query detecto automaticamente. Queda pendiente
+decidir si se nombran o se retiran.
+
+### Destino B — `00_BackUp/01_Maria_Bohorquez` (DEUDA TEMPORAL)
+
+| Tabla | Archivo |
+|---|---|
+| `CIE-10` | `Incapacidades_GL.xlsx` |
+| `Incapacidades` | `Incapacidades_GL.xlsx` |
+| `SENA_CYL` | `REQUISICIONES_CYL.xlsx` |
+| `Seleccion Challenger` | `REQUISICIONES_CYL.xlsx` |
+| `Seleccion Grupo Sky` | `REQUISICIONES SKY.xlsx` |
+| `Seleccion Habitel Hotels` | `REQUISICIONES HABITEL.xlsx` |
+
+Estas seis tablas apuntan a una carpeta que **replica la estructura del buzon
+bloqueado** dentro del sitio corporativo. Hoy es su unica ruta funcional, pero
+**no es una fuente gobernada**: el nombre `00_BackUp` indica una copia de rescate
+y no existe un proceso definido que la actualice cada mes.
+
+> **Riesgo — refresh silencioso con datos congelados.** Si nadie actualiza esa
+> carpeta, estas tablas van a refrescar **sin error** pero con el corte de la
+> fecha del rescate. Es un fallo peor que el bloqueo: el bloqueo se ve, esto no.
+> Antes de considerar cerrada la migracion hay que definir la ubicacion
+> corporativa definitiva de Medicina y Seleccion, o asignar responsable y
+> periodicidad de actualizacion de `00_BackUp`.
 
 ## Patron general
 
@@ -53,7 +107,7 @@ El modelo históricamente consumió datos desde cuentas personales y actualmente
 |---|---|---|
 | `lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco` | Objetivo corporativo | HeadCount, PptovsReal, Selección, SENA, SST, Incapacidades y fuentes futuras |
 | `edwin_clavijo_challenger_co` | Origen personal histórico | Debe eliminarse gradualmente cuando exista ruta corporativa aprobada |
-| `maria_bohorquez_challenger_co` | Origen personal histórico | Persisten referencias en fuentes pendientes como `AUSENTISMOS` y `Estructura` |
+| `maria_bohorquez_challenger_co` | **Bloqueado (2026-09)** — el buzon compartido dejo de ser accesible | **0 referencias activas.** Todas las tablas que dependian de el fueron migradas el 2026-09-07 |
 
 > Las credenciales y niveles de privacidad se gestionan en Power BI Desktop / Power BI Service. Las fuentes corporativas combinadas deben quedar como `Organizacional`. Ver [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) y [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 
