@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
   "displayName": "Hijos",
   "name": "092fbe75ecb89d30748c",
   "options": {
@@ -278,61 +278,6 @@
                         }
                       },
                       "Property": "GRUPO EMPRESA"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "22b154f9d39e86b8d83b": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "3eb9a3fd35dd86c0315e",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
-                        }
-                      },
-                      "Property": "Nombre Empresa"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Basic'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
-                        }
-                      },
-                      "Property": "Nombre Empresa"
                     }
                   }
                 ]
@@ -1561,130 +1506,6 @@
             "singleVisual": {
               "visualType": "bookmarkNavigator",
               "objects": {}
-            }
-          },
-          "5976d6581ba10bacc245": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "256f8afb3abe2323c351",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
-                        }
-                      },
-                      "Property": "CARGO"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "c9a940c5048624035764",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
-                        }
-                      },
-                      "Property": "Tot_empleados_Promedio"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "259de21bc05c3a35cd36",
-                  "type": "Advanced",
-                  "expression": {
-                    "Arithmetic": {
-                      "Left": {
-                        "Measure": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
-                            }
-                          },
-                          "Property": "Tot_empleados_Promedio"
-                        }
-                      },
-                      "Right": {
-                        "ScopedEval": {
-                          "Expression": {
-                            "Measure": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
-                                }
-                              },
-                              "Property": "Tot_empleados_Promedio"
-                            }
-                          },
-                          "Scope": []
-                        }
-                      },
-                      "Operator": 3
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "pivotTable",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 2,
-                  "Expression": {
-                    "Arithmetic": {
-                      "Left": {
-                        "Measure": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "PLANTA DE PERSONAL"
-                            }
-                          },
-                          "Property": "Tot_empleados_Promedio"
-                        }
-                      },
-                      "Right": {
-                        "ScopedEval": {
-                          "Expression": {
-                            "Measure": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Entity": "PLANTA DE PERSONAL"
-                                }
-                              },
-                              "Property": "Tot_empleados_Promedio"
-                            }
-                          },
-                          "Scope": []
-                        }
-                      },
-                      "Operator": 3
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Rows": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "PLANTA DE PERSONAL"
-                        }
-                      },
-                      "Property": "CARGO"
-                    }
-                  }
-                ]
-              }
             }
           }
         }

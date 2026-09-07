@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
   "displayName": "Género",
   "name": "1a4df3c15b512427102d",
   "options": {
@@ -1739,12 +1739,6 @@
           "6c10727a46cb8dc60361": {
             "singleVisual": {
               "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "1553faa6977b6f819866": {
-            "singleVisual": {
-              "visualType": "textbox",
               "objects": {}
             }
           }

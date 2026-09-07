@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
   "displayName": "Mensual",
   "name": "7318f801b436e0fdb0da",
   "options": {
@@ -1745,12 +1745,6 @@
           "6c10727a46cb8dc60361": {
             "singleVisual": {
               "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "1553faa6977b6f819866": {
-            "singleVisual": {
-              "visualType": "textbox",
               "objects": {}
             }
           },

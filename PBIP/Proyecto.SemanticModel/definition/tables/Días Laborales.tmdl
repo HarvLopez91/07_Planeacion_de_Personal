@@ -41,7 +41,7 @@ table 'Días Laborales'
 		queryGroup: Dim_Calendario
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Admon.P/Feriados.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/Feriados.xlsx"), null, true),
 				    #"Días Laborales_Sheet" = Origen{[Item="Días Laborales",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Días Laborales_Sheet", [PromoteAllScalars=true]),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Fcha inicio", "Fecha fin", "Dias mes"}),

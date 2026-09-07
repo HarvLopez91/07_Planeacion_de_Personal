@@ -57,6 +57,11 @@
                 "From": [
                   {
                     "Name": "d",
+                    "Entity": "DimPeriodoYM",
+                    "Type": 0
+                  },
+                  {
+                    "Name": "a",
                     "Entity": "Años",
                     "Type": 0
                   }
@@ -70,7 +75,7 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "d"
+                                  "Source": "a"
                                 }
                               },
                               "Property": "Año"
@@ -82,6 +87,13 @@
                             {
                               "Literal": {
                                 "Value": "'2026'"
+                              }
+                            }
+                          ],
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'2025'"
                               }
                             }
                           ]

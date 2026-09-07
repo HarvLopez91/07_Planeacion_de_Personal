@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "126df9a253d67ad12ad0",
   "position": {
     "x": 0,
@@ -36,18 +36,29 @@
           "projections": [
             {
               "field": {
-                "Column": {
+                "GroupRef": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "Ppto Retiros"
                     }
                   },
-                  "Property": "TC"
+                  "Property": "Clase de nómina (grupos) 2",
+                  "GroupedColumns": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Ppto Retiros"
+                          }
+                        },
+                        "Property": "Clase de nómina"
+                      }
+                    }
+                  ]
                 }
               },
-              "queryRef": "Ppto Retiros.TC",
-              "nativeQueryRef": "TC",
-              "displayName": "Tipo de Contrato"
+              "queryRef": "Ppto Retiros.Clase de nómina (grupos) 2",
+              "nativeQueryRef": "Clase de nómina (grupos) 2"
             }
           ]
         },
@@ -493,5 +504,57 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "a266c4a073606ad97006"
+  "parentGroupName": "a266c4a073606ad97006",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c9c1174a9edd4be3a9d6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f8b9e3ad3d2b7dd4d031",
+        "field": {
+          "Arithmetic": {
+            "Left": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Tbl_Medidas"
+                  }
+                },
+                "Property": "Tot_Retiros"
+              }
+            },
+            "Right": {
+              "ScopedEval": {
+                "Expression": {
+                  "Measure": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Tbl_Medidas"
+                      }
+                    },
+                    "Property": "Tot_Retiros"
+                  }
+                },
+                "Scope": []
+              }
+            },
+            "Operator": 3
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
 }

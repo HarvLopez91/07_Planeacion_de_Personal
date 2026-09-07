@@ -205,7 +205,7 @@ table AUSENTISMOS
 		mode: import
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Admon.P/Ausentismos%20Power%20BI.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/Ausentismos%20Power%20BI.xlsx"), null, true),
 				    AUSENTISMOS_Sheet = Origen{[Item="AUSENTISMOS",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(AUSENTISMOS_Sheet, [PromoteAllScalars=true]),
 				    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([Identificación] <> null)),

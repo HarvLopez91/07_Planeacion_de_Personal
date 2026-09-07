@@ -47,13 +47,29 @@ table 'SENA UNIDADES'
 
 		annotation SummarizationSetBy = Automatic
 
+	column Column9
+		dataType: string
+		lineageTag: c7d24ec8-3a74-46ed-be52-9c279aaef9a3
+		summarizeBy: none
+		sourceColumn: Column9
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column10
+		dataType: string
+		lineageTag: 1fa72c99-8ce9-4f02-a026-8a3a06c8b80d
+		summarizeBy: none
+		sourceColumn: Column10
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'SENA UNIDADES' = m
 		mode: import
 		queryGroup: Selección
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Selecci%C3%B3n/3.%20Selecci%C3%B3n/Seleccion/SENA.xlsx"), null, true),
-				    #"SENA 2025_Sheet" = Origen{[Item="SENA 2025",Kind="Sheet"]}[Data],
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/05_Atracci%C3%B3n_y_Selecci%C3%B3n/Data/SENA.xlsx"), null, true),
+				    #"SENA 2025_Sheet" = Origen{[Item="SENA",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"SENA 2025_Sheet", [PromoteAllScalars=true]),
 				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Encabezados promovidos", [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Año", Int64.Type}, {"EMPRESA", type text}, {"Mes", type text}, {"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}, {"%Cumplimiento", Int64.Type}, {"%Meta", Int64.Type}, {"%Cumplimiento Anual", type number}}),
