@@ -296,3 +296,11 @@ relationship 'PLANTA DE PERSONAL_Key_Estructura_Dim_Estructura_Organizacional_Ke
 	fromColumn: 'PLANTA DE PERSONAL'.Key_Estructura
 	toColumn: Dim_Estructura_Organizacional.Key_Estructura
 
+relationship PBIP008_Rotacion_Grupo
+	fromColumn: 'Rotacion Proyectada'.'Grupo Empresa'
+	toColumn: 'Grupo Empresarial'.'Grupo Empresarial'
+
+relationship PBIP008_Rotacion_Periodo
+	fromColumn: 'Rotacion Proyectada'.IndexAnioMes
+	toColumn: DimPeriodoYM.IndexAnioMes
+

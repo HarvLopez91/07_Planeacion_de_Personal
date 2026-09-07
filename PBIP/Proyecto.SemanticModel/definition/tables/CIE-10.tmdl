@@ -26,7 +26,7 @@ table CIE-10
 		queryGroup: Incapacidades
 		source =
 				let
-				    Origen = Excel.Workbook(Web.Contents("https://lemcosas-my.sharepoint.com/personal/maria_bohorquez_challenger_co/Documents/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Medicina/Incapacidades_GL.xlsx"), null, true),
+				    Origen = Excel.Workbook(Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/00_BackUp/01_Maria_Bohorquez/Documentos/Gerencia%20G.%20Humana/6.%20Informaci%C3%B3n/Power%20BI/Medicina/Incapacidades_GL.xlsx"), null, true),
 				    #"CIE-10_Sheet" = Origen{[Item="CIE-10",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"CIE-10_Sheet", [PromoteAllScalars=true]),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"cie-10", type text}, {"Concepto", type text}})

@@ -92,15 +92,7 @@
     "objects": {
       "general": [
         {
-          "properties": {
-            "keepLayerOrder": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "categoryAxis": [
@@ -266,24 +258,10 @@
                 }
               }
             },
-            "labelStyle": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Percent of total'"
-                }
-              }
-            },
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
                   "Value": "1D"
-                }
-              }
-            },
-            "percentageLabelPrecision": {
-              "expr": {
-                "Literal": {
-                  "Value": "0L"
                 }
               }
             }

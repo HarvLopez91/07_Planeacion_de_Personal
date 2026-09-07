@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "4d9cf0b713184989d8d5",
   "position": {
     "x": 226.90715369764294,
@@ -606,46 +606,81 @@
           }
         },
         "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "r",
-              "Entity": "Ppto Retiros",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "r"
-                          }
-                        },
-                        "Property": "TC"
-                      }
+        "howCreated": "User"
+      },
+      {
+        "name": "1c4181f2b4cb937674aa",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "84a485d72552079725cb",
+        "field": {
+          "GroupRef": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Clase de nómina (grupos)",
+            "GroupedColumns": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ppto Retiros"
                     }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'Directos'"
-                        }
-                      }
-                    ]
-                  ]
+                  },
+                  "Property": "Clase de nómina"
                 }
               }
-            }
-          ]
+            ]
+          }
         },
-        "howCreated": "User"
+        "type": "Categorical"
+      },
+      {
+        "name": "90e8aed158cb61994bcb",
+        "field": {
+          "Arithmetic": {
+            "Left": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Tbl_Medidas"
+                  }
+                },
+                "Property": "Tot_Retiros"
+              }
+            },
+            "Right": {
+              "ScopedEval": {
+                "Expression": {
+                  "Measure": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Tbl_Medidas"
+                      }
+                    },
+                    "Property": "Tot_Retiros"
+                  }
+                },
+                "Scope": []
+              }
+            },
+            "Operator": 3
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

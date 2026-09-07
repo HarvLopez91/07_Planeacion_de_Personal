@@ -820,6 +820,45 @@
           }
         },
         "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "Planta Ppto",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "p"
+                          }
+                        },
+                        "Property": "Año"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'2026'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
         "howCreated": "User"
       },
       {
@@ -875,6 +914,156 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "6b40486784767437dd1f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Empresas"
+              }
+            },
+            "Property": "Grupo Empresa"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "66ce5c49943faf57c220",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Meses"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "96ca929a516851c7a6bb",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "MesAnio"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b065fb975d53295b1933",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "PromediodeTotal-Sena"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d135cb5fdb9f0a7e40ba",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Planta Ppto"
+                  }
+                },
+                "Property": "Ingresos"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3d271af3c7d172e9384a",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Planta Ppto"
+                  }
+                },
+                "Property": "Retiros"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e5338ff3cb8aa241d216",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Variacion_Neta_Personal"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4e43ccc80ecea725f789",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Indice_Rotacion"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f72916880c917726af31",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tasa_Mensual_Retiros"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "eb63a3297ffe4744b79b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tasa_Acumulada_Retiros_Segun_Tipo"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }
