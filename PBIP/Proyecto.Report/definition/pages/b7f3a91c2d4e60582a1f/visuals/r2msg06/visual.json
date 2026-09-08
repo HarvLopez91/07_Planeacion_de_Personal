@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "r2msg06",
   "position": {
-    "x": 1116,
+    "x": 1162,
     "y": 88,
     "z": 1210,
     "height": 76,
-    "width": 460,
+    "width": 414,
     "tabOrder": 1210
   },
   "visual": {
@@ -23,7 +23,7 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8pt",
-                      "color": "#8A94A6",
+                      "color": "#1B487F",
                       "fontWeight": "bold"
                     }
                   }
@@ -33,7 +33,15 @@
               {
                 "textRuns": [
                   {
-                    "value": "",
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "PBIP008Dynamic"
+                      }
+                    },
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -45,6 +53,54 @@
                 "horizontalTextAlignment": "left"
               }
             ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "selector": {
+            "id": "PBIP008Dynamic"
+          },
+          "properties": {
+            "expr": {
+              "expr": {
+                "Min": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "Subquery": {
+                          "Query": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "m",
+                                "Entity": "Tbl_Medidas",
+                                "Type": 0
+                              }
+                            ],
+                            "Select": [
+                              {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "m"
+                                    }
+                                  },
+                                  "Property": "PBIP008 Dinamico Estado"
+                                },
+                                "Name": "DynamicValue"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "Property": "DynamicValue"
+                    }
+                  },
+                  "IncludeAllTypes": 1
+                }
+              }
+            }
           }
         }
       ]

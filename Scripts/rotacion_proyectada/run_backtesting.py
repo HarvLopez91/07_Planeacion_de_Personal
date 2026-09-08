@@ -19,8 +19,9 @@ from Scripts.rotacion_proyectada.backtest import (
     compute_metrics, prediction_validity, rolling_origin_backtest, select_winner,
 )
 from Scripts.rotacion_proyectada.dataset import (
-    build_real_layer, clasificar_fiabilidad, hash_fuente, load_planta_personal,
-    perfil_grupo, run_quality_rules,
+    ULTIMO_PERIODO_REAL_ESPERADO, build_real_layer, clasificar_fiabilidad,
+    fecha_corte_de, hash_fuente, load_planta_personal, perfil_grupo,
+    run_quality_rules,
 )
 from Scripts.rotacion_proyectada.models import MODEL_FUNCS, POOLED_FUNCS
 
@@ -50,7 +51,9 @@ def _metric_row(metrics: pd.DataFrame, model: str) -> pd.Series:
     ].iloc[0]
 
 
-def _reconcile_retiros(xlsx_path: str, real_layer: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+def _reconcile_retiros(xlsx_path: str, real_layer: pd.DataFrame,
+                       ultimo_periodo_real_esperado: int = ULTIMO_PERIODO_REAL_ESPERADO,
+                       ) -> tuple[pd.DataFrame, dict]:
     """Conciliacion agregada; nunca devuelve identificadores ni filas personales."""
     detail = pd.read_excel(xlsx_path, sheet_name="RETIROS")
     detail["periodo_control"] = (
@@ -77,7 +80,7 @@ def _reconcile_retiros(xlsx_path: str, real_layer: pd.DataFrame) -> tuple[pd.Dat
     detail_group.index = detail_group.index.set_names(["periodo", "grupo_empresa"])
     kept_group.index = kept_group.index.set_names(["periodo", "grupo_empresa"])
     source_group = (
-        real_layer.loc[real_layer["periodo"].le(202607)]
+        real_layer.loc[real_layer["periodo"].le(int(ultimo_periodo_real_esperado))]
         .set_index(["periodo", "grupo_empresa"])["retiros"].rename("retiros_planta_personal")
     )
     reconciliation = pd.concat([source_group, detail_group, kept_group], axis=1).fillna(0).reset_index()
@@ -98,11 +101,15 @@ def _reconcile_retiros(xlsx_path: str, real_layer: pd.DataFrame) -> tuple[pd.Dat
     return reconciliation, overview
 
 
-def run_analysis(xlsx_path: str = XLSX_PATH, write_outputs: bool = True) -> dict:
+def run_analysis(xlsx_path: str = XLSX_PATH, write_outputs: bool = True,
+                 ultimo_periodo_real_esperado: int = ULTIMO_PERIODO_REAL_ESPERADO) -> dict:
     version = "rotacion_" + hash_fuente(xlsx_path)
+    fecha_corte = fecha_corte_de(ultimo_periodo_real_esperado)
     raw = load_planta_personal(xlsx_path)
-    real = build_real_layer(raw, version_dataset=version)
-    apto, quality, sparse_groups = run_quality_rules(real, raw)
+    real = build_real_layer(raw, version_dataset=version,
+                            ultimo_periodo_real_esperado=ultimo_periodo_real_esperado)
+    apto, quality, sparse_groups = run_quality_rules(
+        real, raw, ultimo_periodo_real_esperado)
     all_metrics, all_bt, all_validity = [], [], []
     winners, holdouts, forecasts = [], [], []
 
@@ -222,7 +229,7 @@ def run_analysis(xlsx_path: str = XLSX_PATH, write_outputs: bool = True) -> dict
                 "tasa_mensual_retiros": point, "li_80_aproximado": lower,
                 "ls_80_aproximado": upper, "tipo_banda": band,
                 "cobertura_historica_observada": coverage,
-                "fecha_corte": "2026-07-31", "version_dataset": version,
+                "fecha_corte": fecha_corte, "version_dataset": version,
             })
         full_metrics["grupo_empresa"] = group
         full_bt["grupo_empresa"] = group
@@ -238,7 +245,8 @@ def run_analysis(xlsx_path: str = XLSX_PATH, write_outputs: bool = True) -> dict
         "regla": q.rule, "descripcion": q.description, "estado": q.status,
         "detalle": q.detail, "grupos_afectados": ", ".join(q.affected_groups),
     } for q in quality])
-    reconciliation_df, reconciliation_overview = _reconcile_retiros(xlsx_path, real)
+    reconciliation_df, reconciliation_overview = _reconcile_retiros(
+        xlsx_path, real, ultimo_periodo_real_esperado)
     result = {
         "real": real, "quality": quality_df, "metrics": metrics_df, "backtest": bt_df,
         "prediction_validity": validity_df, "winners": winners_df, "holdout": holdout_df,

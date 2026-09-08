@@ -1,0 +1,20 @@
+/// Selector analítico desconectado; no filtra hechos ni modifica el corte del Compromiso 2.
+table 'PBIP008 Selector Indicador'
+	lineageTag: 83963b53-9ab4-4405-91ac-baebb4098df0
+
+	column Indicador
+		dataType: string
+		lineageTag: 478412ba-34bd-41ae-9e2a-88f8cb77d342
+		summarizeBy: none
+		sourceColumn: Indicador
+
+	column Clave
+		dataType: string
+		isHidden
+		lineageTag: 45984d47-b52a-4cea-a0ba-a179b0047794
+		summarizeBy: none
+		sourceColumn: Clave
+
+	partition 'PBIP008 Selector Indicador' = m
+		mode: import
+		source = #table(type table [Indicador = text, Clave = text], {{"Retiros", "RETIROS"}, {"Rotación", "ROTACION"}})

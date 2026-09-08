@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "r2cor05",
   "position": {
-    "x": 664,
+    "x": 796,
     "y": 88,
     "z": 1200,
     "height": 76,
-    "width": 436,
+    "width": 350,
     "tabOrder": 1200
   },
   "visual": {
@@ -19,11 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "CORTE REAL",
+                    "value": "CORTE: 31/07/2026",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8pt",
-                      "color": "#8A94A6",
+                      "color": "#1B487F",
                       "fontWeight": "bold"
                     }
                   }

@@ -73,7 +73,7 @@ table 'Rotacion Proyectada'
 		annotation SummarizationSetBy = Automatic
 
 	column Retiros
-		dataType: int64
+		dataType: double
 		formatString: #,0
 		lineageTag: 4d036731-1050-4e40-8bbb-654203574d9c
 		summarizeBy: sum
@@ -106,6 +106,39 @@ table 'Rotacion Proyectada'
 		sourceColumn: VersionDataset
 
 	/// Clave técnica compatible con DimPeriodoYM: Año x 12 + Mes.
+	/// Indicador al que pertenece la fila: RETIROS o ROTACION. Separa ambas series;
+	/// el nombre de la tabla ya no implica el indicador.
+	column Indicador
+		dataType: string
+		lineageTag: 02306dc3-be94-47db-a785-259bd23198ed
+		summarizeBy: none
+		sourceColumn: Indicador
+
+	/// Componente Ingresos de Indice_Rotacion, real o proyectada. Nulo en filas RETIROS.
+	column Ingresos
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 8934303a-35fc-4fc5-93af-db220ef028da
+		summarizeBy: sum
+		sourceColumn: Ingresos
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Modelo usado para proyectar la componente Ingresos. Nulo en filas RETIROS y en REAL.
+	column ModeloIngresos
+		dataType: string
+		lineageTag: bd42a9cd-3b9f-4d2d-bf70-1461c3542c1f
+		summarizeBy: none
+		sourceColumn: ModeloIngresos
+
+	/// Modelo usado para proyectar la componente Retiros. La composicion no oculta
+	/// de que metodo depende cada componente.
+	column ModeloRetiros
+		dataType: string
+		lineageTag: e5a25d18-87c5-4b36-a50a-595afc17ea63
+		summarizeBy: none
+		sourceColumn: ModeloRetiros
+
 	column IndexAnioMes
 		dataType: int64
 		isHidden
@@ -117,13 +150,32 @@ table 'Rotacion Proyectada'
 		mode: import
 		source =
 				let
+				    // Sin `Columns` fijo: el contrato paso de 13 a 17 columnas y anclar el
+				    // conteo impediria cargar cualquiera de las dos versiones del archivo.
 				    Origen = Csv.Document(
 				        Web.Contents("https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/Documentos%20compartidos/5.%20People%20analytics/07_Planeaci%C3%B3n_de_Personal/Data/HeadCount/rotacion_proyectada/PBIP-008_Rotacion_Proyectada.csv"),
-				        [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
 				    ),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
-				    #"Tipos definidos" = Table.TransformColumnTypes(
+				    // Compatibilidad hacia atras: mientras SharePoint siga publicando el CSV
+				    // legado, las cuatro columnas del contrato ampliado se agregan vacias para
+				    // que la carga no falle y la pagina de Retiros siga funcionando.
+				    ColumnasAmpliadas = {"Indicador", "Ingresos", "ModeloIngresos", "ModeloRetiros"},
+				    Faltantes = List.Difference(ColumnasAmpliadas, Table.ColumnNames(#"Encabezados promovidos")),
+				    #"Contrato completo" = List.Accumulate(
+				        Faltantes,
 				        #"Encabezados promovidos",
+				        (tabla, columna) => Table.AddColumn(tabla, columna, each null)
+				    ),
+				    // En el contrato legado todas las filas eran de retiros: era el unico
+				    // indicador que existia. Es lo unico que se infiere; Ingresos y los dos
+				    // modelos quedan nulos porque el archivo legado no los contiene.
+				    #"Indicador legado" = Table.TransformColumns(
+				        #"Contrato completo",
+				        {{"Indicador", each if _ = null or _ = "" then "RETIROS" else _, type text}}
+				    ),
+				    #"Tipos definidos" = Table.TransformColumnTypes(
+				        #"Indicador legado",
 				        {
 				            {"Periodo", Int64.Type},
 				            {"Grupo Empresa", type text},
@@ -134,10 +186,14 @@ table 'Rotacion Proyectada'
 				            {"FechaCorte", type date},
 				            {"BandaInferior", type number},
 				            {"BandaSuperior", type number},
-				            {"Retiros", Int64.Type},
+				            {"Retiros", type number},
 				            {"Total-Sena", Int64.Type},
 				            {"CoberturaHistorica", type number},
-				            {"VersionDataset", type text}
+				            {"VersionDataset", type text},
+				            {"Indicador", type text},
+				            {"Ingresos", type number},
+				            {"ModeloIngresos", type text},
+				            {"ModeloRetiros", type text}
 				        },
 				        "en-US"
 				    ),

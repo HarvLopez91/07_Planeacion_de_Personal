@@ -10,14 +10,32 @@ llamador (ver run_backtesting.py).
 
 from __future__ import annotations
 
+import calendar
 import hashlib
 from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
 
-FECHA_CORTE = "2026-07-31"
 ULTIMO_PERIODO_REAL_ESPERADO = 202607
+
+
+def fecha_corte_de(periodo: int) -> str:
+    """Ultimo dia del periodo AAAAMM, en ISO. Con 202607 devuelve '2026-07-31'.
+
+    Unica fuente de verdad de la fecha de corte. Antes convivia con la constante
+    literal FECHA_CORTE = "2026-07-31", de modo que el corte tenia dos
+    representaciones que podian desincronizarse. Funciona para cualquier mes,
+    incluidos los que no terminan en 31 y los febreros bisiestos.
+    """
+    periodo = int(periodo)
+    anio, mes = periodo // 100, periodo % 100
+    return "%04d-%02d-%02d" % (anio, mes, calendar.monthrange(anio, mes)[1])
+
+
+# Etiqueta derivada del corte por defecto; se conserva por compatibilidad con
+# los importadores existentes, pero ya no es un literal independiente.
+FECHA_CORTE = fecha_corte_de(ULTIMO_PERIODO_REAL_ESPERADO)
 
 # Umbrales de fiabilidad para decidir si un grupo admite pronostico estadistico.
 # Ver Specs/0027, seccion de tratamiento de series ralas.
@@ -51,9 +69,16 @@ def hash_fuente(xlsx_path: str) -> str:
     return h.hexdigest()[:12]
 
 
-def build_real_layer(df: pd.DataFrame, version_dataset: str | None = None) -> pd.DataFrame:
+def build_real_layer(df: pd.DataFrame, version_dataset: str | None = None,
+                     ultimo_periodo_real_esperado: int = ULTIMO_PERIODO_REAL_ESPERADO,
+                     ) -> pd.DataFrame:
     """Agrega Planta Personal (grano Empresa) a Grupo Empresa x Periodo,
-    filtra Ppto/Real == 'Real', y arma el esquema REAL de Specs/0027."""
+    filtra Ppto/Real == 'Real', y arma el esquema REAL de Specs/0027.
+
+    La etiqueta ``fecha_corte`` se deriva del corte de la corrida, no de una
+    constante: una version con otro corte no puede quedar rotulada con la fecha
+    de otra.
+    """
     version_dataset = version_dataset or "rotacion_sin_version"
 
     real = df[df["Ppto/Real"] == "Real"].copy()
@@ -79,7 +104,7 @@ def build_real_layer(df: pd.DataFrame, version_dataset: str | None = None) -> pd
     agg["modelo"] = None
     agg["li_80"] = np.nan
     agg["ls_80"] = np.nan
-    agg["fecha_corte"] = FECHA_CORTE
+    agg["fecha_corte"] = fecha_corte_de(ultimo_periodo_real_esperado)
     agg["version_dataset"] = version_dataset
 
     cols = [
@@ -90,13 +115,20 @@ def build_real_layer(df: pd.DataFrame, version_dataset: str | None = None) -> pd
     return agg[cols].sort_values(["grupo_empresa", "periodo"]).reset_index(drop=True)
 
 
-def reconstruct_source_control(df_source: pd.DataFrame) -> pd.DataFrame:
+def reconstruct_source_control(
+    df_source: pd.DataFrame,
+    ultimo_periodo_real_esperado: int = ULTIMO_PERIODO_REAL_ESPERADO,
+) -> pd.DataFrame:
     """Reconstruye C9 directamente desde la hoja aprobada ``Planta Personal``.
 
     Esta ruta es deliberadamente independiente de :func:`build_real_layer`: no
     reutiliza el dataset analitico ni sus agregaciones. El control conserva solo
     registros Real hasta el corte, agrega Periodo x Grupo Empresa y calcula la
     tasa desde numerador y denominador de fuente.
+
+    ``ultimo_periodo_real_esperado`` es el corte de la corrida. El valor por
+    defecto preserva el comportamiento historico; el Compromiso 2 lo pasa
+    explicitamente como 202607.
     """
     source = df_source.loc[df_source["Ppto/Real"].eq("Real")].copy()
     # La exportacion historica puede traer el encabezado Año con mojibake. La
@@ -106,7 +138,7 @@ def reconstruct_source_control(df_source: pd.DataFrame) -> pd.DataFrame:
         pd.to_numeric(source[anio_col], errors="coerce") * 100
         + pd.to_numeric(source["Mes Num"], errors="coerce")
     )
-    source = source.loc[source["periodo"].le(ULTIMO_PERIODO_REAL_ESPERADO)]
+    source = source.loc[source["periodo"].le(int(ultimo_periodo_real_esperado))]
     control = (
         source.groupby(["periodo", "Grupo Empresa"], as_index=False, dropna=False)
         .agg(retiros_fuente=("Retiros", "sum"), total_sena_fuente=("Total-Sena", "sum"))
@@ -129,6 +161,7 @@ class QualityResult:
 def run_quality_rules(
     real_df: pd.DataFrame,
     source_df: pd.DataFrame,
+    ultimo_periodo_real_esperado: int = ULTIMO_PERIODO_REAL_ESPERADO,
 ) -> tuple[pd.DataFrame, list[QualityResult], list[str]]:
     """Aplica C1-C10. Devuelve (dataframe_filtrado, resultados, grupos_degradados_a_baseline).
 
@@ -137,26 +170,41 @@ def run_quality_rules(
     C7/C8 degradan grupos a 'baseline simple' marcandolos en el resultado, sin
     eliminarlos del dataframe (la decision de que modelo usar se aplica despues,
     en el backtesting).
+
+    ``ultimo_periodo_real_esperado`` es el corte explicito de la corrida y
+    gobierna por igual la capa analitica y el control independiente de C9. Antes
+    era una constante de modulo, lo que hacia que la sola llegada de un mes real
+    posterior moviera el universo evaluado y rompiera C6 y C9. El corte de una
+    version publicada no puede depender de cuanto haya avanzado la fuente: el
+    valor por defecto preserva el comportamiento historico y el Compromiso 2 lo
+    pasa explicitamente como 202607.
     """
+    corte = int(ultimo_periodo_real_esperado)
     results: list[QualityResult] = []
     df = real_df.copy()
 
     # C1: total_sena > 0.
     # Las exclusiones legitimas son los placeholders de meses posteriores al
-    # corte (periodo > ULTIMO_PERIODO_REAL_ESPERADO). Si se excluye un periodo
-    # ANTERIOR al corte hay un hueco real en la fuente y el control debe fallar.
+    # corte. Si se excluye un periodo ANTERIOR al corte hay un hueco real en la
+    # fuente y el control debe fallar.
     mask_c1 = (df["total_sena"] > 0) & df["total_sena"].notna()
     excluidos_c1 = df.loc[~mask_c1, ["grupo_empresa", "periodo"]]
     df = df.loc[mask_c1].copy()
-    exc_dentro = excluidos_c1[excluidos_c1["periodo"] <= ULTIMO_PERIODO_REAL_ESPERADO]
+    exc_dentro = excluidos_c1[excluidos_c1["periodo"] <= corte]
     results.append(QualityResult(
         "C1", "total_sena > 0 en todo periodo-grupo hasta el corte",
         "FAIL" if len(exc_dentro) else "PASS",
         f"{len(excluidos_c1)} fila(s) excluidas por total_sena<=0 o nulo; "
-        f"{len(exc_dentro)} de ellas ANTES del corte {ULTIMO_PERIODO_REAL_ESPERADO} "
+        f"{len(exc_dentro)} de ellas ANTES del corte {corte} "
         f"(el resto son placeholders de meses futuros, exclusion esperada)",
         sorted(excluidos_c1["grupo_empresa"].unique().tolist()),
     ))
+
+    # El corte gobierna el universo evaluado. Los periodos posteriores pueden
+    # existir en la fuente con planta real (agosto 2026 en adelante); se apartan
+    # aqui para que no entren al entrenamiento ni desalineen el control de C9.
+    posteriores = df.loc[df["periodo"] > corte, ["grupo_empresa", "periodo"]]
+    df = df.loc[df["periodo"] <= corte].copy()
 
     # C2: los eventos de retiro no pueden ser negativos. No se impone un
     # limite superior de 100%: Retiros/Total-Sena es una tasa de eventos y la
@@ -202,12 +250,13 @@ def run_quality_rules(
         "Filtro aplicado en build_real_layer antes de esta validacion", [],
     ))
 
-    # C6: ultimo periodo REAL == 202607
+    # C6: el ultimo periodo REAL coincide con el corte de la corrida
     max_periodo = int(df["periodo"].max())
     results.append(QualityResult(
-        "C6", "El ultimo periodo REAL es 202607",
-        "PASS" if max_periodo == ULTIMO_PERIODO_REAL_ESPERADO else "FAIL",
-        f"Maximo periodo encontrado: {max_periodo}", [],
+        "C6", f"El ultimo periodo REAL es {corte}",
+        "PASS" if max_periodo == corte else "FAIL",
+        f"Maximo periodo encontrado: {max_periodo}; "
+        f"{len(posteriores)} fila(s) apartadas por ser posteriores al corte", [],
     ))
 
     # C7: grupos con >25% de meses en cero -> no aptos para modelo estadistico
@@ -232,7 +281,7 @@ def run_quality_rules(
 
     # C9: conciliacion independiente contra una segunda reconstruccion directa
     # de Planta Personal, al grano minimo Periodo x Grupo Empresa.
-    control = reconstruct_source_control(source_df)
+    control = reconstruct_source_control(source_df, corte)
     analytic = df[["periodo", "grupo_empresa", "retiros", "total_sena", "tasa_mensual_retiros"]].copy()
     joined = analytic.merge(control, on=["periodo", "grupo_empresa"], how="outer", indicator=True)
     present = joined["_merge"].eq("both")

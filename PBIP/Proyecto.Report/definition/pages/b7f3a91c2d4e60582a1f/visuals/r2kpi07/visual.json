@@ -23,10 +23,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Tasa Ultimo Cierre"
+                  "Property": "PBIP008 Dinamico Ultimo Cierre"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Tasa Ultimo Cierre",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Ultimo Cierre",
               "nativeQueryRef": "Tasa ultimo cierre",
               "displayName": "Tasa ultimo cierre"
             },
@@ -38,10 +38,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Variacion Mensual"
+                  "Property": "PBIP008 Dinamico Variacion Mensual"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Variacion Mensual",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Variacion Mensual",
               "nativeQueryRef": "Variacion vs mes anterior",
               "displayName": "Variacion vs mes anterior"
             },
@@ -53,10 +53,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Referencia o Sintesis"
+                  "Property": "PBIP008 Dinamico Referencia Sintesis"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Referencia o Sintesis",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Referencia Sintesis",
               "nativeQueryRef": "Referencia futura / sintesis",
               "displayName": "Referencia futura / sintesis"
             },
@@ -68,10 +68,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Estado Seleccion"
+                  "Property": "PBIP008 Dinamico Clasificacion"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Estado Seleccion",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Clasificacion",
               "nativeQueryRef": "Clasificacion",
               "displayName": "Clasificacion"
             }
@@ -111,6 +111,26 @@
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "selector": {
+            "id": "default",
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Ultimo Cierre"
+          },
+          "properties": {
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "PBIP008 Dinamico Titulo Cierre"
+                }
+              }
+            }
           }
         }
       ],
