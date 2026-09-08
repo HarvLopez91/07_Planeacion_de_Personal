@@ -42,10 +42,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Tasa Real"
+                  "Property": "PBIP008 Dinamico Real"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Tasa Real",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Real",
               "nativeQueryRef": "REAL observado",
               "displayName": "REAL observado"
             },
@@ -57,10 +57,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Tasa Forecast"
+                  "Property": "PBIP008 Dinamico Forecast"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Tasa Forecast",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Forecast",
               "nativeQueryRef": "FORECAST",
               "displayName": "FORECAST"
             },
@@ -72,10 +72,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Tasa Baseline"
+                  "Property": "PBIP008 Dinamico Baseline"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Tasa Baseline",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Baseline",
               "nativeQueryRef": "BASELINE",
               "displayName": "BASELINE"
             },
@@ -87,10 +87,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Referencia Descriptiva"
+                  "Property": "PBIP008 Dinamico Referencia"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Referencia Descriptiva",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Referencia",
               "nativeQueryRef": "REFERENCIA DESCRIPTIVA",
               "displayName": "REFERENCIA DESCRIPTIVA"
             },
@@ -102,10 +102,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Banda Inferior"
+                  "Property": "PBIP008 Dinamico Banda Inferior"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Banda Inferior",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Banda Inferior",
               "nativeQueryRef": "Banda de incertidumbre aproximada (80 %) - inferior",
               "displayName": "Banda de incertidumbre aproximada (80 %) - inferior"
             },
@@ -117,10 +117,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Banda Superior"
+                  "Property": "PBIP008 Dinamico Banda Superior"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Banda Superior",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Banda Superior",
               "nativeQueryRef": "Banda de incertidumbre aproximada (80 %) - superior",
               "displayName": "Banda de incertidumbre aproximada (80 %) - superior"
             }
@@ -222,7 +222,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.PBIP008 Tasa Real"
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Real"
           }
         },
         {
@@ -300,7 +300,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.PBIP008 Tasa Forecast"
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Forecast"
           }
         },
         {
@@ -378,7 +378,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.PBIP008 Tasa Baseline"
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Baseline"
           }
         },
         {
@@ -456,7 +456,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.PBIP008 Referencia Descriptiva"
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Referencia"
           }
         },
         {
@@ -534,7 +534,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.PBIP008 Banda Inferior"
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Banda Inferior"
           }
         },
         {
@@ -612,7 +612,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.PBIP008 Banda Superior"
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Banda Superior"
           }
         }
       ],
@@ -743,10 +743,275 @@
             "show": {
               "expr": {
                 "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI'"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1B487F'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Real"
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F7931E'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Forecast"
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1A3059'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Baseline"
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
                   "Value": "false"
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Referencia"
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#B9C4D6'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "valueCustomFormatString": {
+              "expr": {
+                "Literal": {
+                  "Value": "'0.0 %'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Banda Inferior"
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#B9C4D6'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "valueCustomFormatString": {
+              "expr": {
+                "Literal": {
+                  "Value": "'0.0 %'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.PBIP008 Dinamico Banda Superior"
           }
         }
       ]
@@ -764,8 +1029,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Tasa mensual de retiros - REAL y proyeccion autorizada'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "PBIP008 Dinamico Titulo Grafico"
                 }
               }
             },

@@ -23,7 +23,7 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "9pt",
-                      "color": "#F7931E",
+                      "color": "#1B487F",
                       "fontWeight": "bold"
                     }
                   }
@@ -63,7 +63,7 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8pt",
-                      "color": "#8A94A6"
+                      "color": "#1A3059"
                     }
                   }
                 ],

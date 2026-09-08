@@ -47,6 +47,9 @@
       ],
       "outline": [
         {
+          "selector": {
+            "id": "default"
+          },
           "properties": {
             "show": {
               "expr": {
@@ -60,6 +63,9 @@
       ],
       "fill": [
         {
+          "selector": {
+            "id": "default"
+          },
           "properties": {
             "show": {
               "expr": {
@@ -73,7 +79,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1A3059'"
+                      "Value": "'#2B455E'"
                     }
                   }
                 }

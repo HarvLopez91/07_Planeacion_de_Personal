@@ -46,7 +46,15 @@
               {
                 "textRuns": [
                   {
-                    "value": "Como leerlo: FORECAST y BASELINE se proyectan con el metodo ganador del backtesting de origen movil (corte 31/07/2026). REFERENCIA DESCRIPTIVA no es un pronostico. SIN FORECAST significa que no existe cifra publicable; nunca debe leerse como 0 %.",
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "PBIP008Dynamic"
+                      }
+                    },
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "8pt",
@@ -57,6 +65,54 @@
                 "horizontalTextAlignment": "left"
               }
             ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "selector": {
+            "id": "PBIP008Dynamic"
+          },
+          "properties": {
+            "expr": {
+              "expr": {
+                "Min": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "Subquery": {
+                          "Query": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "m",
+                                "Entity": "Tbl_Medidas",
+                                "Type": 0
+                              }
+                            ],
+                            "Select": [
+                              {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "m"
+                                    }
+                                  },
+                                  "Property": "PBIP008 Dinamico Metodologia"
+                                },
+                                "Name": "DynamicValue"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "Property": "DynamicValue"
+                    }
+                  },
+                  "IncludeAllTypes": 1
+                }
+              }
+            }
           }
         }
       ]

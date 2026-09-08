@@ -42,10 +42,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "PBIP008 Tasa Ultimo Cierre"
+                  "Property": "PBIP008 Dinamico Ultimo Cierre"
                 }
               },
-              "queryRef": "Tbl_Medidas.PBIP008 Tasa Ultimo Cierre",
+              "queryRef": "Tbl_Medidas.PBIP008 Dinamico Ultimo Cierre",
               "nativeQueryRef": "Tasa ultimo cierre",
               "displayName": "Tasa ultimo cierre"
             }
@@ -62,7 +62,7 @@
                     "Entity": "Tbl_Medidas"
                   }
                 },
-                "Property": "PBIP008 Tasa Ultimo Cierre"
+                "Property": "PBIP008 Dinamico Ultimo Cierre"
               }
             },
             "direction": "Descending"
@@ -222,8 +222,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Exposicion por Grupo Empresa - tasa del ultimo cierre'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "PBIP008 Dinamico Titulo Exposicion"
                 }
               }
             },

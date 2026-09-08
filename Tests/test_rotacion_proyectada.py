@@ -18,6 +18,12 @@ from Scripts.rotacion_proyectada.models import POOLED_FUNCS
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE = os.path.join(REPO_ROOT, "Data", "HeadCount", "PptovsReal.xlsx")
 
+# Corte del Compromiso 2. Se pasa explicitamente en cada llamada: la fuente
+# avanza mes a mes y el corte de una version publicada no puede depender de
+# hasta donde haya llegado. Antes era una constante de modulo y la sola carga de
+# agosto 2026 real hacia fallar C6 y C9.
+ULTIMO_PERIODO_REAL_COMPROMISO_2 = 202607
+
 
 class QualityControlTests(unittest.TestCase):
     @classmethod
@@ -26,16 +32,28 @@ class QualityControlTests(unittest.TestCase):
         cls.real = build_real_layer(cls.source)
 
     def test_c9_reconciles_approved_source(self) -> None:
-        _, results, _ = run_quality_rules(self.real, self.source)
+        _, results, _ = run_quality_rules(
+            self.real, self.source, ULTIMO_PERIODO_REAL_COMPROMISO_2)
         c9 = next(r for r in results if r.rule == "C9")
         self.assertEqual("PASS", c9.status)
+
+    def test_c6_pins_the_cut_regardless_of_later_real_months(self) -> None:
+        """La fuente ya trae agosto 2026 real; el corte oficial no se mueve."""
+        self.assertGreater(int(self.real["periodo"].max()),
+                           ULTIMO_PERIODO_REAL_COMPROMISO_2)
+        apto, results, _ = run_quality_rules(
+            self.real, self.source, ULTIMO_PERIODO_REAL_COMPROMISO_2)
+        c6 = next(r for r in results if r.rule == "C6")
+        self.assertEqual("PASS", c6.status)
+        self.assertEqual(ULTIMO_PERIODO_REAL_COMPROMISO_2, int(apto["periodo"].max()))
 
     def test_c9_fails_after_controlled_perturbation(self) -> None:
         altered = self.real.copy()
         idx = altered.index[0]
         altered.loc[idx, "retiros"] += 1
         altered.loc[idx, "tasa_mensual_retiros"] = altered.loc[idx, "retiros"] / altered.loc[idx, "total_sena"]
-        _, results, _ = run_quality_rules(altered, self.source)
+        _, results, _ = run_quality_rules(
+            altered, self.source, ULTIMO_PERIODO_REAL_COMPROMISO_2)
         c9 = next(r for r in results if r.rule == "C9")
         self.assertEqual("FAIL", c9.status)
         self.assertIn("1 discrepancia", c9.detail)

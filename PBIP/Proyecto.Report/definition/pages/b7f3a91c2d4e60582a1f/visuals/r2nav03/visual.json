@@ -21,11 +21,22 @@
                   "Value": "true"
                 }
               }
+            }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             },
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ver diagnostico de Retiros'"
+                  "Value": "'Ver Retiros'"
                 }
               }
             },
@@ -34,7 +45,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#000032'"
+                      "Value": "'#FFFFFF'"
                     }
                   }
                 }
@@ -77,6 +88,17 @@
                 }
               }
             }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           },
           "selector": {
             "id": "default"
@@ -108,13 +130,24 @@
                   "Value": "true"
                 }
               }
+            }
+          }
+        },
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             },
             "fillColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F7931E'"
+                      "Value": "'#2B455E'"
                     }
                   }
                 }

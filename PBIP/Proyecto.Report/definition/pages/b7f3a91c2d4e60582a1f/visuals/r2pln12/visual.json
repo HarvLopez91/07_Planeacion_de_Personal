@@ -47,11 +47,32 @@
       ],
       "outline": [
         {
+          "selector": {
+            "id": "default"
+          },
           "properties": {
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2B455E'"
+                    }
+                  }
+                }
+              }
+            },
+            "weight": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -60,6 +81,9 @@
       ],
       "fill": [
         {
+          "selector": {
+            "id": "default"
+          },
           "properties": {
             "show": {
               "expr": {

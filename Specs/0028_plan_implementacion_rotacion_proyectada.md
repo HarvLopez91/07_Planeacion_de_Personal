@@ -765,3 +765,119 @@ Se registra como riesgo de pérdida sin respaldo.
 `PASS con observaciones`. Diagnóstico de solo lectura: sin cambios en PBIP,
 DAX, Power Query, visuales ni modelo semántico; sin datos personales
 versionados.
+
+## Registro de ejecución — Evolución del contrato `Rotacion Proyectada` — 2026-09-08
+
+### Decisión
+
+La tabla existente pasa a soportar **dos indicadores** en vez de duplicarse. No
+se creó una segunda tabla predictiva paralela: eso habría obligado a mantener dos
+cargas, dos juegos de relaciones y dos familias de medidas para el mismo hecho.
+
+### Contrato
+
+De 13 a **17 columnas**. Las 13 del contrato anterior conservan nombre, orden y
+semántica; las 4 nuevas se agregan al final para que el prefijo legado siga
+siendo comparable columna a columna.
+
+| Columna nueva | Tipo | Contenido |
+|---|---|---|
+| `Indicador` | texto | `RETIROS` o `ROTACION`. Separa ambas series |
+| `Ingresos` | número | Componente Ingresos, real o proyectada. Nula en filas RETIROS |
+| `ModeloIngresos` | texto | Método de la componente Ingresos |
+| `ModeloRetiros` | texto | Método de la componente Retiros |
+
+`Retiros` pasa de entero a número: para ROTACION la componente proyectada es
+fraccionaria por construcción (`tasa × Total-Sena`). Los conteos reales se siguen
+escribiendo como enteros, así que el prefijo legado no gana decimales.
+
+**El nombre de la tabla ya no significa el indicador.** Antes `Rotacion
+Proyectada` contenía retiros; ahora `Indicador` es lo único que lo determina.
+
+### Semántica por indicador
+
+- `RETIROS`: `Valor` es `Tasa_Mensual_Retiros`. Las filas provienen del pipeline
+  ya aprobado (`run_backtesting.run_analysis`), no de una segunda derivación:
+  ampliar el contrato no puede mover los números publicados.
+- `ROTACION`: `Valor` es `Indice_Rotacion`, calculado como
+  `((Ingresos + Retiros) / 2) / Total-Sena`. `Modelo` documenta que es una
+  composición y los dos modelos detallados quedan visibles en columnas propias,
+  de modo que la composición no oculte de qué depende cada componente.
+
+### `TipoRegistro` y agosto real
+
+Se agrega `REAL_VALIDACION` para los meses reales posteriores al corte. Esas
+filas **no entrenaron nada** y **no sustituyen la proyección del mismo mes**:
+existen para que Real y Proyectado convivan y el error sea medible. Agosto 2026
+aparece dos veces por grupo e indicador —proyectado y real— y `TipoRegistro` es
+lo que los distingue sin ambigüedad.
+
+### Compatibilidad hacia atrás
+
+La carga admite las dos versiones del archivo. Se eliminó `Columns = 13` de
+`Csv.Document`, que habría impedido leer el contrato ampliado, y se agregó un
+puente: las columnas ausentes se crean vacías y, cuando no viene `Indicador`,
+todas las filas se interpretan como `RETIROS` —era el único indicador que existía
+en el contrato legado—. `Ingresos` y los dos modelos quedan nulos, porque el
+archivo legado no los contiene y no hay de dónde derivarlos.
+
+Consecuencia práctica: **la página actual sigue funcionando antes de promover el
+nuevo CSV a SharePoint**. La URL de origen no cambia.
+
+### Aislamiento de las medidas existentes
+
+El riesgo central de esta fase era que las filas de ROTACION alteraran los
+números que hoy muestra Retiros. Ocho medidas leen la tabla directamente y todas
+recibieron `Indicador = "RETIROS"`:
+
+`PBIP008 Fecha Corte`, `Tasa Futura`, `Banda Inferior`, `Banda Superior`,
+`Clasificacion`, `Modelo`, `Resumen Clasificacion` y `Control Desviacion Real`.
+
+Sin ese filtro, `SELECTEDVALUE` habría devuelto BLANK al encontrar dos valores,
+`DISTINCTCOUNT` habría contado grupos de ambos indicadores y `Control Desviacion
+Real` habría sumado dos denominadores.
+
+Además, `Clasificacion` y `Modelo` cambian el descarte `<> "REAL"` por una lista
+blanca explícita de los cuatro estados futuros. Con una lista negra, las filas
+`REAL_VALIDACION` de agosto habrían entrado en la selección y roto ambas medidas.
+Sobre los datos actuales el resultado es idéntico; el cambio las hace inmunes a
+estados nuevos.
+
+Las 11 medidas restantes derivan de estas y no tocan la tabla: no requirieron
+cambios.
+
+### Medidas nuevas
+
+14 medidas `PBIP008 Rotacion *`: serie real y futura, clasificación, las tres
+series por clasificación, las dos bandas, las tres componentes de QA
+(`Ingresos Proyectados`, `Retiros Proyectados`, `Denominador`), el detalle de los
+dos modelos, la rotación real de validación y un control oculto de composición.
+
+`PBIP008 Rotacion Real` **reutiliza la medida oficial `Indice_Rotacion`** en vez
+de recalcular la fórmula sobre el contrato: una sola definición de rotación en el
+modelo.
+
+No se crearon la tabla desconectada, el selector visual ni bookmarks: el slicer
+`Retiros | Rotación` es una fase posterior.
+
+### `CoberturaHistorica` en ROTACION
+
+Queda **nula**. El runner mide cobertura por componente, no de la banda
+compuesta; publicar una cifra que no se midió sería inventarla. La banda de
+ROTACION sí se publica, etiquetada como *banda de incertidumbre aproximada
+(80 %)*, y se propaga desde las bandas de cada componente asumiendo errores
+correlacionados: es el supuesto conservador, no una estimación conjunta.
+
+### Corte derivado
+
+`FECHA_CORTE = "2026-07-31"` era un literal que convivía con
+`ULTIMO_PERIODO_REAL_ESPERADO = 202607`: dos representaciones del mismo corte que
+podían desincronizarse. Ahora `dataset.fecha_corte_de()` es la única fuente de
+verdad y `FECHA_CORTE` se deriva de ella. Funciona para meses que no terminan en
+31 y para febreros bisiestos.
+
+### Estado
+
+`PASS con observaciones`. CSV candidato de 490 filas (245 por indicador), reproducible byte a byte, con las 12 validaciones del contrato en PASS y 57 pruebas en verde. Sin commit, push ni PR. El slicer no está implementado.
+La dependencia externa `PLAN DE REDUCCIÓN - FUENTE NO DISPONIBLE` sigue abierta,
+de modo que el Compromiso 2 no puede declararse cerrado.

@@ -1,6 +1,220 @@
 table Tbl_Medidas
 	lineageTag: bf0f5853-c510-4e8d-8ba2-4352941e31be
 
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Rotacion Ultimo Cierre' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
+			RETURN
+			    CALCULATE (
+			        [PBIP008 Rotacion Real],
+			        REMOVEFILTERS ( 'DimPeriodoYM' ),
+			        TREATAS ( { _IndiceCorte }, 'DimPeriodoYM'[IndexAnioMes] )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: e8924600-a3ce-476d-a729-a3335ec4905a
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Rotacion Variacion Mensual' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
+			VAR _TasaActual =
+			    CALCULATE (
+			        [PBIP008 Rotacion Real],
+			        REMOVEFILTERS ( 'DimPeriodoYM' ),
+			        TREATAS ( { _IndiceCorte }, 'DimPeriodoYM'[IndexAnioMes] )
+			    )
+			VAR _TasaAnterior =
+			    CALCULATE (
+			        [PBIP008 Rotacion Real],
+			        REMOVEFILTERS ( 'DimPeriodoYM' ),
+			        TREATAS ( { _IndiceCorte - 1 }, 'DimPeriodoYM'[IndexAnioMes] )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( _TasaActual ) && NOT ISBLANK ( _TasaAnterior ), _TasaActual - _TasaAnterior )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: 76c6b765-aaa6-4eba-81b0-6148bf8cada7
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Rotacion Referencia Futura' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceSiguiente = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte ) + 1
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            [PBIP008 Rotacion Futura],
+			            REMOVEFILTERS ( 'DimPeriodoYM' ),
+			            TREATAS ( { _IndiceSiguiente }, 'DimPeriodoYM'[IndexAnioMes] )
+			        )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: e6343bf7-125d-43ec-8382-744204b46457
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Rotacion Referencia o Sintesis' =
+			IF (
+			    NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			    [PBIP008 Rotacion Resumen Clasificacion],
+			    IF (
+			        [PBIP008 Rotacion Clasificacion] = "SIN_FORECAST",
+			        "Sin valor futuro",
+			        FORMAT ( [PBIP008 Rotacion Referencia Futura], "0.000 %" )
+			    )
+			)
+		displayFolder: PBIP-008 Selector
+		lineageTag: c44b584a-43ad-45b8-9492-df5bf2bcfeca
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Rotacion Resumen Clasificacion' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			VAR _Forecast =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "ROTACION",
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "FORECAST"
+			    )
+			VAR _Baseline =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "ROTACION",
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "BASELINE"
+			    )
+			VAR _Referencia =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "ROTACION",
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "REFERENCIA_DESCRIPTIVA"
+			    )
+			VAR _SinForecast =
+			    CALCULATE (
+			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
+			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "ROTACION",
+			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
+			        'Rotacion Proyectada'[Clasificacion] = "SIN_FORECAST"
+			    )
+			RETURN
+			    IF (
+			        NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        FORMAT ( COALESCE ( _Forecast, 0 ), "0" ) & " Forecast | "
+			            & FORMAT ( COALESCE ( _Baseline, 0 ), "0" ) & " Baseline | "
+			            & FORMAT ( COALESCE ( _Referencia, 0 ), "0" ) & " Referencia | "
+			            & FORMAT ( COALESCE ( _SinForecast, 0 ), "0" ) & " Sin forecast",
+			        [PBIP008 Rotacion Clasificacion]
+			    )
+		displayFolder: PBIP-008 Selector
+		lineageTag: ef5bfa37-2c4f-49b6-9627-936bad7c1726
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Indicador Seleccionado' =
+			VAR _Clave = SELECTEDVALUE ( 'PBIP008 Selector Indicador'[Clave], "RETIROS" )
+			RETURN IF ( _Clave = "ROTACION", "ROTACION", "RETIROS" )
+		displayFolder: PBIP-008 Selector
+		lineageTag: 6436df19-9296-4bb8-8872-5f01111d2e6e
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Real' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Tasa Real], "ROTACION", [PBIP008 Rotacion Real], [PBIP008 Tasa Real] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: 6b086323-96fa-4d56-9d83-c0c990e5e1d1
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Forecast' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Tasa Forecast], "ROTACION", [PBIP008 Rotacion Forecast], [PBIP008 Tasa Forecast] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: b226d994-c814-4569-9408-6f736e31e8ed
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Baseline' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Tasa Baseline], "ROTACION", [PBIP008 Rotacion Baseline], [PBIP008 Tasa Baseline] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: c157f96f-9d90-4be7-9dc4-1239982258b4
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Referencia' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Referencia Descriptiva], "ROTACION", [PBIP008 Rotacion Referencia Descriptiva], [PBIP008 Referencia Descriptiva] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: 01b8bcb2-5611-48dc-8d1b-b1d2d90b1395
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Banda Inferior' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Banda Inferior], "ROTACION", [PBIP008 Rotacion Banda Inferior], [PBIP008 Banda Inferior] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: 1d2c9c2f-c832-48d9-b097-1179602953e1
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Banda Superior' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Banda Superior], "ROTACION", [PBIP008 Rotacion Banda Superior], [PBIP008 Banda Superior] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: 205fc399-aa27-4e34-a13b-8f2a29bb98f8
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Ultimo Cierre' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Tasa Ultimo Cierre], "ROTACION", [PBIP008 Rotacion Ultimo Cierre], [PBIP008 Tasa Ultimo Cierre] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Selector
+		lineageTag: bfd78392-6884-4e27-a474-fba56a5b4991
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Referencia Sintesis' = SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Referencia o Sintesis], "ROTACION", [PBIP008 Rotacion Referencia o Sintesis], [PBIP008 Referencia o Sintesis] )
+		displayFolder: PBIP-008 Selector
+		lineageTag: f840f517-b916-4fab-acb0-1a76b37f5ab2
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Variacion Mensual' = 100 * SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Variacion Mensual], "ROTACION", [PBIP008 Rotacion Variacion Mensual], [PBIP008 Variacion Mensual] )
+		formatString: +0.00" pp";-0.00" pp";0.00" pp"
+		displayFolder: PBIP-008 Selector
+		lineageTag: 7cf08f7d-cac1-4c4b-8b1d-8d60c1aa3db6
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Clasificacion' =
+			IF ( NOT HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ), "TODOS",
+			SWITCH ( [PBIP008 Indicador Seleccionado], "RETIROS", [PBIP008 Clasificacion], "ROTACION", [PBIP008 Rotacion Clasificacion], [PBIP008 Clasificacion] ) )
+		displayFolder: PBIP-008 Selector
+		lineageTag: d5bf4194-9cff-4e2c-a8c3-f2583c6c8ec0
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Metodologia' =
+			SWITCH ( [PBIP008 Indicador Seleccionado],
+			"ROTACION", "Se proyectan Ingresos y Retiros por separado y se calcula la rotación por componentes. Total-Sena se mantiene al corte 31/07/2026; la planta no se proyecta. BASELINE: no se acreditó mejora suficiente frente al naive. Banda aproximada del 80 %, no intervalo predictivo calibrado. Referencia descriptiva no es pronóstico; SIN_FORECAST no es cero."
+			    & UNICHAR ( 10 ) & [PBIP008 Rotacion Detalle Modelos],
+			"RETIROS", [PBIP008 Detalle Metodologico] & UNICHAR ( 10 ) & "FORECAST y BASELINE: backtesting de origen móvil, corte 31/07/2026. REFERENCIA DESCRIPTIVA no es pronóstico; SIN_FORECAST no es cero. Banda aproximada del 80 %, no intervalo predictivo calibrado.",
+			[PBIP008 Detalle Metodologico] )
+		displayFolder: PBIP-008 Selector
+		lineageTag: 537666d2-7823-4f66-86b6-c736d510baec
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Estado' =
+			SWITCH ( [PBIP008 Indicador Seleccionado], "ROTACION", "Analizando: Rotación", "RETIROS", "Analizando: Retiros", "Analizando: Retiros" )
+			& IF ( HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ), " | " & [PBIP008 Dinamico Clasificacion], " | Selecciona un grupo para ver la proyección" )
+		displayFolder: PBIP-008 Selector
+		lineageTag: ad2f4d58-3427-4c9b-9894-bfbcfd415d56
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Titulo Grafico' = SWITCH ( [PBIP008 Indicador Seleccionado], "ROTACION", "Índice de rotación - REAL y proyección autorizada", "RETIROS", "Tasa mensual de retiros - REAL y proyección autorizada", "Tasa mensual de retiros - REAL y proyección autorizada" )
+		displayFolder: PBIP-008 Selector
+		lineageTag: 0cc26b0f-3d38-4dee-b4e4-f3b49373bd65
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Titulo Cierre' = SWITCH ( [PBIP008 Indicador Seleccionado], "ROTACION", "Rotación último cierre", "RETIROS", "Tasa último cierre", "Tasa último cierre" )
+		displayFolder: PBIP-008 Selector
+		lineageTag: 31b025a4-c349-46b6-9360-89f5c421c0cd
+
+	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'PBIP008 Dinamico Titulo Exposicion' = SWITCH ( [PBIP008 Indicador Seleccionado], "ROTACION", "Exposición por Grupo Empresa - índice de rotación", "RETIROS", "Exposición por Grupo Empresa - tasa de retiros", "Exposición por Grupo Empresa - tasa de retiros" )
+		displayFolder: PBIP-008 Selector
+		lineageTag: f0f18808-8f51-4e5b-ba97-e0d6a00d62ee
+
 	measure 'Filtro Trimestre Slicer' =
 			
 			VAR PeriodoSel =
@@ -1364,7 +1578,8 @@ table Tbl_Medidas
 			    MAX ( 'Rotacion Proyectada'[FechaCorte] ),
 			    REMOVEFILTERS ( 'DimPeriodoYM' ),
 			    REMOVEFILTERS ( 'Grupo Empresarial' ),
-			    REMOVEFILTERS ( 'Rotacion Proyectada' )
+			    REMOVEFILTERS ( 'Rotacion Proyectada' ),
+			    'Rotacion Proyectada'[Indicador] = "RETIROS"
 			)
 		formatString: dd/MM/yyyy
 		displayFolder: PBIP-008 Rotacion Proyectada
@@ -1395,6 +1610,7 @@ table Tbl_Medidas
 			        BLANK (),
 			        CALCULATE (
 			            SELECTEDVALUE ( 'Rotacion Proyectada'[Valor] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "RETIROS" ),
 			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
 			            KEEPFILTERS (
 			                'Rotacion Proyectada'[TipoRegistro]
@@ -1412,6 +1628,7 @@ table Tbl_Medidas
 			    HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
 			    CALCULATE (
 			        SELECTEDVALUE ( 'Rotacion Proyectada'[BandaInferior] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "RETIROS" ),
 			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] IN { "FORECAST", "BASELINE" } )
 			    )
 			)
@@ -1425,6 +1642,7 @@ table Tbl_Medidas
 			    HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
 			    CALCULATE (
 			        SELECTEDVALUE ( 'Rotacion Proyectada'[BandaSuperior] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "RETIROS" ),
 			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] IN { "FORECAST", "BASELINE" } )
 			    )
 			)
@@ -1441,8 +1659,12 @@ table Tbl_Medidas
 			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
 			        CALCULATE (
 			            SELECTEDVALUE ( 'Rotacion Proyectada'[Clasificacion] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "RETIROS" ),
 			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
-			            KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] <> "REAL" )
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA", "SIN_FORECAST" }
+			            )
 			        )
 			    )
 		displayFolder: PBIP-008 Rotacion Proyectada
@@ -1457,6 +1679,11 @@ table Tbl_Medidas
 			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
 			        CALCULATE (
 			            SELECTEDVALUE ( 'Rotacion Proyectada'[Modelo] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "RETIROS" ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA", "SIN_FORECAST" }
+			            ),
 			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte )
 			        )
 			    )
@@ -1471,6 +1698,7 @@ table Tbl_Medidas
 			    CALCULATE (
 			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
 			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "RETIROS",
 			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
 			        'Rotacion Proyectada'[Clasificacion] = "FORECAST"
 			    )
@@ -1478,6 +1706,7 @@ table Tbl_Medidas
 			    CALCULATE (
 			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
 			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "RETIROS",
 			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
 			        'Rotacion Proyectada'[Clasificacion] = "BASELINE"
 			    )
@@ -1485,6 +1714,7 @@ table Tbl_Medidas
 			    CALCULATE (
 			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
 			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "RETIROS",
 			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
 			        'Rotacion Proyectada'[Clasificacion] = "REFERENCIA_DESCRIPTIVA"
 			    )
@@ -1492,6 +1722,7 @@ table Tbl_Medidas
 			    CALCULATE (
 			        DISTINCTCOUNT ( 'Rotacion Proyectada'[Grupo Empresa] ),
 			        REMOVEFILTERS ( 'Grupo Empresarial' ),
+			        'Rotacion Proyectada'[Indicador] = "RETIROS",
 			        'Rotacion Proyectada'[Periodo] > _PeriodoCorte,
 			        'Rotacion Proyectada'[Clasificacion] = "SIN_FORECAST"
 			    )
@@ -1529,6 +1760,7 @@ table Tbl_Medidas
 			            SUM ( 'Rotacion Proyectada'[Retiros] ),
 			            SUM ( 'Rotacion Proyectada'[Total-Sena] )
 			        ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "RETIROS" ),
 			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] = "REAL" )
 			    )
 			RETURN
@@ -1622,6 +1854,235 @@ table Tbl_Medidas
 		formatString: 0.00 %
 		displayFolder: PBIP-008 Rotacion Proyectada
 		lineageTag: 355e25d3-1210-481d-ae8a-64717f0720dd
+
+	/// Indice_Rotacion real hasta Fecha Corte. Reutiliza la medida oficial del modelo en
+	/// vez de recalcular la formula sobre el contrato: una sola definicion de rotacion.
+	measure 'PBIP008 Rotacion Real' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
+			RETURN
+			    CALCULATE (
+			        [Indice_Rotacion],
+			        KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" ),
+			        KEEPFILTERS ( 'DimPeriodoYM'[IndexAnioMes] <= _IndiceCorte )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: e243c234-9f2e-4f8f-8182-dffe38b7c263
+
+	/// Indice_Rotacion proyectado del grupo seleccionado. BLANK en Todos y en SIN_FORECAST.
+	/// Excluye REAL y REAL_VALIDACION: agosto real no sustituye a su propia proyeccion.
+	measure 'PBIP008 Rotacion Futura' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Valor] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA" }
+			            )
+			        )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 7a5a7992-f26d-4899-b44d-06fc5bebf3ef
+
+	/// Clasificacion de la rotacion proyectada. La gobierna la componente mas debil: no
+	/// puede ser mas confiable que Ingresos o Retiros por separado.
+	measure 'PBIP008 Rotacion Clasificacion' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Clasificacion] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA", "SIN_FORECAST" }
+			            )
+			        )
+			    )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 0aa3d221-7115-4641-a3c7-2688615d565a
+
+	/// Serie futura solo cuando la composicion alcanza FORECAST.
+	measure 'PBIP008 Rotacion Forecast' = IF ( [PBIP008 Rotacion Clasificacion] = "FORECAST", [PBIP008 Rotacion Futura] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: da083e0d-aa09-43ef-9a18-a33da99a7d4f
+
+	/// Serie futura publicada como BASELINE; no implica mejora sobre el metodo naive.
+	measure 'PBIP008 Rotacion Baseline' = IF ( [PBIP008 Rotacion Clasificacion] = "BASELINE", [PBIP008 Rotacion Futura] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: b5137bd6-be7b-4d15-84e8-392abf74ec4b
+
+	/// Referencia descriptiva de rotacion. Nunca debe presentarse como pronostico.
+	measure 'PBIP008 Rotacion Referencia Descriptiva' = IF ( [PBIP008 Rotacion Clasificacion] = "REFERENCIA_DESCRIPTIVA", [PBIP008 Rotacion Futura] )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 10c5f346-98ac-47a1-b70c-420cd284e63a
+
+	/// Limite de la banda de incertidumbre aproximada (80 %) de la rotacion. Se propaga
+	/// desde las bandas de cada componente asumiendo errores correlacionados: es el
+	/// supuesto conservador, no una estimacion conjunta.
+	measure 'PBIP008 Rotacion Banda Inferior' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[BandaInferior] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] IN { "FORECAST", "BASELINE" } )
+			        )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 0983ad9a-06a9-4667-9655-238ac9a844bb
+
+	/// Limite de la banda de incertidumbre aproximada (80 %) de la rotacion. Se propaga
+	/// desde las bandas de cada componente asumiendo errores correlacionados: es el
+	/// supuesto conservador, no una estimacion conjunta.
+	measure 'PBIP008 Rotacion Banda Superior' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[BandaSuperior] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] IN { "FORECAST", "BASELINE" } )
+			        )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 1db538c0-5fd1-4d0c-bf6c-9a12a5751df8
+
+	/// Componente Ingresos proyectada. Sin redondear: alimenta el indice tal cual.
+	measure 'PBIP008 Rotacion Ingresos Proyectados' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Ingresos] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA" }
+			            )
+			        )
+			    )
+		formatString: #,0.0
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 3885f324-c559-4601-a6a3-0f4647be8f87
+
+	/// Componente Retiros proyectada, derivada de la tasa por el denominador congelado.
+	measure 'PBIP008 Rotacion Retiros Proyectados' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Retiros] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA" }
+			            )
+			        )
+			    )
+		formatString: #,0.0
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 0599c50f-428e-473d-9563-32ea73fbfe92
+
+	/// Total-Sena observado al corte y arrastrado. La planta no se proyecta.
+	measure 'PBIP008 Rotacion Denominador' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ),
+			        CALCULATE (
+			            SELECTEDVALUE ( 'Rotacion Proyectada'[Total-Sena] ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			            KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			            KEEPFILTERS (
+			                'Rotacion Proyectada'[TipoRegistro]
+			                    IN { "FORECAST", "BASELINE", "REFERENCIA_DESCRIPTIVA" }
+			            )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 56a64de3-fd42-4d50-8814-de6599f13ee2
+
+	/// Los dos metodos que componen la rotacion. La composicion no debe ocultar de que
+	/// depende cada componente.
+	measure 'PBIP008 Rotacion Detalle Modelos' =
+			VAR _Ing =
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Rotacion Proyectada'[ModeloIngresos] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" )
+			    )
+			VAR _Ret =
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Rotacion Proyectada'[ModeloRetiros] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" )
+			    )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Ing ) && NOT ISBLANK ( _Ret ),
+			        "Ingresos: " & _Ing & " | Retiros: " & _Ret
+			    )
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: 721bb4cc-91e6-4c0b-89a3-2a4b5fdde7bd
+
+	/// Rotacion real de un mes posterior al corte. Existe para comparar Real vs Proyectado:
+	/// no entrena nada y no sustituye la proyeccion del mismo mes.
+	measure 'PBIP008 Rotacion Real Validacion' =
+			VAR _FechaCorte = [PBIP008 Fecha Corte]
+			VAR _PeriodoCorte = YEAR ( _FechaCorte ) * 100 + MONTH ( _FechaCorte )
+			RETURN
+			    CALCULATE (
+			        SELECTEDVALUE ( 'Rotacion Proyectada'[Valor] ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Indicador] = "ROTACION" ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[Periodo] > _PeriodoCorte ),
+			        KEEPFILTERS ( 'Rotacion Proyectada'[TipoRegistro] = "REAL_VALIDACION" )
+			    )
+		formatString: 0.00 %
+		displayFolder: PBIP-008 Rotacion Proyectada
+		lineageTag: fa83e52f-75dd-46c1-8dbd-12e4388da40b
+
+	/// Control tecnico: la rotacion publicada menos ((Ingresos + Retiros) / 2) / Total-Sena.
+	/// Debe ser 0; si no, el contrato y la formula oficial se separaron.
+	measure 'PBIP008 Rotacion Control Composicion' =
+			VAR _Ing = [PBIP008 Rotacion Ingresos Proyectados]
+			VAR _Ret = [PBIP008 Rotacion Retiros Proyectados]
+			VAR _Sena = [PBIP008 Rotacion Denominador]
+			RETURN
+			    [PBIP008 Rotacion Futura] - DIVIDE ( DIVIDE ( _Ing + _Ret, 2 ), _Sena )
+		formatString: 0.000000 %
+		isHidden
+		displayFolder: PBIP-008 Rotacion Proyectada\Controles
+		lineageTag: 75318190-2408-4a35-af36-45d8c7a5aede
 
 	/// Estado ejecutivo del selector: TODOS cuando no hay un único grupo y clasificación autorizada cuando hay uno.
 	measure 'PBIP008 Estado Seleccion' = IF ( HASONEVALUE ( 'Grupo Empresarial'[Grupo Empresarial] ), [PBIP008 Clasificacion], "TODOS" )
