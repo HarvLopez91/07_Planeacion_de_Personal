@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "cba349945ec4b0577321",
   "position": {
-    "x": 390,
-    "y": 468.62068965517238,
+    "x": 302.7586206896552,
+    "y": 468.6206896551724,
     "z": 5000,
-    "height": 294.82758620689657,
-    "width": 570,
+    "height": 252,
+    "width": 1024,
     "tabOrder": 4000
   },
   "visual": {
@@ -27,7 +27,23 @@
                 }
               },
               "queryRef": "Mes.Meses",
-              "nativeQueryRef": "Meses"
+              "nativeQueryRef": "Mes",
+              "displayName": "Mes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Ppto_Gasto_Personal_Tabla"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Ppto_Gasto_Personal_Tabla",
+              "nativeQueryRef": "Gasto Ppto.",
+              "displayName": "Gasto Ppto."
             },
             {
               "field": {
@@ -41,8 +57,53 @@
                 }
               },
               "queryRef": "Tbl_Medidas.Prod_Gasto_Personal_Tabla",
-              "nativeQueryRef": "Gasto Personal",
-              "displayName": "Gasto Personal"
+              "nativeQueryRef": "Gasto Real",
+              "displayName": "Gasto Real"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Diferencia_Gasto_Tabla"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Diferencia_Gasto_Tabla",
+              "nativeQueryRef": "Brecha Gasto",
+              "displayName": "Brecha Gasto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Variacion_Gasto_Pct"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Variacion_Gasto_Pct",
+              "nativeQueryRef": "Var. Gasto %",
+              "displayName": "Var. Gasto %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Ppto_Ventas_Tabla"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Ppto_Ventas_Tabla",
+              "nativeQueryRef": "Ventas Ppto.",
+              "displayName": "Ventas Ppto."
             },
             {
               "field": {
@@ -56,8 +117,8 @@
                 }
               },
               "queryRef": "Tbl_Medidas.Prod_Ingreso_Operacional_Tabla",
-              "nativeQueryRef": "Ingreso Operacional",
-              "displayName": "Ingreso Operacional"
+              "nativeQueryRef": "Ventas Reales",
+              "displayName": "Ventas Reales"
             },
             {
               "field": {
@@ -67,12 +128,57 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Prod_Efic_Tabla"
+                  "Property": "Prod_Diferencia_Ventas_Tabla"
                 }
               },
-              "queryRef": "Tbl_Medidas.Prod_Efic_Tabla",
-              "nativeQueryRef": "Productividad",
-              "displayName": "Productividad"
+              "queryRef": "Tbl_Medidas.Prod_Diferencia_Ventas_Tabla",
+              "nativeQueryRef": "Brecha Ventas",
+              "displayName": "Brecha Ventas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Variacion_Ventas_Pct"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Variacion_Ventas_Pct",
+              "nativeQueryRef": "Var. Ventas %",
+              "displayName": "Var. Ventas %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Ratio_Gasto_Ventas_Ppto"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto",
+              "nativeQueryRef": "Gasto/Ventas Ppto.",
+              "displayName": "Gasto/Ventas Ppto."
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Prod_Ratio_Gasto_Ventas_Real"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real",
+              "nativeQueryRef": "Gasto/Ventas Real",
+              "displayName": "Gasto/Ventas Real"
             }
           ]
         }
@@ -109,7 +215,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10D"
                 }
               }
             },
@@ -119,7 +225,396 @@
                   "Value": "false"
                 }
               }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#24384B'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#24384B'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F3F6F8'"
+                    }
+                  }
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 4,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Tbl_Medidas"
+                                    }
+                                  },
+                                  "Property": "Prod_Variacion_Gasto_Pct"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "-0.05D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#2E7D32'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 2,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Tbl_Medidas"
+                                    }
+                                  },
+                                  "Property": "Prod_Variacion_Gasto_Pct"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0.05D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#B42318'"
+                            }
+                          }
+                        }
+                      ],
+                      "DefaultValue": {
+                        "Literal": {
+                          "Value": "'#A15C00'"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "icon": {
+              "kind": "Icon",
+              "layout": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Before'"
+                  }
+                }
+              },
+              "verticalAlignment": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Middle'"
+                  }
+                }
+              },
+              "value": {
+                "expr": {
+                  "Conditional": {
+                    "Cases": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 4,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "Tbl_Medidas"
+                                  }
+                                },
+                                "Property": "Prod_Variacion_Gasto_Pct"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "-0.05D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleGreenPatternFill'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 2,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "Tbl_Medidas"
+                                  }
+                                },
+                                "Property": "Prod_Variacion_Gasto_Pct"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0.05D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleRedPatternFill'"
+                          }
+                        }
+                      }
+                    ],
+                    "DefaultValue": {
+                      "Literal": {
+                        "Value": "'CircleYellowPatternFill'"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Tbl_Medidas.Prod_Variacion_Gasto_Pct"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 2,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Tbl_Medidas"
+                                    }
+                                  },
+                                  "Property": "Prod_Variacion_Ventas_Pct"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0.05D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#2E7D32'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 4,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Tbl_Medidas"
+                                    }
+                                  },
+                                  "Property": "Prod_Variacion_Ventas_Pct"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "-0.05D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#B42318'"
+                            }
+                          }
+                        }
+                      ],
+                      "DefaultValue": {
+                        "Literal": {
+                          "Value": "'#A15C00'"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "icon": {
+              "kind": "Icon",
+              "layout": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Before'"
+                  }
+                }
+              },
+              "verticalAlignment": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Middle'"
+                  }
+                }
+              },
+              "value": {
+                "expr": {
+                  "Conditional": {
+                    "Cases": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 2,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "Tbl_Medidas"
+                                  }
+                                },
+                                "Property": "Prod_Variacion_Ventas_Pct"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0.05D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleGreenPatternFill'"
+                          }
+                        }
+                      },
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 4,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "Tbl_Medidas"
+                                  }
+                                },
+                                "Property": "Prod_Variacion_Ventas_Pct"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "-0.05D"
+                              }
+                            }
+                          }
+                        },
+                        "Value": {
+                          "Literal": {
+                            "Value": "'CircleRedPatternFill'"
+                          }
+                        }
+                      }
+                    ],
+                    "DefaultValue": {
+                      "Literal": {
+                        "Value": "'CircleYellowPatternFill'"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Tbl_Medidas.Prod_Variacion_Ventas_Pct"
           }
         }
       ],
@@ -136,7 +631,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "10D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
@@ -151,9 +653,8 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 3,
-                      "Percent": -0.5
+                    "Literal": {
+                      "Value": "'#1A3059'"
                     }
                   }
                 }
@@ -163,11 +664,38 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
                     }
                   }
+                }
+              }
+            },
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'fixedWidth'"
+                }
+              }
+            },
+            "customColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -177,6 +705,27 @@
       "columnFormatting": [
         {
           "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Mes.Meses"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
             "styleTotal": {
               "expr": {
                 "Literal": {
@@ -184,10 +733,31 @@
                 }
               }
             },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ppto_Gasto_Personal_Tabla"
+          }
+        },
+        {
+          "properties": {
             "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "'Center'"
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             },
@@ -208,7 +778,7 @@
             "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "'Center'"
+                  "Value": "'Right'"
                 }
               }
             },
@@ -228,7 +798,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Ingreso_Operacional_Tabla"
+            "metadata": "Tbl_Medidas.Prod_Diferencia_Gasto_Tabla"
           }
         },
         {
@@ -256,13 +826,189 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Efic_Tabla"
+            "metadata": "Tbl_Medidas.Prod_Variacion_Gasto_Pct"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ppto_Ventas_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ingreso_Operacional_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Diferencia_Ventas_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Variacion_Ventas_Pct"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real"
           }
         }
       ],
       "columnWidth": [
         {
-          "properties": {},
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "70D"
+                }
+              }
+            }
+          },
           "selector": {
             "metadata": "Mes.Meses"
           }
@@ -272,7 +1018,21 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "145D"
+                  "Value": "93D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ppto_Gasto_Personal_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "93D"
                 }
               }
             }
@@ -286,7 +1046,49 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "180D"
+                  "Value": "93D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Diferencia_Gasto_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "76D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Variacion_Gasto_Pct"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "93D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ppto_Ventas_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "93D"
                 }
               }
             }
@@ -300,13 +1102,55 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "120D"
+                  "Value": "93D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Prod_Efic_Tabla"
+            "metadata": "Tbl_Medidas.Prod_Diferencia_Ventas_Tabla"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Variacion_Ventas_Pct"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real"
           }
         }
       ]
@@ -325,7 +1169,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'2025'"
+                  "Value": "'Presupuesto vs. Ejecución | Gasto y Ventas'"
                 }
               }
             },

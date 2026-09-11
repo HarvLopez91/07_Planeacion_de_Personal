@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "76fbb82301d3f6b571c3",
   "position": {
-    "x": 921.11111111111109,
+    "x": 921.1111111111111,
     "y": 115.55555555555556,
     "z": 11000,
     "height": 352.22222222222223,
@@ -42,10 +42,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Efic"
+                  "Property": "Prod_Ratio_Gasto_Ventas_Real"
                 }
               },
-              "queryRef": "Tbl_Medidas.Efic",
+              "queryRef": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real",
               "nativeQueryRef": "Ejecución",
               "displayName": "Ejecución"
             }
@@ -61,10 +61,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "%Efiprom"
+                  "Property": "Prod_Ratio_Gasto_Ventas_Ppto"
                 }
               },
-              "queryRef": "Tbl_Medidas.%Efiprom",
+              "queryRef": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto",
               "nativeQueryRef": "% Presupuestado",
               "displayName": "% Presupuestado"
             }
@@ -349,7 +349,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Efic"
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real"
           }
         },
         {
@@ -363,7 +363,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.%Efiprom"
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto"
           }
         }
       ],
