@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "9bcb53c0b346ba0d28c4",
   "position": {
-    "x": 974.62823572608772,
-    "y": 726.12447218652471,
+    "x": 974.6282357260877,
+    "y": 726.1244721865247,
     "z": 6000,
-    "height": 96.934092160822473,
+    "height": 96.93409216082247,
     "width": 260.84082981457686,
     "tabOrder": 5000
   },
@@ -23,10 +23,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "%Efiprom"
+                  "Property": "Prod_Ratio_Gasto_Ventas_Ppto"
                 }
               },
-              "queryRef": "Tbl_Medidas.%Efiprom",
+              "queryRef": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto",
               "nativeQueryRef": "Gasto vs Venta Presupuestado",
               "displayName": "Gasto vs Venta Presupuestado"
             },
@@ -38,10 +38,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Efic"
+                  "Property": "Prod_Ratio_Gasto_Ventas_Real"
                 }
               },
-              "queryRef": "Tbl_Medidas.Efic",
+              "queryRef": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real",
               "nativeQueryRef": "Gasto vs Venta Ejecutado",
               "displayName": "Gasto vs Venta Ejecutado"
             }
@@ -62,7 +62,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Efic"
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real"
           }
         },
         {
@@ -76,7 +76,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.%Efiprom"
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto"
           }
         }
       ],
@@ -171,7 +171,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.%Efiprom"
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Ppto"
           }
         },
         {
@@ -192,7 +192,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Efic"
+            "metadata": "Tbl_Medidas.Prod_Ratio_Gasto_Ventas_Real"
           }
         }
       ]

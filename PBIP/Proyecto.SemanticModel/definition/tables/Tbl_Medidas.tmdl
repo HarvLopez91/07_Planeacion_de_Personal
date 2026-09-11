@@ -1491,29 +1491,55 @@ table Tbl_Medidas
 
 		changedProperty = IsHidden
 
-	measure Prod_Gasto_Personal_Tabla = [Prod_Gasto_Personal]
+	/// PBIP-009. Periodo comparable: con varios meses suma solo los meses <= [Prod_Mes_Corte_Gasto] de cada Grupo x Año; con un mes, su valor normal.
+	measure Prod_Gasto_Personal_Tabla =
+			IF (
+			    HASONEVALUE ( Mes[Meses] ),
+			    [Prod_Gasto_MM],
+			    SUMX (
+			        SUMMARIZE (
+			            'Planta Ppto',
+			            'Planta Ppto'[Grupo Empresa],
+			            'Planta Ppto'[Año]
+			        ),
+			        VAR _Corte = [Prod_Mes_Corte_Gasto]
+			        RETURN
+			            IF (
+			                ISBLANK ( _Corte ),
+			                BLANK (),
+			                CALCULATE ( [Prod_Gasto_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			            )
+			    )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
 		displayFolder: 05 Productividad
 		lineageTag: 6a1c9c2a-4e8b-4f0a-9c1e-2f7d3a5b6c8d
 
-		formatStringDefinition =
-				IF (
-				    [Prod_Usar_Millones],
-				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
-				    "$ #,0;-$ #,0;$ 0"
-				)
-
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
-	measure Prod_Ingreso_Operacional_Tabla = [Prod_Ingreso_Operacional]
+	/// PBIP-009. Periodo comparable: con varios meses suma solo los meses <= [Prod_Mes_Corte_Ventas] de cada Grupo x Año; con un mes, su valor normal.
+	measure Prod_Ingreso_Operacional_Tabla =
+			IF (
+			    HASONEVALUE ( Mes[Meses] ),
+			    [Prod_Ventas_MM],
+			    SUMX (
+			        SUMMARIZE (
+			            'Planta Ppto',
+			            'Planta Ppto'[Grupo Empresa],
+			            'Planta Ppto'[Año]
+			        ),
+			        VAR _Corte = [Prod_Mes_Corte_Ventas]
+			        RETURN
+			            IF (
+			                ISBLANK ( _Corte ),
+			                BLANK (),
+			                CALCULATE ( [Prod_Ventas_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			            )
+			    )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
 		displayFolder: 05 Productividad
 		lineageTag: 7b2d0d3b-5f9c-4a1b-8d2f-3a8e4b6c7d9e
-
-		formatStringDefinition =
-				IF (
-				    [Prod_Usar_Millones],
-				    "$ #,0,,.0 ""mill."";-$ #,0,,.0 ""mill."";$ 0.0 ""mill.""",
-				    "$ #,0;-$ #,0;$ 0"
-				)
 
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
@@ -2108,6 +2134,411 @@ table Tbl_Medidas
 			    )
 		displayFolder: PBIP-008 Rotacion Proyectada
 		lineageTag: 9f472c3c-42bf-4cc0-822a-60a9bb2e739d
+
+	/// PBIP-009. Divisor que lleva los importes de 'Planta Ppto' a MM COP.
+	/// La escala almacenada varia por Grupo Empresa y Año; se demostro con la prueba
+	/// de gasto por colaborador, el ratio Gasto/Ventas y la conciliacion de julio 2026
+	/// (Specs/0031 §3.5). Devuelve BLANK en combinaciones sin evidencia: no se adivina.
+	measure Prod_Factor_MM =
+			VAR _Grupo =
+			    SELECTEDVALUE ( 'Planta Ppto'[Grupo Empresa] )
+			VAR _Anio =
+			    SELECTEDVALUE ( 'Planta Ppto'[Año] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        _Anio = "2026" && _Grupo = "Challenger", 1000000,
+			        _Anio = "2026", 1,
+			        _Anio = "2025", 1000000,
+			        _Anio = "2024"
+			            && _Grupo IN { "Fundación Challenger", "Grupo Sky" }, 1,
+			        _Anio = "2024", 1000000,
+			        BLANK ()
+			    )
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		isHidden
+		lineageTag: 3f1c9a20-7d64-4b18-9e52-0a4c6d81b311
+
+	/// PBIP-009. Presupuesto de gasto en MM COP. Normaliza por Grupo Empresa x Año
+	/// ANTES de agregar, de modo que la vista consolidada sume magnitudes comparables.
+	measure Prod_Ppto_Gasto_MM =
+			SUMX (
+			    SUMMARIZE (
+			        'Planta Ppto',
+			        'Planta Ppto'[Grupo Empresa],
+			        'Planta Ppto'[Año]
+			    ),
+			    VAR _Factor = [Prod_Factor_MM]
+			    VAR _Valor =
+			        CALCULATE (
+			            SUM ( 'Planta Ppto'[Ppto Gasto Personal] ),
+			            KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" )
+			        )
+			    RETURN
+			        IF (
+			            ISBLANK ( _Factor ) || ISBLANK ( _Valor ),
+			            BLANK (),
+			            DIVIDE ( _Valor, _Factor )
+			        )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		lineageTag: 5a2e7b41-8c93-4f27-a6d1-2b8f0e935c47
+
+	/// PBIP-009. Gasto de personal ejecutado en MM COP. Misma normalizacion previa a la suma.
+	measure Prod_Gasto_MM =
+			SUMX (
+			    SUMMARIZE (
+			        'Planta Ppto',
+			        'Planta Ppto'[Grupo Empresa],
+			        'Planta Ppto'[Año]
+			    ),
+			    VAR _Factor = [Prod_Factor_MM]
+			    VAR _Valor =
+			        CALCULATE (
+			            SUM ( 'Planta Ppto'[Gasto Personal] ),
+			            KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" )
+			        )
+			    RETURN
+			        IF (
+			            ISBLANK ( _Factor ) || ISBLANK ( _Valor ),
+			            BLANK (),
+			            DIVIDE ( _Valor, _Factor )
+			        )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		lineageTag: 6b3f8c52-9da4-4038-b7e2-3c9a1fa46d58
+
+	/// PBIP-009. Presupuesto de ventas en MM COP. Misma normalizacion previa a la suma.
+	measure Prod_Ppto_Ventas_MM =
+			SUMX (
+			    SUMMARIZE (
+			        'Planta Ppto',
+			        'Planta Ppto'[Grupo Empresa],
+			        'Planta Ppto'[Año]
+			    ),
+			    VAR _Factor = [Prod_Factor_MM]
+			    VAR _Valor =
+			        CALCULATE (
+			            SUM ( 'Planta Ppto'[Ppto Ventas (MM)] ),
+			            KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" )
+			        )
+			    RETURN
+			        IF (
+			            ISBLANK ( _Factor ) || ISBLANK ( _Valor ),
+			            BLANK (),
+			            DIVIDE ( _Valor, _Factor )
+			        )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		lineageTag: 7c4a9d63-aeb5-4149-c8f3-4dab2fb57e69
+
+	/// PBIP-009. Ventas ejecutadas en MM COP. Misma normalizacion previa a la suma.
+	measure Prod_Ventas_MM =
+			SUMX (
+			    SUMMARIZE (
+			        'Planta Ppto',
+			        'Planta Ppto'[Grupo Empresa],
+			        'Planta Ppto'[Año]
+			    ),
+			    VAR _Factor = [Prod_Factor_MM]
+			    VAR _Valor =
+			        CALCULATE (
+			            SUM ( 'Planta Ppto'[Ventas (MM)] ),
+			            KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" )
+			        )
+			    RETURN
+			        IF (
+			            ISBLANK ( _Factor ) || ISBLANK ( _Valor ),
+			            BLANK (),
+			            DIVIDE ( _Valor, _Factor )
+			        )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		lineageTag: 8d5bae74-bfc6-425a-d904-5ebc3ca68f7a
+
+	/// PBIP-009. Gasto sobre ventas presupuestado en MM COP del periodo comparable.
+	/// Con varios meses usa solo los meses <= [Prod_Mes_Corte_Ratio] de cada Grupo x Año,
+	/// asi numerador y denominador cubren los mismos meses; con un mes, su valor normal.
+	/// BLANK si falta un importe o el denominador es cero. No sustituye a [Efic] ni a [%Efiprom].
+	measure Prod_Ratio_Gasto_Ventas_Ppto =
+			VAR _UnMes = HASONEVALUE ( Mes[Meses] )
+			VAR _Gasto =
+			    IF (
+			        _UnMes,
+			        [Prod_Ppto_Gasto_MM],
+			        SUMX (
+			            SUMMARIZE (
+			                'Planta Ppto',
+			                'Planta Ppto'[Grupo Empresa],
+			                'Planta Ppto'[Año]
+			            ),
+			            VAR _Corte = [Prod_Mes_Corte_Ratio]
+			            RETURN
+			                IF (
+			                    ISBLANK ( _Corte ),
+			                    BLANK (),
+			                    CALCULATE ( [Prod_Ppto_Gasto_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			                )
+			        )
+			    )
+			VAR _Ventas =
+			    IF (
+			        _UnMes,
+			        [Prod_Ppto_Ventas_MM],
+			        SUMX (
+			            SUMMARIZE (
+			                'Planta Ppto',
+			                'Planta Ppto'[Grupo Empresa],
+			                'Planta Ppto'[Año]
+			            ),
+			            VAR _Corte = [Prod_Mes_Corte_Ratio]
+			            RETURN
+			                IF (
+			                    ISBLANK ( _Corte ),
+			                    BLANK (),
+			                    CALCULATE ( [Prod_Ppto_Ventas_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			                )
+			        )
+			    )
+			RETURN
+			    IF (
+			        ISBLANK ( _Gasto )
+			            || ISBLANK ( _Ventas )
+			            || _Ventas = 0,
+			        BLANK (),
+			        DIVIDE ( _Gasto, _Ventas )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		lineageTag: 9e6cbf85-c0d7-436b-ea15-6fcd4db79a8b
+
+	/// PBIP-009. Gasto sobre ventas ejecutado en MM COP del periodo comparable.
+	/// Con varios meses usa solo los meses <= [Prod_Mes_Corte_Ratio] de cada Grupo x Año,
+	/// asi numerador y denominador cubren los mismos meses; con un mes, su valor normal.
+	/// BLANK si falta un importe o el denominador es cero. No sustituye a [Efic] ni a [%Efiprom].
+	measure Prod_Ratio_Gasto_Ventas_Real =
+			VAR _UnMes = HASONEVALUE ( Mes[Meses] )
+			VAR _Gasto =
+			    IF (
+			        _UnMes,
+			        [Prod_Gasto_MM],
+			        SUMX (
+			            SUMMARIZE (
+			                'Planta Ppto',
+			                'Planta Ppto'[Grupo Empresa],
+			                'Planta Ppto'[Año]
+			            ),
+			            VAR _Corte = [Prod_Mes_Corte_Ratio]
+			            RETURN
+			                IF (
+			                    ISBLANK ( _Corte ),
+			                    BLANK (),
+			                    CALCULATE ( [Prod_Gasto_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			                )
+			        )
+			    )
+			VAR _Ventas =
+			    IF (
+			        _UnMes,
+			        [Prod_Ventas_MM],
+			        SUMX (
+			            SUMMARIZE (
+			                'Planta Ppto',
+			                'Planta Ppto'[Grupo Empresa],
+			                'Planta Ppto'[Año]
+			            ),
+			            VAR _Corte = [Prod_Mes_Corte_Ratio]
+			            RETURN
+			                IF (
+			                    ISBLANK ( _Corte ),
+			                    BLANK (),
+			                    CALCULATE ( [Prod_Ventas_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			                )
+			        )
+			    )
+			RETURN
+			    IF (
+			        ISBLANK ( _Gasto )
+			            || ISBLANK ( _Ventas )
+			            || _Ventas = 0,
+			        BLANK (),
+			        DIVIDE ( _Gasto, _Ventas )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad\PBIP-009\Normalizacion
+		lineageTag: af7dc096-d1e8-4470-fb26-70de5ec8a9bc
+
+	/// PBIP-009. Ultimo mes (Mes[Numero]) con gasto de personal ejecutado en la fila canonica Real.
+	/// Ignora la seleccion de meses y respeta Grupo, Empresa y Año del contexto;
+	/// se evalua por Grupo x Año desde las bases _Tabla. BLANK si no hay ejecucion.
+	measure Prod_Mes_Corte_Gasto =
+			VAR _MesesConEjecucion =
+			    CALCULATETABLE (
+			        FILTER (
+			            VALUES ( Mes[Numero] ),
+			            NOT ISBLANK ( CALCULATE ( SUM ( 'Planta Ppto'[Gasto Personal] ) ) )
+			        ),
+			        REMOVEFILTERS ( Mes ),
+			        KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" )
+			    )
+			RETURN
+			    MAXX ( _MesesConEjecucion, Mes[Numero] )
+		formatString: 0
+		displayFolder: 05 Productividad\PBIP-009\Periodo
+		isHidden
+		lineageTag: cdac8d3a-3138-4870-a413-c6f08597d1ee
+
+	/// PBIP-009. Ultimo mes (Mes[Numero]) con ventas ejecutadas en la fila canonica Real.
+	/// Ignora la seleccion de meses y respeta Grupo, Empresa y Año del contexto;
+	/// se evalua por Grupo x Año desde las bases _Tabla. BLANK si no hay ejecucion.
+	measure Prod_Mes_Corte_Ventas =
+			VAR _MesesConEjecucion =
+			    CALCULATETABLE (
+			        FILTER (
+			            VALUES ( Mes[Numero] ),
+			            NOT ISBLANK ( CALCULATE ( SUM ( 'Planta Ppto'[Ventas (MM)] ) ) )
+			        ),
+			        REMOVEFILTERS ( Mes ),
+			        KEEPFILTERS ( 'Planta Ppto'[Ppto/Real] = "Real" )
+			    )
+			RETURN
+			    MAXX ( _MesesConEjecucion, Mes[Numero] )
+		formatString: 0
+		displayFolder: 05 Productividad\PBIP-009\Periodo
+		isHidden
+		lineageTag: 45581a19-88ea-479d-8994-801c4fe173ed
+
+	/// PBIP-009. Ventana de los ratios Gasto/Ventas: el menor de los cortes de gasto
+	/// y de ventas, para que numerador y denominador cubran los mismos meses.
+	measure Prod_Mes_Corte_Ratio =
+			VAR _Gasto = [Prod_Mes_Corte_Gasto]
+			VAR _Ventas = [Prod_Mes_Corte_Ventas]
+			RETURN
+			    IF (
+			        ISBLANK ( _Gasto ) || ISBLANK ( _Ventas ),
+			        BLANK (),
+			        IF ( _Gasto < _Ventas, _Gasto, _Ventas )
+			    )
+		formatString: 0
+		displayFolder: 05 Productividad\PBIP-009\Periodo
+		isHidden
+		lineageTag: 96c2536a-81fc-4328-98f8-d386dabbf025
+
+	/// Presupuesto de gasto de personal para Productividad. Usa la fila financiera canónica Real y conserva los filtros de Año, Mes, Grupo Empresa y Empresa.
+	/// PBIP-009. Periodo comparable: con varios meses suma solo los meses <= [Prod_Mes_Corte_Gasto] de cada Grupo x Año; con un mes, su valor normal.
+	measure Prod_Ppto_Gasto_Personal_Tabla =
+			IF (
+			    HASONEVALUE ( Mes[Meses] ),
+			    [Prod_Ppto_Gasto_MM],
+			    SUMX (
+			        SUMMARIZE (
+			            'Planta Ppto',
+			            'Planta Ppto'[Grupo Empresa],
+			            'Planta Ppto'[Año]
+			        ),
+			        VAR _Corte = [Prod_Mes_Corte_Gasto]
+			        RETURN
+			            IF (
+			                ISBLANK ( _Corte ),
+			                BLANK (),
+			                CALCULATE ( [Prod_Ppto_Gasto_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			            )
+			    )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009
+		lineageTag: e374444b-2cfc-4a81-aad3-f3ed0921bfd0
+
+	/// Presupuesto de ventas para Productividad. Usa la fila financiera canónica Real y conserva los filtros de Año, Mes, Grupo Empresa y Empresa.
+	/// PBIP-009. Periodo comparable: con varios meses suma solo los meses <= [Prod_Mes_Corte_Ventas] de cada Grupo x Año; con un mes, su valor normal.
+	measure Prod_Ppto_Ventas_Tabla =
+			IF (
+			    HASONEVALUE ( Mes[Meses] ),
+			    [Prod_Ppto_Ventas_MM],
+			    SUMX (
+			        SUMMARIZE (
+			            'Planta Ppto',
+			            'Planta Ppto'[Grupo Empresa],
+			            'Planta Ppto'[Año]
+			        ),
+			        VAR _Corte = [Prod_Mes_Corte_Ventas]
+			        RETURN
+			            IF (
+			                ISBLANK ( _Corte ),
+			                BLANK (),
+			                CALCULATE ( [Prod_Ppto_Ventas_MM], KEEPFILTERS ( Mes[Numero] <= _Corte ) )
+			            )
+			    )
+			)
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009
+		lineageTag: 9b5340e1-6e7c-44e4-81ad-cc041a44311c
+
+	/// Diferencia absoluta de gasto de personal: ejecutado menos presupuesto. Devuelve BLANK cuando falta cualquiera de los dos importes.
+	measure Prod_Diferencia_Gasto_Tabla =
+			VAR _Ejecutado = [Prod_Gasto_Personal_Tabla]
+			VAR _Presupuesto = [Prod_Ppto_Gasto_Personal_Tabla]
+			RETURN
+			    IF (
+			        ISBLANK ( _Ejecutado ) || ISBLANK ( _Presupuesto ),
+			        BLANK (),
+			        _Ejecutado - _Presupuesto
+			    )
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009
+		lineageTag: bbff56b6-e5d7-422a-96fa-21e7a5790bf6
+
+	/// Variación porcentual del gasto frente al presupuesto. Recalcula desde importes agregados y devuelve BLANK cuando falta un importe o el presupuesto es cero.
+	measure Prod_Variacion_Gasto_Pct =
+			VAR _Ejecutado = [Prod_Gasto_Personal_Tabla]
+			VAR _Presupuesto = [Prod_Ppto_Gasto_Personal_Tabla]
+			VAR _Diferencia = [Prod_Diferencia_Gasto_Tabla]
+			RETURN
+			    IF (
+			        ISBLANK ( _Ejecutado )
+			            || ISBLANK ( _Presupuesto )
+			            || _Presupuesto = 0,
+			        BLANK (),
+			        DIVIDE ( _Diferencia, _Presupuesto )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad\PBIP-009
+		lineageTag: 0f74b8c3-af0c-483d-8c63-3e552f0c28c8
+
+	/// Diferencia absoluta de ventas: ejecutado menos presupuesto. Devuelve BLANK cuando falta cualquiera de los dos importes.
+	measure Prod_Diferencia_Ventas_Tabla =
+			VAR _Ejecutado = [Prod_Ingreso_Operacional_Tabla]
+			VAR _Presupuesto = [Prod_Ppto_Ventas_Tabla]
+			RETURN
+			    IF (
+			        ISBLANK ( _Ejecutado ) || ISBLANK ( _Presupuesto ),
+			        BLANK (),
+			        _Ejecutado - _Presupuesto
+			    )
+		formatString: \$\ #,0\ "mill.";-\$\ #,0\ "mill.";\$\ 0\ "mill."
+		displayFolder: 05 Productividad\PBIP-009
+		lineageTag: 0717d79b-cc03-4f22-8248-d59b9a797969
+
+	/// Variación porcentual de ventas frente al presupuesto. Recalcula desde importes agregados y devuelve BLANK cuando falta un importe o el presupuesto es cero.
+	measure Prod_Variacion_Ventas_Pct =
+			VAR _Ejecutado = [Prod_Ingreso_Operacional_Tabla]
+			VAR _Presupuesto = [Prod_Ppto_Ventas_Tabla]
+			VAR _Diferencia = [Prod_Diferencia_Ventas_Tabla]
+			RETURN
+			    IF (
+			        ISBLANK ( _Ejecutado )
+			            || ISBLANK ( _Presupuesto )
+			            || _Presupuesto = 0,
+			        BLANK (),
+			        DIVIDE ( _Diferencia, _Presupuesto )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Productividad\PBIP-009
+		lineageTag: daa0ec5a-cfb2-4236-8850-cee9d581f350
 
 	partition Tbl_Medidas = m
 		mode: import
