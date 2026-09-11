@@ -74,6 +74,296 @@ Las columnas no tienen una escala homogénea a través del histórico: conviven 
 
 Dentro de un contexto homogéneo pueden compararse si también se aplica la regla canónica de `Ppto/Real` y se controla la cobertura.
 
+### 3.5 Conciliación de julio 2026 contra las fuentes originales
+
+Se contrastó `PptovsReal.xlsx` con las dos fuentes financieras de la Unidad
+Hotelera para el corte de julio de 2026:
+
+- `Data/Gasto Laboral/2026/07_Julio/2.0 Analisis Gasto Laboral U.H..xlsx`
+- `Data/Gasto Laboral/2026/07_Julio/Gasto laboral empresas_Julio2026.xlsx`
+
+**Fuente híbrida por indicador.** `Planta Ppto` no es una única fuente
+homogénea: la planta proviene del consolidado de personal, mientras los cuatro
+importes financieros provienen del circuito contable de Gasto Laboral. Ambos
+conviven en la misma fila sin que el modelo lo declare. La consecuencia práctica
+es que un indicador que mezcle planta e importes está cruzando dos linajes
+distintos y hay que decirlo explícitamente.
+
+**Prime + Select se consolidan como `Habitel Nómina Compartida`.** En
+`Planta Personal` el gasto de la unidad hotelera Habitel se carga íntegramente
+contra la empresa `Habitel Nómina Compartida`, mientras `Habitel Prime` y
+`Habitel Select` conservan su planta con los importes financieros en blanco. Es
+un criterio de consolidación, no un vacío de datos.
+
+Implicación directa para PBIP-009: **cualquier vista de Productividad filtrada a
+`Habitel Prime` o `Habitel Select` mostrará presupuesto y ejecutado en blanco**,
+aunque esas empresas sí tengan planta. La tabla debe interpretarse a nivel de
+Grupo Empresa o de `Habitel Nómina Compartida`, y esa limitación debe quedar
+visible para el usuario final.
+
+**Conversión COP → MM demostrada para Habitel.** Para el corte de julio de 2026,
+las ventas ejecutadas y el presupuesto de ventas de Habitel concilian con las
+fuentes originales tras convertir de pesos completos a millones. La demostración
+es específica de ese grupo y ese corte: **no se generaliza a los demás grupos ni
+a otros años**, y no sustituye el gate de unidad monetaria de la sección 3.4.
+
+**Truncamiento observado.** Los importes de `Planta Personal` conservan decimales
+en enero y febrero de 2026 y desde marzo se almacenan redondeados a millones
+enteros. La pérdida es inferior a un millón por fila, suficiente para que la
+conciliación exacta contra el origen contable no cierre al peso. Cualquier
+control de igualdad debe usar tolerancia, no comparación estricta.
+
+**Convención financiera en filas `Real`.** La conciliación confirma lo anticipado
+en la sección 3.3: los importes financieros operativos —incluidos los
+presupuestos— viven en las filas `Ppto/Real = "Real"`. Filtrar los presupuestos a
+ese estado evita el doble conteo de los cinco presupuestos de ventas que
+aparecen en ambos estados y reproduce el corte de julio de Habitel.
+
+**`Ppto Gasto Personal` sin linaje demostrado.** A diferencia de las ventas y del
+gasto ejecutado, **no se logró demostrar de qué fuente proviene el presupuesto de
+gasto de personal**. Concilia en orden de magnitud, pero no se identificó el
+archivo ni el proceso que lo alimenta. Se mantiene como fuente operativa vigente
+y **no debe automatizarse su carga** hasta demostrar el origen.
+
+Consecuencia: la tabla de Productividad publicará una columna de presupuesto de
+gasto cuyo linaje no está probado. Es aceptable como continuidad operativa, pero
+debe declararse como tal.
+
+**Gasto U.H. total frente a TH «sin outsourcing».** El gasto ejecutado
+almacenado en `PptovsReal` concilia aproximadamente con el archivo de Talento
+Humano en su variante «sin outsourcing», no con el gasto total de la Unidad
+Hotelera. La diferencia corresponde al gasto de personal temporal. Dos lecturas
+legítimas del mismo mes conviven según se incluya o no el outsourcing, y la
+tabla de Productividad refleja la primera.
+
+> **Decisión aprobada el 2026-09-10.** Se conserva el gasto «sin outsourcing» como
+> definición vigente de `Gasto Personal` para Productividad. Ver §12, decisión 8.
+
+**Ninguna de estas conclusiones autoriza modificar `PptovsReal.xlsx` ni las
+fuentes Excel dentro de PBIP-009.**
+
+
+### 3.6 Matriz de unidades demostrada y normalización aprobada (2026-09-10)
+
+**Decisión aprobada:** la unidad canónica de PBIP-009 es **MM COP**, y la
+conversión ocurre **antes de agregar**.
+
+La escala almacenada **no depende solo del grupo: depende del grupo y del año**, y
+cambió dos veces en tres ejercicios. Matriz demostrada sobre filas `Ppto/Real = "Real"`:
+
+| Grupo Empresa | 2024 | 2025 | 2026 |
+|---|---|---|---|
+| Challenger | COP | COP | **COP** |
+| Fundación Challenger | MM | COP | **MM** |
+| Grupo Sky | MM | COP | **MM** |
+| Habitel Hotels | COP | COP | **MM** |
+| Lemco | COP | COP | **MM** |
+
+**Evidencia, sin inferir por el tamaño del número:**
+
+1. **Gasto por colaborador** (`Gasto Personal / Total`), independiente de la
+   magnitud: da ~5.000.000 en Challenger 2026 —lectura en COP— y entre 5 y 11 en
+   los demás grupos —lectura en MM—. Ningún resultado quedó indeterminado.
+2. **Ratio Gasto/Ventas dentro de la misma fila**: coherente entre 0,07 y 0,44 en
+   los cuatro grupos con operación comercial, lo que confirma que las cuatro
+   columnas comparten unidad dentro de la fila. Un desajuste entre columnas
+   habría producido un ratio del orden de 10⁶.
+3. **Ratio Ppto/Real del gasto**: entre 0,94 y 2,07 en las quince combinaciones;
+   ningún salto de escala entre presupuesto y ejecutado.
+4. **Conciliación de julio 2026** ya registrada en §3.5.
+5. **Lógica de `Prod_Usar_Millones`**: aplica el divisor de millones solo cuando
+   Challenger está solo o cuando están todos los grupos, lo que corrobora que
+   Challenger es el que está en COP.
+
+**Uniformidad**: cero combinaciones Grupo × Año con mezcla interna entre empresas,
+de modo que la clave de normalización es Grupo Empresa × Año y no requiere bajar
+a empresa.
+
+**Fundación Challenger** presenta un ratio Gasto/Ventas de 3,4 en 2026. Se
+verificó que **no es un desajuste de escala** sino una característica del negocio:
+gasto y ventas están en el mismo orden de magnitud (decenas de MM).
+
+**Combinaciones sin evidencia.** 2023 no tiene importes y **2027 en adelante no
+tiene ninguna evidencia disponible**. Dado que el patrón cambió en 2025 y volvió a
+cambiar en 2026, **no es extrapolable**. La normalización devuelve `BLANK` fuera
+de las quince combinaciones demostradas: es preferible una tabla vacía a una
+cifra silenciosamente equivocada.
+
+**Riesgo R1 — parcialmente resuelto.** El consolidado «Todos» ya es
+matemáticamente válido para 2024-2026. Permanece abierto para ejercicios futuros
+mientras la unidad no se gobierne en el contrato de datos.
+
+**Limitación resuelta el 2026-09-10.** `Efic` y `%Efiprom` leen las columnas
+crudas sin normalizar y, en la vista «Todos», arrastraban el mismo problema de
+unidades mixtas. La decisión aprobada no las modifica —siguen sirviendo al resto
+del modelo— sino que crea ratios normalizados propios de PBIP-009. Ver §3.7.
+
+
+
+### 3.7 Ratios Gasto/Ventas normalizados (decisión aprobada 2026-09-10)
+
+**Decisión humana.** Crear ratios Gasto/Ventas normalizados exclusivos de
+PBIP-009 y usarlos en los visuales de la página Productividad que representan ese
+concepto, manteniendo `Efic` y `%Efiprom` intactas para el resto del modelo.
+
+El motivo es que un ratio es seguro solo si numerador y denominador comparten
+unidad. Dentro de un grupo-año eso se cumple siempre, así que `Efic` y `%Efiprom`
+eran correctas en las vistas segmentadas. Dejaban de serlo al consolidar varios
+grupos con escalas distintas, porque la suma cruda del numerador y la del
+denominador ya no eran comparables entre sí.
+
+**Medidas creadas.** Ambas en `Tbl_Medidas`, carpeta
+`05 Productividad\PBIP-009\Normalizacion`, formato `0.0%;-0.0%;0.0%`:
+
+| Medida | Definición | Concepto |
+|---|---|---|
+| `Prod_Ratio_Gasto_Ventas_Ppto` | `DIVIDE([Prod_Ppto_Gasto_MM], [Prod_Ppto_Ventas_MM])` | Gasto/Ventas presupuestado |
+| `Prod_Ratio_Gasto_Ventas_Real` | `DIVIDE([Prod_Gasto_MM], [Prod_Ventas_MM])` | Gasto/Ventas ejecutado |
+
+Ambas devuelven `BLANK` si falta cualquiera de los dos importes o si el
+denominador es cero, y se recalculan siempre desde importes agregados: nunca
+suman ni promedian porcentajes.
+
+**Coherencia de toda la página.** Los cuatro visuales visibles que representan
+este concepto se reconectaron a las medidas nuevas, para que tabla, gráficos y
+tarjeta muestren el mismo resultado bajo el mismo contexto de filtros:
+
+| Visual | Tipo | Rol |
+|---|---|---|
+| `cba349945ec4b0577321` | tabla | columnas `Gasto/Ventas Ppto.` y `Gasto/Ventas Real` |
+| `9bcb53c0b346ba0d28c4` | tabla | tarjeta «Gasto vs Venta Presupuestado / Ejecutado» |
+| `76fbb82301d3f6b571c3` | combo | «Gasto Laboral Vs Ventas» por año |
+| `d6010674e3a075647581` | combo | gasto laboral por mes |
+
+**Efecto colateral que debe conocerse.** Las medidas nuevas heredan de la capa MM
+el filtro `KEEPFILTERS('Planta Ppto'[Ppto/Real] = "Real")`, la fila financiera
+canónica de §3.1. `Efic` y `%Efiprom` no aplicaban ese filtro. Por tanto, en los
+tres visuales distintos de la tabla el cambio no es solo de unidades: también
+alinea la base de filas con la de la tabla. Eso es lo que persigue el requisito de
+coherencia, pero significa que sus cifras pueden moverse respecto a lo que
+mostraban antes, y ese movimiento es esperado, no una regresión.
+
+**Validación numérica sobre el dato real.** Consolidado «Todos», enero 2026:
+
+| Concepto | Valor |
+|---|---|
+| Ppto Gasto | 13.734 MM |
+| Gasto Real | 12.114 MM |
+| Ppto Ventas | 90.375 MM |
+| Ventas Reales | 90.377 MM |
+| **Gasto/Ventas Ppto.** | **15,2 %** |
+| **Gasto/Ventas Real** | **13,4 %** |
+
+El consolidado equivale exactamente a la suma de los cinco grupos en los cuatro
+importes. La prueba de no aditividad confirma que el ratio se recalcula y no se
+suma: el ratio del consolidado es 0,1520 frente a 1,3359 que daría la suma de los
+ratios por grupo.
+
+**Combinaciones sin factor demostrado.** El dato contiene además filas de **2023**
+en los cinco grupos. Están íntegramente en cero en los cuatro importes —son filas
+solo de headcount—, de modo que la ausencia de factor para 2023 no oculta ninguna
+cifra: la capa devuelve `BLANK` donde antes habría un cero.
+
+**Vacío real del dato, no defecto.** Lemco 2024 no tiene ventas presupuestadas
+—cero en todas sus filas—, por lo que `Gasto/Ventas Ppto.` devuelve `BLANK` en esa
+combinación. Es un vacío de la fuente y debe reportarse como tal, no corregirse en
+el modelo.
+
+
+### 3.8 Período comparable y formato de brechas (decisión aprobada 2026-09-11)
+
+**Decisión humana.** Presupuesto y ejecución se comparan usando exactamente el
+mismo período. En vistas de año completo o acumuladas, presupuesto y real se
+limitan al corte efectivo de ejecución; con meses seleccionados se respeta la
+selección, pero el agregado usa solo meses comparables. Un mes futuro sin
+ejecución no genera una falsa brecha desfavorable.
+
+**Reutilización evaluada antes de crear lógica nueva.** La página no tiene un
+corte gobernado. `Subtitulo_Productividad_Comparativo_Acumulado` solo describe los
+meses seleccionados en texto; `Titulo_Productividad_Gasto_Laboral` solo el año; los
+filtros de visual sobre `Años[Año]` no tienen condición; y `PBIP008 Fecha Corte`
+pertenece a la rotación (`'Rotacion Proyectada'[FechaCorte]`), no a la ejecución
+financiera. Por eso se crearon medidas PBIP-009 específicas.
+
+**Por qué el corte es por métrica y no único.** El dato del 2026-09-11 muestra que
+gasto y ventas tienen cobertura independiente: en 2025 las ventas faltan en
+presupuesto **y** real desde julio o agosto para Fundación Challenger, Grupo Sky,
+Habitel Hotels y Lemco, mientras el gasto está completo los doce meses. Un corte
+que exigiera gasto y ventas a la vez habría recortado gasto perfectamente
+comparable y reescrito el histórico de 2025. La regla aplicada es:
+
+| Medida | Ventana cuando hay varios meses en contexto |
+|---|---|
+| Gasto Ppto. y Gasto Real | meses ≤ `Prod_Mes_Corte_Gasto` (último mes con gasto real) |
+| Ventas Ppto. y Ventas Reales | meses ≤ `Prod_Mes_Corte_Ventas` (último mes con ventas reales) |
+| Gasto/Ventas Ppto. y Gasto/Ventas Real | meses ≤ `Prod_Mes_Corte_Ratio` (el menor de ambos), para que numerador y denominador cubran los mismos meses |
+
+El corte se calcula por Grupo Empresa × Año —el mismo grano en que ya itera la
+capa MM—, ignora la selección de meses y respeta Grupo, Empresa y Año. Con **un
+solo mes** en contexto cada medida devuelve su valor normal. Brechas y
+variaciones heredan el período sin cambiar su DAX, y los totales se recalculan
+desde los importes del período comparable. Las tres medidas de corte están
+ocultas en `05 Productividad\PBIP-009\Periodo`.
+
+**Cortes resultantes (gasto / ventas / ratio):**
+
+| Año | Challenger | Fundación Challenger | Grupo Sky | Habitel Hotels | Lemco |
+|---|---|---|---|---|---|
+| 2024 | 12 / 12 / 12 | 12 / 12 / 12 | 12 / 12 / 12 | 12 / 12 / 12 | 12 / 12 / 12 |
+| 2025 | 12 / 12 / 12 | 12 / 7 / 7 | 11 / 5 / 5 | 12 / 7 / 7 | 12 / 7 / 7 |
+| 2026 | 7 / 6 / 6 | 7 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 7 | 7 / 7 / 7 |
+
+**Formato definitivo de brechas.** `Prod_Diferencia_Gasto_Tabla` y
+`Prod_Diferencia_Ventas_Tabla` pierden el `formatStringDefinition` basado en
+`Prod_Usar_Millones`, cuyas `,,` volvían a dividir por un millón valores que ya
+estaban en MM y producían `-$ 0 mill.` en «Todos». Usan ahora el mismo formato
+fijo que las cuatro bases: `$ #,0 "mill."`. Su DAX no cambió.
+
+**Resultado de las pruebas** (simulación de la semántica DAX sobre una copia de
+solo lectura de `PptovsReal.xlsx` del 2026-09-11):
+
+Los controles de un mes no cambian, verificado por aserción:
+
+| Control | Ppto Gasto | Gasto Real | Ppto Ventas | Ventas Reales | G/V Ppto. | G/V Real |
+|---|---:|---:|---:|---:|---:|---:|
+| Todos, enero 2026 | 13.734 | 12.114 | 90.375 | 90.377 | 15,2 % | 13,4 % |
+| Challenger, enero 2026 | 9.605 | 8.687 | 74.151 | 76.518 | 13,0 % | 11,4 % |
+| Habitel Hotels, julio 2026 | 1.945 | 1.857 | 7.391 | 5.933 | 26,3 % | 31,3 % |
+
+Efecto en los totales multi-mes de «Todos» (MM COP):
+
+| Vista | Brecha Gasto antes | Brecha Gasto después | G/V Ppto. antes → después |
+|---|---:|---:|---:|
+| 2026 año completo | −66.531 (−41,3 %) | −986 (−1,0 %) | 24,6 % → 13,1 % |
+| 2026 ene–jun (vista por defecto) | −1.576 (−1,9 %) | sin cambio | 13,0 % sin cambio |
+| 2026 jun–sep | −25.353 (−47,9 %) | +535 (+2,0 %) | 38,4 % → 12,6 % |
+| 2026 ago–dic (solo futuro) | presupuesto 65.545 sin real | todo `BLANK` | — |
+| 2025 año completo | −3.535 (−2,3 %) | −2.379 (−1,6 %) | 15,3 % → 13,8 % |
+| 2024 año completo | sin cambio | sin cambio | sin cambio |
+
+En 2025 el único cambio de importes es diciembre de Grupo Sky, que tenía
+presupuesto de gasto sin gasto real. La identidad consolidado = suma de grupos se
+cumple en los seis escenarios, y la variación del total se recalcula: −1,0 % en
+2026 frente a −44,3 % que daría sumar las variaciones por grupo.
+
+**Residuos que el corte por ejecución no corrige.** Son huecos de presupuesto
+dentro de meses ya ejecutados, no presupuesto futuro:
+
+- **Lemco, julio 2026**: gasto real sin presupuesto de gasto. En 2026 año
+  completo, la brecha de gasto de Lemco (+1.112 MM) incluye 1.052 MM de julio sin
+  presupuesto; sin esa celda, la brecha de «Todos» sería de unos −2.038 MM en
+  lugar de −986 MM.
+- **Lemco, 2024**: ventas reales (39.712 MM) sin presupuesto de ventas en todo el
+  año. La brecha de ventas 2024 de «Todos» incluye esas ventas sin contrapartida.
+
+Corregirlos exige completar la fuente o ampliar la regla a emparejamiento por
+celda; ambas opciones requieren decisión humana.
+
+**Lo que no cambió.** La capa MM, `Efic`, `%Efiprom`, `KPI_EFI`, `Var_GL`,
+`Cump_GL`, `Prod_Usar_Millones` y los títulos de la página. La tarjeta KPI
+(`KPI_EFI`, `Var_GL`) y el subtítulo del acumulado no adoptan el período
+comparable porque dependen de medidas históricas compartidas.
+
 ## 4. Medidas existentes y reutilización
 
 | Medida | DAX/dependencia actual | Visuales consumidores | Decisión |
@@ -260,6 +550,9 @@ No deberían tocarse `relationships.tmdl`, otras páginas, `pages.json`, bookmar
 3. Aprobar que ausencia de ejecutado o presupuesto produzca `BLANK`.
 4. Aprobar la Alternativa visual 1 y la polaridad: gasto positivo desfavorable; ventas positivo favorable.
 5. Decidir si se corrige después el mismo riesgo en `%Efiprom`; incluirlo ahora ampliaría el impacto y exigiría regresión propia.
+6. Aceptar o rechazar que se publique `Ppto Gasto Personal` sin linaje demostrado, declarándolo como continuidad operativa y sin automatizar su carga.
+7. Confirmar cómo se comunica al usuario que `Habitel Prime` y `Habitel Select` no tienen importes propios por consolidarse en `Habitel Nómina Compartida`.
+8. **APROBADA (2026-09-10, decisión humana).** Productividad conserva como gasto ejecutado el valor vigente de `PptovsReal.xlsx`, equivalente al gasto de TH «sin outsourcing». **No se modifica la definición vigente de `Gasto Personal`** y **no se sustituye** por el gasto total de Planeación Financiera de la Unidad Hotelera. Toda evaluación del gasto total U.H. queda **fuera del alcance de PBIP-009** y exigiría una iniciativa y un análisis propios.
 
 ## 13. Conclusión
 
