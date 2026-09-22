@@ -22,7 +22,7 @@ Reglas de interpretación:
 | Rama base | `main` |
 | Área funcional | People Analytics Grupo Empresarial Lemco — HeadCount, Presupuesto (PptovsReal), Selección, Ausentismo/Incapacidades, SST, SENA |
 | Estado general | Migración de fuentes a SharePoint corporativo **en curso** (parcial: PptovsReal y SST cerrados; PLANTA DE PERSONAL, Selección Grupo Lemco, SENA UNIDADES con Formula Firewall sin validar). Working tree con cambios PBIP acumulados pendientes de auditar |
-| Fecha de última actualización de este roadmap | 2026-09-11 |
+| Fecha de última actualización de este roadmap | 2026-09-22 |
 | Responsable de mantenimiento documental | Edwin Clavijo |
 
 ## 3. Reglas de gobierno
@@ -39,6 +39,25 @@ Reglas de interpretación:
 - Toda iniciativa que pase a **Planificada** o **En curso** debe tener análisis de impacto y/o plan de implementación en `Specs/`, y validación registrada cuando aplique.
 - Los cambios funcionales deben conservar trazabilidad completa: iniciativa (ID) → spec(s) → archivos modificados → validación → commit.
 - No declarar Formula Firewall resuelto ni refresh exitoso sin evidencia visual confirmada en Power BI Desktop (regla ya vigente en `Docs/TROUBLESHOOTING.md` y `CLAUDE.md`).
+
+### Gate obligatorio de cierre
+
+El procedimiento completo está en
+`Specs/01_plan_gobierno_outputs_skills_tools.md`. Para marcar una iniciativa
+como `Finalizada` debe cumplirse este checklist:
+
+- [ ] Validación funcional y visual completada.
+- [ ] PR integrado en `main`.
+- [ ] Checkpoint principal actualizado.
+- [ ] PBIP oficial validado.
+- [ ] Ruido posterior a Power BI revisado.
+- [ ] Worktree auditado.
+- [ ] Worktree retirado si ya no es necesario.
+- [ ] Pendientes documentados.
+- [ ] `main` sincronizada con `origin/main`.
+
+Mientras exista al menos un punto abierto, la implementación permanece como
+`PENDIENTE DE CIERRE` y no puede marcarse como `Finalizada`.
 
 ## 4. Catálogo de estados
 
