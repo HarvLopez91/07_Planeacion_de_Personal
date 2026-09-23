@@ -227,6 +227,49 @@ Las pruebas cubren casos válidos, duplicados, identificaciones faltantes,
 fechas inválidas, catálogos desconocidos, esquema incompleto, archivo vacío,
 múltiples periodos, privacidad y una ingesta futura.
 
+## Cierre parcial del 23/09/2026
+
+### Implementado
+
+- La formula Excel de `Retiro valido` clasifica cada evento con 1/0 usando las
+  exclusiones de cargo `APRENDIZ SENA` y `PRACTICANTE`, y las causales
+  `*REINGRESO*`, `*FALLECIMIENTO*`, `PENSION POR JUBILACION`,
+  `CESION DE CONTRATO`, `CESION CONTRATO`, `SUSTITUCION PATRONAL` y
+  `CESACION EFECTOS REINTEGRO`.
+- La columna fue incorporada al modelo `Ppto Retiros`; se conserva como texto en
+  este cierre.
+- La pagina `Retiros` agrega las dos causales nuevas a sus filtros de pagina.
+
+### Validado
+
+- Challenger enero-agosto contiene 647 eventos brutos y 470 elegibles en el
+  archivo operativo auditado.
+- La formula de `Retiro valido` es funcionalmente homogenea y contiene las nueve
+  exclusiones aprobadas.
+- `Tot_Retiros` no fue modificado: continua como
+  `COUNT('Ppto Retiros'[Mes])` y representa poblacion bruta cuando no existe un
+  filtro adicional.
+
+### Pendiente
+
+- El control futuro de Challenger enero-agosto es 472. Dos eventos con motivo
+  operativo desactualizado explican la diferencia; no se corrigen en este
+  cierre. El detalle nominal permanece fuera de Git.
+- Dos eventos conservan diferencias de fecha sin impacto sobre el total
+  elegible.
+- Septiembre de 2026 no esta incorporado y debe tratarse como corte parcial al
+  23/09/2026 cuando se autorice su carga.
+- `INGRESOS` conserva eventos pendientes de actualizacion.
+- `Retiro valido` no gobierna las medidas y la pagina `Rotacion` puede no incluir
+  todavia las dos exclusiones nuevas.
+
+### Fuera de alcance de este cierre
+
+- Modificar `PptovsReal.xlsx`, Power Query o DAX.
+- Cambiar `Tot_Retiros` o crear una medida canonica nueva.
+- Convertir `Retiro valido` a entero.
+- Incorporar septiembre o los deltas operativos pendientes.
+
 ## Referencias
 
 - `Docs/DATA_PIPELINE.md`, flujo de contratos Kactus.
