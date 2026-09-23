@@ -37,10 +37,10 @@ La particula del nombre de hoja indica el `Indicador Actividad`:
 `Dependencia`, `Area`, `Nombre Centro Costo`, `Motivo Movimiento`, `CARGO_CCO`.
 El periodo se determina por **`Fecha Inicio`**.
 
-**`RETIROS`** (33 columnas): `Grupo empresarial`, `Empresa`, `Identificacion`,
+**`RETIROS`** (37 columnas en el estado local auditado): `Grupo empresarial`, `Empresa`, `Identificacion`,
 `No. Contrato`, `TC`, `Cargo`, `Nombre Centro Costo`, `Fecha Inicio`,
 `Fecha Vencimiento`, `Anio`, `Mes Num`, `Mes`, `Meses de permanencia`, `Detalle`,
-`OBSERVACION`, `Clase de nomina`, `CARGO_CCO`. El periodo se determina por
+`OBSERVACION`, `Clase de nomina`, `CARGO_CCO` y `Retiro valido`. El periodo se determina por
 **`Fecha Vencimiento`**; `Detalle` sostiene la clasificacion de retiro voluntario
 o involuntario.
 
@@ -139,6 +139,49 @@ Ruta sugerida:
 3. **Power Query dentro del libro.** Una consulta que lea el consolidador, aplique
    el mapeo del punto 2 y genere las filas del mes. Elimina la transcripcion manual
    conservando el libro y sus tablas dinamicas.
+
+## Cierre parcial del 23/09/2026
+
+### Implementado
+
+- La formula Excel de `Retiro valido` clasifica cada evento con 1/0 usando las
+  exclusiones de cargo `APRENDIZ SENA` y `PRACTICANTE`, y las causales
+  `*REINGRESO*`, `*FALLECIMIENTO*`, `PENSION POR JUBILACION`,
+  `CESION DE CONTRATO`, `CESION CONTRATO`, `SUSTITUCION PATRONAL` y
+  `CESACION EFECTOS REINTEGRO`.
+- La columna fue incorporada al modelo `Ppto Retiros`; se conserva como texto en
+  este cierre.
+- La pagina `Retiros` agrega las dos causales nuevas a sus filtros de pagina.
+
+### Validado
+
+- Challenger enero-agosto contiene 647 eventos brutos y 470 elegibles en el
+  archivo operativo auditado.
+- La formula de `Retiro valido` es funcionalmente homogenea y contiene las nueve
+  exclusiones aprobadas.
+- `Tot_Retiros` no fue modificado: continua como
+  `COUNT('Ppto Retiros'[Mes])` y representa poblacion bruta cuando no existe un
+  filtro adicional.
+
+### Pendiente
+
+- El control futuro de Challenger enero-agosto es 472. Dos eventos con motivo
+  operativo desactualizado explican la diferencia; no se corrigen en este
+  cierre. El detalle nominal permanece fuera de Git.
+- Dos eventos conservan diferencias de fecha sin impacto sobre el total
+  elegible.
+- Septiembre de 2026 no esta incorporado y debe tratarse como corte parcial al
+  23/09/2026 cuando se autorice su carga.
+- `INGRESOS` conserva eventos pendientes de actualizacion.
+- `Retiro valido` no gobierna las medidas y la pagina `Rotacion` puede no incluir
+  todavia las dos exclusiones nuevas.
+
+### Fuera de alcance de este cierre
+
+- Modificar `PptovsReal.xlsx`, Power Query o DAX.
+- Cambiar `Tot_Retiros` o crear una medida canonica nueva.
+- Convertir `Retiro valido` a entero.
+- Incorporar septiembre o los deltas operativos pendientes.
 
 ## Referencias
 

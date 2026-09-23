@@ -6,6 +6,35 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-09-23
+
+### Cambiado
+
+- Pagina `Retiros`: agregadas como exclusiones de pagina las causales
+  `SUSTITUCION PATRONAL` y `CESACION EFECTOS REINTEGRO`, conservando las
+  exclusiones anteriores. La depuracion sigue dependiendo de filtros de pagina;
+  no se centralizo en DAX.
+- Modelo `Ppto Retiros`: incorporada la columna auxiliar `Retiro valido` desde
+  `PptovsReal.xlsx`. Se conserva temporalmente como texto y todavia no gobierna
+  las medidas.
+
+### Estado validado y pendientes
+
+- `Tbl_Medidas[Tot_Retiros]` permanece sin cambios como
+  `COUNT('Ppto Retiros'[Mes])` y, sin filtros adicionales, cuenta registros
+  brutos.
+- Challenger enero-agosto de 2026 permanece en 470 retiros elegibles. El control
+  futuro esperado es 472; dos eventos con motivo operativo desactualizado
+  explican la diferencia, pero sus correcciones no forman parte de este cierre.
+- Quedan pendientes dos correcciones de fecha, sin impacto en el total elegible;
+  la carga parcial de septiembre; la
+  actualizacion de `INGRESOS`; y la alineacion de la pagina `Rotacion` con las
+  dos exclusiones nuevas.
+- Fuera de alcance: cambiar `Tot_Retiros`, tipar `Retiro valido` como entero,
+  modificar Power Query o convertir la columna auxiliar en regla canonica.
+
+Los archivos operativos bajo `Data/**` no se versionan.
+
 ## [Sin version] - 2026-09-01
 
 ### Actualizado

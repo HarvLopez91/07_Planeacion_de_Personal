@@ -187,6 +187,8 @@ esas exclusiones.
 | `*FALLECIMIENTO*` | `Detalle` | No | Si |
 | `PENSION POR JUBILACION` | `Detalle` | No | Si |
 | `CESION DE CONTRATO` / `CESION CONTRATO` | `Detalle` | No | Si |
+| `SUSTITUCION PATRONAL` | `Detalle` | No | Si |
+| `CESACION EFECTOS REINTEGRO` | `Detalle` | No | Si |
 
 Las cuatro exclusiones que no aplican a ingresos son **causales de salida**;
 su ausencia es correcta y verificada (0 ocurrencias en la hoja `INGRESOS`).
@@ -235,6 +237,18 @@ No se debe usar `Total` como denominador de rotacion: incluye aprendices.
 |---|---|---|
 | `Tot_Retiros` | `#,0` | Conteo de registros de retiros en el contexto (`COUNT([Mes])`) |
 | `Indice_Retiros` | `0.00 %` | `[Tot_Retiros] / [Tot_Colab-Sena]` |
+
+> **Estado transitorio validado el 2026-09-23.** `Ppto Retiros` incorpora la
+> columna auxiliar `Retiro valido` con valores 1/0 calculados en Excel mediante
+> las nueve exclusiones aprobadas. En el modelo esta tipada como texto y no
+> gobierna ninguna medida. `Tot_Retiros` permanece como conteo bruto; la pagina
+> `Retiros` obtiene su poblacion depurada mediante filtros de pagina. Otros
+> consumidores, incluida `Rotacion`, pueden conservar una regla distinta.
+>
+> Challenger enero-agosto de 2026 devuelve actualmente 470 retiros elegibles.
+> El control futuro de 472 depende de dos correcciones operativas pendientes.
+> No se declara alcanzado en este cierre; el detalle nominal permanece en las
+> fuentes operativas excluidas de Git.
 
 > Nota de correccion documental (2026-08-06): esta seccion citaba una medida `Indice_Rotacion` con formula `([Tot_ingresos] - [Tot_Retiros]) / [Tot_Colab-Sena]` en el contexto de `Ppto Retiros`. Esa medida no existe en el modelo actual (no se encontro en ningun archivo `.tmdl` ni `Tot_ingresos` como medida real); se trataba de documentacion desactualizada. La medida `Indice_Rotacion` vigente vive en `Tbl_Medidas` (ver seccion "Rotacion e Indice de Retiros" arriba) con una formula distinta, basada en `Planta Ppto[Ingresos]`/`[Retiros]`/`[Total-Sena]`.
 

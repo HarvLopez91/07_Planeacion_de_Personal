@@ -480,6 +480,14 @@ table 'Ppto Retiros'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column 'Retiro válido'
+		dataType: string
+		lineageTag: ba7445a7-e19e-4d49-ba95-cd31204782d5
+		summarizeBy: none
+		sourceColumn: Retiro válido
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Ppto Retiros' = m
 		mode: import
 		queryGroup: PptovsReal
