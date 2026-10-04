@@ -125,6 +125,50 @@ Propósito de cada carpeta:
 
 Todo `Data/` permanece excluido de Git por `.gitignore`. La estructura está sincronizada mediante el entorno corporativo de Microsoft 365, pero la URL exacta de SharePoint queda `Por confirmar` hasta contar con evidencia verificable. No se debe registrar ninguna ruta absoluta con nombre de usuario. Tampoco debe afirmarse que Power BI ya consume `Fuente_Oficial/` mientras no exista evidencia en Power Query o TMDL.
 
+**Nota sobre las familias Kactus complementarias (estructura verificada el 2026-10-04):**
+
+Tres fuentes Kactus adicionales adoptaron el mismo patrón de gobierno de `Contratos_Kactus`.
+La estructura fue verificada por inspección de solo lectura del disco:
+
+```text
+Data/
+├── Maestro_Empleados_Kactus/
+│   ├── Fuente_Oficial/
+│   ├── Historico/
+│   └── Insumos_Vigentes/
+├── Datos_Familiares_Kactus/
+│   ├── Fuente_Oficial/
+│   ├── Historico/
+│   └── Insumos_Vigentes/
+└── Cuentas_Empleados_Kactus/
+    ├── Fuente_Oficial/
+    ├── Historico/
+    └── Insumos_Vigentes/
+```
+
+Propósito de cada carpeta, idéntico en las cuatro familias Kactus:
+
+- `Insumos_Vigentes/`: fuentes activas, consumidas por el consolidador oficial de la familia.
+- `Historico/`: cortes archivados. **No debe ser origen de procesos activos** ni entrar en combinaciones de carpeta.
+- `Fuente_Oficial/`: consolidador oficial de la familia.
+
+Convención observada en `Historico/`: nivel `AAAA/MM_Mes` y, en algunos cortes, un nivel adicional de día
+(`AAAA/MM_Mes/DD`). La profundidad no es homogénea entre familias ni entre meses; se documenta tal como está.
+
+Volumen verificado el 2026-10-04, únicamente como conteo de archivos:
+
+| Familia | `Insumos_Vigentes/` | `Fuente_Oficial/` | Cortes archivados en `Historico/` |
+|---|---:|---:|---:|
+| `Maestro_Empleados_Kactus` | 9 | 1 | 100 |
+| `Datos_Familiares_Kactus` | 9 | 1 | 67 |
+| `Cuentas_Empleados_Kactus` | 8 | 1 | 81 |
+
+`Cuentas_Empleados_Kactus` no tiene archivo de `SKY ELECTRONICS ZONA FRANCA` y su consolidador tampoco
+declara una consulta para esa empresa. No debe crearse ninguna de las dos.
+
+`Data/Maestro_Cargos-Roles_Kactus/` existe como cuarta carpeta Kactus, pero **solo tiene `Insumos_Vigentes/`**:
+no fue reorganizada bajo este patrón y se mantiene como frente separado.
+
 **Hallazgos relevantes de este análisis (2026-07-03), verificados con `ls -d */` y búsqueda recursiva de carpetas numeradas (`find . -maxdepth 3 -type d -iname "0*_*"` → sin resultados):**
 
 - La estructura raíz de este proyecto es **plana y sin numeración interna**: `Data/`, `Docs/`, `Inputs/`, `Outputs/`, `PBIP/`. No existen subcarpetas del tipo `00_Fuentes`, `01_PBIP`, `02_Modelo_Datos`, `03_Documentacion`, etc. dentro de este proyecto.

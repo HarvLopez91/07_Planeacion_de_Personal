@@ -6,6 +6,39 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-04
+
+### Agregado
+
+- Gobierno documental de tres familias Kactus complementarias:
+  `Maestro_Empleados_Kactus`, `Datos_Familiares_Kactus` y `Cuentas_Empleados_Kactus`,
+  organizadas bajo el patron `Fuente_Oficial/`, `Historico/` e `Insumos_Vigentes/`.
+
+### Cambiado
+
+- Los tres consolidadores oficiales dejaron de depender del OneDrive personal y
+  pasaron a consumir el sitio corporativo `TalentoHumanoGrupoLemco` mediante
+  `Web.Contents`. Consultas migradas: 9 de 9 en Maestro de Empleados, 9 de 9 en
+  Datos Familiares y 8 de 8 en Cuentas de Empleados. La unica diferencia funcional
+  en el codigo M fue la expresion de origen.
+- `Docs/DATA_PIPELINE.md`, `Docs/ESTRUCTURA_PROYECTO.md`, `Docs/RUNBOOK.md`,
+  `Docs/SECURITY_AND_PRIVACY.md` y `Docs/PROJECT_STATUS.md` incorporan estas
+  familias. El procedimiento mensual del runbook pasa a cubrir cuatro familias.
+
+### Estado validado y pendientes
+
+- `RefreshAll` y QA posteriores finalizaron correctamente en los tres libros, con
+  conteos agregados coincidentes entre cada consulta fuente y su archivo vigente.
+- `Dim_Hijos_Empleados` de Datos Familiares fue validada de forma independiente
+  reproduciendo su logica fuera de Excel: resultado identico al del libro.
+- Se registro un aprendizaje operativo: no invocar `PivotTable.RefreshTable()` de
+  forma explicita cuando `RefreshAll` ya actualizo las dinamicas del modelo.
+- **No se modifico `PBIP/`**, ni Power Query del modelo, ni `Data/`, ni `Outputs/`.
+- Queda pendiente definir las reglas de negocio para usar estas fuentes en la
+  actualizacion mensual de HeadCount.
+
+---
+
 ## [Sin version] - 2026-09-23
 
 ### Cambiado

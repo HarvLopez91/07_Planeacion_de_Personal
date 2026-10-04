@@ -37,6 +37,10 @@ Estado documentado:
 - `AREAS` sigue construyéndose desde `Consolidado 2024.xlsx`; se documenta como requerimiento de análisis posterior.
 - `REQUISICIONES HABITEL 2026.xlsx` es una fuente nueva pendiente de análisis de impacto; no está incorporada.
 - `Data/Contratos_Kactus/` quedó organizada manualmente con `Fuente_Oficial`, `Historico` e `Insumos_Vigentes`; el consolidador `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx` fue identificado y sus consultas internas apuntan a `Insumos_Vigentes/`, pero la integración con `PBIP/Proyecto7.pbip` y sus consumidores siguen por validar.
+- `Data/Maestro_Empleados_Kactus/`, `Data/Datos_Familiares_Kactus/` y `Data/Cuentas_Empleados_Kactus/` quedaron organizadas bajo el mismo patrón corporativo (`Fuente_Oficial`, `Historico`, `Insumos_Vigentes`) y sus consolidadores consumen `Insumos_Vigentes/`.
+- Los tres consolidadores fueron migrados el 2026-10-04 desde el OneDrive personal hacia el sitio corporativo `TalentoHumanoGrupoLemco`; refresh y validación resultaron exitosos y no quedan referencias a la cuenta personal en su código M.
+- Queda pendiente definir las reglas funcionales que permitirán usar estas tres fuentes en la actualización mensual de HeadCount. No existe todavía un mapeo aprobado.
+- `Data/Maestro_Cargos-Roles_Kactus/` continúa como frente separado: solo tiene `Insumos_Vigentes/` y **no** fue reorganizada bajo el patrón corporativo.
 
 ## Bloqueo Técnico Vigente
 

@@ -2,7 +2,7 @@
 
 Índice de documentación oficial del proyecto Power BI/PBIP `07_Planeación_de_Personal`.
 
-Fecha de revisión documental: `2026-09-01`.
+Fecha de revisión documental: `2026-10-04`.
 
 ## Propósito
 
@@ -15,19 +15,19 @@ Los diagnósticos temporales, evidencias de fases y capturas de trabajo pertenec
 | Documento | Descripción | Estado | Última revisión |
 |---|---|---|---|
 | [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) | Contexto de negocio, dominios cubiertos y limitaciones conocidas | Vigente | 2026-07-17 |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Estado operativo, bloqueos y pendientes vigentes | Vigente | 2026-07-17 |
+| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Estado operativo, bloqueos y pendientes vigentes | Vigente | 2026-10-04 |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Estructura PBIP, modelo semántico y reporte | Vigente | 2026-07-17 |
 | [DATA_MODEL.md](DATA_MODEL.md) | Tablas, columnas relevantes, relaciones y cardinalidades | Vigente | 2026-07-14 |
 | [METRICS_CATALOG.md](METRICS_CATALOG.md) | Catálogo de medidas DAX clasificadas por dominio | Vigente | 2026-06-11 |
-| [DATA_PIPELINE.md](DATA_PIPELINE.md) | Fuentes, Power Query, SharePoint y actualización | Vigente | 2026-07-17 |
+| [DATA_PIPELINE.md](DATA_PIPELINE.md) | Fuentes, Power Query, SharePoint y actualización | Vigente | 2026-10-04 |
 | [BI_GUIDELINES.md](BI_GUIDELINES.md) | Inventario de páginas, bookmarks, recursos visuales y convenciones | Vigente | 2026-07-03 |
-| [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) | Datos personales, accesos, privacidad y riesgos | Vigente | 2026-07-17 |
-| [RUNBOOK.md](RUNBOOK.md) | Procedimientos operativos de apertura, refresh y publicación | Vigente | 2026-07-17 |
+| [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) | Datos personales, accesos, privacidad y riesgos | Vigente | 2026-10-04 |
+| [RUNBOOK.md](RUNBOOK.md) | Procedimientos operativos de apertura, refresh y publicación | Vigente | 2026-10-04 |
 | [ACTUALIZACION_PLANTA_PERSONAL_PPTOVSREAL.md](ACTUALIZACION_PLANTA_PERSONAL_PPTOVSREAL.md) | Procedimiento mensual para conciliar gasto y ventas en `Planta Personal` | Vigente | 2026-09-01 |
 | [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md) | Reglas de staging, commit y push | Vigente | 2026-07-17 |
 | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Formula Firewall, errores Power Query y ruido PBIP | Vigente | 2026-07-17 |
-| [CHANGELOG.md](CHANGELOG.md) | Registro de cambios significativos | Vigente | 2026-07-17 |
-| [ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md) | Estándar documental y estructura corporativa | Vigente con notas históricas | 2026-07-17 |
+| [CHANGELOG.md](CHANGELOG.md) | Registro de cambios significativos | Vigente | 2026-10-04 |
+| [ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md) | Estándar documental y estructura corporativa | Vigente con notas históricas | 2026-10-04 |
 | [decisions/README.md](decisions/README.md) | Registro de decisiones de arquitectura | Pendiente | 2026-06-11 |
 
 ## Estado Actual Resumido

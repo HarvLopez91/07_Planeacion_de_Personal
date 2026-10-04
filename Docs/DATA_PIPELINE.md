@@ -378,6 +378,68 @@ Pendientes:
 
 ---
 
+## Familias Kactus complementarias (2026-10-04)
+
+Ademas de `Contratos_Kactus`, el proyecto gobierna tres familias Kactus complementarias bajo el mismo
+patron `Fuente_Oficial/`, `Historico/` e `Insumos_Vigentes/`. Las tres fueron migradas el 2026-10-04 desde
+el OneDrive personal `lemcosas-my.sharepoint.com/personal/...` hacia el sitio corporativo.
+
+Ubicacion corporativa de los insumos activos, identica en las tres:
+
+```text
+https://lemcosas.sharepoint.com/sites/TalentoHumanoGrupoLemco/
+  Documentos compartidos/5. People analytics/07_Planeacion_de_Personal/Data/<Familia>/Insumos_Vigentes/
+```
+
+Mecanismo de acceso: `Excel.Workbook(Web.Contents("<url>"))` en cada consulta fuente, el mismo patron ya
+validado en `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`.
+
+| Familia | Fuentes vigentes | Columnas | Consultas fuente | Consolidador oficial | Consulta derivada principal | Refresh | Validacion |
+|---|---:|---:|---:|---|---|---|---|
+| `Maestro_Empleados_Kactus` | 9 | 93 | 9 migradas de 9 | `CONSOLIDADOR_MAESTRO_EMPLEADOS_ACTIVOS_V0.0.0.xlsx` | `Anexar1` (2.592 filas) | PASS | PASS |
+| `Datos_Familiares_Kactus` | 9 | 68 | 9 migradas de 9 | `CONSOLIDADOR_DATOS_FAMILIARES_ACTIVOS_V0.0.0.xlsx` | `Anexar1` (6.396 filas) y `Dim_Hijos_Empleados` (2.608 empleados) | PASS | PASS |
+| `Cuentas_Empleados_Kactus` | 8 | 32 | 8 migradas de 8 | `CONSOLIDADOR_CUENTAS_EMPLEADOS_ACTIVOS_V0.0.0.xlsx` | `CUENTAS_EMPLEADOS_ACTIVOS` (15.545 filas) | PASS | PASS |
+
+Los nombres de los consolidadores se tomaron del disco, de `Data/<Familia>/Fuente_Oficial/`.
+
+Detalle por familia:
+
+- `Maestro_Empleados_Kactus`: 3 tablas dinamicas dependientes. Durante la migracion se produjo una caida de
+  Excel al invocar `PivotTable.RefreshTable()` de forma explicita; el archivo quedo integro y validado, y se
+  decidio no volver a usar ese metodo. Ver `Docs/RUNBOOK.md`, seccion de familias Kactus.
+- `Datos_Familiares_Kactus`: sin tablas dinamicas. `Dim_Hijos_Empleados` combina las 9 consultas fuente,
+  toma empleados distintos por `Identificacion Empleado`, cuenta como hijo vivo las filas con
+  `Nombre Tipo Relacion = "Hijo"` y `¿Esta Vivo? = "S"`, agrupa por empleado, une con `LeftOuter`, convierte
+  nulos en 0, categoriza de 0 a 9 hijos y descarta identificacion nula o vacia. Esa logica fue reproducida de
+  forma independiente fuera de Excel contra los insumos vigentes y coincidio exactamente; clasificacion
+  `DIM_HIJOS CORRECTA`.
+- `Cuentas_Empleados_Kactus`: 4 tablas dinamicas dependientes. No existe fuente ni consulta de
+  `SKY ELECTRONICS ZONA FRANCA`; no debe crearse ninguna de las dos.
+
+Unica diferencia funcional introducida por la migracion en los tres consolidadores: la expresion de origen
+dentro de `Web.Contents`. Se comparo el codigo M antes y despues de cada libro y todas las lineas distintas
+correspondian al paso de origen; filtros, tipos, merges, appends, columnas, transformaciones, nombres de
+consulta y consultas derivadas quedaron identicos.
+
+Verificacion de dependencia: tras la migracion, los tres consolidadores presentan **0 referencias** a
+`lemcosas-my.sharepoint.com/personal` en su codigo M, y la totalidad de sus consultas fuente apunta al sitio
+corporativo.
+
+Reglas de procesamiento, equivalentes a las de `Contratos_Kactus`:
+
+- Los procesos activos deben leer exclusivamente `Insumos_Vigentes/` o un archivo explicito de `Fuente_Oficial/`.
+- `Historico/` no debe entrar en combinaciones de carpeta ni en procesos activos.
+- Ningun proceso debe recorrer desde la raiz de `Data/<Familia>/`.
+- Excluir temporales de Office (`~$*.xlsx`), copias y duplicados.
+- Los archivos vigentes deben conservar nombres estables para no romper las rutas de `Web.Contents`.
+
+Integracion con Power BI: no se identifico ninguna consulta de `PBIP/Proyecto7.pbip` que consuma estas tres
+familias. No debe declararse ninguna de ellas como fuente activa del modelo sin evidencia en Power Query o TMDL.
+
+Uso posterior para actualización de HeadCount: reglas de negocio pendientes de definición por el usuario.
+
+---
+
 ## Limitaciones y riesgos del pipeline
 
 | # | Riesgo | Impacto |
