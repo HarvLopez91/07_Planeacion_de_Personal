@@ -138,18 +138,60 @@ Cada ano, la hoja activa de `REQUISICIONES_CYL.xlsx` cambia de nombre (ej: `"Mat
 
 ---
 
-## 6. Procedimiento mensual para contratos Kactus
+## 6. Procedimiento mensual para las familias Kactus
 
-Estado actual: el procedimiento ya ejecutado fue la creacion y organizacion de
-la estructura `Data/Contratos_Kactus/` con las carpetas `Fuente_Oficial/`,
-`Historico/` e `Insumos_Vigentes/`. La actualizacion de rutas, conexion de
-Power BI o migracion de consultas es un procedimiento futuro y requiere
-aprobacion y analisis de impacto propios.
+Existen **cuatro familias operativas Kactus**, todas con el patron `Fuente_Oficial/`,
+`Historico/` e `Insumos_Vigentes/`:
 
-Procedimiento operativo mensual recomendado:
+| Familia | Fuentes vigentes | Columnas | Consultas fuente | Dinamicas dependientes |
+|---|---:|---:|---:|---:|
+| `Contratos_Kactus` | 9 | 138 | 9 | 9 |
+| `Maestro_Empleados_Kactus` | 9 | 93 | 9 | 3 |
+| `Datos_Familiares_Kactus` | 9 | 68 | 9 | 0 |
+| `Cuentas_Empleados_Kactus` | 8 | 32 | 8 | 4 |
+
+`Cuentas_Empleados_Kactus` no tiene fuente ni consulta de `SKY ELECTRONICS ZONA FRANCA`: no debe crearse.
+
+Este procedimiento es manual y asistido. **No esta automatizado** y no debe convertirse en automatizacion
+sin analisis de impacto propio.
+
+Procedimiento operativo mensual, aplicable a cualquiera de las cuatro familias:
+
+1. Descargar el corte desde Kactus.
+2. Almacenar el corte en `Historico/` bajo su carpeta de periodo.
+3. Validar la estructura del corte: hoja esperada, fila de encabezados, numero de columnas, conteo de filas y
+   ausencia de encabezados nuevos, faltantes, renombrados o duplicados.
+4. Respaldar los insumos anteriores de `Insumos_Vigentes/` fuera de Git, verificando SHA-256.
+5. Promover los archivos nuevos a `Insumos_Vigentes/`, conservando nombres estables, y confirmar hash origen
+   igual a destino.
+6. Comprobar que SharePoint ya tiene la version vigente y no solo la copia local de OneDrive.
+7. Respaldar el consolidador de `Fuente_Oficial/` fuera de Git, verificando SHA-256.
+8. Ejecutar `RefreshAll` desde Excel Desktop.
+9. Esperar a que terminen las consultas asincronas; usar `CalculateUntilAsyncQueriesDone()` cuando aplique.
+10. Validar conteos agregados: cada consulta fuente contra su archivo y la consulta consolidada contra la suma
+    de las fuentes.
+11. Verificar las consultas derivadas y las salidas dependientes, incluidas las tablas dinamicas.
+12. Guardar y confirmar la sincronizacion con SharePoint.
+
+Aprendizajes operativos registrados el 2026-10-04:
+
+- **No invocar `PivotTable.RefreshTable()` de forma explicita** sobre dinamicas basadas en el modelo de datos
+  cuando `RefreshAll` ya realizo la actualizacion. Hacerlo provoco el cierre abrupto de Excel en
+  `Maestro_Empleados_Kactus`; `RefreshAll` ya refresca esas caches.
+- **Con AutoSave activo, el respaldo previo es el unico punto real de recuperacion.** Excel guarda durante el
+  proceso, de modo que la regla de "no guardar si algo falla" no es aplicable en estos libros.
+- **No declarar un refresh exitoso solo porque no aparezca una excepcion.** Excel no expone `RefreshDate` en
+  las conexiones de Power Query de estos libros.
+- **Validar con conteos y reapertura desde SharePoint**, confirmando que la copia de la nube contiene el
+  resultado esperado.
+- Una consulta derivada puede devolver el mismo resultado tras el refresh sin estar desactualizada: antes de
+  declarar un fallo, reproducir su logica de forma independiente contra los insumos vigentes.
+
+Procedimiento historico de referencia para `Contratos_Kactus`:
 
 1. Validar el corte descargado desde Kactus antes de reemplazar insumos.
-2. Copiar los archivos vigentes anteriores a `Historico/AAAA/AAAA-MM/`.
+2. Copiar los archivos vigentes anteriores a `Historico/AAAA/MM_Mes/`; algunos cortes incluyen
+   adicionalmente un nivel de dia (`AAAA/MM_Mes/DD`).
 3. No modificar las copias historicas despues de archivarlas.
 4. Reemplazar o actualizar los archivos en `Insumos_Vigentes/`, conservando nombres estables.
 5. Actualizar el consolidado ubicado en `Fuente_Oficial/`, cuando exista y este aprobado como fuente oficial.

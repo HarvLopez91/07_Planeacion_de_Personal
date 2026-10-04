@@ -103,12 +103,42 @@ Los siguientes archivos del repositorio local **no deben compartirse publicament
 | `PBIP/Proyecto.SemanticModel/.pbi/localSettings.json` | Idem |
 | Archivos `.xlsx` en `Data/` | Si se agregan datos fuente al repositorio local, podrian contener datos personales |
 | `Data/Contratos_Kactus/` | Ubicacion de sensibilidad alta por su naturaleza contractual. Puede contener informacion contractual, identificaciones, nombres, fechas de ingreso o terminacion, salarios u otros datos laborales. No se abrieron los archivos para confirmar campos especificos; la clasificacion se deriva del tipo de fuente. |
+| `Data/Maestro_Empleados_Kactus/` | **Sensibilidad ALTA.** Maestro de empleados: datos personales y sociodemograficos de colaboradores. Clasificacion basada en los nombres de campo observados; no se registran valores. |
+| `Data/Datos_Familiares_Kactus/` | **Sensibilidad MUY ALTA.** Datos personales de terceros, potencialmente menores de edad: relaciones familiares y datos sensibles asociados. Incluye informacion de personas que no son colaboradores. |
+| `Data/Cuentas_Empleados_Kactus/` | **Sensibilidad MUY ALTA.** Informacion bancaria y financiera de colaboradores. |
 | **Archivos en `Inputs/`** | **Riesgo ALTO, sin evaluar (agregado 2026-07-03).** La carpeta `Inputs/` contiene hoy `Base_Rotacion_Atraccion_Seleccion.xlsx` (496 KB). Por su nombre ("Rotacion" y "Atraccion y Seleccion"), es probable que incluya datos nominales de colaboradores o candidatos. **No se ha confirmado su contenido.** Los archivos de `Inputs/` no deben versionarse hasta validar su sensibilidad, finalidad, confidencialidad, tamaño, licencia, necesidad para reproducir el proyecto y autorización de inclusión. La ausencia de datos personales no implica aprobación automática para Git. Ver tambien [ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md) y [GIT_GOVERNANCE.md](GIT_GOVERNANCE.md). |
 | `Inputs/2026/06_Junio/Presentación gestion humana sky Junio.pptx` | Presentación operativa de gestión humana de Grupo Sky, periodo junio 2026. Autoría: Jefa de Gestión Humana Grupo Sky. Archivo binario PowerPoint, 9,4 MB. Puede contener datos operativos de personal de Grupo Sky (headcount, rotación, indicadores de gestión). Reubicada desde la raíz del proyecto el 2026-07-27. **No versionada**: cubierta automáticamente por la regla `Inputs/*` del `.gitignore`. Relación con el proyecto: proporciona contexto operativo de Grupo Sky para los indicadores de Planeación de Personal (rotación, headcount, selección). |
 
 > El archivo `PBIP/.gitignore` ya esta presente en el proyecto. Se recomienda verificar que `cache.abf` y `localSettings.json` esten incluidos en las exclusiones.
 >
 > `Inputs/` **no esta** en `.gitignore` a nivel de contenido (`Inputs/*`) — solo el nombre de archivo especifico del PDF de marca y la carpeta completa quedan cubiertos tras la actualizacion del 2026-07-03. Ver seccion "Recomendaciones de control" para el detalle de la accion pendiente sobre `Inputs/`.
+
+---
+
+## Familias Kactus complementarias (2026-10-04)
+
+Las tres familias migradas al sitio corporativo el 2026-10-04 elevan el perfil de sensibilidad del proyecto,
+porque incorporan categorias que antes no estaban presentes: datos de terceros y datos financieros.
+
+| Ubicacion | Nivel | Categorias generales |
+|---|---|---|
+| `Data/Maestro_Empleados_Kactus/` | ALTA | Datos personales y sociodemograficos de colaboradores |
+| `Data/Datos_Familiares_Kactus/` | MUY ALTA | Datos personales de terceros y potencialmente menores; relaciones familiares y datos sensibles asociados |
+| `Data/Cuentas_Empleados_Kactus/` | MUY ALTA | Informacion bancaria y financiera de colaboradores |
+
+Reglas aplicables, sin excepcion:
+
+- `Data/` **no se versiona**: esta excluida por `.gitignore` y debe permanecer asi.
+- **No incluir registros individuales en Git**, ni en documentacion, commits, pull requests o Outputs.
+- **No incluir identificaciones, numeros de cuenta, nombres, salarios ni datos familiares individuales** en
+  ningun documento del repositorio.
+- Las validaciones documentales deben apoyarse **unicamente en metadatos y agregados**: nombres de columna,
+  conteos, tipos y distribuciones.
+- El cambio de origen hacia el sitio corporativo reduce el riesgo de continuidad descrito en la seccion de
+  gestion de credenciales, al eliminar la dependencia de la cuenta personal para estas tres fuentes.
+
+Los datos de familiares y las cuentas bancarias justifican un control de acceso mas estricto que el resto de
+fuentes del proyecto. La definicion de ese control queda pendiente.
 
 ---
 
