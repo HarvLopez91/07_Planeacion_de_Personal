@@ -462,6 +462,20 @@
           "selector": {
             "id": "ReportSectionb8786793985340abe503"
           }
+        },
+        {
+          "properties": {
+            "showPage": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "b7f3a91c2d4e60582a1f"
+          }
         }
       ]
     },

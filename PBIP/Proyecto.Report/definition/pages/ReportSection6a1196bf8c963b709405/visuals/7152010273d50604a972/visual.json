@@ -3577,6 +3577,90 @@
         },
         "type": "Categorical",
         "howCreated": "User"
+      },
+      {
+        "name": "cad4c167054ba02873e6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8a34aa8b8000178cb4e5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Mes Abrev"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "25f85e19d20cd7ac7206",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Empresas"
+              }
+            },
+            "Property": "Empresas"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "108dfdf0316062d48a72",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Nivel"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "34495fc447cb69a51938",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Cargo"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "910586e023331c6cd06c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_Retiros"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "907c7c33165ac7186806",
   "position": {
     "x": 6.113271163760146,
@@ -56,11 +56,6 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "d",
-                    "Entity": "DimPeriodoYM",
-                    "Type": 0
-                  },
-                  {
                     "Name": "a",
                     "Entity": "Años",
                     "Type": 0
@@ -87,13 +82,6 @@
                             {
                               "Literal": {
                                 "Value": "'2026'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'2025'"
                               }
                             }
                           ]

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "f7041df0af5f31269f94",
   "position": {
     "x": 290,
@@ -807,6 +807,102 @@
             }
           ]
         }
+      },
+      {
+        "name": "84de11517e64a6b6d090",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d232cd7e75e6b1d25d0b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Mes Abrev"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f83431d6254d375396c0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Empresas"
+              }
+            },
+            "Property": "Grupo Empresa"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "035b97aaec2b35b06aae",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Empresas"
+              }
+            },
+            "Property": "Empresas"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e7222c64415aad07d5b6",
+        "field": {
+          "GroupRef": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Detalle (grupos)",
+            "GroupedColumns": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ppto Retiros"
+                    }
+                  },
+                  "Property": "Detalle"
+                }
+              }
+            ]
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b9d188296c685cc087b7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_Retiros"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

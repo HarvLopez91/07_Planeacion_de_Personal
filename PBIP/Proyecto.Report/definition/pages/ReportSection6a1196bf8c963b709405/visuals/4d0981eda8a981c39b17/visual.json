@@ -631,6 +631,62 @@
             }
           ]
         }
+      },
+      {
+        "name": "0f69ce04a826c12937a8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPeriodoYM"
+              }
+            },
+            "Property": "Meses"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "771cdf2e624e3a958930",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Empresas"
+              }
+            },
+            "Property": "Empresas"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "466106870a003e252b06",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Ppto Retiros"
+              }
+            },
+            "Property": "Dependencia"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c6a48b492d6473267a58",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Tbl_Medidas"
+              }
+            },
+            "Property": "Tot_Retiros"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }
