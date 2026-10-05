@@ -39,7 +39,9 @@ Estado documentado:
 - `Data/Contratos_Kactus/` quedó organizada manualmente con `Fuente_Oficial`, `Historico` e `Insumos_Vigentes`; el consolidador `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx` fue identificado y sus consultas internas apuntan a `Insumos_Vigentes/`, pero la integración con `PBIP/Proyecto7.pbip` y sus consumidores siguen por validar.
 - `Data/Maestro_Empleados_Kactus/`, `Data/Datos_Familiares_Kactus/` y `Data/Cuentas_Empleados_Kactus/` quedaron organizadas bajo el mismo patrón corporativo (`Fuente_Oficial`, `Historico`, `Insumos_Vigentes`) y sus consolidadores consumen `Insumos_Vigentes/`.
 - Los tres consolidadores fueron migrados el 2026-10-04 desde el OneDrive personal hacia el sitio corporativo `TalentoHumanoGrupoLemco`; refresh y validación resultaron exitosos y no quedan referencias a la cuenta personal en su código M.
-- Queda pendiente definir las reglas funcionales que permitirán usar estas tres fuentes en la actualización mensual de HeadCount. No existe todavía un mapeo aprobado.
+- Las reglas funcionales para usar estas tres fuentes en la actualización mensual de HeadCount quedaron **definidas y validadas operativamente** en el cierre de septiembre de 2026 (`Specs/0033_cierre_actualizacion_headcount_septiembre_2026.md`): Contratos aporta datos contractuales, `SEGMENTO` e identificador del jefe con prioridad `A` y fallback `I`; Maestro de Empleados aporta fecha de nacimiento, estado civil y `Tipo Identificación`; Datos Familiares aporta `HIJOS`; Cuentas de Empleados aporta `AFC`, `AFP`, `CCF` y `EPS`.
+- El proceso sigue siendo **manual y asistido**; el procedimiento mensual reutilizable está documentado en `Docs/RUNBOOK.md` sección 11. La **automatización integral sigue pendiente** y no está autorizada.
+- `CM`, `PCD` y la clasificación hotelera de `Nombre Empresa` pueden recibir actualizaciones posteriores cuando llegue su fuente oficial; su estado provisional no bloquea los cierres mensuales.
 - `Data/Maestro_Cargos-Roles_Kactus/` continúa como frente separado: solo tiene `Insumos_Vigentes/` y **no** fue reorganizada bajo el patrón corporativo.
 
 ## Bloqueo Técnico Vigente

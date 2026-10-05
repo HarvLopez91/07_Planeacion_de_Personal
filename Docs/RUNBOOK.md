@@ -269,3 +269,80 @@ PBIP/Proyecto.Report/definition/
 └── bookmarks/
     └── bookmarks.json          -- Si se modifican bookmarks
 ```
+
+---
+
+## 11. Procedimiento mensual de actualización de HeadCount
+
+Procedimiento **manual y asistido** para cerrar un corte mensual de HeadCount. Aplica a cualquier mes;
+septiembre de 2026 se usa solo como ejemplo de evidencia (`Specs/0033_cierre_actualizacion_headcount_septiembre_2026.md`).
+**No está automatizado** y no debe automatizarse sin análisis de impacto propio.
+
+Fuente principal del corte: `Data/HeadCount/2025/Consolidado 2025.xlsx`, hoja `Consolidado2025`.
+
+### Orden de ejecución
+
+1. **Actualizar las cuatro familias Kactus** (`Contratos`, `Maestro_Empleados`, `Datos_Familiares`,
+   `Cuentas_Empleados`) siguiendo la sección 6 de este runbook.
+2. **Validar los consolidadores oficiales**: conteos de cada consulta fuente contra su archivo vigente y
+   de la consulta consolidada contra la suma de las fuentes.
+3. **Recibir el listado mensual de empleados** de Administración de Personal en
+   `Data/HeadCount/01_Administración_de_Personal/AAAA/`.
+4. **Identificar el bloque nuevo** de `Consolidado2025`: primera y última fila del periodo, y confirmar que
+   `MES`/`AÑO` del bloque anterior no se solapan.
+5. **Respaldar** `Consolidado 2025.xlsx` fuera de Git, verificando SHA-256, antes de la primera escritura.
+6. **Cargar los campos base** del listado mensual con el mapeo documentado en la spec del cierre.
+7. **Fijar `MES` y `AÑO`** del bloque (`NN.Mes` y año de cuatro dígitos).
+8. **Construir `ID_F_INICIO`** (`ID` + `F_INICIO`) extendiendo la fórmula existente, no reconstruyéndola.
+9. **Cruzar Contratos Kactus** para `N_Contrato`, `COD. CARGO`, `Tipo Contrato (Kactus)` e
+   `Indicador Actividad`, con prioridad `A` y fallback `I`.
+10. **Poblar `SEGMENTO`** desde Contratos Kactus.
+11. **Resolver el jefe inmediato**: tomar su identificador del origen contractual y luego resolver sus datos
+    descriptivos contra el catálogo correspondiente.
+12. **Cruzar Maestro de Empleados** para fecha de nacimiento, estado civil y `Tipo Identificación`.
+13. **Cruzar Datos Familiares** para `HIJOS`.
+14. **Cruzar Cuentas de Empleados** para `AFC`, `AFP`, `CCF` y `EPS`.
+15. **Extender las fórmulas** del bloque nuevo dejando que Excel propague el patrón existente de la columna;
+    no reescribirlas a mano.
+16. **Homologar `NIVEL_DE_CARGO` y `TIPO_DE_CARGO`** con las tablas de homologación existentes. Los cargos
+    nuevos del mes se agregan a la homologación antes de continuar.
+17. **Resolver `DEPENDENCIA` y `AREA`** buscando primero la combinación histórica exacta de `CARGO_CCO`. Las
+    combinaciones nuevas se revisan manualmente una por una; esas decisiones son del corte y no se
+    convierten en reglas generales.
+18. **Homologar empresa** (`GRUPO EMPRESA` y `Nombre Empresa`) con el catálogo aprobado. Lo que no sea
+    derivable del origen queda pendiente, sin inferir.
+19. **Actualizar `Correo Corporativo`**: match exacto normalizado contra la fuente Office 365; si no hay
+    match, último correo real del histórico; si no existe correo real, `N/R`. Dos cuentas autorizadas se
+    separan con `;` sin espacios. No usar coincidencia aproximada de nombres.
+20. **Actualizar `CM` y `PCD` solo cuando exista fuente.** Sin fuente oficial del mes, se admite un cierre
+    provisional heredando el mes anterior por `ID` exacto, dejando vacío lo que no tenga antecedente. No
+    inferir condiciones médicas ni discapacidad.
+21. **Validación global del bloque**: total del periodo, identificaciones únicas, duplicados, distribución por
+    `GRUPO EMPRESA`, columnas obligatorias sin vacíos y ausencia de errores de celda.
+22. **Generar los cuatro archivos `Sin Salario`** del mes en `Data/HeadCount/AAAA/MM_Mes/`, partiendo de las
+    plantillas del mes anterior. `SUELDO_B` no se distribuye. Validar que los tres archivos por unidad formen
+    una partición exacta del archivo completo: intersecciones, faltantes y adicionales en cero.
+23. **Auditar `Informe` y las dinámicas** de cada archivo: `tblData` termina en la última fila real, 0 filas
+    huérfanas, 0 duplicados, columnas calculadas completas, `Tbls_Hijos` reconciliado y cada indicador del
+    `Informe` recalculado de forma independiente contra `Data`. No dar por correcto un resultado solo porque
+    coincide con una tabla dinámica.
+24. **Refresh de Power BI** y publicación, únicamente cuando las fuentes del mes estén validadas.
+25. **Validar el reporte publicado**: total del periodo, distribución por `GRUPO EMPRESA`, visuales sin
+    errores y fecha de actualización visible. Declarar el refresh exitoso solo con evidencia.
+26. **Conservar los respaldos** hasta el cierre definitivo del corte. Eliminarlos requiere autorización
+    explícita.
+
+### Controles
+
+- **No exponer PII en logs, consola, commits ni documentación**: trabajar con metadatos, encabezados, tipos y
+  conteos agregados. Nunca identificaciones, nombres, correos, salarios ni datos de salud individuales.
+- **Usar Excel Desktop/COM** para leer y escribir estos libros.
+- **No usar `openpyxl` para guardar** estos libros: destruye tablas, dinámicas, formatos y fórmulas
+  estructuradas. Como lector de solo lectura sí es válido.
+- **No invocar `PivotTable.RefreshTable()` de forma explícita** después de `RefreshAll` en libros cuyas
+  dinámicas se alimentan del modelo de datos: `RefreshAll` ya actualizó esas cachés y la llamada explícita
+  puede cerrar Excel abruptamente.
+- **Respaldar antes de cada bloque crítico** y verificar SHA-256. Con AutoSave activo, el respaldo previo es
+  el único punto real de recuperación.
+- **`Data/` permanece fuera de Git**, igual que los respaldos y los archivos mensuales generados.
+- **No convertir las decisiones manuales de un corte en automatizaciones genéricas.**
