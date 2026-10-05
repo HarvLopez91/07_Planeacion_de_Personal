@@ -6,6 +6,77 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-05
+
+### Agregado
+
+- Cierre documental de la actualizacion de HeadCount de septiembre de 2026:
+  `Specs/0033_cierre_actualizacion_headcount_septiembre_2026.md` registra alcance,
+  fuentes, reglas derivadas, homologaciones, validaciones, privacidad y pendientes.
+- `Docs/RUNBOOK.md` incorpora la seccion 11, **Procedimiento mensual de actualizacion
+  de HeadCount**: 26 pasos reutilizables para cualquier mes, con sus controles de
+  privacidad, uso de Excel COM y manejo de dinamicas.
+
+### Estado del corte
+
+- `Consolidado2025`, bloque `09.Septiembre` de 2026: **2.605 colaboradores**
+  (CHALLENGER 1.924, HABITEL HOTELS 326, GRUPO SKY 254, LEMCO 97, FUNDACION
+  CHALLENGER 4).
+- Cuatro archivos mensuales `Sin Salario` generados en
+  `Data/HeadCount/2026/09_Septiembre/`: 2.605 / 2.025 / 254 / 326. Los tres archivos
+  por unidad forman una particion exacta del archivo completo
+  (`2.025 + 254 + 326 = 2.605`), con 0 intersecciones, 0 faltantes y 0 adicionales.
+- Homologacion de empresa aplicada sobre `GRUPO EMPRESA` y `Nombre Empresa` con el
+  catalogo aprobado; 4 cargos nuevos incorporados a la homologacion de
+  `NIVEL_DE_CARGO`/`TIPO_DE_CARGO`; `DEPENDENCIA`/`AREA` resueltas por combinacion
+  historica exacta de `CARGO_CCO` (2.584 automaticas, 21 registros de 18
+  combinaciones nuevas revisadas manualmente).
+- Fuentes Kactus complementarias utilizadas con reglas ya validadas: Contratos
+  (datos contractuales, `SEGMENTO`, jefe, con prioridad `A` y fallback `I`), Maestro
+  de Empleados (fecha de nacimiento, estado civil, `Tipo Identificacion`), Datos
+  Familiares (`HIJOS`) y Cuentas de Empleados (`AFC`, `AFP`, `CCF`, `EPS`).
+- `Correo Corporativo` actualizado desde la fuente Office 365 del mes: 825 registros
+  con correo real, 1.780 en `N/R`, 0 vacios. El campo se elimina en Power Query, de
+  modo que su actualizacion no altera el reporte publicado.
+- `CM` y `PCD` cerrados de forma **provisional** heredando agosto por identificacion
+  exacta: 79 y 28 registros con valor, 109 ingresos sin antecedente quedaron vacios.
+  No se infirio ninguna condicion medica ni de discapacidad.
+- Auditoria de `Informe` y `Tbls_Hijos` en los cuatro archivos: **PASS**, con cada
+  indicador recalculado de forma independiente contra la hoja `Data` y 0 diferencias.
+- Power BI fue actualizado y publicado con este corte: septiembre = 2.605,
+  distribucion por `GRUPO EMPRESA` coincidente, visuales sin errores y fecha de
+  actualizacion visible 05/10/2026. `Correo Corporativo` y `PCD` no entran al modelo;
+  `CM` si existe, pero el cruce provisional de `CM`/`PCD` se ejecuto **despues** de
+  la publicacion y aun no esta publicado.
+
+### Cambiado
+
+- `Docs/PROJECT_STATUS.md` deja de declarar que las reglas funcionales de las fuentes
+  Kactus complementarias para HeadCount estan sin definir: quedaron definidas y
+  validadas operativamente, el proceso sigue manual y asistido y la automatizacion
+  integral continua pendiente.
+- `Specs/00_roadmap_y_backlog.md`: `DATA-015` pasa a **finalizada** con fecha
+  2026-10-05 y se agrega la entrada de bitacora del cierre mensual.
+
+### Pendientes no bloqueantes
+
+- 15 registros conservan `Nombre Empresa = 100` hasta recibir la fuente oficial de
+  clasificacion hotelera; su `GRUPO EMPRESA` si quedo homologado.
+- Publicar en Power BI el cruce provisional de `CM`/`PCD` cuando llegue su fuente
+  oficial.
+- Deuda heredada de plantilla en los HC mensuales: `Antiguedad`, `EDAD` y la fecha
+  visual usan `TODAY()`, el grafico de rango de edad omite `Menores De 18 Anos` y el
+  titulo del `Informe` es generico. No se corrigieron en este cierre.
+- INGRESOS y RETIROS de septiembre en `PptovsReal.xlsx` continuan como frente
+  separado; **no** forman parte de este cierre.
+
+### No modificado
+
+- **No se modifico `PBIP/`**, ni el modelo semantico, ni scripts, ni pruebas, ni
+  `Outputs/`. `Data/` permanece ignorado por Git, igual que los respaldos temporales
+  del corte.
+---
+
 ## [Sin version] - 2026-10-04
 
 ### Agregado
