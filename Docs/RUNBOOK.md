@@ -346,3 +346,92 @@ Fuente principal del corte: `Data/HeadCount/2025/Consolidado 2025.xlsx`, hoja `C
   el único punto real de recuperación.
 - **`Data/` permanece fuera de Git**, igual que los respaldos y los archivos mensuales generados.
 - **No convertir las decisiones manuales de un corte en automatizaciones genéricas.**
+
+---
+
+## 12. Procedimiento mensual de actualización de `PptovsReal` (INGRESOS/RETIROS)
+
+Procedimiento **manual y asistido** para incorporar los eventos del mes a
+`Data/HeadCount/PptovsReal.xlsx`. Aplica a cualquier periodo. Septiembre de 2026
+se usa solo como ejemplo de evidencia
+(`Specs/0034_cierre_ingresos_retiros_septiembre_2026.md`).
+
+`PptovsReal.xlsx` es la fuente de **eventos**; `Consolidado 2025.xlsx` es una
+fotografía de **planta activa**. No son intercambiables.
+
+### Fuente y reglas de población
+
+Referencia operativa: **`Fact_Contrataciones`** del consolidador
+`Data/Contratos_Kactus/Fuente_Oficial/CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`, que
+es la unión literal de las nueve fuentes de `Insumos_Vigentes/`.
+
+| Población | Regla | Filtro de actividad | Clave de evento |
+|---|---|---|---|
+| INGRESOS | `Fecha Inicio` en el periodo | ninguno | `Identificación` + `Fecha Inicio` |
+| RETIROS | `Fecha Vencimiento` en el periodo | `Indicador Actividad = I` | `Identificación` + `Fecha Vencimiento` |
+
+Las hojas `<mes>, A`, `<mes> II`, `<mes> III` del consolidador son exportaciones
+manuales y **no** son fuente canónica: pueden estar incompletas según cuándo se
+extrajeron.
+
+### Orden de ejecución
+
+1. **Actualizar `Contratos_Kactus`** siguiendo la sección 6: histórico, insumos
+   vigentes y refresh del consolidador.
+2. **Verificar la equivalencia del origen**: la suma de las nueve fuentes debe
+   coincidir con el conteo de `Fact_Contrataciones`.
+3. **Calcular las poblaciones del periodo** con las reglas de la tabla anterior y
+   confirmar que la clave de evento es única; si hay duplicados, incorporar
+   `Nro. Contrato` antes de continuar, nunca descartar filas.
+4. **Diagnosticar el delta** contra lo ya cargado: faltantes, adicionales y
+   duplicados, sin exponer datos individuales en consola ni en el repositorio.
+5. **Respaldar** `PptovsReal.xlsx` fuera de Git verificando **SHA-256**, con un
+   respaldo por etapa cuando la carga se haga en bloques (por ejemplo
+   `PRE_INGRESOS` y `POST_INGRESOS_PRE_RETIROS`).
+6. **Derivar el mapeo contra el mes anterior** antes de escribir: cada columna de
+   destino debe reproducir las filas históricas de forma inequívoca. Si alguna
+   regla no las reproduce, detenerse y resolverlo con el usuario.
+7. **Homologar `Grupo empresarial` y `Empresa`** con la jerarquía vigente: reglas
+   especiales aprobadas, luego el `Consolidado 2025` por `ID` en su periodo más
+   reciente traducido al catálogo oficial, y por último la homologación ya
+   validada para orígenes con destino único. No inventar reglas nuevas.
+8. **Resolver los campos derivados**: `Dependencia`/`Área` por combinación
+   histórica exacta de `CARGO_CCO` tomando el registro más reciente, `Nivel` por
+   la homologación de `NIVEL_DE_CARGO`, y `FECHA NACIMIENTO` por identificación.
+   Lo que no se resuelva se reporta; no se inventa ni se busca otra fuente.
+9. **Construir y validar todos los registros en memoria antes de abrir Excel.**
+10. **Copiar el libro a una ubicación fuera de OneDrive** y trabajar allí.
+11. **Escribir con Excel Desktop / COM.** Replicar primero una fila completa y
+    representativa del periodo anterior para heredar fórmulas y formatos, y
+    luego sobrescribir las columnas de valor.
+12. **Guardar una sola vez** y validar la copia: conteos, conciliación por clave,
+    fórmulas completas, columnas críticas sin vacíos, histórico y hojas no
+    intervenidas intactas.
+13. **Promover la copia al archivo oficial** solo tras el PASS, verificando
+    SHA-256 copia = destino, y reabrir para confirmar.
+14. **Conciliar de nuevo sobre el archivo oficial** reabierto en solo lectura.
+15. **Refrescar y publicar Power BI** solo cuando la conciliación esté en PASS, y
+    validar el reporte publicado.
+16. **Conservar los respaldos** hasta el cierre definitivo del periodo.
+
+### Controles
+
+- **AutoSave de OneDrive puede persistir cambios aunque Excel se cierre con**
+  **`SaveChanges=False`.** Por eso la copia fuera de OneDrive no es opcional: un
+  intento fallido sobre el archivo vivo deja filas a medias. Si ocurre, se
+  detecta comparando SHA-256 contra el respaldo y se restaura desde él.
+- **No usar `openpyxl` para escribir** este libro: destruye tablas, dinámicas,
+  formatos y fórmulas estructuradas. Como lector de solo lectura sí es válido.
+- **No tomar la última fila física como patrón de fórmulas**: `RETIROS` no está
+  ordenada por periodo y arrastra filas manuales sin fórmulas.
+- `RETIROS` es un **rango plano sin `ListObject`**: no autoexpande, las fórmulas
+  se replican explícitamente. `INGRESOS` sí usa la tabla `Tabla6`.
+- Los valores calculados de `INGRESOS` que leen `RETIROS` se recalculan al cargar
+  retiros: es el efecto esperado, no una alteración.
+- `Motivo Movimiento`, `Detalle` e `Indicador Actividad` son campos de **estado**:
+  se copian tal cual y pueden mostrar la situación actual, no la del evento.
+- **No exponer PII** en logs, consola, commits ni documentación: solo metadatos y
+  conteos agregados. `Data/`, los respaldos y los temporales quedan fuera de Git.
+- El validador `Scripts/headcount/validar_ingresos_retiros.py` todavía deriva el
+  origen de las hojas mensuales: **no es autoridad única** para un cierre hasta
+  que se complete `DATA-016`.

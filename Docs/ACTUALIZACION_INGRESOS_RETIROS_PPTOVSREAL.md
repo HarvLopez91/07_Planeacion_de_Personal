@@ -47,15 +47,34 @@ Es útil para automatización y pruebas de preingesta.
 | Rol | Valor predeterminado | Estructura utilizada |
 |---|---|---|
 | Destino operativo | `Data/HeadCount/PptovsReal.xlsx` | Hojas `INGRESOS` y `RETIROS`, encabezados en fila 1 |
-| Origen oficial | `Data/Contratos_Kactus/Fuente_Oficial/CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx` | Hojas mensuales Kactus, encabezados en fila 3 |
+| Origen oficial | `Data/Contratos_Kactus/Fuente_Oficial/CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx` | **Referencia operativa: `Fact_Contrataciones`** (unión de `Insumos_Vigentes/`). Las hojas mensuales son exportaciones manuales, encabezados en fila 3 |
 | Empresas | `PBIP/.../tables/Empresas.tmdl` | Catálogo embebido y regla Empresa → Grupo |
 | Grupos | `PBIP/.../tables/Grupo Empresarial.tmdl` | Catálogo oficial embebido |
 
-Las hojas Kactus se resuelven por mes y actividad, no mediante una lista anual
-fija:
+El validador vigente resuelve las hojas Kactus por mes y actividad, no mediante
+una lista anual fija:
 
 - `<mes>, A`: ingresos;
 - `<mes> II` o `<mes>, I`: retiros.
+
+**Esas hojas no son la fuente canónica de la población mensual.** Son
+exportaciones *drill-through* manuales (`Tabla_DatosExternos_N`) que reflejan el
+momento en que se extrajeron. La referencia operativa validada es
+`Fact_Contrataciones`, la unión literal de las nueve fuentes de
+`Data/Contratos_Kactus/Insumos_Vigentes/`.
+
+Reglas de población confirmadas en el cierre de septiembre de 2026:
+
+| Población | Regla | Filtro de actividad |
+|---|---|---|
+| INGRESOS | `Fecha Inicio` dentro del periodo | **no** se filtra `Indicador Actividad` |
+| RETIROS | `Fecha Vencimiento` dentro del periodo | `Indicador Actividad = I` |
+
+Clave de evento: `Identificación + Fecha Inicio` para INGRESOS y
+`Identificación + Fecha Vencimiento` para RETIROS.
+
+`Indicador Actividad` es un estado puntual, no un atributo del evento: el corte
+de un mes debe extraerse después del cierre de ese mes.
 
 ## Contrato de entrada
 
@@ -257,9 +276,9 @@ múltiples periodos, privacidad y una ingesta futura.
   cierre. El detalle nominal permanece fuera de Git.
 - Dos eventos conservan diferencias de fecha sin impacto sobre el total
   elegible.
-- Septiembre de 2026 no esta incorporado y debe tratarse como corte parcial al
-  23/09/2026 cuando se autorice su carga.
-- `INGRESOS` conserva eventos pendientes de actualizacion.
+- Septiembre de 2026 quedó incorporado y cerrado el 06/10/2026; ver
+  `Specs/0034_cierre_ingresos_retiros_septiembre_2026.md`.
+- Los eventos pendientes de `INGRESOS` se incorporaron en ese mismo cierre.
 - `Retiro valido` no gobierna las medidas y la pagina `Rotacion` puede no incluir
   todavia las dos exclusiones nuevas.
 
@@ -270,6 +289,96 @@ múltiples periodos, privacidad y una ingesta futura.
 - Convertir `Retiro valido` a entero.
 - Incorporar septiembre o los deltas operativos pendientes.
 
+## Cierre de septiembre de 2026
+
+Cerrado el 06/10/2026. Detalle completo en
+`Specs/0034_cierre_ingresos_retiros_septiembre_2026.md`.
+
+### Resultado
+
+| Hoja | Periodo | Kactus | PptovsReal | Faltantes | Adicionales |
+|---|---|---:|---:|---:|---:|
+| INGRESOS | agosto 2026 | 147 | 147 | 0 | 0 |
+| INGRESOS | septiembre 2026 | 127 | 127 | 0 | 0 |
+| RETIROS | agosto 2026 | 113 | 113 | 0 | 0 |
+| RETIROS | septiembre 2026 | 102 | 102 | 0 | 0 |
+
+Duplicados por clave de evento: 0 en las cuatro combinaciones. Se incorporaron
+128 ingresos (1 tardío de agosto y 127 de septiembre) y 102 retiros de
+septiembre.
+
+El caso de agosto demostró que las hojas exportadas no son fuente canónica:
+`Ago II` (94) era una extracción incompleta y la población definitiva de retiros
+de agosto es 113, igual que `Ago III`. El ingreso tardío de agosto responde al
+mismo fenómeno.
+
+### Homologación de empresa
+
+Jerarquía aplicada: reglas especiales aprobadas, luego la lógica vigente del
+`Consolidado 2025` (unión por `ID`, periodo más reciente, traducida al catálogo
+oficial), y por último la homologación previamente validada para los orígenes
+con destino único.
+
+| Origen Kactus | Clase de nómina | Grupo empresarial | Empresa |
+|---|---|---|---|
+| `LEMCO SAS` | `LEMCO SALVIO` | Habitel Hotels | Lemco Salvio |
+| `HABITEL S.A.S.` | `SELECT` | Habitel Hotels | Habitel Select |
+| `HABITEL S.A.S.` | `PRIME` | Habitel Hotels | Habitel Prime |
+
+`LEMCO SAS` no se homologa en bloque como Habitel Hotels: solo el caso
+`LEMCO SALVIO`. Resultado: 0 registros sin resolver en ambas poblaciones.
+
+### `EDAD` y `Grupo_Edad` de RETIROS
+
+La fecha de corte heredada `DATE(2026,7,31)` se corrigió por periodo: agosto a
+`DATE(2026,8,31)` (94 filas) y septiembre a `DATE(2026,9,30)` (102 filas). Se
+conservó la lógica de ambas fórmulas. Las 19 filas manuales de agosto nunca
+tuvieron esas fórmulas y no se modificaron.
+
+### Escritura segura: Excel COM y copia fuera de OneDrive
+
+Se comprobó que **AutoSave de OneDrive puede persistir cambios aunque Excel se
+cierre con `SaveChanges=False`**. Dos intentos abortados por errores de tipo de
+dato dejaron filas parciales en el archivo vivo; ambos se detectaron comparando
+SHA-256 contra el respaldo y se restauraron sin pérdida de información.
+
+Procedimiento obligatorio desde este cierre:
+
+1. respaldo previo verificando SHA-256 origen = copia;
+2. construir y validar todos los datos **en memoria antes de abrir Excel**;
+3. trabajar sobre una **copia temporal fuera de OneDrive**;
+4. escribir solo con **Excel Desktop / COM**, nunca con `openpyxl`;
+5. validar la copia por completo;
+6. promover al archivo oficial solo tras el PASS;
+7. verificar SHA-256 copia = destino y reabrir el libro.
+
+En libros sin tabla estructurada, el patrón de fórmulas debe tomarse de una fila
+completa representativa, nunca de la última fila física: `RETIROS` no está
+ordenada por periodo.
+
+### Deuda del validador vigente
+
+`Scripts/headcount/validar_ingresos_retiros.py` resuelve el origen a partir de
+las hojas mensuales y de su sufijo, por lo que **no representa la metodología
+validada en este cierre**: en agosto resuelve 94 en vez de 113, en julio 126 en
+vez de 146, y para septiembre no encuentra hoja alguna.
+
+Debe migrarse para derivar ambas poblaciones directamente de
+`Fact_Contrataciones` y conciliar por clave de evento. Hasta entonces **no debe
+usarse como autoridad única** para declarar un cierre mensual. Registrado como
+`DATA-016` en `Specs/00_roadmap_y_backlog.md`.
+
+### Pendiente no bloqueante
+
+De los 102 retiros de septiembre, 92 obtuvieron `FECHA NACIMIENTO` desde el
+`Consolidado 2025` y **10 quedaron en `#N/A`**, a completar manualmente cuando
+Kactus vuelva a estar disponible. No se inventó ninguna fecha ni se consultó otra
+fuente. Este pendiente **no bloquea el cierre de la implementación**.
+
+### Power BI
+
+Refresh y publicación realizados y validados por el usuario en Proyecto 04 y
+Proyecto 07. No se modificó `PBIP/` en este cierre.
 ## Referencias
 
 - `Docs/DATA_PIPELINE.md`, flujo de contratos Kactus.
