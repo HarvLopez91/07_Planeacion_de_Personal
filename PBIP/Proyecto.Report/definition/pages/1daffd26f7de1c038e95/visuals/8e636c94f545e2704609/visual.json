@@ -107,7 +107,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
@@ -135,7 +135,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -173,14 +173,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -228,7 +228,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             }
@@ -403,7 +403,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": 17.0
                 }
               }
             },
@@ -424,7 +424,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },

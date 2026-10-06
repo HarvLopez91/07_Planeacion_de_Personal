@@ -134,14 +134,14 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
@@ -260,7 +260,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1A3059'"
+                      "Value": "'#4A7FC0'"
                     }
                   }
                 }
@@ -301,7 +301,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0B1C35'"
+                      "Value": "'#7EB3E8'"
                     }
                   }
                 }
@@ -397,7 +397,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -423,7 +423,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": 12.0
                 }
               }
             },
@@ -441,6 +441,170 @@
                 }
               }
             }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "TIPO_CONTR (grupos)"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Contrato Indefinido'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "TIPO_CONTR (grupos)"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Contrato Fijo'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "TIPO_CONTR (grupos)"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Temporal'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "TIPO_CONTR (grupos)"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Contrato De Aprendizaje'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       ],
@@ -477,7 +641,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
@@ -491,7 +655,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             }
@@ -513,14 +677,14 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": 17.0
                 }
               }
             },

@@ -130,7 +130,7 @@
             "textSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "13D"
                 }
               }
             },
@@ -156,7 +156,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             }
@@ -196,14 +196,14 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
             "textSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "14D"
                 }
               }
             },

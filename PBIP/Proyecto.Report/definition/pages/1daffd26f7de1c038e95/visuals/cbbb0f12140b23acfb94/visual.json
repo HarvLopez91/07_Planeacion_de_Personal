@@ -96,7 +96,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
@@ -110,7 +110,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -173,7 +173,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0B1C35'"
+                      "Value": "'#000032'"
                     }
                   }
                 }
@@ -229,7 +229,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1A3059'"
+                      "Value": "'#1B487F'"
                     }
                   }
                 }
@@ -311,7 +311,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B487F'"
+                      "Value": "'#4A7FC0'"
                     }
                   }
                 }
@@ -391,7 +391,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": 11.0
                 }
               }
             },
@@ -405,10 +405,174 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "GENERACI&#211;N"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Baby Boomers'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "GENERACI&#211;N"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Generación X'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "GENERACI&#211;N"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Centennials'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "GENERACI&#211;N"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Millennials'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       ],
@@ -432,7 +596,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             }
@@ -475,7 +639,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -489,7 +653,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": 17.0
                 }
               }
             },
@@ -538,7 +702,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": 12.0
                 }
               }
             }
