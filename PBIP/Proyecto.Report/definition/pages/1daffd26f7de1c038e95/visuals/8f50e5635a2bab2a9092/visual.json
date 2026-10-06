@@ -89,7 +89,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'07.Julio'"
+                                "Value": "'09.Septiembre'"
                               }
                             }
                           ]
@@ -129,7 +129,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -155,7 +155,7 @@
             "textSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "14D"
                 }
               }
             }
@@ -187,14 +187,14 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
             "textSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "13D"
                 }
               }
             }

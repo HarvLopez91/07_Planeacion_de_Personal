@@ -108,7 +108,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
@@ -136,7 +136,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -194,14 +194,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 12.0
                 }
               }
             },
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -228,7 +228,7 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
@@ -254,7 +254,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": 11.0
                 }
               }
             },
@@ -265,6 +265,293 @@
                 }
               }
             }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'a. Menos de 1 Año'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'b. Entre 1 y 2 Años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'c. Entre 3 y 5 Años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'d. Entre 6 y 9 Años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'e. Entre 10 y 19 Años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'f. Entre 20 y 29 Años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000032'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "PLANTA DE PERSONAL"
+                          }
+                        },
+                        "Property": "Rango Antigüedad"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'g. 30 o más años'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
           }
         }
       ],
@@ -317,7 +604,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0B1C35'"
+                      "Value": "'#1B487F'"
                     }
                   }
                 }
@@ -358,7 +645,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1A3059'"
+                      "Value": "'#4A7FC0'"
                     }
                   }
                 }
@@ -399,7 +686,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1B487F'"
+                      "Value": "'#7EB3E8'"
                     }
                   }
                 }
@@ -440,7 +727,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#4A7FC0'"
+                      "Value": "'#2E8C9A'"
                     }
                   }
                 }
@@ -481,7 +768,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#7EB3E8'"
+                      "Value": "'#B9C4CF'"
                     }
                   }
                 }
@@ -579,14 +866,14 @@
             "fontFamily": {
               "expr": {
                 "Literal": {
-                  "Value": "'Outfit'"
+                  "Value": "'Calibri'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": 17.0
                 }
               }
             },

@@ -6,6 +6,45 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-06 (2)
+
+### Cambiado
+
+- `PBIP-010`: calibracion visual de la pagina `Sociodemografico por Empresa`
+  para lectura en televisores y pantallas grandes. **PASS visual del usuario**
+  sobre la pagina proyectada. No invalida el cierre de `PBIP-006`, cuyo PASS
+  evaluaba uso en monitor.
+- **Tipografia**: `Outfit` -> `Calibri` en las 49 declaraciones de la pagina.
+  Era la unica pagina del reporte con `Outfit` (13 de 17 usan `Calibri`) y esa
+  fuente no esta instalada, por lo que el motor la sustituia en render.
+- **Paleta**: salen de uso `#0B1C35` y `#1A3059`. Sus pares de contraste iban de
+  1,04:1 a 1,42:1 frente al minimo de 3:1 para marcas graficas. Se conservan los
+  aprobados `#000032`, `#1B487F`, `#4A7FC0` y `#7EB3E8`; `#F7931E` sigue como
+  acento, una categoria por grafico. `Antiguedad por Empresa` suma dos tonos
+  derivados, `#2E8C9A` y `#B9C4CF`, por tener 7 categorias.
+- **Color de etiqueta por categoria**: 19 entradas nuevas con color explicito
+  segun el fondo de su barra. El contraste pasa de 1,30:1 en el peor caso a
+  **4,86:1**, cumpliendo AA.
+- **Tamanos por rol**: titulo de pagina 20 -> 28 pt, titulos de visual 14 -> 17 pt,
+  ejes y leyendas 8-11 -> 12 pt, matriz 10/13 -> 13/15 pt, slicers 10-12/12 ->
+  13/14 pt, navegacion 12/16 -> 14/18 pt.
+- **Lienzo**: la banda de encabezado pasa de 2299,5 a 2100 px, el ancho util.
+
+### Preservado
+
+- El slicer de Mes conserva **`09.Septiembre`**, el ultimo periodo vigente
+  verificado contra la fuente del modelo (2.605 registros). No se revirtio a
+  `07.Julio`.
+- El navegador conserva `showPage: false` para `Retiros y Rotacion Predictiva`:
+  es una decision funcional del responsable, no ruido de serializacion.
+
+### No modificado
+
+- **0 cambios** en consultas, campos, filtros, interacciones, modelo semantico,
+  Power Query, DAX, relaciones, tema global y otras paginas. `Data/` y
+  `Outputs/` quedan fuera del commit.
+---
+
 ## [Sin version] - 2026-10-06
 
 ### Agregado

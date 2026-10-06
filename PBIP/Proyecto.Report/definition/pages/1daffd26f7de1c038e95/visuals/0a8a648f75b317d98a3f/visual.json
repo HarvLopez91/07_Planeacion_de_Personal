@@ -21,8 +21,8 @@
                   {
                     "value": "Perfil Sociodemográfico por Empresa",
                     "textStyle": {
-                      "fontFamily": "Outfit",
-                      "fontSize": "20pt",
+                      "fontFamily": "'Calibri'",
+                      "fontSize": "28pt",
                       "fontWeight": "bold",
                       "color": "#0B1C35"
                     }
@@ -35,8 +35,8 @@
                   {
                     "value": "Comparativo de composición y características de la población del Grupo LEMCO",
                     "textStyle": {
-                      "fontFamily": "Outfit",
-                      "fontSize": "11pt",
+                      "fontFamily": "'Calibri'",
+                      "fontSize": "14pt",
                       "color": "#1B487F"
                     }
                   }
