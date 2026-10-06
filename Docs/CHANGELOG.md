@@ -6,6 +6,73 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-06
+
+### Agregado
+
+- Cierre documental de INGRESOS y RETIROS de septiembre de 2026:
+  `Specs/0034_cierre_ingresos_retiros_septiembre_2026.md`.
+- `Docs/RUNBOOK.md` incorpora la seccion 12, **Procedimiento mensual de
+  actualizacion de PptovsReal (INGRESOS/RETIROS)**, con sus controles.
+
+### Estado del cierre
+
+- `INGRESOS`: agosto 2026 **147/147** y septiembre 2026 **127/127** contra
+  Kactus; se incorporaron 128 registros (1 ingreso tardio de agosto y 127 de
+  septiembre). `Tabla6` queda en 5.549 filas y 27 columnas.
+- `RETIROS`: agosto 2026 **113/113** y septiembre 2026 **102/102**; se
+  incorporaron los 102 de septiembre y agosto no se modifico.
+- Conciliacion por clave de evento en las cuatro combinaciones: **0 faltantes,
+  0 adicionales, 0 duplicados**.
+- Homologacion de empresa resuelta al 100% con la jerarquia vigente y tres
+  reglas especiales aprobadas (`LEMCO SALVIO`, `HABITEL SELECT`,
+  `HABITEL PRIME`). `Dependencia`/`Area` y `Nivel` resueltos 102/102 en los
+  retiros de septiembre.
+- `EDAD` y `Grupo_Edad` de `RETIROS` corrigen su fecha de corte heredada:
+  agosto al 31/08/2026 (94 filas) y septiembre al 30/09/2026 (102 filas).
+  Ninguna fila de esos periodos conserva `DATE(2026,7,31)`.
+- Power BI: refresh y publicacion realizados y validados por el usuario en
+  Proyecto 04 y Proyecto 07. **No se modifico `PBIP/`**.
+
+### Cambiado
+
+- `Docs/ACTUALIZACION_INGRESOS_RETIROS_PPTOVSREAL.md` registra que la referencia
+  operativa es **`Fact_Contrataciones`** y que las hojas mensuales del
+  consolidador son exportaciones manuales, no fuente canonica. El caso de agosto
+  lo demuestra: `Ago II` (94) era una extraccion incompleta y la poblacion real
+  de retiros de agosto es 113.
+- `Docs/PROJECT_STATUS.md` refleja el estado cerrado de ambas hojas.
+- `Specs/00_roadmap_y_backlog.md` registra el cierre operativo y abre `DATA-016`.
+
+### Aprendizaje operativo
+
+- Se comprobo que **AutoSave de OneDrive puede persistir cambios aunque Excel se
+  cierre con `SaveChanges=False`**. Dos intentos abortados por errores de tipo de
+  dato dejaron filas parciales en el archivo vivo; ambos se detectaron por
+  SHA-256 y se restauraron desde respaldos verificados, sin perdida de datos.
+- Procedimiento seguro adoptado: respaldo con SHA-256, construccion y validacion
+  de los datos **antes** de abrir Excel, trabajo sobre una **copia fuera de
+  OneDrive**, escritura con Excel COM, validacion completa de la copia y
+  promocion al archivo oficial solo tras el PASS.
+
+### Pendientes no bloqueantes
+
+- 10 fechas de nacimiento de los retiros de septiembre quedan en `#N/A` y las
+  completara el usuario cuando Kactus vuelva a estar disponible. No se invento
+  ninguna fecha ni se consulto otra fuente.
+- `DATA-016`: modernizar `Scripts/headcount/validar_ingresos_retiros.py` para
+  derivar ambas poblaciones de `Fact_Contrataciones` y conciliar por clave de
+  evento. Hasta entonces no es autoridad unica para un cierre.
+- 19 filas manuales de agosto siguen sin formula de `EDAD`/`Grupo_Edad` ni fecha
+  de nacimiento; no se retrocorrigieron.
+
+### No modificado
+
+- **No se modifico `PBIP/`**, ni Power Query, ni DAX, ni el modelo, ni scripts,
+  ni pruebas, ni `Outputs/`. `Data/` permanece ignorado por Git, igual que los
+  respaldos y los temporales del cierre.
+---
+
 ## [Sin version] - 2026-10-05
 
 ### Agregado

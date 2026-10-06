@@ -31,6 +31,8 @@ La estrategia vigente busca mover fuentes desde rutas personales de SharePoint/O
 Estado documentado:
 
 - `PptovsReal.xlsx` ya está en ruta corporativa para `Planta Ppto`, `Ppto Retiros` y `Ppto Ingresos`.
+- `PptovsReal.xlsx` tiene **INGRESOS y RETIROS cerrados hasta septiembre de 2026** (cierre del 2026-10-06, `Specs/0034_cierre_ingresos_retiros_septiembre_2026.md`): INGRESOS 147 en agosto y 127 en septiembre, RETIROS 113 en agosto y 102 en septiembre, con 0 faltantes, 0 adicionales y 0 duplicados por clave de evento. Única excepción abierta: 10 fechas de nacimiento de retiros de septiembre pendientes de carga manual, **no bloqueantes**.
+- La referencia operativa de la población mensual de INGRESOS/RETIROS es `Fact_Contrataciones` del consolidador de contratos, no las hojas mensuales exportadas, que pueden estar incompletas según cuándo se extrajeron.
 - Selección y SENA fueron revisadas para apuntar a rutas corporativas aprobadas.
 - `SENA UNIDADES` debe conservar navegación `Item="SENA", Kind="Sheet"`.
 - Persisten rutas personales o pendientes de análisis en fuentes como `AUSENTISMOS` y `Estructura`.
@@ -69,6 +71,7 @@ La validación definitiva requiere Power BI Desktop de julio de 2026 o posterior
 | Analizar incorporación de `REQUISICIONES HABITEL 2026.xlsx` | Fuente | Pendiente |
 | Migrar rutas personales restantes de `AUSENTISMOS` y `Estructura` | Fuente | Pendiente |
 | Definir publicación y refresh programado en Power BI Service | Operación | Pendiente |
+| Modernizar `validar_ingresos_retiros.py` para derivar de `Fact_Contrataciones` (`DATA-016`) | Automatización | Pendiente: el validador vigente deriva de las hojas mensuales y no es autoridad única para un cierre |
 | Validar archivo oficial, consumidores y rutas de `Data/Contratos_Kactus/` | Fuente | En validación: archivo oficial y consultas internas del consolidador validadas; consumidores PBIP pendientes |
 
 ## Criterio para Avanzar a Validación Funcional
