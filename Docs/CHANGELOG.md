@@ -6,6 +6,24 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-06 (3)
+
+### Corregido
+
+- Hotfix de `PBIP-010`: la pagina `Retiros y Rotacion Predictiva`
+  (`b7f3a91c2d4e60582a1f`) ahora se oculta realmente en modo lectura mediante
+  `"visibility": "HiddenInViewMode"` en su `page.json`.
+- El `showPage: false` que PBIP-010 dejo en el navegador de
+  `Sociodemografico por Empresa` solo ocultaba la pagina del **navegador
+  personalizado**: la pestana real seguia visible en Power BI Desktop. Ambos
+  mecanismos se conservan, porque cubren cosas distintas.
+- Se replico el patron ya usado en el reporte: la pagina `Demografico`
+  (`f0fd1eb45022c4c0718e`) declara esa misma propiedad.
+- Cambio minimo: 1 archivo, 1 propiedad agregada. Sin tocar visuales, medidas,
+  DAX, Power Query, modelo, relaciones, slicers, colores, tipografias, otras
+  paginas ni `Data/`.
+---
+
 ## [Sin version] - 2026-10-06 (2)
 
 ### Cambiado
