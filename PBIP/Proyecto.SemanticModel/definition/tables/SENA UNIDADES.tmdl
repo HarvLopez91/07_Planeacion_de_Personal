@@ -72,10 +72,9 @@ table 'SENA UNIDADES'
 				    #"SENA 2025_Sheet" = Origen{[Item="SENA",Kind="Sheet"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"SENA 2025_Sheet", [PromoteAllScalars=true]),
 				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Encabezados promovidos", [PromoteAllScalars=true]),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Año", Int64.Type}, {"EMPRESA", type text}, {"Mes", type text}, {"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}, {"%Cumplimiento", Int64.Type}, {"%Meta", Int64.Type}, {"%Cumplimiento Anual", type number}}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Año", type text}, {"EMPRESA", type text}, {"Mes", type text}, {"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}, {"%Cumplimiento", Int64.Type}, {"%Meta", Int64.Type}, {"%Cumplimiento Anual", type number}}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"%Cumplimiento", "%Meta", "%Cumplimiento Anual"}),
-				    #"Consulta anexada" = Table.Combine({#"Columnas quitadas", SENA_CYL}),
-				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Consulta anexada",{{"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}})
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas quitadas",{{"Días Cotizados", Int64.Type}, {"Días Meta", Int64.Type}})
 				in
 				    #"Tipo cambiado1"
 
