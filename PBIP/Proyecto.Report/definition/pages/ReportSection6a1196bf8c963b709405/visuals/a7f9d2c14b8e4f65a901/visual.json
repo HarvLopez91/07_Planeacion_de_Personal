@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "a7f9d2c14b8e4f65a901",
   "position": {
-    "x": 1443.9024390243903,
-    "y": 93.902439024390247,
-    "z": 33000,
-    "height": 262.19512195121951,
-    "width": 354.8780487804878,
-    "tabOrder": 29000
+    "x": 1443.3962264150944,
+    "y": 93.39622641509435,
+    "z": 31000,
+    "height": 304.44743935309975,
+    "width": 355.3908355795148,
+    "tabOrder": 28000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -42,10 +42,10 @@
                       "Entity": "Ppto Retiros"
                     }
                   },
-                  "Property": "Rango_Antiguedad_Retiro"
+                  "Property": "Rango_Antiguedad_Retiro_Estandar"
                 }
               },
-              "queryRef": "Ppto Retiros.Rango_Antiguedad_Retiro",
+              "queryRef": "Ppto Retiros.Rango_Antiguedad_Retiro_Estandar",
               "nativeQueryRef": "Antigüedad retirados",
               "active": true,
               "displayName": "Antigüedad retirados"
@@ -67,7 +67,22 @@
               },
               "queryRef": "Tbl_Medidas.Tot_Retiros",
               "nativeQueryRef": "Tot_Retiros",
-              "displayName": "Retiros"
+              "displayName": "Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "Retiros Frecuencia Relativa Antiguedad"
+                }
+              },
+              "queryRef": "Tbl_Medidas.Retiros Frecuencia Relativa Antiguedad",
+              "nativeQueryRef": "Retiros Frecuencia Relativa Antiguedad",
+              "displayName": "%"
             }
           ]
         }
@@ -82,7 +97,7 @@
                     "Entity": "Ppto Retiros"
                   }
                 },
-                "Property": "Rango_Antiguedad_Retiro"
+                "Property": "Rango_Antiguedad_Retiro_Estandar"
               }
             },
             "direction": "Ascending"
@@ -98,7 +113,7 @@
         "levels": [
           {
             "queryRefs": [
-              "Ppto Retiros.Rango_Antiguedad_Retiro"
+              "Ppto Retiros.Rango_Antiguedad_Retiro_Estandar"
             ],
             "isCollapsed": true,
             "identityKeys": [
@@ -109,7 +124,7 @@
                       "Entity": "Ppto Retiros"
                     }
                   },
-                  "Property": "Rango_Antiguedad_Retiro"
+                  "Property": "Rango_Antiguedad_Retiro_Estandar"
                 }
               }
             ],
@@ -131,7 +146,7 @@
             "columnSubtotals": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
