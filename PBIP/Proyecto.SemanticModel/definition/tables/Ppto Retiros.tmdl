@@ -488,6 +488,27 @@ table 'Ppto Retiros'
 
 		annotation SummarizationSetBy = Automatic
 
+	column Rango_Antiguedad_Retiro_Estandar
+		dataType: string
+		lineageTag: b0602b22-a121-4a23-9a1b-ecadbb3df0de
+		summarizeBy: none
+		sourceColumn: Rango_Antiguedad_Retiro_Estandar
+		sortByColumn: Orden_Rango_Antiguedad_Retiro_Estandar
+
+	column Orden_Rango_Antiguedad_Retiro_Estandar
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c96aaf5c-9584-4de7-8053-51575ced90be
+		summarizeBy: none
+		sourceColumn: Orden_Rango_Antiguedad_Retiro_Estandar
+
+	column Estado_Fecha_Antiguedad_Retiro
+		dataType: string
+		lineageTag: c946f617-78be-4c4d-bf24-89d82f427abd
+		summarizeBy: none
+		sourceColumn: Estado_Fecha_Antiguedad_Retiro
+
 	partition 'Ppto Retiros' = m
 		mode: import
 		queryGroup: PptovsReal
@@ -537,9 +558,36 @@ table 'Ppto Retiros'
 				            else if Meses <= 119 then 4
 				            else if Meses <= 239 then 5
 				            else if Meses <= 359 then 6
-				            else 7, Int64.Type)
+				            else 7, Int64.Type),
+				    FxFechaAntiguedad = (valor as any) as nullable date =>
+				        let
+				            directa = try Date.From(valor) otherwise null,
+				            texto = if directa <> null then null else try Text.Trim(Text.From(valor)) otherwise null,
+				            esCO = if directa <> null or texto = null or texto = "" then null else try Date.FromText(texto, "es-CO") otherwise null,
+				            enUS = if directa <> null or esCO <> null or texto = null or texto = "" then null else try Date.FromText(texto, "en-US") otherwise null
+				        in if directa <> null then directa else if esCO <> null then esCO else enUS,
+				    FxAntiguedadRetiro = (inicio as any, retiro as any) as record =>
+				        let
+				            I = FxFechaAntiguedad(inicio),
+				            R = FxFechaAntiguedad(retiro),
+				            Estado = if inicio = null or (Value.Is(inicio, type text) and Text.Trim(inicio) = "") then "Ingreso ausente"
+				                else if retiro = null or (Value.Is(retiro, type text) and Text.Trim(retiro) = "") then "Retiro ausente"
+				                else if I = null then "Ingreso invalido"
+				                else if R = null then "Retiro invalido"
+				                else if R < I then "Retiro anterior al ingreso"
+				                else "Valido",
+				            Limites = {2, 4, 6, 12, 24, 36, 60, 120, 240, 360},
+				            Etiquetas = {"0 a 2 meses", "Más de 2 y hasta 4 meses", "Más de 4 y hasta 6 meses", "Más de 6 meses y hasta 1 año", "Más de 1 y hasta 2 años", "Más de 2 y hasta 3 años", "Más de 3 y hasta 5 años", "Más de 5 y hasta 10 años", "Más de 10 y hasta 20 años", "Más de 20 y hasta 30 años", "Más de 30 años"},
+				            Posicion = if Estado <> "Valido" then -1 else List.PositionOf(List.Transform(Limites, each R <= Date.AddMonths(I, _)), true),
+				            Orden = if Estado <> "Valido" then 90 + List.PositionOf({"Ingreso ausente", "Retiro ausente", "Ingreso invalido", "Retiro invalido", "Retiro anterior al ingreso"}, Estado)
+				                else if Posicion = -1 then 11 else Posicion + 1,
+				            Rango = if Estado <> "Valido" then "Sin clasificar - " & Estado else Etiquetas{Orden - 1}
+				        in [Rango_Antiguedad_Retiro_Estandar = Rango, Orden_Rango_Antiguedad_Retiro_Estandar = Orden, Estado_Fecha_Antiguedad_Retiro = Estado],
+				    #"Antiguedad calendario" = Table.AddColumn(#"Orden rango antiguedad retiro", "_AntiguedadRetiro", each FxAntiguedadRetiro(try [Fecha Inicio] otherwise "#ERROR", try [Fecha Vencimiento] otherwise "#ERROR"), type record),
+				    #"Antiguedad expandida" = Table.ExpandRecordColumn(#"Antiguedad calendario", "_AntiguedadRetiro", {"Rango_Antiguedad_Retiro_Estandar", "Orden_Rango_Antiguedad_Retiro_Estandar", "Estado_Fecha_Antiguedad_Retiro"}),
+				    #"Tipos antiguedad calendario" = Table.TransformColumnTypes(#"Antiguedad expandida", {{"Rango_Antiguedad_Retiro_Estandar", type text}, {"Orden_Rango_Antiguedad_Retiro_Estandar", Int64.Type}, {"Estado_Fecha_Antiguedad_Retiro", type text}})
 				in
-				    #"Orden rango antiguedad retiro"
+				    #"Tipos antiguedad calendario"
 
 	annotation PBI_ResultType = Table
 

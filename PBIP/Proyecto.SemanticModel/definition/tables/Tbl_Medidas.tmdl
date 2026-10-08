@@ -2,6 +2,21 @@ table Tbl_Medidas
 	lineageTag: bf0f5853-c510-4e8d-8ba2-4352941e31be
 
 	/// Capa de presentación PBIP-008; reutiliza las medidas analíticas aprobadas.
+	measure 'Retiros Frecuencia Relativa Antiguedad' =
+			DIVIDE (
+			    [Tot_Retiros],
+			    CALCULATE (
+			        [Tot_Retiros],
+			        REMOVEFILTERS (
+			            'Ppto Retiros'[Rango_Antiguedad_Retiro_Estandar],
+			            'Ppto Retiros'[Orden_Rango_Antiguedad_Retiro_Estandar]
+			        )
+			    )
+			)
+		formatString: 0.00%
+		displayFolder: 03 Ingresos y Retiros
+		lineageTag: aba6b635-9efa-4b48-b8fc-bf6b8f944e26
+
 	measure 'PBIP008 Rotacion Ultimo Cierre' =
 			VAR _FechaCorte = [PBIP008 Fecha Corte]
 			VAR _IndiceCorte = YEAR ( _FechaCorte ) * 12 + MONTH ( _FechaCorte )
