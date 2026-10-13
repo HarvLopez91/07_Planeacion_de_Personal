@@ -93,6 +93,41 @@ Automatizacion futura: se considera conveniente pero queda diferida (otros frent
 
 Detalle completo, sin datos personales: `Specs/0023_cierre_actualizacion_manual_retiros_rotacion_manufactura_julio_2026.md`.
 
+## Cierre manual controlado - agosto y septiembre 2026
+
+Se corrigio el corte de agosto y se incorporo septiembre en la version operativa
+`Current/Retiros_y_Rotacion_Manufactura.xlsx`. Se usaron las 14 combinaciones
+de Dependencia y Area existentes (10 de Direccion de Manufactura y 4 de
+Gerencia Cadena Muebles Laminados). Colaboradores proviene del conteo de filas
+de `Consolidado 2025.xlsx`/`Consolidado2025`; retiros, de
+`PptovsReal.xlsx`/`RETIROS`, aplicando las nueve exclusiones vigentes de
+`Docs/METRICS_CATALOG.md` y contrastando con `Retiro valido`. No se uso la
+homologacion manual por prefijos de `CARGO_CCO` del corte de julio.
+
+| Indicador | Agosto 2026 | Septiembre 2026 |
+|---|---:|---:|
+| Colaboradores | 874 | 880 |
+| Retiros validos | 35 | 28 |
+| Retiros de Direccion de Manufactura | 31 | 25 |
+| Retiros de Gerencia Cadena Muebles Laminados | 4 | 3 |
+
+Agosto tenia un solo retiro valido en el informe: se corrigieron los 34
+faltantes, sin cambiar los 874 colaboradores. La conciliacion independiente
+por las 14 areas cerro con **diferencia residual cero** en ambos meses.
+Se modificaron 37 celdas del informe; se conservaron las 628 formulas
+originales, los estilos, enero-julio de 2026 y la hoja `Retiros (2025)`.
+Excel recalculo cuatro formulas nuevas de subtotal y los indicadores
+dependientes. Los libros fuente no se modificaron.
+
+**Estado: PASS con observaciones.** La copia se valido antes de sustituir la
+version operativa y el archivo final se reabrio tecnicamente en Excel, en
+modo solo lectura, sin error. El usuario verifico visualmente los valores
+de colaboradores y retiros de ambos meses. Aun no se ha acreditado una
+revision visual integral de todos los indicadores calculados. El respaldo
+recuperable se conserva fuera de Git; los archivos `.xlsx` siguen excluidos
+del versionamiento. `DATA-014` permanece pendiente como iniciativa
+independiente de automatizacion mensual.
+
 ## Privacidad y seguridad
 
 Aunque la revision local no evidencio encabezados directos de identificacion personal en el archivo actual, el informe pertenece al dominio de Talento Humano y puede contener informacion sensible o potencialmente sensible.

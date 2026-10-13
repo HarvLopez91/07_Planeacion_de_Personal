@@ -6,6 +6,26 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-13
+
+### Actualizado
+
+- Informe recurrente de Retiros y Rotacion Manufactura: agosto 2026
+  corrige 34 retiros validos faltantes (1 -> 35) y conserva 874
+  colaboradores; septiembre incorpora 880 colaboradores y 28 retiros
+  validos. Retiros por dependencia: Manufactura 31/25 y Muebles
+  Laminados 4/3 (agosto/septiembre).
+- Las 14 areas conciliaron con diferencia residual cero. Se cambiaron
+  37 celdas del informe derivado; se preservaron las 628 formulas
+  originales, formatos, historicos y libros fuente. Reapertura tecnica
+  en Excel satisfactoria.
+- Estado **PASS con observaciones**: el usuario verifico visualmente
+  colaboradores y retiros de ambos meses; falta acreditar la revision
+  visual integral de los indicadores calculados. El archivo `.xlsx`
+  permanece fuera de Git. `DATA-014` sigue pendiente y separado.
+
+---
+
 ## [Sin version] - 2026-10-06 (4)
 
 ### Corregido

@@ -22,7 +22,7 @@ Reglas de interpretación:
 | Rama base | `main` |
 | Área funcional | People Analytics Grupo Empresarial Lemco — HeadCount, Presupuesto (PptovsReal), Selección, Ausentismo/Incapacidades, SST, SENA |
 | Estado general | Migración de fuentes a SharePoint corporativo **en curso** (parcial: PptovsReal y SST cerrados; PLANTA DE PERSONAL, Selección Grupo Lemco, SENA UNIDADES con Formula Firewall sin validar). Working tree con cambios PBIP acumulados pendientes de auditar |
-| Fecha de última actualización de este roadmap | 2026-10-04 |
+| Fecha de última actualización de este roadmap | 2026-10-13 |
 | Responsable de mantenimiento documental | Edwin Clavijo |
 
 ## 3. Reglas de gobierno
@@ -188,6 +188,7 @@ Ningún paso se salta cuando el usuario ha definido un plan secuencial explícit
 
 | Fecha | Cambio | Iniciativas afectadas | Autor o agente |
 |---|---|---|---|
+| 2026-10-13 | Cierre manual del informe recurrente de Retiros y Rotacion Manufactura para agosto y septiembre de 2026: 874/880 colaboradores, 35/28 retiros validos, 14 areas con diferencia cero y 34 retiros de agosto corregidos. Estado PASS con observaciones por revision visual integral pendiente; DATA-014 sigue diferida como automatizacion independiente | DATA-014 (sin cambio de estado) | Codex |
 | 2026-08-03 | Validacion del archivo oficial `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`: consultas internas apuntan a `Insumos_Vigentes/` en SharePoint corporativo y el refresh del consolidador finaliza sin excepcion; integracion PBIP continua pendiente | DATA-011 | Codex |
 | 2026-08-03 | Registro de la iniciativa de gobierno y organización de fuentes de contratos Kactus tras verificar la estructura `Data/Contratos_Kactus/` y documentar su procedimiento operativo | DATA-011 | Codex |
 | 2026-07-30 | Creación inicial del roadmap y backlog a partir del estado real del repositorio (AGENTS.md, Docs, Specs, Tools, skills, git status) | Todas las registradas en este documento | Claude Code |
