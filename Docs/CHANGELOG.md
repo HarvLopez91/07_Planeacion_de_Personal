@@ -6,6 +6,25 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-06 (4)
+
+### Corregido
+
+- `SENA UNIDADES` dejo de anexar `SENA_CYL`. El paso `Consulta anexada`
+  (`Table.Combine`) duplicaba datos: las 36 filas utiles de `SENA_CYL` ya
+  existian en `SENA.xlsx` con la misma combinacion `EMPRESA`/`Año`/`Mes` y no
+  aportaban ningun periodo exclusivo. `Tipo cambiado1` toma ahora
+  `#"Columnas quitadas"` como entrada; el esquema resultante no cambia.
+- Doble conteo verificado por DAX contra el modelo en vivo antes de corregir:
+  CHALLENGER 2024 = 41.714 dias cotizados en 24 filas (reales 20.857 en 12),
+  CHALLENGER 2025 = 39.033 (reales 24.897), LEMCO 2025 = 3.780 (reales 2.428).
+  Afectaba `Dias Cotizados` y `Dias Meta`, y por tanto las 8 medidas `*Sena*`
+  y los 3 visuales de la pagina `Seleccion`.
+- `SENA.xlsx` queda documentada como fuente canonica unica de `SENA UNIDADES`.
+  `SENA_CYL` no se elimino: permanece oculta, sin consumidores en el modelo y
+  con su anotacion `PBI_ResultType = Exception` sin modificar, pendiente de
+  decidir su retiro definitivo.
+
 ## [Sin version] - 2026-10-06 (3)
 
 ### Corregido

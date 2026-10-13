@@ -68,13 +68,29 @@ cambio de `SENA 2025` a `SENA` y aparecieron dos columnas sin nombrar,
 `Column9` y `Column10`, que Power Query detecto automaticamente. Queda pendiente
 decidir si se nombran o se retiran.
 
+> **`SENA.xlsx` es la fuente canonica unica de `SENA UNIDADES`** (desde
+> 2026-10-06). La consulta anexaba `SENA_CYL` con `Table.Combine`, y ese anexo
+> **duplicaba datos**: las 36 filas utiles de `SENA_CYL` ya existian en
+> `SENA.xlsx` con la misma combinacion `EMPRESA`/`Año`/`Mes`, y no aportaba
+> ningun periodo exclusivo. El doble conteo se verifico por DAX contra el
+> modelo en vivo: CHALLENGER 2024 mostraba 41.714 dias cotizados en 24 filas
+> frente a 20.857 en 12 filas reales; CHALLENGER 2025, 39.033 frente a 24.897;
+> LEMCO 2025, 3.780 frente a 2.428. Se retiro el paso `Consulta anexada` y
+> `Tipo cambiado1` toma ahora `#"Columnas quitadas"` como entrada. El esquema
+> resultante no cambia. La correccion elimina el doble conteo de
+> `Dias Cotizados` y `Dias Meta`.
+>
+> `SENA_CYL` **no se elimino**: permanece como consulta separada y oculta, sin
+> consumidores en el modelo, pendiente de decidir su retiro definitivo. Su
+> anotacion `PBI_ResultType = Exception` quedo sin modificar.
+
 ### Destino B — `00_BackUp/01_Maria_Bohorquez` (DEUDA TEMPORAL)
 
 | Tabla | Archivo |
 |---|---|
 | `CIE-10` | `Incapacidades_GL.xlsx` |
 | `Incapacidades` | `Incapacidades_GL.xlsx` |
-| `SENA_CYL` | `REQUISICIONES_CYL.xlsx` |
+| `SENA_CYL` | `REQUISICIONES_CYL.xlsx` (consulta oculta, sin consumidores desde 2026-10-06) |
 | `Seleccion Challenger` | `REQUISICIONES_CYL.xlsx` |
 | `Seleccion Grupo Sky` | `REQUISICIONES SKY.xlsx` |
 | `Seleccion Habitel Hotels` | `REQUISICIONES HABITEL.xlsx` |

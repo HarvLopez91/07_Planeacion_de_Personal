@@ -27,7 +27,7 @@
 | `Seleccion Habitel Hotels` | Seleccion | Requisiciones de seleccion de Habitel Hotels (tabla oculta). |
 | `Seleccion Grupo Sky` | Seleccion | Requisiciones de seleccion de Grupo Sky (tabla oculta). |
 | `Seleccion Grupo Lemco` | Seleccion | Requisiciones de seleccion de Lemco (tabla oculta). |
-| `SENA_CYL` | *(sin grupo)* | Datos de aprendices SENA para Challenger y Lemco. |
+| `SENA_CYL` | *(sin grupo)* | Datos de aprendices SENA para Challenger y Lemco. **Oculta y sin consumidores desde 2026-10-06**: su contenido ya estaba en `SENA.xlsx` y el anexo duplicaba datos (ver `DATA_PIPELINE.md`). |
 | `SENA UNIDADES` | *(sin grupo)* | Cupo de aprendices SENA por unidad y empresa. |
 
 ### Tabla de Staging (oculta)
