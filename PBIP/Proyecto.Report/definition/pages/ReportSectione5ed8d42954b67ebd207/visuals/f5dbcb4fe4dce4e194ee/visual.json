@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "f5dbcb4fe4dce4e194ee",
   "position": {
-    "x": 567.439024390244,
+    "x": 415,
     "y": 510.3658536585366,
     "z": 5000,
     "height": 362.1951219512195,
-    "width": 546.5853658536586,
+    "width": 850,
     "tabOrder": 4000
   },
   "visual": {
@@ -51,21 +51,16 @@
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Planta Ppto"
-                        }
-                      },
-                      "Property": "Ventas (MM)"
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Function": 0
+                  "Property": "Prod_Ventas_MM"
                 }
               },
-              "queryRef": "Sum(Planta Ppto.Ventas (MM))",
+              "queryRef": "Tbl_Medidas.Prod_Ventas_MM",
               "nativeQueryRef": "Ventas",
               "displayName": "Ventas"
             },
@@ -77,12 +72,12 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Efic_Emp"
+                  "Property": "PC_Ventas_Por_Colaborador_MM"
                 }
               },
-              "queryRef": "Tbl_Medidas.Efic_Emp",
-              "nativeQueryRef": "Ventas por Colaborador $COP",
-              "displayName": "Ventas por Colaborador $COP"
+              "queryRef": "Tbl_Medidas.PC_Ventas_Por_Colaborador_MM",
+              "nativeQueryRef": "Ventas por Colaborador (MM COP)",
+              "displayName": "Ventas por Colaborador (MM COP)"
             }
           ]
         }
@@ -208,13 +203,13 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000000D"
+                  "Value": "1D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Sum(Planta Ppto.Ventas (MM))"
+            "metadata": "Tbl_Medidas.Prod_Ventas_MM"
           }
         },
         {
@@ -276,13 +271,13 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000000D"
+                  "Value": "1D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Efic_Emp"
+            "metadata": "Tbl_Medidas.PC_Ventas_Por_Colaborador_MM"
           }
         },
         {
@@ -314,11 +309,15 @@
       ],
       "columnWidth": [
         {
+          "properties": { "value": { "expr": { "Literal": { "Value": "130D" } } } },
+          "selector": { "metadata": "Mes.Meses" }
+        },
+        {
           "properties": {
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "151D"
+                  "Value": "170D"
                 }
               }
             }
@@ -332,13 +331,13 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "104D"
+                  "Value": "210D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Sum(Planta Ppto.Ventas (MM))"
+            "metadata": "Tbl_Medidas.Prod_Ventas_MM"
           }
         },
         {
@@ -346,13 +345,13 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "169.4999913082836D"
+                  "Value": "250D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Efic_Emp"
+            "metadata": "Tbl_Medidas.PC_Ventas_Por_Colaborador_MM"
           }
         }
       ],

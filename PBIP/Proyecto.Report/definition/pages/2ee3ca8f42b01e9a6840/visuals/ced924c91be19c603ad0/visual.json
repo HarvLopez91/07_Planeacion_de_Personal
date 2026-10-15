@@ -37,10 +37,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "GL_Ppto_Gasto_Personal"
+                  "Property": "GL_Gasto_Ppto_MM"
                 }
               },
-              "queryRef": "Tbl_Medidas.GL_Ppto_Gasto_Personal",
+              "queryRef": "Tbl_Medidas.GL_Gasto_Ppto_MM",
               "nativeQueryRef": "Ppto. Gasto Personal",
               "displayName": "Ppto. Gasto Personal"
             },
@@ -52,10 +52,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "GL_Gasto_Personal"
+                  "Property": "GL_Gasto_Real_MM"
                 }
               },
-              "queryRef": "Tbl_Medidas.GL_Gasto_Personal",
+              "queryRef": "Tbl_Medidas.GL_Gasto_Real_MM",
               "nativeQueryRef": "Gasto Personal",
               "displayName": "Gasto Personal"
             },
@@ -67,11 +67,11 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Cump_GL"
+                  "Property": "GL_Cumplimiento_MM"
                 }
               },
-              "queryRef": "Tbl_Medidas.Cump_GL",
-              "nativeQueryRef": "Cump_GL"
+              "queryRef": "Tbl_Medidas.GL_Cumplimiento_MM",
+              "nativeQueryRef": "GL_Cumplimiento_MM"
             }
           ]
         }
@@ -224,7 +224,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Ppto_Gasto_Personal"
+            "metadata": "Tbl_Medidas.GL_Gasto_Ppto_MM"
           }
         },
         {
@@ -252,7 +252,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Gasto_Personal"
+            "metadata": "Tbl_Medidas.GL_Gasto_Real_MM"
           }
         },
         {
@@ -273,7 +273,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Cump_GL"
+            "metadata": "Tbl_Medidas.GL_Cumplimiento_MM"
           }
         }
       ],
@@ -299,7 +299,7 @@
         {
           "properties": {},
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Ppto_Gasto_Personal"
+            "metadata": "Tbl_Medidas.GL_Gasto_Ppto_MM"
           }
         },
         {
@@ -313,7 +313,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Cump_GL"
+            "metadata": "Tbl_Medidas.GL_Cumplimiento_MM"
           }
         }
       ]
@@ -397,101 +397,6 @@
         },
         "type": "Categorical",
         "howCreated": "User"
-      },
-      {
-        "name": "e1253813106cb0602883",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Mes"
-              }
-            },
-            "Property": "Meses"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "m",
-              "Entity": "Mes",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "m"
-                          }
-                        },
-                        "Property": "Meses"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'01.Enero'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'02.Febrero'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'03.Marzo'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'04.Abril'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'05.Mayo'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'06.Junio'"
-                        }
-                      }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'07.Julio'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        }
       }
     ]
   }

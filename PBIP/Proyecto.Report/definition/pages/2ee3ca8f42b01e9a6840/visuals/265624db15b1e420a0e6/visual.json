@@ -23,11 +23,11 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Cump_GL"
+                  "Property": "GL_Cumplimiento_MM"
                 }
               },
-              "queryRef": "Tbl_Medidas.Cump_GL",
-              "nativeQueryRef": "Cump_GL"
+              "queryRef": "Tbl_Medidas.GL_Cumplimiento_MM",
+              "nativeQueryRef": "GL_Cumplimiento_MM"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Tbl_Medidas"
                   }
                 },
-                "Property": "Cump_GL"
+                "Property": "GL_Cumplimiento_MM"
               }
             },
             "direction": "Descending"
@@ -85,7 +85,7 @@
                                       "Entity": "Tbl_Medidas"
                                     }
                                   },
-                                  "Property": "Cump_GL"
+                                  "Property": "GL_Cumplimiento_MM"
                                 }
                               },
                               "Right": {
@@ -114,7 +114,7 @@
                                           "Entity": "Tbl_Medidas"
                                         }
                                       },
-                                      "Property": "Cump_GL"
+                                      "Property": "GL_Cumplimiento_MM"
                                     }
                                   },
                                   "Right": {
@@ -134,7 +134,7 @@
                                           "Entity": "Tbl_Medidas"
                                         }
                                       },
-                                      "Property": "Cump_GL"
+                                      "Property": "GL_Cumplimiento_MM"
                                     }
                                   },
                                   "Right": {
