@@ -1255,6 +1255,20 @@ table Tbl_Medidas
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 3a783e39-3b89-4711-943b-29d43358ee48
 
+	/// Presentacion: las filas mensuales conservan su valor; tarjeta y total requieren filtro efectivo de Mes.
+	measure GL_Cumplimiento_Visual = IF ( ISINSCOPE ( Mes[Meses] ) || ISFILTERED ( Mes[Meses] ), [GL_Cumplimiento_MM], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 7ae2e321-70c8-4d81-8d40-bc6b7188c5e1
+
+	measure GL_Cumplimiento_Tarjeta = IF ( ISBLANK ( [GL_Cumplimiento_Visual] ), "", FORMAT ( [GL_Cumplimiento_Visual], "0.0%" ) )
+		displayFolder: 02 Ppto vs Real
+		lineageTag: b9d881f0-3e0c-4ec6-9c23-3e548cc98a50
+
+	measure GL_Titulo_Cumplimiento = IF ( ISFILTERED ( Mes[Meses] ), "Cumplimiento Gasto Laboral", "Selecciona uno o varios meses para consultar el cumplimiento" )
+		displayFolder: 02 Ppto vs Real
+		lineageTag: a34e172f-a65e-45d3-b1de-5c5736237c8e
+
 	/// Productividad por colaborador: ventas normalizadas con el denominador empresarial vigente.
 	measure PC_Ventas_Por_Colaborador_MM = DIVIDE ( [Prod_Ventas_MM], [Tot_Colab-Sena] )
 		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."

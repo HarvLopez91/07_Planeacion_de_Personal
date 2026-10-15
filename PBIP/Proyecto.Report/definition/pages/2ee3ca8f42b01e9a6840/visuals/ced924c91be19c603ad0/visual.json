@@ -67,10 +67,10 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "GL_Cumplimiento_MM"
+                  "Property": "GL_Cumplimiento_Visual"
                 }
               },
-              "queryRef": "Tbl_Medidas.GL_Cumplimiento_MM",
+              "queryRef": "Tbl_Medidas.GL_Cumplimiento_Visual",
               "nativeQueryRef": "Cumpl. %",
               "displayName": "Cumpl. %"
             }
@@ -274,7 +274,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Cumplimiento_MM"
+            "metadata": "Tbl_Medidas.GL_Cumplimiento_Visual"
           }
         }
       ],
@@ -314,7 +314,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.GL_Cumplimiento_MM"
+            "metadata": "Tbl_Medidas.GL_Cumplimiento_Visual"
           }
         }
       ]
