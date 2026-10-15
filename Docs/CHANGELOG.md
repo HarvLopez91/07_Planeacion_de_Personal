@@ -10,6 +10,24 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### En validacion
 
+- Proteccion de presentacion de `Gasto Laboral` en PR #46: la medida original
+  `GL_Cumplimiento_MM` conserva su calculo. `GL_Cumplimiento_Visual`
+  mantiene los porcentajes de las filas mensuales y muestra BLANK en la
+  tarjeta y el total cuando `Mes[Meses]` no tiene filtro efectivo. La tarjeta
+  usa `GL_Cumplimiento_Tarjeta` para dejar vacio el valor, sin mostrar el
+  marcador `(En blanco)`, y `GL_Titulo_Cumplimiento` indica que se seleccione
+  uno o varios meses. Limpiar el slicer y `Seleccionar todo` producen el
+  mismo estado de filtro en Power BI y reciben la misma proteccion; la
+  seleccion explicita de todos los meses no puede distinguirse de limpiarla
+  con el slicer actual. En copias temporales del candidato se completo el
+  refresh y se confirmaron con DAX 98,3 % para enero-agosto, 95,3 % para
+  enero-febrero y BLANK del agregado sin seleccion, conservando las filas.
+  Capturas reales de Desktop confirmaron tarjeta y total para enero-agosto,
+  y aviso con ambos valores vacios sin seleccion. Los filtros historicos de
+  2024 y 2025 y los cinco grupos conservaron el calculo base en consultas
+  DAX; la interaccion visual individual de todos esos filtros sigue pendiente.
+  La automatizacion dinamica de periodos permanece como iniciativa separada.
+
 - El PR #46 incorpora tres correcciones TMDL preexistentes: `Tot_empleados`
   era tratado como columna en `AUSENTISMOS`; `Generacion_Top` referenciaba
   `GENERACIÓN` en vez del identificador literal `GENERACI&#211;N`; y
