@@ -10,11 +10,28 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### En validacion
 
+- El PR #46 incorpora tres correcciones TMDL preexistentes: `Tot_empleados`
+  era tratado como columna en `AUSENTISMOS`; `Generacion_Top` referenciaba
+  `GENERACIÓN` en vez del identificador literal `GENERACI&#211;N`; y
+  `Ppto Ingresos` declaraba una columna `%` ausente del origen. El refresh
+  completo de una copia nueva del candidato cargo 76.408 / 5.549 / 4.195
+  filas en `PLANTA DE PERSONAL` / `Ppto Ingresos` / `Ppto Retiros`.
+  Las consultas DAX confirmaron agosto de 2026: gasto real 13.878,3 MM,
+  presupuesto 13.933,3 MM, ventas 90.540,2 MM, 2.492 colaboradores,
+  cumplimiento enero-agosto 98,3 % y ratios de Productividad 12,8 % / 13,8 %.
+  En la tabla de Gasto Laboral, el encabezado abreviado `Cumpl. %` quedo
+  legible en una linea sin cambiar la medida ni su formato. Capturas reales
+  de las tres paginas se obtuvieron de copias temporales; las interacciones
+  visuales de filtros historicos aun estan pendientes. Sin seleccionar meses,
+  el cumplimiento 2026 puede incluir presupuesto futuro y caer a 66,6 %;
+  se conserva la seleccion enero-agosto. La automatizacion dinamica queda
+  aplazada y el PR continua sin integrar.
+
 - Se preparo de forma aislada la extension de la normalizacion monetaria de
   `Productividad` a `Gasto Laboral` y `Product. (Colaboradores)`:
   cuatro medidas nuevas, ajustes de visuales y seleccion de enero-agosto de
-  2026 en los tres slicers. No hay commit, publicacion ni sincronizacion con el
-  checkpoint oficial en esta etapa.
+  2026 en los tres slicers. Los cambios fueron versionados en `10eb029` y
+  `a97887d`; no hubo sincronizacion con el checkpoint oficial.
 - La actualizacion operativa de `PptovsReal.xlsx` del 14 de octubre modifico
   27 celdas constantes de agosto: 25 de gasto y ventas, y dos de presupuesto
   de gasto para Lemco y Fundacion Challenger. La candidata aprobada y el
