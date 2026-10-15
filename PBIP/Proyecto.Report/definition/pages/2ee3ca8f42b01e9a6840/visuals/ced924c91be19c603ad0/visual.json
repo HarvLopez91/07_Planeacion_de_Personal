@@ -71,7 +71,8 @@
                 }
               },
               "queryRef": "Tbl_Medidas.GL_Cumplimiento_MM",
-              "nativeQueryRef": "GL_Cumplimiento_MM"
+              "nativeQueryRef": "Cumpl. %",
+              "displayName": "Cumpl. %"
             }
           ]
         }
