@@ -28,7 +28,7 @@ table AUSENTISMOS
 		displayFolder: Medidas
 		lineageTag: ae071dfa-605b-4963-aad7-920dc941cb75
 
-	measure 'Tasa Ausentismo' = AUSENTISMOS[Ausentismo]/('PLANTA DE PERSONAL'[Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
+	measure 'Tasa Ausentismo' = AUSENTISMOS[Ausentismo]/([Tot_empleados]*SUM('Días Laborales'[Dias Lab solo fds Domingos]))
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: Medidas
 		lineageTag: 4183ab2e-709b-4ffa-b4bb-fe03c15169da

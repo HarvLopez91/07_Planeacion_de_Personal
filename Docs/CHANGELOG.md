@@ -6,6 +6,89 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ---
 
+## [Sin version] - 2026-10-15 (preparacion; pendiente de integracion)
+
+### En validacion
+
+- Proteccion de presentacion de `Gasto Laboral` en PR #46: la medida original
+  `GL_Cumplimiento_MM` conserva su calculo. `GL_Cumplimiento_Visual`
+  mantiene los porcentajes de las filas mensuales y muestra BLANK en la
+  tarjeta y el total cuando `Mes[Meses]` no tiene filtro efectivo. La tarjeta
+  usa `GL_Cumplimiento_Tarjeta` para dejar vacio el valor, sin mostrar el
+  marcador `(En blanco)`, y `GL_Titulo_Cumplimiento` indica que se seleccione
+  uno o varios meses. Limpiar el slicer y `Seleccionar todo` producen el
+  mismo estado de filtro en Power BI y reciben la misma proteccion; la
+  seleccion explicita de todos los meses no puede distinguirse de limpiarla
+  con el slicer actual. En copias temporales del candidato se completo el
+  refresh y se confirmaron con DAX 98,3 % para enero-agosto, 95,3 % para
+  enero-febrero y BLANK del agregado sin seleccion, conservando las filas.
+  Capturas reales de Desktop confirmaron tarjeta y total para enero-agosto,
+  y aviso con ambos valores vacios sin seleccion. Los filtros historicos de
+  2024 y 2025 y los cinco grupos conservaron el calculo base en consultas
+  DAX; la interaccion visual individual de todos esos filtros sigue pendiente.
+  La automatizacion dinamica de periodos permanece como iniciativa separada.
+
+- El PR #46 incorpora tres correcciones TMDL preexistentes: `Tot_empleados`
+  era tratado como columna en `AUSENTISMOS`; `Generacion_Top` referenciaba
+  `GENERACIÓN` en vez del identificador literal `GENERACI&#211;N`; y
+  `Ppto Ingresos` declaraba una columna `%` ausente del origen. El refresh
+  completo de una copia nueva del candidato cargo 76.408 / 5.549 / 4.195
+  filas en `PLANTA DE PERSONAL` / `Ppto Ingresos` / `Ppto Retiros`.
+  Las consultas DAX confirmaron agosto de 2026: gasto real 13.878,3 MM,
+  presupuesto 13.933,3 MM, ventas 90.540,2 MM, 2.492 colaboradores,
+  cumplimiento enero-agosto 98,3 % y ratios de Productividad 12,8 % / 13,8 %.
+  En la tabla de Gasto Laboral, el encabezado abreviado `Cumpl. %` quedo
+  legible en una linea sin cambiar la medida ni su formato. Capturas reales
+  de las tres paginas se obtuvieron de copias temporales; las interacciones
+  visuales de filtros historicos aun estan pendientes. Sin seleccionar meses,
+  el cumplimiento 2026 puede incluir presupuesto futuro y caer a 66,6 %;
+  se conserva la seleccion enero-agosto. La automatizacion dinamica queda
+  aplazada y el PR continua sin integrar.
+
+- Se preparo de forma aislada la extension de la normalizacion monetaria de
+  `Productividad` a `Gasto Laboral` y `Product. (Colaboradores)`:
+  cuatro medidas nuevas, ajustes de visuales y seleccion de enero-agosto de
+  2026 en los tres slicers. Los cambios fueron versionados en `10eb029` y
+  `a97887d`; no hubo sincronizacion con el checkpoint oficial.
+- La actualizacion operativa de `PptovsReal.xlsx` del 14 de octubre modifico
+  27 celdas constantes de agosto: 25 de gasto y ventas, y dos de presupuesto
+  de gasto para Lemco y Fundacion Challenger. La candidata aprobada y el
+  respaldo anterior conservan sus hashes; los libros Excel quedan fuera de Git.
+- La fuente financiera actual concilia en 34 comparaciones exactas de agosto.
+  La revalidacion posterior concilia tambien las 12 filas `Real` de dotacion,
+  incluidas Lemco Salvio, Lemco y Lemco Inmobiliaria: 2.597 `Total`, 105 SENA
+  y 2.492 `Total-Sena`. El hash actual del oficial es
+  `030D47FEA014BD3C019F6158D190E90DE26AA0092F474FC066BA51174644233F`;
+  `Consolidado 2025.xlsx` tiene
+  `4E234E6911983E25D8C6F8ED596565CA6A9DAB5EF90851264819A03BB2DF5109`.
+- La auditoria del Excel oficial vigente identifico 49 formulas corregidas de
+  `Ingresos-Temporal` y 64 formulas nuevas (una de agosto y 63 de
+  octubre-diciembre de 2026), sin referencias cruzadas incorrectas. Lemco,
+  julio 2026, conserva 858 MM COP de presupuesto de gasto, conciliados con
+  la fuente. El recalculo se hizo solo sobre una copia aislada del oficial:
+  105.521 formulas sin cambios de texto o resultados almacenados ni errores
+  nuevos; no se guardo el libro oficial.
+- El usuario reporto refresh y publicacion exitosos. Las cifras de agosto
+  13.878,3 MM de gasto real, 13.933,3 MM de presupuesto, 90.540,2 MM de ventas,
+  2.492 colaboradores (2.597 menos 105 SENA), 36,3 MM por colaborador y
+  98,3 % acumulado se revalidaron despues mediante DAX de lectura y capturas
+  reales de Desktop **en la copia experimental cargada**, no en el worktree
+  preparado. Para Productividad, gasto/ventas acumulado enero-agosto es
+  12,8 % presupuestado y 13,8 % real. Consultas DAX confirmaron agosto de
+  2024 y 2025 y los cinco grupos, con ventas empresariales incompletas en
+  parte de 2025; la interaccion visual de filtros historicos sigue pendiente.
+- En `Product. (Colaboradores)` se amplio y centro la tabla y se redistribuyeron
+  sus cuatro columnas. Captura de Desktop con datos confirma importes en una
+  linea, encabezados, bandas y Total legibles. El cambio fisico se traslado
+  exclusivamente al `visual.json` `f5dbcb4fe4dce4e194ee` del candidato;
+  no se abrio ese candidato actualizado en Desktop. PBIR mantiene 87 errores
+  y 165 advertencias preexistentes, sin aumento. Las fuentes Power Query son
+  URLs de SharePoint; aun no se acredito identidad binaria con los Excel locales.
+  La automatizacion de periodos y la separacion ano-mes para selecciones
+  multianuales son iniciativas posteriores, fuera de este cambio.
+
+---
+
 ## [Sin version] - 2026-10-13
 
 ### Actualizado

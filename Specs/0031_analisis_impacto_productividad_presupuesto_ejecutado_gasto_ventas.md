@@ -559,3 +559,45 @@ No deberían tocarse `relationships.tmdl`, otras páginas, `pages.json`, bookmar
 La página puede alojar el requerimiento sin relaciones nuevas y sin sustituir indicadores actuales. La aritmética propuesta es válida y la diferencia semántica se resuelve visualmente, no invirtiendo signos.
 
 La implementación no debe comenzar todavía: la escala monetaria mixta impide una suma consolidada confiable y existe una duplicidad localizada en presupuesto de ventas. El siguiente gate es aprobar el contrato de unidad y la fila canónica; después podrá prepararse un plan de implementación controlado.
+
+## 14. Adenda de octubre de 2026 - extension a otras paginas
+
+El cierre historico de PBIP-009 normalizo `Productividad`; no demuestra que
+`Gasto Laboral` y `Product. (Colaboradores)` heredaran esa normalizacion.
+La extension del 14 de octubre preparo cuatro medidas: `GL_Gasto_Ppto_MM`,
+`GL_Gasto_Real_MM`, `GL_Cumplimiento_MM` y
+`PC_Ventas_Por_Colaborador_MM`. Las primeras reutilizan `Prod_*_MM`; la
+ultima conserva `[Tot_Colab-Sena]`. Se prepararon nueve visuales: cinco bindings/presentaciones monetarias,
+la tabla de cumplimiento con su filtro independiente de meses retirado y
+tres slicers de meses.
+
+La matriz de factores grupo-ano de la seccion 3.6 sigue vigente y se
+aplica antes de sumar. No se extrapola a 2027 ni se altera `Efic_Emp`.
+Referencias reportadas para agosto: gasto real ~13.878,3 MM COP, presupuesto
+~13.933,3 MM COP, ventas ~90.540,2 MM COP, 2.492 colaboradores, ventas por
+colaborador ~36,3 MM COP y cumplimiento acumulado 98,3 %. Posteriormente,
+consultas DAX de solo lectura y capturas de Desktop con datos cargados en la
+copia experimental reprodujeron estos resultados. `Tot_Colab-Sena` es 2.492:
+2.597 colaboradores menos 105 aprendices SENA; la referencia anterior de
+2.501 fue incorrecta. Productividad mostro gasto/ventas enero-agosto de
+12,8 % presupuestado y 13,8 % real. DAX verifico agosto de 2024 y 2025,
+incluidos los cinco grupos; algunas ventas empresariales de 2025 permanecen
+en blanco. La interaccion visual con filtros historicos y multiseleccion
+sigue pendiente, al igual que la identidad de versiones SharePoint/local.
+
+La tabla de `Product. (Colaboradores)` se amplio de 546,6 a 850 unidades y
+se centro bajo el grafico; sus cuatro columnas se redistribuyeron sin cambiar
+campos, medidas ni filtros. Una captura de la copia experimental con datos
+verifico importes en una linea, encabezados y Total legibles; el `visual.json`
+ajustado se incorporo al candidato de integracion. La copia experimental,
+no el candidato actualizado, es la fuente de esa validacion visual.
+
+El control automatico de anos y meses por completitud y calidad y la
+separacion ano-mes en selecciones multianuales son iniciativas posteriores.
+La Fase 1 detecto diferencias de dotacion en tres empresas; tras las
+correcciones manuales, la revalidacion del Excel oficial del 15 de octubre
+concilio las 12 filas `Real` de agosto y 34 comparaciones financieras exactas.
+El presupuesto de Lemco de julio (858 MM COP) se contrasto con su fuente.
+La auditoria encontro 49 formulas `Ingresos-Temporal` corregidas y 64 nuevas;
+el recalculo de una copia aislada del oficial no altero formulas ni resultados
+almacenados. Esta adenda no reescribe la validacion historica de septiembre.

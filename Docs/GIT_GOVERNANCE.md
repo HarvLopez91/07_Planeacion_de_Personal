@@ -1,6 +1,6 @@
 # Gobierno Git
 
-Fecha de referencia: `2026-07-17`.
+Fecha de referencia: `2026-10-15`.
 
 ## Principio General
 
@@ -23,6 +23,18 @@ Este repositorio se trabaja con control de cambios estricto porque Power BI Desk
 - No omitir ni forzar exclusiones definidas en `.gitignore` sin autorización explícita y específica del usuario.
 
 Se permite incluir en un mismo commit una implementación y su documentación directamente asociada cuando constituyan un único bloque lógico aprobado.
+
+## Flujo de ramas, worktrees y Pull Requests
+
+1. Cada desarrollo independiente se realiza en una rama propia y, cuando corresponda, en un worktree aislado. El checkpoint principal de `main` se reserva para consolidación y validación, no para desarrollo habitual.
+2. Los commits se crean y validan en la rama de desarrollo, con staging selectivo y trazabilidad de los archivos incluidos y excluidos.
+3. Una rama de desarrollo puede publicarse mediante push únicamente cuando el usuario lo autorice expresamente, su contenido esté validado y no existan cambios remotos incompatibles. La autorización de una rama no se extiende a otras ramas.
+4. Los cambios se proponen mediante un Pull Request dirigido a `main`. El push directo a `main` no es el procedimiento ordinario.
+5. El merge requiere revisión, validaciones pertinentes y autorización expresa. Crear o publicar un PR no autoriza fusionarlo.
+6. Tras el merge, se sincroniza el checkpoint principal con `origin/main` mediante un procedimiento que preserve todas las modificaciones locales pendientes; no se fuerza la actualización de un árbol de trabajo sucio.
+7. El cierre exige validar el PBIP oficial cuando aplique, auditar ramas y worktrees y retirar administradamente solo los worktrees que ya no contengan trabajo pendiente, conforme a `AGENTS.md`.
+
+Siguen prohibidos `git add .`, `git add -A`, `push --force` y las operaciones destructivas no autorizadas. Los requisitos de identidad, privacidad, exclusiones y validación de staging de este documento se aplican tanto a `main` como a las ramas de desarrollo.
 
 ## Comandos Git
 
@@ -250,9 +262,9 @@ git diff --cached --name-status
 
 Hacer push solo si:
 
-1. La rama actual es `main`.
+1. La rama actual es la rama de desarrollo expresamente autorizada; el push directo a `main` requiere una autorización específica y excepcional.
 2. No hay staging activo.
-3. No hay commits remotos pendientes.
+3. `origin/main` y, si existe, la rama remota de destino se han consultado; no hay cambios incompatibles que puedan sobrescribirse.
 4. Los commits locales pendientes son exactamente los aprobados.
 5. El usuario autorizó el push.
 

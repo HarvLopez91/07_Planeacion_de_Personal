@@ -377,8 +377,8 @@ table Tbl_Medidas
 
 	measure Generacion_Top =
 			CALCULATE(
-			    FIRSTNONBLANK('PLANTA DE PERSONAL'[GENERACIÓN], 1),
-			    TOPN(1, VALUES('PLANTA DE PERSONAL'[GENERACIÓN]), [Tot_empleados_Promedio], DESC)
+			    FIRSTNONBLANK('PLANTA DE PERSONAL'[GENERACI&#211;N], 1),
+			    TOPN(1, VALUES('PLANTA DE PERSONAL'[GENERACI&#211;N]), [Tot_empleados_Promedio], DESC)
 			)
 		displayFolder: 01 HeadCount HC - Demografico
 		lineageTag: a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890
@@ -1239,6 +1239,42 @@ table Tbl_Medidas
 
 		annotation PBI_FormatHint = {"currencyCulture":"es-CO"}
 
+	/// Gasto Laboral: importes comparables en MM COP, normalizados por grupo y ano antes de sumar.
+	measure GL_Gasto_Ppto_MM = [Prod_Ppto_Gasto_MM]
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 521f38be-fb9b-457b-99bd-a12765e73c14
+
+	measure GL_Gasto_Real_MM = [Prod_Gasto_MM]
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 67c45e62-3306-4ca6-8e44-6d28835d5017
+
+	measure GL_Cumplimiento_MM = DIVIDE ( [GL_Gasto_Real_MM], [GL_Gasto_Ppto_MM] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 3a783e39-3b89-4711-943b-29d43358ee48
+
+	/// Presentacion: las filas mensuales conservan su valor; tarjeta y total requieren filtro efectivo de Mes.
+	measure GL_Cumplimiento_Visual = IF ( ISINSCOPE ( Mes[Meses] ) || ISFILTERED ( Mes[Meses] ), [GL_Cumplimiento_MM], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Ppto vs Real
+		lineageTag: 7ae2e321-70c8-4d81-8d40-bc6b7188c5e1
+
+	measure GL_Cumplimiento_Tarjeta = IF ( ISBLANK ( [GL_Cumplimiento_Visual] ), "", FORMAT ( [GL_Cumplimiento_Visual], "0.0%" ) )
+		displayFolder: 02 Ppto vs Real
+		lineageTag: b9d881f0-3e0c-4ec6-9c23-3e548cc98a50
+
+	measure GL_Titulo_Cumplimiento = IF ( ISFILTERED ( Mes[Meses] ), "Cumplimiento Gasto Laboral", "Selecciona uno o varios meses para consultar el cumplimiento" )
+		displayFolder: 02 Ppto vs Real
+		lineageTag: a34e172f-a65e-45d3-b1de-5c5736237c8e
+
+	/// Productividad por colaborador: ventas normalizadas con el denominador empresarial vigente.
+	measure PC_Ventas_Por_Colaborador_MM = DIVIDE ( [Prod_Ventas_MM], [Tot_Colab-Sena] )
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
+		displayFolder: 05 Productividad
+		lineageTag: 41d124c9-12dd-402e-83d1-3f8558f12ccf
+
 	measure GL_Usar_Millones =
 			VAR HayFiltroGrupo =
 			    ISFILTERED ( Empresas[Grupo Empresa] )
@@ -1274,8 +1310,8 @@ table Tbl_Medidas
 
 	measure GL_Ppto_Visual_Challenger =
 			
-			IF ( [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+			IF ( [GL_Usar_Millones], [GL_Gasto_Ppto_MM], BLANK() )
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 16fafe11-2224-46f5-931c-f48a67abbaa7
 
@@ -1285,8 +1321,8 @@ table Tbl_Medidas
 
 	measure GL_Real_Visual_Challenger =
 			
-			IF ( [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+			IF ( [GL_Usar_Millones], [GL_Gasto_Real_MM], BLANK() )
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
 		displayFolder: 02 Ppto vs Real
 		lineageTag: c3f87f4d-8661-488a-8be8-1aad59980ece
 
@@ -1296,8 +1332,8 @@ table Tbl_Medidas
 
 	measure GL_Ppto_Visual_Otros =
 			
-			IF ( NOT [GL_Usar_Millones], [GL_Ppto_Gasto_Personal], BLANK() )
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+			IF ( NOT [GL_Usar_Millones], [GL_Gasto_Ppto_MM], BLANK() )
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
 		displayFolder: 02 Ppto vs Real
 		lineageTag: 51be7814-436f-4757-8731-3988c3f8661c
 
@@ -1307,8 +1343,8 @@ table Tbl_Medidas
 
 	measure GL_Real_Visual_Otros =
 			
-			IF ( NOT [GL_Usar_Millones], [GL_Gasto_Personal], BLANK() )
-		formatString: \$\ #,0.###############;-\$\ #,0.###############;\$\ #,0.###############
+			IF ( NOT [GL_Usar_Millones], [GL_Gasto_Real_MM], BLANK() )
+		formatString: \$\ #,0.0\ "mill.";-\$\ #,0.0\ "mill.";\$\ 0.0\ "mill."
 		displayFolder: 02 Ppto vs Real
 		lineageTag: acac35c3-2f66-4988-8069-b35cad890c38
 

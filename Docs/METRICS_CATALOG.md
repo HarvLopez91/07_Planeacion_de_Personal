@@ -135,6 +135,26 @@ Validación contra 73.803 filas del modelo vivo:
 
 ### Presentacion monetaria de Gasto Laboral
 
+Extension de octubre de 2026 **preparada, aun no integrada**: `GL_Gasto_Ppto_MM`
+reutiliza `[Prod_Ppto_Gasto_MM]`, `GL_Gasto_Real_MM` reutiliza
+`[Prod_Gasto_MM]` y `GL_Cumplimiento_MM` divide ambas medidas normalizadas.
+`PC_Ventas_Por_Colaborador_MM` divide `[Prod_Ventas_MM]` entre
+`[Tot_Colab-Sena]` para la pagina `Product. (Colaboradores)`. La conversion a
+MM se hace en las medidas `Prod_*_MM` por grupo y ano **antes** de consolidar;
+los visuales no deben aplicar una segunda division por 1.000.000.
+`Efic_Emp` y las medidas historicas compartidas permanecen sin cambio.
+Las medidas nuevas todavia no son un control de completitud de periodos.
+La comprobacion DAX de agosto 2026 en una copia experimental con datos cargados mostro
+13.878,3 MM COP de gasto real, 13.933,3 MM de presupuesto, 90.540,2 MM de
+ventas y 36,3 MM por colaborador. El denominador de esta ultima medida es
+`Tot_Colab-Sena` = **2.492** (2.597 colaboradores menos 105 aprendices SENA),
+no 2.501. El cumplimiento enero-agosto fue 98,3 %. Agosto de 2024 y 2025
+devolvio resultados por DAX; algunas ventas de 2025 son `BLANK` segun su
+cobertura historica, y no deben interpretarse como cero. La interaccion de
+filtros en Desktop y la identidad binaria entre SharePoint y Excel local
+siguen pendientes. El ajuste de ancho de la tabla de `Product. (Colaboradores)`
+solo cambia disposicion y no altera estas medidas.
+
 | Medida | Formato | Descripcion |
 |---|---|---|
 | `GL_Ppto_Gasto_Personal` | Dinamico | Conserva `SUM('Planta Ppto'[Ppto Gasto Personal])`; millones con una cifra decimal para Challenger/consolidado y valor completo con una cifra decimal para otros negocios. |

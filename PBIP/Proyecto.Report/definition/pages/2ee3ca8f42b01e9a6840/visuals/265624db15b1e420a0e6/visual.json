@@ -23,11 +23,11 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Cump_GL"
+                  "Property": "GL_Cumplimiento_Tarjeta"
                 }
               },
-              "queryRef": "Tbl_Medidas.Cump_GL",
-              "nativeQueryRef": "Cump_GL"
+              "queryRef": "Tbl_Medidas.GL_Cumplimiento_Tarjeta",
+              "nativeQueryRef": "GL_Cumplimiento_Tarjeta"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Tbl_Medidas"
                   }
                 },
-                "Property": "Cump_GL"
+                "Property": "GL_Cumplimiento_Tarjeta"
               }
             },
             "direction": "Descending"
@@ -85,7 +85,7 @@
                                       "Entity": "Tbl_Medidas"
                                     }
                                   },
-                                  "Property": "Cump_GL"
+                                  "Property": "GL_Cumplimiento_Visual"
                                 }
                               },
                               "Right": {
@@ -114,7 +114,7 @@
                                           "Entity": "Tbl_Medidas"
                                         }
                                       },
-                                      "Property": "Cump_GL"
+                                      "Property": "GL_Cumplimiento_Visual"
                                     }
                                   },
                                   "Right": {
@@ -134,7 +134,7 @@
                                           "Entity": "Tbl_Medidas"
                                         }
                                       },
-                                      "Property": "Cump_GL"
+                                      "Property": "GL_Cumplimiento_Visual"
                                     }
                                   },
                                   "Right": {
@@ -182,8 +182,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Cumplimiento Gasto Laboral'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Tbl_Medidas"
+                    }
+                  },
+                  "Property": "GL_Titulo_Cumplimiento"
                 }
               }
             },

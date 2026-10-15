@@ -42,11 +42,11 @@
                       "Entity": "Tbl_Medidas"
                     }
                   },
-                  "Property": "Efic_Emp"
+                  "Property": "PC_Ventas_Por_Colaborador_MM"
                 }
               },
-              "queryRef": "Tbl_Medidas.Efic_Emp",
-              "nativeQueryRef": "Efic_Emp"
+              "queryRef": "Tbl_Medidas.PC_Ventas_Por_Colaborador_MM",
+              "nativeQueryRef": "PC_Ventas_Por_Colaborador_MM"
             }
           ]
         }
@@ -454,7 +454,7 @@
             }
           },
           "selector": {
-            "metadata": "Tbl_Medidas.Efic_Emp"
+            "metadata": "Tbl_Medidas.PC_Ventas_Por_Colaborador_MM"
           }
         }
       ]

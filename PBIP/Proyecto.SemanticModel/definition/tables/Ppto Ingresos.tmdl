@@ -259,14 +259,6 @@ table 'Ppto Ingresos'
 
 		annotation SummarizationSetBy = Automatic
 
-	column %
-		dataType: string
-		lineageTag: a00b0ce3-1c99-4eb8-a7dc-804013584ea9
-		summarizeBy: none
-		sourceColumn: %
-
-		annotation SummarizationSetBy = Automatic
-
 	partition 'Ppto Ingresos' = m
 		mode: import
 		queryGroup: PptovsReal
