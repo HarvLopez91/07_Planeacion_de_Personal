@@ -241,3 +241,80 @@ detallados permanecen en ubicaciones ignoradas.
   ventas de Challenger y su ejecución de gasto.
 - Hojas no objetivo con diferencias lógicas: 0.
 - Resultado: PASS.
+
+## Corte de agosto de 2026 — trazabilidad operativa
+
+El 14 de octubre se preparo una candidata nueva partiendo del Excel oficial
+anterior. La comparacion logica de `Planta Personal` entre el respaldo y esa
+candidata identifica **27 cambios de valores constantes**, todos en filas
+`Real` de agosto de 2026: 25 en `Gasto Personal`, `Ventas (MM)` y
+`Ppto Ventas (MM)`, mas `Ppto Gasto Personal` para Fundacion Challenger
+(`S1069`) y Lemco (`S1070`). Los demas campos y formulas conservan su valor
+logico; las formulas matriciales deben compararse por texto y referencia, no
+por identidad del objeto lector.
+
+| Empresa destino | Celdas modificadas |
+|---|---|
+| Challenger | `P849`, `Q849`, `R849` |
+| Lemco Salvio | `P1039`, `Q1039`, `R1039` |
+| Operadora | `Q1040` |
+| Habitel Nomina Compartida | `P1041`, `Q1041`, `R1041` |
+| Sky Forwarder | `P1054`, `Q1054`, `R1054` |
+| Sky Logistica Integral | `P1059`, `Q1059`, `R1059` |
+| Sky Industrial | `P1064`, `Q1064`, `R1064` |
+| Fundacion Challenger | `P1069`, `Q1069`, `R1069`, `S1069` |
+| Lemco | `P1070`, `Q1070`, `R1070`, `S1070` |
+
+`P` es ventas reales, `Q` gasto real, `R` presupuesto de ventas y `S`
+presupuesto de gasto. Fuente: `Gasto Laboral 2026.xlsx`, hojas
+`Gasto Laboral Ppto 2026` y `Gastos Operacio-Ventas`, columnas de agosto
+identificadas por encabezado. La homologacion de empresas y el traslado
+`x1.000.000` exclusivo de Challenger siguen la matriz anterior; los dos
+presupuestos adicionales se tomaron con su precision numerica de la fuente.
+Operadora no tiene fila de ventas; no se invento ese importe.
+
+Respaldo `Data/HeadCount/Backups/PptovsReal_ultimo_respaldo.xlsx` y copia
+previa a la sustitucion: SHA-256
+`5F6F76C7AC1BC0CF4413D4E654F2FA53BAD40BC5246F3A839D412472ACBB034F`.
+Candidata aprobada `Data/HeadCount/Candidates/PptovsReal_gasto_laboral_agosto_2026_reconstruido_20261014_001.xlsx`:
+SHA-256 `C756FAD4BF200543FBED5CFCE33312F520723E7EA87FD6E2763E333076A17B12`.
+La comparacion de valores logicos entre respaldo y candidata vuelve a dar
+27 cambios en `Planta Personal` y cero en las otras hojas. Esta comprobacion
+no reemplaza la inspeccion de conexiones, estilos y pivots en Excel.
+
+**Evidencia historica de Fase 1:** el libro oficial local midio 3.579.475
+bytes y tuvo SHA-256
+`857A459C6D376BCC44A86D7DA28434FAB2A5FBF0D224D4C2DA2DC5F181277C1E`.
+La primera conciliacion financiera encontro 34 comparaciones exactas, pero
+la dotacion de Lemco Salvio, Lemco y Lemco Inmobiliaria aun diferia. Esa
+observacion ya no describe la version oficial actual.
+
+**Revalidacion del 15 de octubre, solo lectura del Excel oficial:**
+`PptovsReal.xlsx` tiene SHA-256
+`030D47FEA014BD3C019F6158D190E90DE26AA0092F474FC066BA51174644233F`;
+`Consolidado 2025.xlsx`,
+`4E234E6911983E25D8C6F8ED596565CA6A9DAB5EF90851264819A03BB2DF5109`;
+y la fuente financiera de agosto,
+`FFAFC0F4B465E7F968139E928D34005E4003832B937F95F97D9F0DBE9D1B9911`.
+Las 12 filas `Real` de agosto son unicas; la dotacion concilia por empresa,
+incluidas las tres diferencias anteriores: 2.597 colaboradores `Total`,
+105 aprendices SENA y 2.492 `Total-Sena`, tanto en origen como en destino.
+Las 34 comparaciones financieras son exactas, sin diferencias. Se preservan
+las 27 actualizaciones autorizadas; los cambios manuales posteriores del
+oficial se evaluaron por clave de negocio, no por posicion de fila. Evidencia:
+`C:\Temp\P7_revalidacion_agosto_20261015_01\resultado.json` y
+`comparacion_claves.json`.
+
+La auditoria del oficial frente a la candidata historica encontro 49 formulas
+`Ingresos-Temporal` corregidas: las referencias a `Planta Personal` apuntan
+ahora a la propia fila logica. Identifico ademas 64 formulas nuevas: una de
+agosto y 63 de octubre-diciembre de 2026. No quedan referencias cruzadas
+incorrectas en esas formulas; el presupuesto de Lemco `Real`, julio 2026,
+es 858 MM COP y coincide con `Gasto Laboral Ppto 2026!H4` de la fuente de julio.
+Evidencia de lectura: `C:\Temp\P7_formula_audit_20261015_01\auditoria.json`.
+Una copia aislada del **oficial vigente** se abrio y recalculo en Excel: sus
+105.521 formulas conservaron texto y resultados almacenados, sin cambios de
+constantes o estilos ni errores nuevos. El archivo oficial no se guardo en esa
+prueba (`C:\Temp\P7_validacion_funcional_20261015_01\resultado_resumen.json`).
+Esto no acredita que el binario leido por Power BI desde SharePoint sea
+identico al Excel local: su version y hash remotos siguen pendientes.

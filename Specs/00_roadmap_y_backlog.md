@@ -22,7 +22,7 @@ Reglas de interpretación:
 | Rama base | `main` |
 | Área funcional | People Analytics Grupo Empresarial Lemco — HeadCount, Presupuesto (PptovsReal), Selección, Ausentismo/Incapacidades, SST, SENA |
 | Estado general | Migración de fuentes a SharePoint corporativo **en curso** (parcial: PptovsReal y SST cerrados; PLANTA DE PERSONAL, Selección Grupo Lemco, SENA UNIDADES con Formula Firewall sin validar). Working tree con cambios PBIP acumulados pendientes de auditar |
-| Fecha de última actualización de este roadmap | 2026-10-13 |
+| Fecha de última actualización de este roadmap | 2026-10-15 |
 | Responsable de mantenimiento documental | Edwin Clavijo |
 
 ## 3. Reglas de gobierno
@@ -188,6 +188,7 @@ Ningún paso se salta cuando el usuario ha definido un plan secuencial explícit
 
 | Fecha | Cambio | Iniciativas afectadas | Autor o agente |
 |---|---|---|---|
+| 2026-10-15 | Extension monetaria y ajuste de tabla de `Product. (Colaboradores)` preparados en worktree aislado, sin commit. Excel oficial de agosto revalidado: 12 filas `Real`, dotacion 2.597 `Total` / 2.492 `Total-Sena` y 34/34 comparaciones financieras; 49 formulas corregidas y 64 nuevas auditadas, con recalculo de copia aislada. DAX y capturas de Desktop de la copia experimental validaron agosto 2026 y DAX consulto agosto 2024-2025; quedan pendientes la interaccion visual de filtros historicos, la identidad SharePoint/Excel y la prueba en Desktop del candidato actualizado. Automatizacion de periodos y separacion ano-mes multianual son trabajos posteriores; PBIP-009 permanece pendiente de cierre | PBIP-009 (extension pendiente de cierre) | Codex |
 | 2026-10-13 | Cierre manual del informe recurrente de Retiros y Rotacion Manufactura para agosto y septiembre de 2026: 874/880 colaboradores, 35/28 retiros validos, 14 areas con diferencia cero y 34 retiros de agosto corregidos. Estado PASS con observaciones por revision visual integral pendiente; DATA-014 sigue diferida como automatizacion independiente | DATA-014 (sin cambio de estado) | Codex |
 | 2026-08-03 | Validacion del archivo oficial `CONSOLIDADOR_CONTRATOS_V0.0.0.xlsx`: consultas internas apuntan a `Insumos_Vigentes/` en SharePoint corporativo y el refresh del consolidador finaliza sin excepcion; integracion PBIP continua pendiente | DATA-011 | Codex |
 | 2026-08-03 | Registro de la iniciativa de gobierno y organización de fuentes de contratos Kactus tras verificar la estructura `Data/Contratos_Kactus/` y documentar su procedimiento operativo | DATA-011 | Codex |
